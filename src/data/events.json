@@ -1,0 +1,70 @@
+{
+  "events": [
+    {
+      "title": "Evento 1",
+      "ownerName": "Danilson Reis",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 2",
+      "ownerName": "Humberto Nascimento",
+      "isLiked": true,
+      "isFavorite": true
+    },
+    {
+      "title": "Evento 3",
+      "ownerName": "Empresa OBDC",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 4",
+      "ownerName": "Empresa ABC",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 5",
+      "ownerName": "Danilson Reis",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 6",
+      "ownerName": "Empresa XPTO",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 7",
+      "ownerName": "Humberto Nascimento",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 8",
+      "ownerName": "Empresa OBDC",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 9",
+      "ownerName": "Ruben Martins",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 10",
+      "ownerName": "Empresa ABC",
+      "isLiked": true,
+      "isFavorite": false
+    },
+    {
+      "title": "Evento 11",
+      "ownerName": "Empresa XPTO",
+      "isLiked": true,
+      "isFavorite": false
+    }
+  ]
+}
