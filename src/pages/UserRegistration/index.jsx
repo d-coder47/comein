@@ -132,7 +132,7 @@ export default function UserRegistration() {
 
           <GoogleLogin
             clientId="38134040728-esa79tup3t1jsnt2ndvmas0o7373ci6r.apps.googleusercontent.com"
-            buttonText="Login com Google"
+            buttonText="Google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={"single_host_origin"}
