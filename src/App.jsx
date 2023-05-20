@@ -6,9 +6,8 @@ function App() {
   return (
     <Box
       sx={{
-        width: "95vw",
+        width: "100vw",
         minHeight: "100vh",
-        margin: "0 2rem",
         display: "flex",
         flexDirection: "column",
       }}

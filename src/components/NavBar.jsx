@@ -1,8 +1,15 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import { Box, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
+  const handleCadastrarClick = () => {
+    navigate("/user-registration");
+  };
+
   return (
     <Box
       padding="0.5rem"
@@ -22,7 +29,13 @@ const NavBar = () => {
       >
         Entrar
       </Button>
-      <Button variant="outlined">Cadastrar</Button>
+      <Button
+        sx={{ marginRight: "2.5rem" }}
+        onClick={handleCadastrarClick}
+        variant="outlined"
+      >
+        Cadastrar
+      </Button>
     </Box>
   );
 };

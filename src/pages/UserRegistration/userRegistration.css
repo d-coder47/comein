@@ -1,0 +1,27 @@
+.container {
+  min-width: 100vh;
+  min-height: 100vh;
+  position: relative;
+  background: #33b3cc;
+  color: #000;
+}
+
+.panel {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  max-width: 30%;
+  min-width: 30%;
+  min-height: 100%;
+  margin-left: 50%;
+}
+.formContainer {
+  min-width: 100%;
+  min-height: 70vh;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
