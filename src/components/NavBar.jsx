@@ -15,7 +15,7 @@ const NavBar = () => {
         width: "100%",
       }}
     >
-      <Typography variant="h5">Come In</Typography>
+      <Typography variant="h5">Come In CV</Typography>
       <Button
         sx={{ marginLeft: "auto", marginRight: "0.5rem" }}
         variant="contained"
