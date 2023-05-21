@@ -25,11 +25,18 @@ export default function UserRegistration() {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
+  const [showEmailError, setShowEmailError] = React.useState(false);
+  const [showPasswordError, setShowPasswordError] = React.useState(false);
+
   const [formData, setFormData] = React.useState({
-    name: "",
+    email: "",
     password: "",
   });
 
+  const [formErrors, setFormErrors] = React.useState({
+    email: "",
+    password: "",
+  });
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -39,8 +46,53 @@ export default function UserRegistration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    navigate("/");
+
+    let errors = {};
+
+    // Validate name field
+    if (formData.email.trim() === "") {
+      errors.email = "Name is required";
+      setShowEmailError(true);
+    } else {
+      setShowEmailError(false);
+    }
+
+    // Validate email field
+    if (formData.email.trim() === "") {
+      errors.email = "Email is required";
+      setShowEmailError(true);
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Email is invalid";
+      setShowEmailError(true);
+    } else {
+      setShowEmailError(false);
+      setFormErrors({
+        email: "",
+        password: "",
+      });
+    }
+
+    if (formData.password.trim() === "") {
+      errors.password = "Password is required";
+      setShowPasswordError(true);
+    } else if (password.length < 6) {
+      errors.password = "Password should be at least 6 characters long";
+      setShowPasswordError(true);
+    } else {
+      setShowPasswordError(false);
+      setFormErrors({
+        email: "",
+        password: "",
+      });
+    }
+
+    if (Object.keys(errors).length) {
+      setFormErrors(errors);
+    } else {
+      // Form is valid, submit or process the data here
+      console.log("formData");
+      navigate("/");
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -110,40 +162,41 @@ export default function UserRegistration() {
             <TextField
               id="emailField"
               name="email"
+              value={formData.email}
+              error={showEmailError}
+              helperText={formErrors.email}
               label="Endereço de email"
-              helperText="Incorrect entry."
               variant="standard"
               focused
               onChange={handleInputChange}
             />
-
-            <FormControl sx={{ m: 1, width: "40ch" }} variant="standard">
-              <InputLabel
-                htmlFor="standard-adornment-password"
-                variant="standard"
-                shrink={true}
-              >
-                Password
-              </InputLabel>
-              <Input
-                variant="standard"
-                name="password"
-                onChange={handleInputChange}
-                id="standard-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
+            <TextField
+              id="password"
+              label="Password"
+              name="password"
+              variant="standard"
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleInputChange}
+              error={showPasswordError}
+              helperText={formErrors.password}
+              focused
+              InputProps={{
+                endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
+                      edge="end"
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
-                }
-              />
-            </FormControl>
+                ),
+              }}
+            />
+
             <Button
               type="submit"
               variant="contained"
