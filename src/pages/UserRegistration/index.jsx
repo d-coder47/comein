@@ -15,9 +15,14 @@ import {
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { GoogleLogin } from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+
+import { useNavigate } from "react-router-dom";
 
 export default function UserRegistration() {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [formData, setFormData] = React.useState({
@@ -35,6 +40,7 @@ export default function UserRegistration() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    navigate("/");
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -43,13 +49,33 @@ export default function UserRegistration() {
     event.preventDefault();
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
-  };
   return (
     <div className="container">
       <section className="panel">
         <div className="formContainer">
+          <Typography
+            variant="h5"
+            sx={{
+              marginTop: "1rem",
+              marginBottom: "1rem",
+              fontWeight: "bold",
+            }}
+          >
+            Criar uma conta
+          </Typography>
+
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              var decoded = jwt_decode(credentialResponse.credential);
+              localStorage.setItem("user", decoded);
+              navigate("/");
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
+
+          <Divider variant="middle" sx={{ backgroundColor: "red" }} />
           <Typography
             variant="h5"
             sx={{
@@ -58,9 +84,18 @@ export default function UserRegistration() {
               fontWeight: "bold",
             }}
           >
-            Criar conta
+            ou
           </Typography>
-
+          <Typography
+            variant="h8"
+            sx={{
+              marginTop: "2rem",
+              marginBottom: "2rem",
+              fontWeight: "bold",
+            }}
+          >
+            Inscrever-se com email
+          </Typography>
           <Box
             component="form"
             sx={{
@@ -117,27 +152,6 @@ export default function UserRegistration() {
               Submit
             </Button>
           </Box>
-          <Divider variant="middle" sx={{ backgroundColor: "red" }} />
-
-          <Typography
-            variant="h8"
-            sx={{
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              fontWeight: "bold",
-            }}
-          >
-            Ou cria uma conta utilizando
-          </Typography>
-
-          <GoogleLogin
-            clientId="38134040728-esa79tup3t1jsnt2ndvmas0o7373ci6r.apps.googleusercontent.com"
-            buttonText="Google"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={"single_host_origin"}
-            className="custom-google-button"
-          />
         </div>
       </section>
 
