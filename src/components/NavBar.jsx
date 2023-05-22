@@ -1,7 +1,9 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { Box, Button } from "@mui/material";
+import { Avatar, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import siteLogo from "../assets/img/logo_cicv3.png";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -14,28 +16,53 @@ const NavBar = () => {
     <Box
       padding="0.5rem"
       sx={{
-        borderColor: "rgb(229 231 235)",
-        borderBottom: "1px",
+        borderBottom: "2px solid rgb(229 231 235)",
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
       }}
     >
-      <Typography variant="h5">Come In CV</Typography>
-      <Button
-        sx={{ marginLeft: "auto", marginRight: "0.5rem" }}
-        variant="contained"
+      <Avatar
+        variant="square"
+        src={siteLogo}
+        alt="Come In"
+        sx={{ width: "8rem", height: "auto", objectFit: "cover" }}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: "0.125rem",
+          marginLeft: "auto",
+          "&:hover": {
+            cursor: "pointer",
+          },
+        }}
       >
-        Entrar
-      </Button>
-      <Button
-        sx={{ marginRight: "2.5rem" }}
-        onClick={handleCadastrarClick}
-        variant="outlined"
-      >
-        Cadastrar
-      </Button>
+        <Box>
+          <NotificationsIcon color="primary" />
+        </Box>
+        <Button
+          sx={{
+            marginRight: "0.5rem",
+            color: (theme) => theme.palette.primary.contrastText,
+          }}
+          variant="contained"
+          color="primary"
+        >
+          Entrar
+        </Button>
+        <Button
+          sx={{ marginRight: "2.5rem" }}
+          onClick={handleCadastrarClick}
+          variant="outlined"
+          color="primary"
+        >
+          Cadastrar
+        </Button>
+      </Box>
     </Box>
   );
 };
