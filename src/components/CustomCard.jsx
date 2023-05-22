@@ -9,7 +9,7 @@ import {
   Reply,
 } from "@mui/icons-material";
 
-import event1 from "../assets/img/event1.jpg";
+import event2 from "../assets/img/event2.jpg";
 import avatar from "../assets/img/avatar.jpg";
 
 const CustomCard = () => {
@@ -17,7 +17,6 @@ const CustomCard = () => {
 
   return (
     <Box
-      margin=""
       sx={{
         margin: "2rem",
         maxWidth: "20rem",
@@ -35,7 +34,7 @@ const CustomCard = () => {
       >
         <Avatar
           variant="square"
-          src={event1}
+          src={event2}
           alt="event1"
           sx={{
             width: "300px",

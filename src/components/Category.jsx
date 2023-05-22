@@ -1,8 +1,7 @@
 import React from "react";
-import categoryIcon from "../assets/img/music.png";
 import { Box, Avatar, Typography } from "@mui/material";
 
-const Category = ({ name }) => {
+const Category = ({ name, icon }) => {
   return (
     <Box
       sx={{
@@ -14,7 +13,7 @@ const Category = ({ name }) => {
     >
       <Avatar
         alt="category"
-        src={categoryIcon}
+        src={icon}
         sx={{ width: 45, height: 45, cursor: "pointer" }}
       />
       <Typography

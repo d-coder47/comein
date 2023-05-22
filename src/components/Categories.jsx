@@ -1,38 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Category from "./Category";
-
-const CATEGORIES = [
-  "Música",
-  "Teatro",
-  "Dança",
-  "Stand Up",
-  "Artes Plásticas",
-  "Escultura",
-  "Artesanato",
-  "Design",
-  "Fotografia",
-  "Arte Urbana",
-  "Literatura",
-  "Gastronomia",
-  "Moda",
-  "Festas de Romaria",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-  "Carnaval",
-];
+import { categories } from "../data/Categories";
 
 const Categories = () => {
   return (
@@ -47,8 +16,10 @@ const Categories = () => {
         gap: "3rem",
       }}
     >
-      {CATEGORIES.map((category, index) => {
-        return <Category key={index} name={category} />;
+      {categories.map((category, index) => {
+        return (
+          <Category key={index} name={category.name} icon={category.icon} />
+        );
       })}
     </Box>
   );

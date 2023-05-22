@@ -15,7 +15,6 @@ import {
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { GoogleLogin } from "react-google-login";
 
 export default function UserRegistration() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -129,15 +128,6 @@ export default function UserRegistration() {
           >
             Ou cria uma conta utilizando
           </Typography>
-
-          <GoogleLogin
-            clientId="38134040728-esa79tup3t1jsnt2ndvmas0o7373ci6r.apps.googleusercontent.com"
-            buttonText="Google"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={"single_host_origin"}
-            className="custom-google-button"
-          />
         </div>
       </section>
 
