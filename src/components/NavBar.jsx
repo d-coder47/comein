@@ -1,15 +1,22 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { Avatar, Box, Button } from "@mui/material";
+import { Avatar, Box, Button, MenuItem, Select } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import siteLogo from "../assets/img/logo_cicv3.png";
+import { useTranslation } from "react-i18next";
 
 const NavBar = () => {
   const navigate = useNavigate();
 
+  const { t, i18n } = useTranslation();
+
   const handleCadastrarClick = () => {
     navigate("/user-registration");
+  };
+
+  const handleTranslationChange = (e) => {
+    i18n.changeLanguage(e.target.value);
   };
 
   return (
@@ -44,6 +51,16 @@ const NavBar = () => {
         <Box>
           <NotificationsIcon color="primary" />
         </Box>
+        <Select
+          labelId="internationalization-label"
+          id="internationalization"
+          defaultValue={i18n.language}
+          onChange={handleTranslationChange}
+        >
+          <MenuItem value={"en"}>EN</MenuItem>
+          <MenuItem value={"pt"}>PT</MenuItem>
+          <MenuItem value={"fr"}>FR</MenuItem>
+        </Select>
         <Button
           sx={{
             marginRight: "0.5rem",
@@ -52,7 +69,7 @@ const NavBar = () => {
           variant="contained"
           color="primary"
         >
-          Entrar
+          {t("homepage.login")}
         </Button>
         <Button
           sx={{ marginRight: "2.5rem" }}
@@ -60,7 +77,7 @@ const NavBar = () => {
           variant="outlined"
           color="primary"
         >
-          Cadastrar
+          {t("homepage.signUp")}
         </Button>
       </Box>
     </Box>
