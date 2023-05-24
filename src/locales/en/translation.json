@@ -2,5 +2,34 @@
   "homepage": {
     "login": "Log In",
     "signUp": "Sign Up"
+  },
+
+  "registerpage": {
+    "etapa1": "Stage 1 of 2",
+    "etapa2": "Stage 2 of 2",
+    "criarConta": "Create an account",
+    "fazerLoginGoogle": "Sign in with Google",
+    "ou": "or",
+    "inscreverComEmail": "Sign up with email",
+    "email": "Email address",
+    "password": "Password",
+    "continuar": "Continue",
+    "emailObrigatorio": "Email is mandatory",
+    "emailInvalido": "Email invalido",
+    "passwordObrigatorio": "Password is required",
+    "passwordTamanho": "Password must be at least 6 characters long",
+    "nomeObrigatorio": "Name is mandatory",
+    "sobrenomeObrigatorio": "Nickname is mandatory",
+    "nacionalidadeObrigatorio": "Nationality is mandatory",
+    "residenciaObrigatorio": "Residence is mandatory",
+    "contatoObrigatorio": "Contact is required",
+    "nome": "Name",
+    "sobrenome": "Surname",
+    "dataNascimento": "Date of birth",
+    "nacionalidade": "Nationality",
+    "residencia": "Residence",
+    "contato": "Contact",
+    "concluido": "Concluded",
+    "dataNascObrigatorio": "Date of birth is mandatory"
   }
 }

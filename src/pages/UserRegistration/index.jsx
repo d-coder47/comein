@@ -9,10 +9,7 @@ import {
   Button,
   Divider,
   Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Avatar,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
@@ -22,8 +19,12 @@ import jwt_decode from "jwt-decode";
 
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 export default function UserRegistration() {
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -31,6 +32,10 @@ export default function UserRegistration() {
   const [showPasswordError, setShowPasswordError] = React.useState(false);
   const [showNameError, setShowNameError] = React.useState(false);
   const [showSurnameError, setShowSurnameError] = React.useState(false);
+  const [showNationalityError, setShowNationalityError] = React.useState(false);
+  const [showResidenceError, setShowResidenceError] = React.useState(false);
+  const [showContactError, setShowContactError] = React.useState(false);
+  const [showDateError, setShowDateError] = React.useState(false);
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
 
@@ -39,9 +44,10 @@ export default function UserRegistration() {
     password: "",
     name: "",
     surname: "",
-    day: "",
-    month: "",
-    year: "",
+    date: "",
+    nationality: "",
+    residence: "",
+    contact: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
@@ -49,9 +55,10 @@ export default function UserRegistration() {
     password: "",
     name: "",
     surname: "",
-    day: "",
-    month: "",
-    year: "",
+    date: "",
+    nationality: "",
+    residence: "",
+    contact: "",
   });
   const handleInputChange = (e) => {
     setFormData({
@@ -62,14 +69,13 @@ export default function UserRegistration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(showRegisterForm);
 
     let errors = {};
 
     if (!showRegisterForm) {
       // Validate name field
       if (formData.email.trim() === "") {
-        errors.email = "Email is required";
+        errors.email = t("registerpage.emailObrigatorio");
         setShowEmailError(true);
       } else {
         setShowEmailError(false);
@@ -77,10 +83,10 @@ export default function UserRegistration() {
 
       // Validate email field
       if (formData.email.trim() === "") {
-        errors.email = "Email is required";
+        errors.email = t("registerpage.emailObrigatorio");
         setShowEmailError(true);
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        errors.email = "Email is invalid";
+        errors.email = t("registerpage.emailInvalido");
         setShowEmailError(true);
       } else {
         setShowEmailError(false);
@@ -91,10 +97,10 @@ export default function UserRegistration() {
       }
 
       if (formData.password.trim() === "") {
-        errors.password = "Password is required";
+        errors.password = t("registerpage.passwordObrigatorio");
         setShowPasswordError(true);
       } else if (password.length < 6) {
-        errors.password = "Password should be at least 6 characters long";
+        errors.password = t("registerpage.passwordTamanho");
         setShowPasswordError(true);
       } else {
         setShowPasswordError(false);
@@ -108,10 +114,58 @@ export default function UserRegistration() {
         setFormErrors(errors);
       } else {
         // Form is valid, submit or process the data here
-        console.log("formData");
+        console.log(formData);
         setShowRegisterForm(true);
       }
     } else {
+      if (formData.name.trim() === "") {
+        errors.name = t("registerpage.nomeObrigatorio");
+        setShowNameError(true);
+      } else {
+        setShowNameError(false);
+      }
+
+      if (formData.surname.trim() === "") {
+        errors.surname = t("registerpage.sobrenomeObrigatorio");
+        setShowSurnameError(true);
+      } else {
+        setShowSurnameError(false);
+      }
+
+      if (formData.date.trim() === "") {
+        errors.date = t("registerpage.dataNascObrigatorio");
+        setShowDateError(true);
+      } else {
+        setShowDateError(false);
+      }
+
+      if (formData.nationality.trim() === "") {
+        errors.nationality = t("registerpage.nacionalidadeObrigatorio");
+        setShowNationalityError(true);
+      } else {
+        setShowNationalityError(false);
+      }
+
+      if (formData.residence.trim() === "") {
+        errors.residence = t("registerpage.residenciaObrigatorio");
+        setShowResidenceError(true);
+      } else {
+        setShowResidenceError(false);
+      }
+
+      if (formData.contact.trim() === "") {
+        errors.contact = t("registerpage.contatoObrigatorio");
+        setShowContactError(true);
+      } else {
+        setShowContactError(false);
+      }
+      if (Object.keys(errors).length) {
+        setFormErrors(errors);
+      } else {
+        // Form is valid, submit or process the data here
+        console.log(formData);
+        setShowRegisterForm(true);
+      }
     }
   };
 
@@ -121,9 +175,25 @@ export default function UserRegistration() {
     event.preventDefault();
   };
 
+  React.useEffect(() => {
+    i18n.changeLanguage(i18n.language);
+  }, [i18n]);
+
   return (
     <div className="container">
-      <section className="panel">
+      <div className="logoSection">
+        <Avatar
+          variant="square"
+          className="logo"
+          src={logo}
+          alt="logo"
+          sx={{
+            width: "232px",
+            height: "auto",
+          }}
+        />
+      </div>
+      <div className="panel">
         <div className="formContainer">
           <Typography
             variant="h8"
@@ -133,7 +203,9 @@ export default function UserRegistration() {
               fontWeight: "bold",
             }}
           >
-            {showRegisterForm ? "Etapa 1 de 2" : "Etapa 2 de 2"}
+            {showRegisterForm
+              ? t("registerpage.etapa2")
+              : t("registerpage.etapa1")}
           </Typography>
           <Typography
             variant="h5"
@@ -143,10 +215,10 @@ export default function UserRegistration() {
               fontWeight: "bold",
             }}
           >
-            Criar uma conta
+            {t("registerpage.criarConta")}
           </Typography>
 
-          {showRegisterForm && (
+          {!showRegisterForm && (
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 var decoded = jwt_decode(credentialResponse.credential);
@@ -159,9 +231,9 @@ export default function UserRegistration() {
             />
           )}
 
-          {showRegisterForm && (
+          {!showRegisterForm && (
             <>
-              <Divider variant="middle" sx={{ backgroundColor: "red" }} />
+              <Divider variant="middle" />
 
               <Typography
                 variant="h5"
@@ -171,7 +243,7 @@ export default function UserRegistration() {
                   fontWeight: "bold",
                 }}
               >
-                ou
+                {t("registerpage.ou")}
               </Typography>
 
               <Typography
@@ -182,7 +254,7 @@ export default function UserRegistration() {
                   fontWeight: "bold",
                 }}
               >
-                Inscrever-se com email
+                {t("registerpage.inscreverComEmail")}
               </Typography>
             </>
           )}
@@ -191,7 +263,7 @@ export default function UserRegistration() {
             sx={{
               "& .MuiTextField-root": {
                 m: 1,
-                width: showRegisterForm ? "40ch" : "20ch",
+                width: showRegisterForm ? "20ch" : "40ch",
               },
               display: "flex",
               flexDirection: "column",
@@ -200,7 +272,7 @@ export default function UserRegistration() {
             autoComplete="off"
             onSubmit={handleSubmit}
           >
-            {showRegisterForm && (
+            {!showRegisterForm && (
               <>
                 <TextField
                   id="emailField"
@@ -208,14 +280,14 @@ export default function UserRegistration() {
                   value={formData.email}
                   error={showEmailError}
                   helperText={formErrors.email}
-                  label="Endereço de email"
+                  label={t("registerpage.email")}
                   variant="standard"
                   focused
                   onChange={handleInputChange}
                 />
                 <TextField
                   id="password"
-                  label="Password"
+                  label={t("registerpage.password")}
                   name="password"
                   variant="standard"
                   type={showPassword ? "text" : "password"}
@@ -242,119 +314,120 @@ export default function UserRegistration() {
               </>
             )}
 
-            {!showRegisterForm && (
+            {showRegisterForm && (
               <>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={6} textAlign="left">
                     <TextField
                       id="nameField"
                       name="name"
                       value={formData.name}
                       error={showNameError}
                       helperText={formErrors.name}
-                      label="Nome"
+                      label={t("registerpage.nome")}
                       variant="standard"
                       focused
                       onChange={handleInputChange}
+                      fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={6} textAlign="left">
                     <TextField
                       id="surnameField"
                       name="surname"
                       value={formData.surname}
                       error={showSurnameError}
                       helperText={formErrors.surname}
-                      label="Sobrenome"
+                      label={t("registerpage.sobrenome")}
                       variant="standard"
                       focused
                       onChange={handleInputChange}
+                      fullWidth
                     />
                   </Grid>
-                </Grid>
 
-                <Typography
-                  variant="h6"
-                  align="center"
-                  sx={{
-                    marginTop: "2rem",
-                    marginBottom: "2rem",
-                  }}
-                  gutterBottom
-                >
-                  Insira sua data de nascimento
-                </Typography>
-
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
+                  <Grid item xs={6} textAlign="left">
                     <TextField
-                      label="Dia"
-                      name="day"
-                      type="number"
-                      value={formData.day}
+                      label={t("registerpage.dataNascimento")}
+                      name="date"
+                      type="date"
+                      value={formData.date}
+                      error={showDateError}
+                      helperText={formErrors.date}
                       onChange={handleInputChange}
                       variant="standard"
                       margin="normal"
                       focused
                       required
+                      fullWidth
                     />
                   </Grid>
 
-                  <Grid item xs={6}>
-                    <FormControl variant="standard" margin="normal" required>
-                      <InputLabel>Mês</InputLabel>
-                      <Select
-                        label="Mês"
-                        name="month"
-                        value={formData.month}
-                        onChange={handleInputChange}
-                      >
-                        <MenuItem value="">Selecione</MenuItem>
-                        <MenuItem value="Janeiro">Janeiro</MenuItem>
-                        <MenuItem value="Fevereiro">Fevereiro</MenuItem>
-                        <MenuItem value="Março">Março</MenuItem>
-                        <MenuItem value="Abril">Abril</MenuItem>
-                        <MenuItem value="Maio">Maio</MenuItem>
-                        <MenuItem value="Junho">Junho</MenuItem>
-                        <MenuItem value="Julho">Julho</MenuItem>
-                        <MenuItem value="Agosto">Agosto</MenuItem>
-                        <MenuItem value="Setembro">Setembro</MenuItem>
-                        <MenuItem value="Novembro">Novembro</MenuItem>
-                        <MenuItem value="Dezembro">Dezembro</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-
-                  <Grid item xs={6}>
+                  <Grid item xs={6} textAlign="left">
                     <TextField
-                      label="Ano"
-                      name="year"
-                      type="number"
-                      value={formData.year}
-                      onChange={handleInputChange}
+                      id="nationalityField"
+                      name="nationality"
+                      value={formData.nationality}
+                      error={showNationalityError}
+                      helperText={formErrors.nationality}
+                      label={t("registerpage.nacionalidade")}
                       variant="standard"
-                      margin="normal"
-                      required
                       focused
+                      onChange={handleInputChange}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6} textAlign="left">
+                    <TextField
+                      id="residenceField"
+                      name="residence"
+                      value={formData.residence}
+                      error={showResidenceError}
+                      helperText={formErrors.residence}
+                      label={t("registerpage.residencia")}
+                      variant="standard"
+                      focused
+                      onChange={handleInputChange}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6} textAlign="left">
+                    <TextField
+                      id="contactField"
+                      name="contact"
+                      value={formData.contact}
+                      error={showContactError}
+                      helperText={formErrors.contact}
+                      label={t("registerpage.contato")}
+                      variant="standard"
+                      focused
+                      onChange={handleInputChange}
+                      fullWidth
                     />
                   </Grid>
                 </Grid>
               </>
             )}
 
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ m: 3, backgroundColor: "#33b3cc", color: "#ffffff" }}
-            >
-              {showRegisterForm ? "Continuar" : "Concluido"}
-            </Button>
+            <Grid container justifyContent="center" alignItems="right">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ m: 3, color: "#ffffff", width: "20ch" }}
+              >
+                {showRegisterForm
+                  ? t("registerpage.concluido")
+                  : t("registerpage.continuar")}
+              </Button>
+            </Grid>
           </Box>
         </div>
-      </section>
-
-      <div className="logoSection">
-        <img src={logo} alt="logo" className="logo" />
       </div>
     </div>
   );
