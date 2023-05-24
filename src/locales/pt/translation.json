@@ -2,5 +2,23 @@
   "homepage": {
     "login": "Entrar",
     "signUp": "Cadastrar"
+  },
+  "categories": {
+    "music": "Música",
+    "theater": "Teatro",
+    "dance": "Dança",
+    "movieTheater": "Cinema",
+    "standUp": "Stand Up",
+    "visualArts": "Artes Plásticas",
+    "sculpture": "Escultura",
+    "craftsmanship": "Artesenato",
+    "design": "Design",
+    "photography": "Fotografia",
+    "urbanArt": "Arte Urbana",
+    "literature": "Literatura",
+    "gastronomy": "Gastronomia",
+    "fashion": "Moda",
+    "traditionalParties": "Festas de Romaria",
+    "carnaval": "Carnaval"
   }
 }

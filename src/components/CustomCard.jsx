@@ -19,14 +19,14 @@ const CustomCard = () => {
     <Box
       sx={{
         margin: "2rem",
-        maxWidth: "20rem",
+        width: "100%",
       }}
       onMouseEnter={() => setshowTitle(true)}
       onMouseLeave={() => setshowTitle(false)}
     >
       <Box
         sx={{
-          maxWidth: 300,
+          // maxWidth: 300,
           display: "flex",
           flexDirection: "column",
           marginBottom: "1rem",
@@ -37,8 +37,9 @@ const CustomCard = () => {
           src={event2}
           alt="event1"
           sx={{
-            width: "300px",
-            height: "200px",
+            width: "95%",
+            height: "100%",
+            objectFit: "cover",
             "&:hover": {
               cursor: "pointer",
               borderRadius: "0.25rem",
