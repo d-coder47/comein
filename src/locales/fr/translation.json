@@ -20,5 +20,33 @@
     "fashion": "Mode",
     "traditionalParties": "Fêtes de Pèlerinage",
     "carnaval": "Carnaval"
+  },
+  "registerpage": {
+    "etapa1": "Étape 1 de 2",
+    "etapa2": "Étape 2 de 2",
+    "criarConta": "Créer un compte",
+    "fazerLoginGoogle": "Se connecter avec Google",
+    "ou": "ou",
+    "inscreverComEmail": "Inscrivez-vous par e-mail",
+    "email": "Adresse courriel",
+    "password": "Mot de passe",
+    "continuar": "Continuer",
+    "emailObrigatorio": "L’e-mail est obligatoire",
+    "emailInvalido": "Adresse e-mail invalido",
+    "passwordObrigatorio": "Le mot de passe est requis",
+    "passwordTamanho": "Le mot de passe doit comporter au moins 6 caractères",
+    "nomeObrigatorio": "Le nom est obligatoire",
+    "sobrenomeObrigatorio": "Le surnom est obligatoire",
+    "nacionalidadeObrigatorio": "La nationalité est obligatoire",
+    "residenciaObrigatorio": "La résidence est obligatoire",
+    "contatoObrigatorio": "Un contact est requis",
+    "nome": "Nom",
+    "sobrenome": "Nom de famille",
+    "dataNascimento": "Date de naissance",
+    "nacionalidade": "Nationalité",
+    "residencia": "Résidence",
+    "contato": "Contact",
+    "concluido": "Conclu",
+    "dataNascObrigatorio": "La date de naissance est obligatoire"
   }
 }

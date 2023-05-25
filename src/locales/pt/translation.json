@@ -20,5 +20,33 @@
     "fashion": "Moda",
     "traditionalParties": "Festas de Romaria",
     "carnaval": "Carnaval"
+  },
+  "registerpage": {
+    "etapa1": "Etapa 1 de 2",
+    "etapa2": "Etapa 2 de 2",
+    "criarConta": "Criar uma conta",
+    "fazerLoginGoogle": "Fazer login com o Google",
+    "ou": "ou",
+    "inscreverComEmail": "Inscrever-se com email",
+    "email": "Endereço de email",
+    "password": "Password",
+    "continuar": "Continuar",
+    "emailObrigatorio": "Email é obrigatorio",
+    "emailInvalido": "Email invalido",
+    "passwordObrigatorio": "Password é obrigatorio",
+    "passwordTamanho": "Password precisa ter pelo menos 6 caracteres",
+    "nomeObrigatorio": "Nome é obrigatorio",
+    "sobrenomeObrigatorio": "Sobrenome é obrigatorio",
+    "nacionalidadeObrigatorio": "Nacionalidade é obrigatorio",
+    "residenciaObrigatorio": "Residência é obrigatorio",
+    "contatoObrigatorio": "Contato é obrigatorio",
+    "nome": "Nome",
+    "sobrenome": "Sobrenome",
+    "dataNascimento": "Data de nascimento",
+    "nacionalidade": "Nacionalidade",
+    "residencia": "Residência",
+    "contato": "Contato",
+    "concluido": "Concluido",
+    "dataNascObrigatorio": "Data de nascimento é obrigatorio"
   }
 }
