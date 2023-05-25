@@ -23,6 +23,7 @@
     "nacionalidadeObrigatorio": "Nacionalidade é obrigatorio",
     "residenciaObrigatorio": "Residência é obrigatorio",
     "contatoObrigatorio": "Contato é obrigatorio",
+    "generoObrigatorio": "Género é obrigatorio",
     "nome": "Nome",
     "sobrenome": "Sobrenome",
     "dataNascimento": "Data de nascimento",
@@ -30,7 +31,11 @@
     "residencia": "Residência",
     "contato": "Contato",
     "concluido": "Concluido",
-    "dataNascObrigatorio": "Data de nascimento é obrigatorio"
+    "dataNascObrigatorio": "Data de nascimento é obrigatorio",
+    "genero": "Género",
+    "euSou": "Eu sou",
+    "feminino": "Feminino",
+    "masculino": "Masculino"
   },
   "categories": {
     "music": "Música",

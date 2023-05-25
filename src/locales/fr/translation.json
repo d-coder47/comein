@@ -30,7 +30,11 @@
     "residencia": "Résidence",
     "contato": "Contact",
     "concluido": "Conclu",
-    "dataNascObrigatorio": "La date de naissance est obligatoire"
+    "dataNascObrigatorio": "La date de naissance est obligatoire",
+    "genero": "Genre",
+    "euSou": "Je suis",
+    "feminino": "Femelle",
+    "masculino": "Mâle"
   },
   "categories": {
     "music": "Musique",
