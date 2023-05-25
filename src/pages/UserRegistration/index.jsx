@@ -10,6 +10,11 @@ import {
   Divider,
   Grid,
   Avatar,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  FormHelperText,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
@@ -36,6 +41,7 @@ export default function UserRegistration() {
   const [showResidenceError, setShowResidenceError] = React.useState(false);
   const [showContactError, setShowContactError] = React.useState(false);
   const [showDateError, setShowDateError] = React.useState(false);
+  const [showGenderError, setShowGenderError] = React.useState(false);
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
 
@@ -48,6 +54,7 @@ export default function UserRegistration() {
     nationality: "",
     residence: "",
     contact: "",
+    gender: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
@@ -59,6 +66,7 @@ export default function UserRegistration() {
     nationality: "",
     residence: "",
     contact: "",
+    gender: "",
   });
   const handleInputChange = (e) => {
     setFormData({
@@ -113,8 +121,6 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        // Form is valid, submit or process the data here
-        console.log(formData);
         setShowRegisterForm(true);
       }
     } else {
@@ -159,12 +165,20 @@ export default function UserRegistration() {
       } else {
         setShowContactError(false);
       }
+
+      if (formData.gender.trim() === "") {
+        errors.gender = t("registerpage.generoObrigatorio");
+        setShowGenderError(true);
+      } else {
+        setShowGenderError(false);
+      }
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
         // Form is valid, submit or process the data here
         console.log(formData);
-        setShowRegisterForm(true);
+        localStorage.setItem("authenticated", true);
+        navigate("/");
       }
     }
   };
@@ -196,11 +210,10 @@ export default function UserRegistration() {
       <div className="panel">
         <div className="formContainer">
           <Typography
-            variant="h8"
+            variant="h6"
             sx={{
               marginTop: "1rem",
               marginBottom: "1rem",
-              fontWeight: "bold",
             }}
           >
             {showRegisterForm
@@ -233,21 +246,20 @@ export default function UserRegistration() {
 
           {!showRegisterForm && (
             <>
-              <Divider variant="middle" />
+              <Divider style={{ width: "80%" }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    marginTop: "2rem",
+                    marginBottom: "2rem",
+                  }}
+                >
+                  {t("registerpage.ou")}
+                </Typography>
+              </Divider>
 
               <Typography
-                variant="h5"
-                sx={{
-                  marginTop: "2rem",
-                  marginBottom: "2rem",
-                  fontWeight: "bold",
-                }}
-              >
-                {t("registerpage.ou")}
-              </Typography>
-
-              <Typography
-                variant="h8"
+                variant="h6"
                 sx={{
                   marginTop: "2rem",
                   marginBottom: "2rem",
@@ -322,7 +334,7 @@ export default function UserRegistration() {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="nameField"
                       name="name"
@@ -336,7 +348,7 @@ export default function UserRegistration() {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="surnameField"
                       name="surname"
@@ -351,7 +363,44 @@ export default function UserRegistration() {
                     />
                   </Grid>
 
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
+                    <FormControl
+                      variant="standard"
+                      sx={{ m: 1, minWidth: 120 }}
+                    >
+                      <InputLabel id="demo-simple-select-standard-label">
+                        {t("registerpage.genero")}
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-standard-label"
+                        id={
+                          showGenderError
+                            ? "demo-simple-select-error"
+                            : "demo-simple-select-standard"
+                        }
+                        name="gender"
+                        error={showGenderError}
+                        focused
+                        value={formData.gender}
+                        onChange={handleInputChange}
+                      >
+                        <MenuItem value="">
+                          <em>{t("registerpage.euSou")}</em>
+                        </MenuItem>
+                        <MenuItem value="f">
+                          {t("registerpage.feminino")}
+                        </MenuItem>
+                        <MenuItem value="m">
+                          {t("registerpage.masculino")}
+                        </MenuItem>
+                      </Select>
+                      <FormHelperText sx={{ color: "red" }}>
+                        {formErrors.gender}
+                      </FormHelperText>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       label={t("registerpage.dataNascimento")}
                       name="date"
@@ -368,7 +417,7 @@ export default function UserRegistration() {
                     />
                   </Grid>
 
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="nationalityField"
                       name="nationality"
@@ -382,7 +431,7 @@ export default function UserRegistration() {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="residenceField"
                       name="residence"
@@ -396,7 +445,7 @@ export default function UserRegistration() {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="contactField"
                       name="contact"
@@ -419,7 +468,12 @@ export default function UserRegistration() {
                 type="submit"
                 variant="contained"
                 color="primary"
-                sx={{ m: 3, color: "#ffffff", width: "20ch" }}
+                sx={{
+                  m: 3,
+                  color: "#ffffff",
+                  width: "20ch",
+                  borderRadius: "16px",
+                }}
               >
                 {showRegisterForm
                   ? t("registerpage.concluido")

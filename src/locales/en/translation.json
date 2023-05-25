@@ -30,6 +30,10 @@
     "residencia": "Residence",
     "contato": "Contact",
     "concluido": "Concluded",
-    "dataNascObrigatorio": "Date of birth is mandatory"
+    "dataNascObrigatorio": "Date of birth is mandatory",
+    "genero": "Gender",
+    "euSou": "I am",
+    "feminino": "Female",
+    "masculino": "Male"
   }
 }
