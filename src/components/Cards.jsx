@@ -1,9 +1,12 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React, { useEffect, useRef } from "react";
 import CustomCard from "./CustomCard";
 import useEvents from "../hooks/useEvents";
 
 const cards = [
+  "1",
+  "1",
+  "1",
   "1",
   "1",
   "1",
@@ -59,21 +62,24 @@ const Cards = () => {
   // }, []);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "0.5rem",
-        maxWidth: "99vw",
-        // justifyContent: "space-between",
-      }}
+    <Grid
+      // sx={{
+      //   display: "flex",
+      //   flexWrap: "wrap",
+      //   gap: "0.5rem",
+      //   maxWidth: "99vw",
+      //   // justifyContent: "space-between",
+      // }}
+      container
+      m="2rem"
+      gap=".5rem"
     >
       {cards.map((card) => (
-        <Box sx={{ maxWidth: "19%" }}>
+        <Grid xs={2.25}>
           <CustomCard />
-        </Box>
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   );
 };
 
