@@ -31,5 +31,23 @@
     "contato": "Contact",
     "concluido": "Concluded",
     "dataNascObrigatorio": "Date of birth is mandatory"
+  },
+  "categories": {
+    "music": "Music",
+    "theater": "Theater",
+    "dance": "Dance",
+    "movieTheater": "MovieTheater",
+    "standUp": "Stand Up",
+    "visualArts": "Visual Arts",
+    "sculpture": "Sculpture",
+    "craftsmanship": "Craftsmanship",
+    "design": "Design",
+    "photography": "Photography",
+    "urbanArt": "Urban Art",
+    "literature": "Literature",
+    "gastronomy": "Gastronomy",
+    "fashion": "Fashion",
+    "traditionalParties": "Traditional Parties",
+    "carnaval": "Carnaval"
   }
 }

@@ -56,6 +56,17 @@ const NavBar = () => {
           id="internationalization"
           defaultValue={i18n.language}
           onChange={handleTranslationChange}
+          sx={{
+            height: "2rem",
+            marginRight: "0.5rem",
+            color: (theme) => theme.palette.primary.main,
+            ".MuiOutlinedInput-notchedOutline": {
+              borderColor: (theme) => theme.palette.primary.main,
+            },
+            ".MuiSvgIcon-root-MuiSelect-icon": {
+              color: (theme) => theme.palette.primary.main,
+            },
+          }}
         >
           <MenuItem value={"en"}>EN</MenuItem>
           <MenuItem value={"pt"}>PT</MenuItem>
@@ -64,6 +75,7 @@ const NavBar = () => {
         <Button
           sx={{
             marginRight: "0.5rem",
+            height: "2rem",
             color: (theme) => theme.palette.primary.contrastText,
           }}
           variant="contained"
@@ -72,7 +84,7 @@ const NavBar = () => {
           {t("homepage.login")}
         </Button>
         <Button
-          sx={{ marginRight: "2.5rem" }}
+          sx={{ marginRight: "2.5rem", height: "2rem" }}
           onClick={handleCadastrarClick}
           variant="outlined"
           color="primary"

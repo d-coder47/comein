@@ -3,6 +3,24 @@ import React, { useEffect, useRef } from "react";
 import CustomCard from "./CustomCard";
 import useEvents from "../hooks/useEvents";
 
+const cards = [
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1",
+];
+
 const Cards = () => {
   const { getEvents } = useEvents();
 
@@ -45,29 +63,16 @@ const Cards = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        justifyContent: "space-between",
+        gap: "0.5rem",
+        maxWidth: "99vw",
+        // justifyContent: "space-between",
       }}
     >
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
-      <CustomCard />
+      {cards.map((card) => (
+        <Box sx={{ maxWidth: "19%" }}>
+          <CustomCard />
+        </Box>
+      ))}
     </Box>
   );
 };
