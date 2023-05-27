@@ -21,6 +21,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+import { MuiTelInput } from "mui-tel-input";
 
 import { useNavigate } from "react-router-dom";
 
@@ -72,6 +73,13 @@ export default function UserRegistration() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePhoneChange = (newValue) => {
+    setFormData({
+      ...formData,
+      contact: newValue,
     });
   };
 
@@ -294,7 +302,9 @@ export default function UserRegistration() {
                   helperText={formErrors.email}
                   label={t("registerpage.email")}
                   variant="standard"
-                  focused
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   onChange={handleInputChange}
                 />
                 <TextField
@@ -307,7 +317,9 @@ export default function UserRegistration() {
                   onChange={handleInputChange}
                   error={showPasswordError}
                   helperText={formErrors.password}
-                  focused
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -343,7 +355,9 @@ export default function UserRegistration() {
                       helperText={formErrors.name}
                       label={t("registerpage.nome")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
@@ -357,47 +371,37 @@ export default function UserRegistration() {
                       helperText={formErrors.surname}
                       label={t("registerpage.sobrenome")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
                   </Grid>
 
                   <Grid item xs={6} textAlign="center">
-                    <FormControl
+                    <TextField
+                      label={t("registerpage.genero")}
+                      name="gender"
+                      select
+                      value={formData.gender}
+                      onChange={handleInputChange}
                       variant="standard"
-                      sx={{ m: 1, minWidth: 120 }}
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     >
-                      <InputLabel id="demo-simple-select-standard-label">
-                        {t("registerpage.genero")}
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id={
-                          showGenderError
-                            ? "demo-simple-select-error"
-                            : "demo-simple-select-standard"
-                        }
-                        name="gender"
-                        error={showGenderError}
-                        focused
-                        value={formData.gender}
-                        onChange={handleInputChange}
-                      >
-                        <MenuItem value="">
-                          <em>{t("registerpage.euSou")}</em>
-                        </MenuItem>
-                        <MenuItem value="f">
-                          {t("registerpage.feminino")}
-                        </MenuItem>
-                        <MenuItem value="m">
-                          {t("registerpage.masculino")}
-                        </MenuItem>
-                      </Select>
-                      <FormHelperText sx={{ color: "red" }}>
-                        {formErrors.gender}
-                      </FormHelperText>
-                    </FormControl>
+                      <MenuItem value="">
+                        <em>{t("registerpage.euSou")}</em>
+                      </MenuItem>
+                      <MenuItem value="f">
+                        {t("registerpage.feminino")}
+                      </MenuItem>
+                      <MenuItem value="m">
+                        {t("registerpage.masculino")}
+                      </MenuItem>
+                    </TextField>
                   </Grid>
 
                   <Grid item xs={6} textAlign="center">
@@ -411,7 +415,9 @@ export default function UserRegistration() {
                       onChange={handleInputChange}
                       variant="standard"
                       margin="normal"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       required
                       fullWidth
                     />
@@ -426,7 +432,9 @@ export default function UserRegistration() {
                       helperText={formErrors.nationality}
                       label={t("registerpage.nacionalidade")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
@@ -440,30 +448,35 @@ export default function UserRegistration() {
                       helperText={formErrors.residence}
                       label={t("registerpage.residencia")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
                   </Grid>
+
                   <Grid item xs={6} textAlign="center">
-                    <TextField
-                      id="contactField"
+                    <MuiTelInput
                       name="contact"
-                      value={formData.contact}
+                      fullWidth
                       error={showContactError}
                       helperText={formErrors.contact}
                       label={t("registerpage.contato")}
                       variant="standard"
-                      focused
-                      onChange={handleInputChange}
-                      fullWidth
+                      value={formData.contact}
+                      onChange={handlePhoneChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
+                  <Grid item xs={6} textAlign="center"></Grid>
                 </Grid>
               </>
             )}
 
-            <Grid container justifyContent="center" alignItems="right">
+            <Grid container justifyContent="center">
               <Button
                 type="submit"
                 variant="contained"
