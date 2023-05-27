@@ -14,19 +14,19 @@ import avatar from "../assets/img/avatar.jpg";
 
 const CustomCard = () => {
   const [showTitle, setshowTitle] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   return (
     <Box
       sx={{
-        margin: "2rem",
-        maxWidth: "20rem",
+        height: "10rem",
       }}
       onMouseEnter={() => setshowTitle(true)}
       onMouseLeave={() => setshowTitle(false)}
     >
       <Box
         sx={{
-          maxWidth: 300,
           display: "flex",
           flexDirection: "column",
           marginBottom: "1rem",
@@ -37,8 +37,9 @@ const CustomCard = () => {
           src={event2}
           alt="event1"
           sx={{
-            width: "300px",
-            height: "200px",
+            width: "100%",
+            height: "8rem",
+            objectFit: "cover",
             "&:hover": {
               cursor: "pointer",
               borderRadius: "0.25rem",
@@ -52,6 +53,7 @@ const CustomCard = () => {
             marginTop: "-2rem",
             fontWeight: "bold",
             width: "fit-content",
+            zIndex: 99,
             "&:hover": {
               textDecoration: "underline",
               cursor: "pointer",
@@ -77,10 +79,28 @@ const CustomCard = () => {
         </Typography>
 
         <Box sx={{ display: "flex", marginLeft: "auto" }}>
-          <ThumbUpOffAlt sx={{ width: 18, height: 18, cursor: "pointer" }} />
-          {/* <ThumbUp sx={{  width: 18, height: 18, cursor: "pointer" }} /> */}
-          <Star sx={{ width: 18, height: 18, cursor: "pointer" }} />
-          {/* <StarOutline sx={{  width: 18, height: 18, cursor: "pointer" }} /> */}
+          {isLiked ? (
+            <ThumbUp
+              onClick={() => setIsLiked(false)}
+              sx={{ width: 18, height: 18, cursor: "pointer" }}
+            />
+          ) : (
+            <ThumbUpOffAlt
+              onClick={() => setIsLiked(true)}
+              sx={{ width: 18, height: 18, cursor: "pointer" }}
+            />
+          )}
+          {isFavorite ? (
+            <Star
+              onClick={() => setIsFavorite(false)}
+              sx={{ width: 18, height: 18, cursor: "pointer" }}
+            />
+          ) : (
+            <StarOutline
+              onClick={() => setIsFavorite(true)}
+              sx={{ width: 18, height: 18, cursor: "pointer" }}
+            />
+          )}
           <Reply
             sx={{
               width: 18,

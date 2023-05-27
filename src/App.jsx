@@ -9,8 +9,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          width: "100vw",
-          minHeight: "100vh",
+          width: "98vw",
+          minHeight: "98vh",
           display: "flex",
           flexDirection: "column",
         }}
