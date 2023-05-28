@@ -10,11 +10,8 @@ import {
   Divider,
   Grid,
   Avatar,
-  InputLabel,
   MenuItem,
-  FormControl,
-  Select,
-  FormHelperText,
+  Autocomplete,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
@@ -26,6 +23,10 @@ import { MuiTelInput } from "mui-tel-input";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+
+import validator from "validator";
+
+import countries from "../../data/countries";
 
 export default function UserRegistration() {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ export default function UserRegistration() {
     contact: "",
     gender: "",
   });
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -101,7 +103,7 @@ export default function UserRegistration() {
       if (formData.email.trim() === "") {
         errors.email = t("registerpage.emailObrigatorio");
         setShowEmailError(true);
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      } else if (!validator.isEmail(formData.email)) {
         errors.email = t("registerpage.emailInvalido");
         setShowEmailError(true);
       } else {
@@ -184,7 +186,7 @@ export default function UserRegistration() {
         setFormErrors(errors);
       } else {
         // Form is valid, submit or process the data here
-        console.log(formData);
+
         localStorage.setItem("authenticated", true);
         navigate("/");
       }
@@ -385,6 +387,8 @@ export default function UserRegistration() {
                       name="gender"
                       select
                       value={formData.gender}
+                      error={showGenderError}
+                      helperText={formErrors.gender}
                       onChange={handleInputChange}
                       variant="standard"
                       fullWidth
@@ -424,21 +428,57 @@ export default function UserRegistration() {
                   </Grid>
 
                   <Grid item xs={6} textAlign="center">
-                    <TextField
-                      id="nationalityField"
-                      name="nationality"
-                      value={formData.nationality}
-                      error={showNationalityError}
-                      helperText={formErrors.nationality}
-                      label={t("registerpage.nacionalidade")}
-                      variant="standard"
-                      InputLabelProps={{
-                        shrink: true,
+                    <Autocomplete
+                      id="country-select-demo"
+                      options={countries}
+                      autoHighlight
+                      getOptionLabel={(option) => option.label}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          <img
+                            loading="lazy"
+                            width="20"
+                            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                            alt=""
+                          />
+                          {option.label} ({option.code}) +{option.phone}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("registerpage.nacionalidade")}
+                          variant="standard"
+                          name="nationality"
+                          value={formData.nationality}
+                          error={showNationalityError}
+                          helperText={formErrors.nationality}
+                          fullWidth
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                      onInputChange={(event, value) => {
+                        // Update formData.nationality as the user types
+                        formData.nationality = value ? value.label : "";
                       }}
-                      onChange={handleInputChange}
-                      fullWidth
+                      onChange={(event, value) => {
+                        // Update formData.nationality when an option is selected
+                        formData.nationality = value ? value.label : "";
+                      }}
                     />
                   </Grid>
+
                   <Grid item xs={6} textAlign="center">
                     <TextField
                       id="residenceField"
