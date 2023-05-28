@@ -271,7 +271,7 @@ export default function UserRegistration() {
               <Typography
                 variant="h6"
                 sx={{
-                  marginTop: "2rem",
+                  marginTop: "0.5rem",
                   marginBottom: "2rem",
                   fontWeight: "bold",
                 }}

@@ -20,8 +20,10 @@
   margin-right: 10%;
 }
 .formContainer {
-  min-width: 100%;
-  min-height: 85vh;
+  min-width: 80%;
+  /* min-height: 85vh; */
+  min-height: 600px;
+  max-height: 900px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -71,7 +73,7 @@
 
 @media screen and (max-width: 375px) {
   .css-qndp1g-MuiAvatar-root {
-    width: 110px;
+    width: 110px !important;
     height: auto;
   }
   .container {
@@ -80,7 +82,7 @@
     height: 100%;
   }
   .panel {
-    min-height: 50vh;
+    min-height: 400px;
     min-width: 280px;
   }
 
@@ -95,5 +97,11 @@
   .logoSection {
     display: flex;
     margin: 0 0 10px 0;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .formContainer {
+    min-height: 60%;
   }
 }
