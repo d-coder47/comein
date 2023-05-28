@@ -11,6 +11,7 @@ import {
   Grid,
   Avatar,
   MenuItem,
+  Link,
   Autocomplete,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -46,7 +47,6 @@ export default function UserRegistration() {
   const [showGenderError, setShowGenderError] = React.useState(false);
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
-
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -514,6 +514,30 @@ export default function UserRegistration() {
                   <Grid item xs={6} textAlign="center"></Grid>
                 </Grid>
               </>
+            )}
+
+            {showRegisterForm && (
+              <Grid container justifyContent="center">
+                <Typography
+                  textAlign="center"
+                  variant="h6"
+                  sx={{
+                    marginTop: "1rem",
+                    marginBottom: "1rem",
+                    fontSize: 14,
+                    width: "50ch",
+                  }}
+                >
+                  Ao clicar em Concluido, eu concordo que li e aceitos os{" "}
+                  <Link href="#" underline="none">
+                    Termos de uso
+                  </Link>
+                  e a{" "}
+                  <Link href="#" underline="none">
+                    Polítca de privacidade
+                  </Link>
+                </Typography>
+              </Grid>
             )}
 
             <Grid container justifyContent="center">
