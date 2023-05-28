@@ -534,7 +534,7 @@ export default function UserRegistration() {
                   </Link>
                   e a{" "}
                   <Link href="#" underline="none">
-                    Polítca de privacidade
+                    Política de privacidade
                   </Link>
                 </Typography>
               </Grid>
