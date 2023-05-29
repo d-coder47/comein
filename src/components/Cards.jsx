@@ -19,6 +19,9 @@ const cards = [
   "1",
   "1",
   "1",
+  "1",
+  "1",
+  "1",
 ];
 
 const Cards = () => {
@@ -59,7 +62,7 @@ const Cards = () => {
   // }, []);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ margin: "2rem", flexGrow: 1 }}>
       <Grid
         container
         // sx={{
@@ -69,6 +72,7 @@ const Cards = () => {
         //   maxWidth: "99vw",
         //   // justifyContent: "space-between",
         // }}
+        gap={2}
       >
         {cards.map((card, index) => (
           <Grid key={index} xs={2.3}>

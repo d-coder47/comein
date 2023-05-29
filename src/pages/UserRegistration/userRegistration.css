@@ -1,6 +1,6 @@
 .container {
-  min-width: 100vh;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
   background: #ffffe0;
   color: #000;
   display: flex;
@@ -14,13 +14,16 @@
   position: relative;
   align-items: center;
   justify-content: flex-start;
+  max-width: 35%;
   min-width: 35%;
   min-height: 100%;
   margin-right: 10%;
 }
 .formContainer {
-  min-width: 100%;
-  min-height: 85vh;
+  min-width: 80%;
+  /* min-height: 85vh; */
+  min-height: 600px;
+  max-height: 900px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -37,4 +40,68 @@
 
 .custom-google-button {
   color: #000 !important;
+}
+
+@media screen and (max-width: 767px) {
+  .css-qndp1g-MuiAvatar-root {
+    width: 210px;
+    height: auto;
+  }
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .panel {
+    min-height: 70vh;
+    min-width: 280px;
+  }
+
+  .css-5joihi .MuiTextField-root {
+    width: 200px !important;
+  }
+  .formContainer {
+    width: 100%;
+    min-height: 60%;
+  }
+
+  .logoSection {
+    display: flex;
+    margin: 0 0 10px 0;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .css-qndp1g-MuiAvatar-root {
+    width: 110px !important;
+    height: auto;
+  }
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .panel {
+    min-height: 400px;
+    min-width: 280px;
+  }
+
+  .css-5joihi .MuiTextField-root {
+    width: 200px !important;
+  }
+  .formContainer {
+    width: 100%;
+    min-height: 60%;
+  }
+
+  .logoSection {
+    display: flex;
+    margin: 0 0 10px 0;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .formContainer {
+    min-height: 60%;
+  }
 }

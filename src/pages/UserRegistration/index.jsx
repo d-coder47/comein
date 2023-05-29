@@ -10,16 +10,24 @@ import {
   Divider,
   Grid,
   Avatar,
+  MenuItem,
+  Link,
+  Autocomplete,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+import { MuiTelInput } from "mui-tel-input";
 
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+
+import validator from "validator";
+
+import countries from "../../data/countries";
 
 export default function UserRegistration() {
   const navigate = useNavigate();
@@ -36,9 +44,9 @@ export default function UserRegistration() {
   const [showResidenceError, setShowResidenceError] = React.useState(false);
   const [showContactError, setShowContactError] = React.useState(false);
   const [showDateError, setShowDateError] = React.useState(false);
+  const [showGenderError, setShowGenderError] = React.useState(false);
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
-
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -48,6 +56,7 @@ export default function UserRegistration() {
     nationality: "",
     residence: "",
     contact: "",
+    gender: "",
   });
 
   const [formErrors, setFormErrors] = React.useState({
@@ -59,11 +68,20 @@ export default function UserRegistration() {
     nationality: "",
     residence: "",
     contact: "",
+    gender: "",
   });
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePhoneChange = (newValue) => {
+    setFormData({
+      ...formData,
+      contact: newValue,
     });
   };
 
@@ -85,7 +103,7 @@ export default function UserRegistration() {
       if (formData.email.trim() === "") {
         errors.email = t("registerpage.emailObrigatorio");
         setShowEmailError(true);
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      } else if (!validator.isEmail(formData.email)) {
         errors.email = t("registerpage.emailInvalido");
         setShowEmailError(true);
       } else {
@@ -113,8 +131,6 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        // Form is valid, submit or process the data here
-        console.log(formData);
         setShowRegisterForm(true);
       }
     } else {
@@ -159,12 +175,20 @@ export default function UserRegistration() {
       } else {
         setShowContactError(false);
       }
+
+      if (formData.gender.trim() === "") {
+        errors.gender = t("registerpage.generoObrigatorio");
+        setShowGenderError(true);
+      } else {
+        setShowGenderError(false);
+      }
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
         // Form is valid, submit or process the data here
-        console.log(formData);
-        setShowRegisterForm(true);
+
+        localStorage.setItem("authenticated", true);
+        navigate("/");
       }
     }
   };
@@ -196,11 +220,10 @@ export default function UserRegistration() {
       <div className="panel">
         <div className="formContainer">
           <Typography
-            variant="h8"
+            variant="h6"
             sx={{
               marginTop: "1rem",
               marginBottom: "1rem",
-              fontWeight: "bold",
             }}
           >
             {showRegisterForm
@@ -233,23 +256,22 @@ export default function UserRegistration() {
 
           {!showRegisterForm && (
             <>
-              <Divider variant="middle" />
+              <Divider style={{ width: "80%" }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    marginTop: "2rem",
+                    marginBottom: "2rem",
+                  }}
+                >
+                  {t("registerpage.ou")}
+                </Typography>
+              </Divider>
 
               <Typography
-                variant="h5"
+                variant="h6"
                 sx={{
-                  marginTop: "2rem",
-                  marginBottom: "2rem",
-                  fontWeight: "bold",
-                }}
-              >
-                {t("registerpage.ou")}
-              </Typography>
-
-              <Typography
-                variant="h8"
-                sx={{
-                  marginTop: "2rem",
+                  marginTop: "0.5rem",
                   marginBottom: "2rem",
                   fontWeight: "bold",
                 }}
@@ -282,7 +304,9 @@ export default function UserRegistration() {
                   helperText={formErrors.email}
                   label={t("registerpage.email")}
                   variant="standard"
-                  focused
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   onChange={handleInputChange}
                 />
                 <TextField
@@ -295,7 +319,9 @@ export default function UserRegistration() {
                   onChange={handleInputChange}
                   error={showPasswordError}
                   helperText={formErrors.password}
-                  focused
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -322,7 +348,7 @@ export default function UserRegistration() {
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="nameField"
                       name="name"
@@ -331,12 +357,14 @@ export default function UserRegistration() {
                       helperText={formErrors.name}
                       label={t("registerpage.nome")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="surnameField"
                       name="surname"
@@ -345,13 +373,42 @@ export default function UserRegistration() {
                       helperText={formErrors.surname}
                       label={t("registerpage.sobrenome")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
                   </Grid>
 
-                  <Grid item xs={6} textAlign="left">
+                  <Grid item xs={6} textAlign="center">
+                    <TextField
+                      label={t("registerpage.genero")}
+                      name="gender"
+                      select
+                      value={formData.gender}
+                      error={showGenderError}
+                      helperText={formErrors.gender}
+                      onChange={handleInputChange}
+                      variant="standard"
+                      fullWidth
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>{t("registerpage.euSou")}</em>
+                      </MenuItem>
+                      <MenuItem value="f">
+                        {t("registerpage.feminino")}
+                      </MenuItem>
+                      <MenuItem value="m">
+                        {t("registerpage.masculino")}
+                      </MenuItem>
+                    </TextField>
+                  </Grid>
+
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       label={t("registerpage.dataNascimento")}
                       name="date"
@@ -362,27 +419,67 @@ export default function UserRegistration() {
                       onChange={handleInputChange}
                       variant="standard"
                       margin="normal"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       required
                       fullWidth
                     />
                   </Grid>
 
-                  <Grid item xs={6} textAlign="left">
-                    <TextField
-                      id="nationalityField"
-                      name="nationality"
-                      value={formData.nationality}
-                      error={showNationalityError}
-                      helperText={formErrors.nationality}
-                      label={t("registerpage.nacionalidade")}
-                      variant="standard"
-                      focused
-                      onChange={handleInputChange}
-                      fullWidth
+                  <Grid item xs={6} textAlign="center">
+                    <Autocomplete
+                      id="country-select-demo"
+                      options={countries}
+                      autoHighlight
+                      getOptionLabel={(option) => option.label}
+                      renderOption={(props, option) => (
+                        <Box
+                          component="li"
+                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                          {...props}
+                        >
+                          <img
+                            loading="lazy"
+                            width="20"
+                            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                            alt=""
+                          />
+                          {option.label} ({option.code}) +{option.phone}
+                        </Box>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("registerpage.nacionalidade")}
+                          variant="standard"
+                          name="nationality"
+                          value={formData.nationality}
+                          error={showNationalityError}
+                          helperText={formErrors.nationality}
+                          fullWidth
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                      onInputChange={(event, value) => {
+                        // Update formData.nationality as the user types
+                        formData.nationality = value ? value.label : "";
+                      }}
+                      onChange={(event, value) => {
+                        // Update formData.nationality when an option is selected
+                        formData.nationality = value ? value.label : "";
+                      }}
                     />
                   </Grid>
-                  <Grid item xs={6} textAlign="left">
+
+                  <Grid item xs={6} textAlign="center">
                     <TextField
                       id="residenceField"
                       name="residence"
@@ -391,35 +488,69 @@ export default function UserRegistration() {
                       helperText={formErrors.residence}
                       label={t("registerpage.residencia")}
                       variant="standard"
-                      focused
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                       onChange={handleInputChange}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6} textAlign="left">
-                    <TextField
-                      id="contactField"
+
+                  <Grid item xs={6} textAlign="center">
+                    <MuiTelInput
                       name="contact"
-                      value={formData.contact}
+                      fullWidth
                       error={showContactError}
                       helperText={formErrors.contact}
                       label={t("registerpage.contato")}
                       variant="standard"
-                      focused
-                      onChange={handleInputChange}
-                      fullWidth
+                      value={formData.contact}
+                      onChange={handlePhoneChange}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </Grid>
+                  <Grid item xs={6} textAlign="center"></Grid>
                 </Grid>
               </>
             )}
 
-            <Grid container justifyContent="center" alignItems="right">
+            {showRegisterForm && (
+              <Grid container justifyContent="center">
+                <Typography
+                  textAlign="center"
+                  variant="h6"
+                  sx={{
+                    marginTop: "1rem",
+                    marginBottom: "1rem",
+                    fontSize: 14,
+                    width: "50ch",
+                  }}
+                >
+                  Ao clicar em Concluido, eu concordo que li e aceitos os{" "}
+                  <Link href="#" underline="none">
+                    Termos de uso
+                  </Link>
+                  e a{" "}
+                  <Link href="#" underline="none">
+                    Política de privacidade
+                  </Link>
+                </Typography>
+              </Grid>
+            )}
+
+            <Grid container justifyContent="center">
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                sx={{ m: 3, color: "#ffffff", width: "20ch" }}
+                sx={{
+                  m: 3,
+                  color: "#ffffff",
+                  width: "20ch",
+                  borderRadius: "16px",
+                }}
               >
                 {showRegisterForm
                   ? t("registerpage.concluido")

@@ -1,0 +1,128 @@
+POST https://comein.cv/comeincv_api_test/utilizadores/adicionar HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIiwiZXhwaXJlc19pbiI6MTY3Nzg1ODQ4NH0.-qg1X4HDch_Uc5W4e0ppOuwiQtUipYBx0VOyz24Qink
+
+email=humberto@example.cv
+&palavra_passe=password
+
+###
+GET https://comein.cv/comeincv_api_test/utilizadores/obterUtilizador/1 HTTP/1.1
+Content-Type: application/json
+###
+POST https://comein.cv/comeincv_api_test/utilizadores/atualizar/2 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIiwiZXhwaXJlc19pbiI6MTY3Nzg1ODQ4NH0.-qg1X4HDch_Uc5W4e0ppOuwiQtUipYBx0VOyz24Qink
+
+_method=PUT
+&nome=humberto nascimento
+
+###
+POST https://comein.cv/comeincv_api_test/utilizadores/login HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+email=humberto@example.cv
+&palavra_passe=password
+###
+GET https://comein.cv/comeincv_api_test/utilizadores/token HTTP/1.1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwibmFtZSI6IkFkbWluIiwiZXhwaXJlc19pbiI6MTY3ODYzODkyM30.2c5c4dVRwX8xwE9EVhFIxWbm1S26XF4iM72qmoi54cs
+
+###
+GET https://comein.cv/comeincv_api_test/eventos/obterEventosPorUtilizador/1 HTTP/1.1
+Content-Type: application/json
+###
+GET https://comein.cv/comeincv_api_test/eventos/listar HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTk5NjQxfQ.wgzZaeqMABF-Ctr6WQiETih2sQnqEqkJeJv2s9C254Y
+
+###
+
+GET https://comein.cv/comeincv_api_test/eventos/obterEventosPorUtilizador/28 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTk5NjQxfQ.wgzZaeqMABF-Ctr6WQiETih2sQnqEqkJeJv2s9C254Y
+
+###
+GET https://comein.cv/comeincv_api_test/eventos/listar/14 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTk5NTc0fQ.byvmZmSAFaOMIIqxZHxYsYoJR4I8fzl7dyqDVx-VPRw
+
+###
+POST https://comein.cv/comeincv_api_test/eventos/criar HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTk5NjQxfQ.wgzZaeqMABF-Ctr6WQiETih2sQnqEqkJeJv2s9C254Y
+
+
+nome=Evento teste
+&data_inicio=2023-03-02 22:00:00
+
+###
+POST https://comein.cv/comeincv_api_test/eventos/atualizar/1 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIiwiZXhwaXJlc19pbiI6MTY3Nzg1ODQ4NH0.-qg1X4HDch_Uc5W4e0ppOuwiQtUipYBx0VOyz24Qink
+
+_method=PUT
+&nome=Evento teste
+&descricao=descricao teste
+
+###
+POST https://comein.cv/comeincv_api_test/eventos/eliminar/1 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIiwiZXhwaXJlc19pbiI6MTY3Nzg1ODQ4NH0.-qg1X4HDch_Uc5W4e0ppOuwiQtUipYBx0VOyz24Qink
+
+_method=DELETE
+
+###
+GET https://comein.cv/comeincv_api_test/gostosEventos/gostos/1,1 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8
+
+###
+POST https://comein.cv/comeincv_api_test/gostosEventos/gosto HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8
+
+id_utilizador=1
+&id_publicacao=1
+
+###
+POST https://comein.cv/comeincv_api_test/gostosEventos/eliminar/1 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIiwiZXhwaXJlc19pbiI6MTY3Nzg1ODQ4NH0.-qg1X4HDch_Uc5W4e0ppOuwiQtUipYBx0VOyz24Qink
+
+_method=DELETE
+
+### PUBLICACOES
+GET https://comein.cv/comeincv_api_test/publicacoes/listar HTTP/1.1
+Content-Type: application/json
+
+###
+GET https://comein.cv/comeincv_api_test/publicacoes/listar/1 HTTP/1.1
+Content-Type: application/json
+
+###
+GET https://comein.cv/comeincv_api_test/publicacoes/destaques HTTP/1.1
+Content-Type: application/json
+
+###
+GET https://comein.cv/comeincv_api_test/publicacoes/pesquisaInput/Stand HTTP/1.1
+Content-Type: application/json
+
+### PROJETOS
+GET https://comein.cv/comeincv_api_test/projetos/listar HTTP/1.1
+Content-Type: application/json
+
+###
+GET https://comein.cv/comeincv_api_test/projetos/listar/8 HTTP/1.1
+Content-Type: application/json
+
+###
+GET https://comein.cv/comeincv_api_test/projetos/listarPorUtilizador/28 HTTP/1.1
+Content-Type: application/json
+
+###GEOGRAFIA
+
+GET https://comein.cv/comeincv_api_test/geografia/search/Mind,3 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8
+
+###FAVORITOS
+GET https://comein.cv/comeincv_api_test/favoritos/getFavoritos/1 HTTP/1.1

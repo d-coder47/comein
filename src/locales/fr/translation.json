@@ -3,24 +3,6 @@
     "login": "Connexion",
     "signUp": "S'inscrire"
   },
-  "categories": {
-    "music": "Musique",
-    "theater": "Théâtre",
-    "dance": "Danse",
-    "movieTheater": "Cinéma",
-    "standUp": "Spectacles Debout",
-    "visualArts": "Arts Visuels",
-    "sculpture": "Sculpture",
-    "craftsmanship": "Artisanat",
-    "design": "Conception",
-    "photography": "Photographie",
-    "urbanArt": "Art Urbain",
-    "literature": "Littérature",
-    "gastronomy": "Gastronomie",
-    "fashion": "Mode",
-    "traditionalParties": "Fêtes de Pèlerinage",
-    "carnaval": "Carnaval"
-  },
   "registerpage": {
     "etapa1": "Étape 1 de 2",
     "etapa2": "Étape 2 de 2",
@@ -47,6 +29,28 @@
     "residencia": "Résidence",
     "contato": "Contact",
     "concluido": "Conclu",
-    "dataNascObrigatorio": "La date de naissance est obligatoire"
+    "dataNascObrigatorio": "La date de naissance est obligatoire",
+    "genero": "Genre",
+    "euSou": "Un autre",
+    "feminino": "Femelle",
+    "masculino": "Mâle"
+  },
+  "categories": {
+    "music": "Musique",
+    "theater": "Théâtre",
+    "dance": "Danse",
+    "movieTheater": "Cinéma",
+    "standUp": "Spectacles Debout",
+    "visualArts": "Arts Visuels",
+    "sculpture": "Sculpture",
+    "craftsmanship": "Artisanat",
+    "design": "Conception",
+    "photography": "Photographie",
+    "urbanArt": "Art Urbain",
+    "literature": "Littérature",
+    "gastronomy": "Gastronomie",
+    "fashion": "Mode",
+    "traditionalParties": "Fêtes de Pèlerinage",
+    "carnaval": "Carnaval"
   }
 }
