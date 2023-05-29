@@ -27,7 +27,6 @@ const NavBar = () => {
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
-        width: "100%",
       }}
     >
       <Avatar
@@ -84,7 +83,7 @@ const NavBar = () => {
           {t("homepage.login")}
         </Button>
         <Button
-          sx={{ marginRight: "2.5rem", height: "2rem" }}
+          sx={{ height: "2rem" }}
           onClick={handleCadastrarClick}
           variant="outlined"
           color="primary"
