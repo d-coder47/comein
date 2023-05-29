@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { Avatar, Box, Button, MenuItem, Select } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Popover from "@mui/material/Popover";
+
 import siteLogo from "../assets/img/logo_cicv3.png";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +22,30 @@ const NavBar = () => {
     i18n.changeLanguage(e.target.value);
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const authenticated = localStorage.getItem("authenticated");
+
+  useEffect(() => {
+    if (authenticated) {
+      const data = JSON.parse(localStorage.getItem("userInfo"));
+      setUserData(data);
+    }
+  }, [authenticated]);
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
   return (
     <Box
       padding="0.5rem"
@@ -49,7 +76,7 @@ const NavBar = () => {
         }}
       >
         <Box>
-          <NotificationsIcon color="primary" />
+          <NotificationsIcon color="primary" sx={{ fontSize: 34 }} />
         </Box>
         <Select
           labelId="internationalization-label"
@@ -72,25 +99,64 @@ const NavBar = () => {
           <MenuItem value={"pt"}>PT</MenuItem>
           <MenuItem value={"fr"}>FR</MenuItem>
         </Select>
-        <Button
-          sx={{
-            marginRight: "0.5rem",
-            height: "2rem",
-            color: (theme) => theme.palette.primary.contrastText,
-          }}
-          variant="contained"
-          color="primary"
-        >
-          {t("homepage.login")}
-        </Button>
-        <Button
-          sx={{ marginRight: "2.5rem", height: "2rem" }}
-          onClick={handleCadastrarClick}
-          variant="outlined"
-          color="primary"
-        >
-          {t("homepage.signUp")}
-        </Button>
+
+        {authenticated && (
+          <div>
+            <AccountCircleIcon
+              color="primary"
+              sx={{ fontSize: 34 }}
+              onClick={handleClick}
+              aria-describedby={id}
+            />
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+                width: 300,
+                maxWidth: "100%",
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  marginTop: "1rem",
+                  marginBottom: "1rem",
+                  fontSize: 14,
+                }}
+              >
+                {userData.name}
+              </Typography>
+            </Popover>
+          </div>
+        )}
+
+        {!localStorage.getItem("authenticated") && (
+          <>
+            <Button
+              sx={{
+                marginRight: "0.5rem",
+                height: "2rem",
+                color: (theme) => theme.palette.primary.contrastText,
+              }}
+              variant="contained"
+              color="primary"
+            >
+              {t("homepage.login")}
+            </Button>
+            <Button
+              sx={{ marginRight: "2.5rem", height: "2rem" }}
+              onClick={handleCadastrarClick}
+              variant="outlined"
+              color="primary"
+            >
+              {t("homepage.signUp")}
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   );

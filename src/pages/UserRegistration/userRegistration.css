@@ -20,6 +20,7 @@
   margin-right: 10%;
 }
 .formContainer {
+  max-width: 80%;
   min-width: 80%;
   /* min-height: 85vh; */
   min-height: 600px;
