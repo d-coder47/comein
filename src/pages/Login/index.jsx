@@ -138,7 +138,7 @@ export default function Login() {
               fontWeight: "bold",
             }}
           >
-            Fazer login
+            {t("loginPage.fazerLogin")}
           </Typography>
 
           <Grid container justifyContent="center">
@@ -150,9 +150,9 @@ export default function Login() {
                 fontSize: 13,
               }}
             >
-              Novo usuário?{" "}
+              {t("loginPage.novoUsuario")}{" "}
               <Link href="/user-registration" underline="none">
-                Crie uma conta
+                {t("loginPage.crieConta")}
               </Link>
             </Typography>
           </Grid>
@@ -225,7 +225,7 @@ export default function Login() {
                   borderRadius: "16px",
                 }}
               >
-                login
+                {t("loginPage.login")}
               </Button>
             </Grid>
           </Box>

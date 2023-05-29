@@ -3,7 +3,6 @@
     "login": "Entrar",
     "signUp": "Cadastrar"
   },
-
   "registerpage": {
     "etapa1": "Etapa 1 de 2",
     "etapa2": "Etapa 2 de 2",
@@ -40,6 +39,12 @@
     "termosPoliticaParte2": "Termos de uso ",
     "termosPoliticaParte3": "e a",
     "termosPoliticaParte4": "  Política de privacidade"
+  },
+  "loginPage": {
+    "fazerLogin": "Fazer login",
+    "novoUsuario": "Novo usuário?",
+    "crieConta": "Crie uma conta",
+    "login": "login"
   },
   "categories": {
     "music": "Música",

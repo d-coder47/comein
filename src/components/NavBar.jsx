@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
-import { Avatar, Box, Button, MenuItem, Select } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  Tooltip,
+  IconButton,
+  Menu,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -13,6 +22,8 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
+
+  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -27,6 +38,7 @@ const NavBar = () => {
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
@@ -38,6 +50,14 @@ const NavBar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const authenticated = localStorage.getItem("authenticated");
@@ -106,7 +126,7 @@ const NavBar = () => {
 
         {authenticated && (
           <div>
-            <AccountCircleIcon
+            {/* <AccountCircleIcon
               color="primary"
               sx={{ fontSize: 34 }}
               onClick={handleClick}
@@ -134,7 +154,41 @@ const NavBar = () => {
               >
                 {userData.name}
               </Typography>
-            </Popover>
+            </Popover> */}
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton
+                  color="primary"
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0 }}
+                >
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
           </div>
         )}
 
