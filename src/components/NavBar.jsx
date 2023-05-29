@@ -18,6 +18,10 @@ const NavBar = () => {
     navigate("/user-registration");
   };
 
+  const handleLoginClick = () => {
+    navigate("/user-login");
+  };
+
   const handleTranslationChange = (e) => {
     i18n.changeLanguage(e.target.value);
   };
@@ -144,6 +148,7 @@ const NavBar = () => {
               }}
               variant="contained"
               color="primary"
+              onClick={handleLoginClick}
             >
               {t("homepage.login")}
             </Button>
