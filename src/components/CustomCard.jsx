@@ -30,6 +30,7 @@ const CustomCard = () => {
           display: "flex",
           flexDirection: "column",
           marginBottom: "1rem",
+          position: "relative",
         }}
       >
         <Avatar
@@ -46,7 +47,7 @@ const CustomCard = () => {
             },
           }}
         />
-        <Typography
+        {/* <Typography
           sx={{
             color: showTitle ? "#fff" : "transparent",
             marginLeft: "1rem",
@@ -61,7 +62,8 @@ const CustomCard = () => {
           }}
         >
           Título do Evento
-        </Typography>
+        </Typography> */}
+        <Box sx={{ position: "absolute", right: "1rem" }}>BADGE</Box>
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
         <Avatar alt="avatar" src={avatar} sx={{ width: 18, height: 18 }} />

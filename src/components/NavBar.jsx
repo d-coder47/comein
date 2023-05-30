@@ -78,7 +78,6 @@ const NavBar = () => {
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
-        width: "100%",
       }}
     >
       <Avatar
@@ -126,36 +125,6 @@ const NavBar = () => {
 
         {authenticated && (
           <div>
-            {/* <AccountCircleIcon
-              color="primary"
-              sx={{ fontSize: 34 }}
-              onClick={handleClick}
-              aria-describedby={id}
-            />
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-                width: 300,
-                maxWidth: "100%",
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  marginTop: "1rem",
-                  marginBottom: "1rem",
-                  fontSize: 14,
-                }}
-              >
-                {userData.name}
-              </Typography>
-            </Popover> */}
-
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton
