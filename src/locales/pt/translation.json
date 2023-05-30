@@ -3,7 +3,6 @@
     "login": "Entrar",
     "signUp": "Cadastrar"
   },
-
   "registerpage": {
     "etapa1": "Etapa 1 de 2",
     "etapa2": "Etapa 2 de 2",
@@ -35,7 +34,17 @@
     "genero": "Género",
     "euSou": "Outro",
     "feminino": "Feminino",
-    "masculino": "Masculino"
+    "masculino": "Masculino",
+    "termosPoliticaParte1": "Ao clicar em Concluido, eu concordo que li e aceito os ",
+    "termosPoliticaParte2": "Termos de uso ",
+    "termosPoliticaParte3": "e a",
+    "termosPoliticaParte4": "  Política de privacidade"
+  },
+  "loginPage": {
+    "fazerLogin": "Fazer login",
+    "novoUsuario": "Novo usuário?",
+    "crieConta": "Crie uma conta",
+    "login": "login"
   },
   "categories": {
     "music": "Música",

@@ -29,6 +29,8 @@ import validator from "validator";
 
 import countries from "../../data/countries";
 
+import useRegisterUser from "../../hooks/useRegisterUser";
+
 export default function UserRegistration() {
   const navigate = useNavigate();
 
@@ -47,6 +49,11 @@ export default function UserRegistration() {
   const [showGenderError, setShowGenderError] = React.useState(false);
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
+
+  const { addUser, getAddresses } = useRegisterUser();
+
+  const [addresses, setAddresses] = React.useState([]);
+
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -85,7 +92,7 @@ export default function UserRegistration() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let errors = {};
@@ -185,9 +192,17 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        // Form is valid, submit or process the data here
-
+        const res = await addUser(
+          formData.name,
+          formData.email,
+          formData.gender,
+          formData.date
+        );
+        console.log(res);
         localStorage.setItem("authenticated", true);
+        formData.password = "";
+        localStorage.setItem("userInfo", JSON.stringify(formData));
+
         navigate("/");
       }
     }
@@ -245,7 +260,8 @@ export default function UserRegistration() {
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 var decoded = jwt_decode(credentialResponse.credential);
-                localStorage.setItem("user", decoded);
+                localStorage.setItem("userInfo", JSON.stringify(decoded));
+                localStorage.setItem("authenticated", true);
                 navigate("/");
               }}
               onError={() => {
@@ -399,10 +415,10 @@ export default function UserRegistration() {
                       <MenuItem value="">
                         <em>{t("registerpage.euSou")}</em>
                       </MenuItem>
-                      <MenuItem value="f">
+                      <MenuItem value="F">
                         {t("registerpage.feminino")}
                       </MenuItem>
-                      <MenuItem value="m">
+                      <MenuItem value="M">
                         {t("registerpage.masculino")}
                       </MenuItem>
                     </TextField>
@@ -480,19 +496,46 @@ export default function UserRegistration() {
                   </Grid>
 
                   <Grid item xs={6} textAlign="center">
-                    <TextField
-                      id="residenceField"
-                      name="residence"
-                      value={formData.residence}
-                      error={showResidenceError}
-                      helperText={formErrors.residence}
-                      label={t("registerpage.residencia")}
-                      variant="standard"
-                      InputLabelProps={{
-                        shrink: true,
+                    <Autocomplete
+                      id="address-select"
+                      options={addresses}
+                      autoHighlight
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={t("registerpage.residencia")}
+                          variant="standard"
+                          name="residence"
+                          value={formData.residence}
+                          error={showResidenceError}
+                          helperText={formErrors.residence}
+                          fullWidth
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                      onInputChange={async (event, value) => {
+                        formData.nationality = value;
+                        if (value.length >= 2) {
+                          const res = await getAddresses(value);
+                          const newAddresses = [];
+                          for (let key in res.dados) {
+                            if (res.dados.hasOwnProperty(key)) {
+                              const value = res.dados[key];
+                              newAddresses.push(value.nome);
+                            }
+                          }
+                          setAddresses(newAddresses);
+                        }
                       }}
-                      onChange={handleInputChange}
-                      fullWidth
+                      onChange={(event, value) => {
+                        formData.residence = value;
+                      }}
                     />
                   </Grid>
 
@@ -528,13 +571,13 @@ export default function UserRegistration() {
                     width: "50ch",
                   }}
                 >
-                  Ao clicar em Concluido, eu concordo que li e aceitos os{" "}
+                  {t("registerpage.termosPoliticaParte1")}{" "}
                   <Link href="#" underline="none">
-                    Termos de uso
+                    {t("registerpage.termosPoliticaParte2")}
                   </Link>
-                  e a{" "}
+                  {t("registerpage.termosPoliticaParte3")}{" "}
                   <Link href="#" underline="none">
-                    Política de privacidade
+                    {t("registerpage.termosPoliticaParte4")}
                   </Link>
                 </Typography>
               </Grid>

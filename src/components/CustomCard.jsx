@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-import { Avatar, Box, Typography, Icon } from "@mui/material";
+import { Avatar, Box, Typography, Icon, Badge } from "@mui/material";
 import {
   ThumbUpOffAlt,
   ThumbUp,
   Star,
   StarOutline,
   Reply,
+  Bookmark,
 } from "@mui/icons-material";
 
 import event2 from "../assets/img/event2.jpg";
@@ -47,7 +48,7 @@ const CustomCard = () => {
             },
           }}
         />
-        {/* <Typography
+        <Typography
           sx={{
             color: showTitle ? "#fff" : "transparent",
             marginLeft: "1rem",
@@ -62,8 +63,10 @@ const CustomCard = () => {
           }}
         >
           Título do Evento
-        </Typography> */}
-        <Box sx={{ position: "absolute", right: "1rem" }}>BADGE</Box>
+        </Typography>
+        <Box sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}>
+          <Bookmark sx={{ fontSize: 40 }} />
+        </Box>
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
         <Avatar alt="avatar" src={avatar} sx={{ width: 18, height: 18 }} />

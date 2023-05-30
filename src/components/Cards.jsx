@@ -75,7 +75,7 @@ const Cards = () => {
         gap={2}
       >
         {cards.map((card, index) => (
-          <Grid key={index} xs={2.3}>
+          <Grid item key={index} xs={2.3}>
             <CustomCard key={index} />
           </Grid>
         ))}

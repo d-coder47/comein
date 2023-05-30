@@ -33,7 +33,11 @@
     "genero": "Gender",
     "euSou": "Other",
     "feminino": "Female",
-    "masculino": "Male"
+    "masculino": "Male",
+    "termosPoliticaParte1": "By clicking Done, I agree that I have read and accept the ",
+    "termosPoliticaParte2": "Terms of Use ",
+    "termosPoliticaParte3": "and",
+    "termosPoliticaParte4": "  Privacy Policy"
   },
   "categories": {
     "music": "Music",
