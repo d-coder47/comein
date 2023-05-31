@@ -39,6 +39,12 @@
     "termosPoliticaParte3": "and",
     "termosPoliticaParte4": "  Privacy Policy"
   },
+  "navBar": {
+    "perfil": "Profile",
+    "adicionarConta": "Add another account",
+    "definicoes": "Definitions",
+    "terminarSessao": "Sign out"
+  },
   "categories": {
     "music": "Music",
     "theater": "Theater",

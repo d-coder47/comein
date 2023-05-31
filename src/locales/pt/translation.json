@@ -46,6 +46,12 @@
     "crieConta": "Crie uma conta",
     "login": "login"
   },
+  "navBar": {
+    "perfil": "Perfil",
+    "adicionarConta": "Adicionar outra conta",
+    "definicoes": "Definições",
+    "terminarSessao": "Terminar sessão"
+  },
   "categories": {
     "music": "Música",
     "theater": "Teatro",

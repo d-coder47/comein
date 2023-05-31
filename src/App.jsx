@@ -3,14 +3,13 @@ import { Box } from "@mui/material";
 import "./App.css";
 import AppRoutes from "./routes";
 import { theme } from "./utils/muiTheme";
-import { Box } from "@mui/material";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          width: "99vw",
+          width: "100vw",
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",
