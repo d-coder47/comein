@@ -1,6 +1,7 @@
 import React from "react";
 import "./profile.css";
 import NavBar from "../../components/NavBar";
+import ProfileCards from "../../components/ProfileCards";
 import {
   Typography,
   Avatar,
@@ -9,6 +10,8 @@ import {
   Box,
   IconButton,
   Button,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import {
   Edit,
@@ -28,25 +31,12 @@ const UserProfile = () => {
     coverPhoto: "/static/images/cover-photo.jpg", // Replace with your cover photo image URL
   };
 
-  const [displayEventos, setDisplayEventos] = React.useState(true);
-  const [displayProjetos, setDisplayProjetos] = React.useState(false);
-  const [displayFavoritos, setDisplayFavoritos] = React.useState(false);
+  const [selectedTab, setSelectedTab] = React.useState(0);
 
-  const handleTabClick = (tab) => () => {
-    if (tab === "eventos") {
-      setDisplayEventos(true);
-      setDisplayFavoritos(false);
-      setDisplayProjetos(false);
-    } else if (tab === "projetos") {
-      setDisplayEventos(false);
-      setDisplayFavoritos(false);
-      setDisplayProjetos(true);
-    } else {
-      setDisplayEventos(false);
-      setDisplayFavoritos(true);
-      setDisplayProjetos(false);
-    }
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
   };
+
   return (
     <>
       <NavBar />
@@ -65,6 +55,7 @@ const UserProfile = () => {
               item
               xs={12}
               md={4}
+              className="profile_second_grid"
               sx={{ position: "absolute", top: "15%", left: "2%" }}
             >
               <Paper
@@ -223,58 +214,27 @@ const UserProfile = () => {
                 </IconButton>
               </Paper>
             </Grid>
-            <Grid item xs={5} md={8}>
+            <Grid item xs={5} md={8} className="cards_grid_container">
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleTabClick("eventos")}
-                  sx={{
-                    m: 3,
-                    color: "#ffffff",
-                    width: "40ch",
-                    borderRadius: "20px",
-                  }}
-                >
-                  Eventos
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleTabClick("projetos")}
-                  sx={{
-                    m: 3,
-                    color: "#ffffff",
-                    width: "40ch",
-                    borderRadius: "20px",
-                  }}
-                >
-                  Projetos
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleTabClick("favoritos")}
-                  sx={{
-                    m: 3,
-                    color: "#ffffff",
-                    width: "40ch",
-                    borderRadius: "20px",
-                  }}
-                >
-                  Favoritos
-                </Button>
+                <Tabs value={selectedTab} onChange={handleTabChange}>
+                  <Tab label="Eventos" />
+                  <Tab label="Projetos" />
+                  <Tab label="Favoritos" />
+                </Tabs>
               </Box>
-              {displayEventos && <div>eventos</div>}
-
-              {displayProjetos && <div>Projecto</div>}
-              {displayFavoritos && <div>Favoritos</div>}
+              {selectedTab === 0 && <ProfileCards />}
+              {selectedTab === 1 && (
+                <Typography variant="h6">Projetos</Typography>
+              )}
+              {selectedTab === 2 && (
+                <Typography variant="h6">Favoritos</Typography>
+              )}
             </Grid>
           </Grid>
         </Box>

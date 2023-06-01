@@ -86,6 +86,7 @@ const NavBar = () => {
         variant="square"
         src={siteLogo}
         alt="Come In"
+        onClick={() => navigate("/")}
         sx={{ width: "8rem", height: "auto", objectFit: "cover" }}
       />
       <Box
