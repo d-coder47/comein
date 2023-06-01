@@ -13,13 +13,9 @@ import {
   Tabs,
   Tab,
 } from "@mui/material";
-import {
-  Edit,
-  Settings,
-  Email,
-  LocationOn,
-  Description,
-} from "@mui/icons-material";
+import { Edit, Settings, LocationOn } from "@mui/icons-material";
+
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const user = {
@@ -27,9 +23,11 @@ const UserProfile = () => {
     email: "johndoe@example.com",
     location: "New York",
     bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum hendrerit justo, et efficitur ligula tincidunt eu.",
-    avatar: "/static/images/avatar.jpg", // Replace with your avatar image URL
-    coverPhoto: "/static/images/cover-photo.jpg", // Replace with your cover photo image URL
+    avatar: "/static/images/avatar.jpg",
+    coverPhoto: "/static/images/cover-photo.jpg",
   };
+
+  const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = React.useState(0);
 
@@ -99,6 +97,7 @@ const UserProfile = () => {
                   <Button
                     variant="contained"
                     color="primary"
+                    onClick={() => navigate("/edit-profile")}
                     sx={{
                       m: 3,
                       color: "#ffffff",
