@@ -27,6 +27,26 @@ const UserProfile = () => {
     avatar: "/static/images/avatar.jpg", // Replace with your avatar image URL
     coverPhoto: "/static/images/cover-photo.jpg", // Replace with your cover photo image URL
   };
+
+  const [displayEventos, setDisplayEventos] = React.useState(true);
+  const [displayProjetos, setDisplayProjetos] = React.useState(false);
+  const [displayFavoritos, setDisplayFavoritos] = React.useState(false);
+
+  const handleTabClick = (tab) => () => {
+    if (tab === "eventos") {
+      setDisplayEventos(true);
+      setDisplayFavoritos(false);
+      setDisplayProjetos(false);
+    } else if (tab === "projetos") {
+      setDisplayEventos(false);
+      setDisplayFavoritos(false);
+      setDisplayProjetos(true);
+    } else {
+      setDisplayEventos(false);
+      setDisplayFavoritos(true);
+      setDisplayProjetos(false);
+    }
+  };
   return (
     <>
       <NavBar />
@@ -35,7 +55,9 @@ const UserProfile = () => {
         <Box
           sx={{
             backgroundColor: "#f8f8f8",
+
             padding: "2rem",
+            height: "100%",
           }}
         >
           <Grid className="profile_main_grid" container spacing={2}>
@@ -202,47 +224,57 @@ const UserProfile = () => {
               </Paper>
             </Grid>
             <Grid item xs={5} md={8}>
-              <Paper elevation={3} sx={{ padding: "2rem" }}>
-                <Box
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleTabClick("eventos")}
                   sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    m: 3,
+                    color: "#ffffff",
+                    width: "40ch",
+                    borderRadius: "20px",
                   }}
                 >
-                  <Typography variant="h4">{user.name}</Typography>
-                  <Box>
-                    <IconButton color="primary">
-                      <Edit />
-                    </IconButton>
-                    <IconButton color="primary">
-                      <Settings />
-                    </IconButton>
-                  </Box>
-                </Box>
-                <Typography
-                  variant="body1"
-                  color="textSecondary"
-                  sx={{ mt: 2 }}
+                  Eventos
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleTabClick("projetos")}
+                  sx={{
+                    m: 3,
+                    color: "#ffffff",
+                    width: "40ch",
+                    borderRadius: "20px",
+                  }}
                 >
-                  <Email fontSize="small" sx={{ marginRight: "0.5rem" }} />
-                  {user.email}
-                </Typography>
-                <Typography variant="body1" color="textSecondary">
-                  <LocationOn fontSize="small" sx={{ marginRight: "0.5rem" }} />
-                  {user.location}
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                  <Typography variant="body2">{user.bio}</Typography>
-                </Box>
-                <Box sx={{ mt: 2, display: "flex", alignItems: "center" }}>
-                  <Description
-                    fontSize="small"
-                    sx={{ marginRight: "0.5rem" }}
-                  />
-                  <Typography variant="body2">Portfolio</Typography>
-                </Box>
-              </Paper>
+                  Projetos
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleTabClick("favoritos")}
+                  sx={{
+                    m: 3,
+                    color: "#ffffff",
+                    width: "40ch",
+                    borderRadius: "20px",
+                  }}
+                >
+                  Favoritos
+                </Button>
+              </Box>
+              {displayEventos && <div>eventos</div>}
+
+              {displayProjetos && <div>Projecto</div>}
+              {displayFavoritos && <div>Favoritos</div>}
             </Grid>
           </Grid>
         </Box>
