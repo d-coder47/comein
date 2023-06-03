@@ -23,7 +23,7 @@
   max-width: 80%;
   min-width: 80%;
   min-height: 600px;
-  max-height: 900px;
+  max-height: 600px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -102,6 +102,6 @@
 
 @media screen and (max-width: 1366px) {
   .formContainer {
-    min-height: 60%;
+    min-height: 500px;
   }
 }
