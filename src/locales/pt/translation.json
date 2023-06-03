@@ -11,7 +11,7 @@
     "ou": "ou",
     "inscreverComEmail": "Inscrever-se com email",
     "email": "Endereço de email",
-    "password": "Password",
+    "password": "Palavra-Passe",
     "continuar": "Continuar",
     "emailObrigatorio": "Email é obrigatório",
     "emailInvalido": "Email invalido",
@@ -38,11 +38,12 @@
     "termosPoliticaParte1": "Ao clicar em Concluido, eu concordo que li e aceito os ",
     "termosPoliticaParte2": "Termos de uso ",
     "termosPoliticaParte3": "e a",
-    "termosPoliticaParte4": "  Política de privacidade"
+    "termosPoliticaParte4": "  Política de privacidade",
+    "erroCadastro": "Erro ao cadastrar o utilizador"
   },
   "loginPage": {
     "fazerLogin": "Fazer login",
-    "novoUsuario": "Novo usuário?",
+    "novoUsuario": "Novo utilizador?",
     "crieConta": "Crie uma conta",
     "login": "login"
   },

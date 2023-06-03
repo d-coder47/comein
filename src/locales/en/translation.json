@@ -37,7 +37,8 @@
     "termosPoliticaParte1": "By clicking Done, I agree that I have read and accept the ",
     "termosPoliticaParte2": "Terms of Use ",
     "termosPoliticaParte3": "and",
-    "termosPoliticaParte4": "  Privacy Policy"
+    "termosPoliticaParte4": "  Privacy Policy",
+    "erroCadastro": "Error when registering the user"
   },
   "navBar": {
     "perfil": "Profile",

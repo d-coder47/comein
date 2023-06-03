@@ -24,6 +24,8 @@ import { useTranslation } from "react-i18next";
 
 import validator from "validator";
 
+import useRegisterUser from "../../hooks/useRegisterUser";
+
 export default function Login() {
   const navigate = useNavigate();
 
@@ -35,6 +37,8 @@ export default function Login() {
   const [showPasswordError, setShowPasswordError] = React.useState(false);
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
+
+  const { login } = useRegisterUser();
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -98,7 +102,9 @@ export default function Login() {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      navigate("/");
+      const loginRes = await login(formData.email, formData.password);
+      console.log(loginRes);
+      // navigate("/");
       //   localStorage.setItem("userInfo", JSON.stringify(decoded));
       localStorage.setItem("authenticated", true);
     }
@@ -114,6 +120,9 @@ export default function Login() {
     i18n.changeLanguage(i18n.language);
   }, [i18n]);
 
+  React.useEffect(() => {
+    localStorage.clear();
+  }, []);
   return (
     <div className="container">
       <div className="logoSection">
@@ -122,6 +131,7 @@ export default function Login() {
           className="logo"
           src={logo}
           alt="logo"
+          onClick={() => navigate("/")}
           sx={{
             width: "232px",
             height: "auto",

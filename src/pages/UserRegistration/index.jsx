@@ -11,12 +11,16 @@ import {
   Grid,
   Avatar,
   MenuItem,
-  Link,
   Autocomplete,
+  Alert,
+  Collapse,
+  AlertTitle,
+  Modal,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CloseIcon from "@mui/icons-material/Close";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { MuiTelInput } from "mui-tel-input";
@@ -26,8 +30,6 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import validator from "validator";
-
-import countries from "../../data/countries";
 
 import useRegisterUser from "../../hooks/useRegisterUser";
 
@@ -48,11 +50,27 @@ export default function UserRegistration() {
   const [showDateError, setShowDateError] = React.useState(false);
   const [showGenderError, setShowGenderError] = React.useState(false);
 
-  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
+  const [showRegisterForm, setShowRegisterForm] = React.useState(true);
 
-  const { addUser, getAddresses } = useRegisterUser();
+  const { addUser, getAddresses, updateUser, getUser, getTermsPolicy } =
+    useRegisterUser();
 
   const [addresses, setAddresses] = React.useState([]);
+  const [countries, setCountries] = React.useState([]);
+  const [geoIds, setGeoIds] = React.useState([]);
+
+  const [openLoginError, setOpenLoginError] = React.useState(false);
+
+  const [openTermsModal, setOpenTermsModal] = React.useState(false);
+  const handleModalTermsOpen = () => setOpenTermsModal(true);
+  const handleModalTermsClose = () => setOpenTermsModal(false);
+
+  const [openPrivacityModal, setOpenPrivacityModal] = React.useState(false);
+  const handleModalPrivacityOpen = () => setOpenPrivacityModal(true);
+  const handleModalPrivacityClose = () => setOpenPrivacityModal(false);
+
+  const [terms, setTerms] = React.useState();
+  const [policy, setPolicy] = React.useState();
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -138,7 +156,15 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        setShowRegisterForm(true);
+        const res = await addUser(formData.email, formData.password);
+
+        if (!res) {
+          setOpenLoginError(true);
+        } else {
+          localStorage.setItem("userID", res.data.id);
+          localStorage.setItem("token", res.token);
+          setShowRegisterForm(true);
+        }
       }
     } else {
       if (formData.name.trim() === "") {
@@ -192,18 +218,43 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        const res = await addUser(
-          formData.name,
-          formData.email,
-          formData.gender,
-          formData.date
-        );
-        console.log(res);
-        localStorage.setItem("authenticated", true);
-        formData.password = "";
-        localStorage.setItem("userInfo", JSON.stringify(formData));
+        let id_geografia;
+        geoIds.forEach((item) => {
+          if (item.nome === formData.residence) {
+            id_geografia = item.id;
+          }
+        });
+        let sexo = formData.gender;
+        let data_nasc = formData.date;
+        let contatos = formData.contact;
+        let residencia = formData.residence;
+        let nacionalidade = formData.nationality;
+        let userId = localStorage.getItem("userID");
+        let token = localStorage.getItem("token");
+        let nome = `${formData.name} ${formData.surname}`;
+        let _method = "PUT";
 
-        navigate("/");
+        const res = await updateUser(
+          sexo,
+          data_nasc,
+          id_geografia,
+          contatos,
+          residencia,
+          nacionalidade,
+          userId,
+          token,
+          nome,
+          _method
+        );
+        if (!res) {
+          setOpenLoginError(true);
+        } else {
+          const user = await getUser(userId);
+          localStorage.setItem("authenticated", true);
+          localStorage.setItem("idGeografia", id_geografia);
+          localStorage.setItem("userInfo", JSON.stringify(user.dados));
+          navigate("/");
+        }
       }
     }
   };
@@ -218,13 +269,32 @@ export default function UserRegistration() {
     i18n.changeLanguage(i18n.language);
   }, [i18n]);
 
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getTermsPolicy();
+        setTerms(res.termos);
+        setPolicy(res.politicas);
+        if (!showRegisterForm) {
+          localStorage.clear();
+        }
+      } catch (error) {
+        console.error(error);
+        // Handle error if necessary
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="container">
+    <div className="registerContainer">
       <div className="logoSection">
         <Avatar
           variant="square"
           className="logo"
           src={logo}
+          onClick={() => navigate("/")}
           alt="logo"
           sx={{
             width: "232px",
@@ -232,8 +302,8 @@ export default function UserRegistration() {
           }}
         />
       </div>
-      <div className="panel">
-        <div className="formContainer">
+      <div className="registerPanel">
+        <div className="registerFormContainer">
           <Typography
             variant="h6"
             sx={{
@@ -445,26 +515,9 @@ export default function UserRegistration() {
 
                   <Grid item xs={6} textAlign="center">
                     <Autocomplete
-                      id="country-select-demo"
+                      id="country-select"
                       options={countries}
                       autoHighlight
-                      getOptionLabel={(option) => option.label}
-                      renderOption={(props, option) => (
-                        <Box
-                          component="li"
-                          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                          {...props}
-                        >
-                          <img
-                            loading="lazy"
-                            width="20"
-                            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                            alt=""
-                          />
-                          {option.label} ({option.code}) +{option.phone}
-                        </Box>
-                      )}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -484,13 +537,23 @@ export default function UserRegistration() {
                           }}
                         />
                       )}
-                      onInputChange={(event, value) => {
-                        // Update formData.nationality as the user types
-                        formData.nationality = value ? value.label : "";
+                      onInputChange={async (event, value) => {
+                        formData.nationality = value;
+                        if (value.length >= 2 && value.length <= 4) {
+                          const res = await getAddresses(value);
+                          const newCountries = [];
+                          for (let key in res.dados) {
+                            if (res.dados.hasOwnProperty(key)) {
+                              const value = res.dados[key];
+
+                              newCountries.push(value.nacionalidade);
+                            }
+                          }
+                          setCountries(newCountries);
+                        }
                       }}
                       onChange={(event, value) => {
-                        // Update formData.nationality when an option is selected
-                        formData.nationality = value ? value.label : "";
+                        formData.nationality = value;
                       }}
                     />
                   </Grid>
@@ -520,17 +583,23 @@ export default function UserRegistration() {
                         />
                       )}
                       onInputChange={async (event, value) => {
-                        formData.nationality = value;
-                        if (value.length >= 2) {
+                        formData.residence = value;
+                        if (value.length >= 2 && value.length <= 4) {
                           const res = await getAddresses(value);
                           const newAddresses = [];
+                          const newGeoIds = [];
                           for (let key in res.dados) {
                             if (res.dados.hasOwnProperty(key)) {
                               const value = res.dados[key];
                               newAddresses.push(value.nome);
+                              newGeoIds.push({
+                                id: value.id,
+                                nome: value.nome,
+                              });
                             }
                           }
                           setAddresses(newAddresses);
+                          setGeoIds(newGeoIds);
                         }
                       }}
                       onChange={(event, value) => {
@@ -572,13 +641,23 @@ export default function UserRegistration() {
                   }}
                 >
                   {t("registerpage.termosPoliticaParte1")}{" "}
-                  <Link href="#" underline="none">
+                  <Button
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    onClick={handleModalTermsOpen}
+                  >
                     {t("registerpage.termosPoliticaParte2")}
-                  </Link>
+                  </Button>
                   {t("registerpage.termosPoliticaParte3")}{" "}
-                  <Link href="#" underline="none">
+                  <Button
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    onClick={handleModalPrivacityOpen}
+                  >
                     {t("registerpage.termosPoliticaParte4")}
-                  </Link>
+                  </Button>
                 </Typography>
               </Grid>
             )}
@@ -600,6 +679,80 @@ export default function UserRegistration() {
                   : t("registerpage.continuar")}
               </Button>
             </Grid>
+            <Grid>
+              <Collapse in={openLoginError}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpenLoginError(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>{t("regsiterpage.erroCadastro")}</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
+            </Grid>
+            <Modal
+              open={openTermsModal}
+              onClose={handleModalTermsClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  bgcolor: "background.paper",
+                  border: "2px solid #000",
+                  boxShadow: 24,
+                  p: 4,
+
+                  maxHeight: "80vh",
+                  overflow: "auto",
+                }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: terms }} />
+              </Box>
+            </Modal>
+
+            <Modal
+              open={openPrivacityModal}
+              onClose={handleModalPrivacityClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  bgcolor: "background.paper",
+                  border: "2px solid #000",
+                  boxShadow: 24,
+                  p: 4,
+                  maxHeight: "80vh",
+                  overflow: "auto",
+                }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: policy }} />
+              </Box>
+            </Modal>
           </Box>
         </div>
       </div>
