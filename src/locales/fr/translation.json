@@ -37,7 +37,14 @@
     "termosPoliticaParte1": "En cliquant sur Terminé, j’accepte d’avoir lu et d’accepter le ",
     "termosPoliticaParte2": "Conditions d’utilisation ",
     "termosPoliticaParte3": "et",
-    "termosPoliticaParte4": "  Politique de confidentialité"
+    "termosPoliticaParte4": "  Politique de confidentialité",
+    "erroCadastro": "Erreur lors de l'enregistrement de l'utilisateur"
+  },
+  "navBar": {
+    "perfil": "Profil",
+    "adicionarConta": "Ajouter un autre compte",
+    "definicoes": "Définitions",
+    "terminarSessao": "Se déconnecter"
   },
   "categories": {
     "music": "Musique",

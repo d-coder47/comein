@@ -1,7 +1,7 @@
-.container {
+.registerContainer {
   width: 100%;
   height: 100%;
-  background: #ffffe0;
+  background: #ffffe0 !important;
   color: #000;
   display: flex;
   justify-content: space-between;
@@ -9,22 +9,20 @@
   align-items: center;
 }
 
-.panel {
+.registerPanel {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: flex-start;
   max-width: 35%;
-  min-width: 35%;
   min-height: 100%;
   margin-right: 10%;
 }
-.formContainer {
+.registerFormContainer {
   max-width: 80%;
   min-width: 80%;
-  /* min-height: 85vh; */
   min-height: 600px;
-  max-height: 900px;
+  max-height: 400px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -33,7 +31,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   padding: 10px;
 }
-
 .logoSection {
   display: flex;
   margin-left: 20%;
@@ -48,12 +45,12 @@
     width: 210px;
     height: auto;
   }
-  .container {
+  .registerContainer {
     flex-direction: column;
     justify-content: center;
     height: 100%;
   }
-  .panel {
+  .registerPanel {
     min-height: 70vh;
     min-width: 280px;
   }
@@ -61,7 +58,7 @@
   .css-5joihi .MuiTextField-root {
     width: 200px !important;
   }
-  .formContainer {
+  .registerFormContainer {
     width: 100%;
     min-height: 60%;
   }
@@ -77,7 +74,7 @@
     width: 110px !important;
     height: auto;
   }
-  .container {
+  .registerContainer {
     flex-direction: column;
     justify-content: center;
     height: 100%;
@@ -90,7 +87,7 @@
   .css-5joihi .MuiTextField-root {
     width: 200px !important;
   }
-  .formContainer {
+  .registerFormContainer {
     width: 100%;
     min-height: 60%;
   }
@@ -102,7 +99,11 @@
 }
 
 @media screen and (max-width: 1366px) {
-  .formContainer {
-    min-height: 60%;
-  }
+  /* .registerPanel {
+      max-width: 35%;
+      min-height: 100%;
+    }
+    .registerFormContainer {
+      max-height: 400px;
+    } */
 }

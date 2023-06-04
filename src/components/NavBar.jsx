@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./navBar.css";
 import Typography from "@mui/material/Typography";
 import {
   Avatar,
@@ -6,12 +7,17 @@ import {
   Button,
   MenuItem,
   Select,
-  Tooltip,
   IconButton,
+  Tooltip,
   Menu,
+  Divider,
+  ListItemIcon,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
 import siteLogo from "../assets/img/logo_cicv3.png";
 import { useTranslation } from "react-i18next";
@@ -21,7 +27,14 @@ const NavBar = () => {
 
   const { t, i18n } = useTranslation();
 
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
+
+  const authenticated = localStorage.getItem("authenticated");
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -35,30 +48,23 @@ const NavBar = () => {
     i18n.changeLanguage(e.target.value);
   };
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
-  const [userData, setUserData] = useState(
-    JSON.parse(localStorage.getItem("userInfo"))
-  );
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleRegistration = () => {
+    handleClose();
+    navigate("/user-registration");
   };
 
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const handleProfileClick = () => {
+    handleClose();
+    navigate("/user-profile");
   };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const authenticated = localStorage.getItem("authenticated");
 
   useEffect(() => {
     if (authenticated) {
@@ -66,8 +72,6 @@ const NavBar = () => {
       setUserData(data);
     }
   }, [authenticated]);
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
   return (
     <Box
       padding="0.5rem"
@@ -82,6 +86,7 @@ const NavBar = () => {
         variant="square"
         src={siteLogo}
         alt="Come In"
+        onClick={() => navigate("/")}
         sx={{ width: "8rem", height: "auto", objectFit: "cover" }}
       />
       <Box
@@ -123,39 +128,117 @@ const NavBar = () => {
 
         {authenticated && (
           <div>
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <Tooltip title="Account settings">
                 <IconButton
-                  color="primary"
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
+                  onClick={handleClick}
+                  size="small"
+                  sx={{ ml: 2 }}
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
                 >
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    sx={{ width: 32, height: 32 }}
+                    src={userData.picture}
+                  />
                 </IconButton>
               </Tooltip>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
             </Box>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                  mt: 1.5,
+                  "& .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem className="userInfo" onClick={handleProfileClick}>
+                <Avatar
+                  src={userData.picture}
+                  sx={{
+                    width: "80px !important",
+                    height: "80px !important",
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    marginTop: "0.5rem",
+                    marginBottom: "0.5rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {userData.name}
+                </Typography>
+
+                <Typography
+                  variant="h6"
+                  fontSize={12}
+                  sx={{
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {userData.email}
+                </Typography>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleProfileClick}>
+                <Avatar src={userData.picture} /> {t("navBar.perfil")}
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleRegistration}>
+                <ListItemIcon>
+                  <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                {t("navBar.adicionarConta")}
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                {t("navBar.definicoes")}
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                {t("navBar.terminarSessao")}
+              </MenuItem>
+            </Menu>
           </div>
         )}
 
