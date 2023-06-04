@@ -10,11 +10,11 @@ import {
   Box,
   IconButton,
   Button,
+  Input,
   Tabs,
   Tab,
 } from "@mui/material";
-import { Edit, Settings, LocationOn } from "@mui/icons-material";
-
+import { Edit, Settings, LocationOn, PhotoCamera } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
@@ -33,6 +33,15 @@ const UserProfile = () => {
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
+  };
+
+  const [profilePhoto, setProfilePhoto] = React.useState(null);
+
+  const handlePhotoUpload = (event) => {
+    const file = event.target.files[0];
+    // Perform any necessary file validation or resizing
+    // and set the profile photo state accordingly
+    setProfilePhoto(URL.createObjectURL(file));
   };
 
   return (
@@ -66,11 +75,28 @@ const UserProfile = () => {
                   alignItems: "center",
                 }}
               >
-                <Avatar
-                  alt="User Avatar"
-                  src={user.avatar}
-                  sx={{ width: 150, height: 150 }}
-                />
+                <div>
+                  <label htmlFor="upload-photo">
+                    <Input
+                      style={{ display: "none" }}
+                      id="upload-photo"
+                      name="upload-photo"
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoUpload}
+                    />
+
+                    <IconButton color="primary" component="span">
+                      <Avatar
+                        alt="User Profile Photo"
+                        sx={{ width: 150, height: 150 }}
+                        src={profilePhoto}
+                      >
+                        <PhotoCamera />
+                      </Avatar>
+                    </IconButton>
+                  </label>
+                </div>
                 <Typography variant="h5" sx={{ marginTop: "1rem" }}>
                   {user.name}
                 </Typography>

@@ -20,13 +20,38 @@
   justify-content: flex-end;
 }
 
-@media screen and (max-width: 1366px) {
+@media screen and (max-width: 480px) {
   .profile_second_grid {
     top: 25% !important;
     left: 0% !important;
-    /* width: 100%; */
     padding-left: 0px !important;
     flex-direction: column !important;
+  }
+
+  .profile_main_grid {
+    justify-content: center !important;
+    flex-direction: column;
+    margin-left: 0 !important;
+  }
+  .user_photo_container {
+    background: none !important;
+    box-shadow: none !important;
+  }
+
+  .cards_grid_container {
+    max-width: 100% !important;
+    margin-top: 500px !important;
+    padding-left: 0px !important;
+  }
+}
+
+@media screen and (max-width: 912px) {
+  .profile_second_grid {
+    top: 25% !important;
+    left: 0% !important;
+    padding-left: 0px !important;
+    flex-direction: column !important;
+    width: inherit;
   }
 
   .profile_main_grid {
