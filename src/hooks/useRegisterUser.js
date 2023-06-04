@@ -100,17 +100,36 @@ const useRegisterUser = () => {
     img_perfil
   ) => {
     try {
-      const params = new URLSearchParams({
-        _method,
-        sexo,
-        data_nasc,
-        id_geografia,
-        contatos,
-        residencia,
-        nacionalidade,
-        nome,
-        img_perfil,
-      }).toString();
+      // const params = new URLSearchParams({
+      //   _method,
+      //   sexo,
+      //   data_nasc,
+      //   id_geografia,
+      //   contatos,
+      //   residencia,
+      //   nacionalidade,
+      //   nome,
+      //   img_perfil,
+      // }).toString();
+      let params;
+      if (sexo === null) {
+        params = new URLSearchParams({
+          _method,
+          nome,
+          img_perfil,
+        }).toString();
+      } else {
+        params = new URLSearchParams({
+          _method,
+          sexo,
+          data_nasc,
+          id_geografia,
+          contatos,
+          residencia,
+          nacionalidade,
+          nome,
+        }).toString();
+      }
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,
         params,

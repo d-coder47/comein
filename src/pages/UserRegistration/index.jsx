@@ -114,12 +114,9 @@ export default function UserRegistration() {
   };
 
   const registeUserGoogleAccount = async (userDecoded) => {
-    console.log(userDecoded);
-
     let email = userDecoded.email;
 
     const addRes = await addUser(email);
-    console.log(addRes);
 
     if (!addRes) {
       setOpenLoginError(true);
