@@ -38,15 +38,11 @@ const useRegisterUser = () => {
         email,
         palavra_passe,
       }).toString();
-      const response = await axiosInstance.post(
-        "/utilizadores/login/",
-        params,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
+      const response = await axiosInstance.post("/utilizadores/login", params, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
       return response.data;
     } catch (error) {
       console.error(error);
@@ -104,6 +100,7 @@ const useRegisterUser = () => {
   ) => {
     try {
       const params = new URLSearchParams({
+        _method,
         sexo,
         data_nasc,
         id_geografia,
@@ -111,7 +108,6 @@ const useRegisterUser = () => {
         residencia,
         nacionalidade,
         nome,
-        _method,
       }).toString();
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,
@@ -119,12 +115,10 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      console.log(response.data);
 
       return response.data;
     } catch (error) {

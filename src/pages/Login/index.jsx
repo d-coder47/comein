@@ -11,9 +11,13 @@ import {
   Grid,
   Avatar,
   Link,
+  Alert,
+  Collapse,
+  AlertTitle,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
+import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
@@ -38,7 +42,9 @@ export default function Login() {
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
 
-  const { login } = useRegisterUser();
+  const [openLoginError, setOpenLoginError] = React.useState(false);
+
+  const { login, getUser } = useRegisterUser();
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -103,10 +109,14 @@ export default function Login() {
       setFormErrors(errors);
     } else {
       const loginRes = await login(formData.email, formData.password);
-      console.log(loginRes);
-      // navigate("/");
-      //   localStorage.setItem("userInfo", JSON.stringify(decoded));
-      localStorage.setItem("authenticated", true);
+      if (loginRes) {
+        const user = await getUser(localStorage.getItem("userId"));
+        localStorage.setItem("userInfo", JSON.stringify(user.dados));
+        localStorage.setItem("authenticated", true);
+        navigate("/");
+      } else {
+        setOpenLoginError(true);
+      }
     }
   };
 
@@ -237,6 +247,30 @@ export default function Login() {
               >
                 {t("loginPage.login")}
               </Button>
+            </Grid>
+            <Grid>
+              <Collapse in={openLoginError}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpenLoginError(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>{t("regsiterpage.erroCadastro")}</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
             </Grid>
           </Box>
           <Divider style={{ width: "80%" }}>

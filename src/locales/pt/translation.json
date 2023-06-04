@@ -39,7 +39,8 @@
     "termosPoliticaParte2": "Termos de uso ",
     "termosPoliticaParte3": "e a",
     "termosPoliticaParte4": "  Política de privacidade",
-    "erroCadastro": "Erro ao cadastrar o utilizador"
+    "erroCadastro": "Erro ao cadastrar o utilizador",
+    "erroUserExiste": "Ja existe uma conta com este email"
   },
   "loginPage": {
     "fazerLogin": "Fazer login",
