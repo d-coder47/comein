@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Avatar, Box, Typography, Icon, Badge } from "@mui/material";
+import { Avatar, Box, Typography, Icon, Badge, Modal } from "@mui/material";
 import {
   ThumbUpOffAlt,
   ThumbUp,
@@ -10,13 +10,21 @@ import {
   Bookmark,
 } from "@mui/icons-material";
 
+import event1 from "../assets/img/event1.jpg";
 import event2 from "../assets/img/event2.jpg";
+import event3 from "../assets/img/event3.jpg";
 import avatar from "../assets/img/avatar.jpg";
+
+import CardDetailed from "./CardDetailed";
+import CustomBadge from "./CustomBadge";
 
 const CustomCard = () => {
   const [showTitle, setshowTitle] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box
@@ -61,12 +69,17 @@ const CustomCard = () => {
               cursor: "pointer",
             },
           }}
+          onClick={handleOpen}
         >
           Título do Evento
         </Typography>
-        <Box sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}>
-          <Bookmark sx={{ fontSize: 40 }} />
-        </Box>
+        {showTitle ? (
+          <Box
+            sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}
+          >
+            <CustomBadge />
+          </Box>
+        ) : null}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
         <Avatar alt="avatar" src={avatar} sx={{ width: 18, height: 18 }} />
@@ -116,6 +129,25 @@ const CustomCard = () => {
           />
         </Box>
       </Box>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          ".MuiModal-backdrop": {
+            backgroundColor: "rgba(0,0,0,.9)",
+          },
+        }}
+      >
+        <CardDetailed
+          publisherPhoto={avatar}
+          publishers={["Hélio Batalha"]}
+          title={"Di Cairo a Cabo"}
+          type="event"
+          pictures={[event1, event2, event3]}
+        />
+      </Modal>
     </Box>
   );
 };
