@@ -96,7 +96,8 @@ const useRegisterUser = () => {
     userId,
     token,
     nome,
-    _method
+    _method,
+    img_perfil
   ) => {
     try {
       const params = new URLSearchParams({
@@ -108,6 +109,7 @@ const useRegisterUser = () => {
         residencia,
         nacionalidade,
         nome,
+        img_perfil,
       }).toString();
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,

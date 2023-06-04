@@ -267,7 +267,7 @@ export default function Login() {
                   sx={{ mb: 2 }}
                 >
                   <AlertTitle>
-                    <strong>{t("regsiterpage.erroCadastro")}</strong>
+                    <strong>{t("registerpage.erroCadastro")}</strong>
                   </AlertTitle>
                 </Alert>
               </Collapse>

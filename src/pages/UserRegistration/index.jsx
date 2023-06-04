@@ -129,33 +129,35 @@ export default function UserRegistration() {
     ) {
       setShowAccountExistError(true);
     } else {
-      // localStorage.setItem("userID", addRes.data.id);
-      // localStorage.setItem("token", addRes.token);
-      // let userId = localStorage.getItem("userID");
-      // let token = localStorage.getItem("token");
-      // let nome = `${formData.name} ${formData.surname}`;
-      // let _method = "PUT";
-      // const updateRes = await updateUser(
-      //   sexo,
-      //   data_nasc,
-      //   id_geografia,
-      //   contatos,
-      //   residencia,
-      //   nacionalidade,
-      //   userId,
-      //   token,
-      //   nome,
-      //   _method
-      // );
-      // if (!res) {
-      //   setOpenLoginError(true);
-      // } else {
-      //   const user = await getUser(userId);
-      //   localStorage.setItem("authenticated", true);
-      //   localStorage.setItem("idGeografia", id_geografia);
-      //   localStorage.setItem("userInfo", JSON.stringify(user.dados));
-      //   navigate("/");
-      // }
+      localStorage.setItem("userID", addRes.data.id);
+      localStorage.setItem("token", addRes.token);
+
+      let userId = addRes.data.id;
+      let token = addRes.token;
+      let nome = userDecoded.name;
+      let img_perfil = userDecoded.picture;
+
+      const updateRes = await updateUser(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        userId,
+        token,
+        nome,
+        "PUT",
+        img_perfil
+      );
+      if (!updateRes) {
+        setOpenLoginError(true);
+      } else {
+        const user = await getUser(userId);
+        localStorage.setItem("authenticated", true);
+        localStorage.setItem("userInfo", JSON.stringify(user.dados));
+        navigate("/");
+      }
     }
   };
   const handleSubmit = async (e) => {
@@ -774,7 +776,7 @@ export default function UserRegistration() {
                   sx={{ mb: 2 }}
                 >
                   <AlertTitle>
-                    <strong>{t("regsiterpage.erroCadastro")}</strong>
+                    <strong>{t("registerpage.erroCadastro")}</strong>
                   </AlertTitle>
                 </Alert>
               </Collapse>
