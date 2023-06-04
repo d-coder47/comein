@@ -63,6 +63,18 @@ export default function Login() {
     });
   };
 
+  const googleAccountLogin = async (decode) => {
+    // usar o meotod q humberto criar
+    // const user = await getUser(decode.email);
+    if (user) {
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      localStorage.setItem("authenticated", true);
+      navigate("/");
+    } else {
+      setOpenLoginError(true);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -109,11 +121,18 @@ export default function Login() {
       setFormErrors(errors);
     } else {
       const loginRes = await login(formData.email, formData.password);
-      if (loginRes) {
-        const user = await getUser(localStorage.getItem("userId"));
-        localStorage.setItem("userInfo", JSON.stringify(user.dados));
-        localStorage.setItem("authenticated", true);
-        navigate("/");
+
+      if (loginRes.token) {
+        localStorage.setItem("userId", loginRes.data.id);
+        localStorage.setItem("token", loginRes.token);
+        const user = await getUser(loginRes.data.id);
+        if (user.dados === "Não existem dados para retornar") {
+          setOpenLoginError(true);
+        } else {
+          localStorage.setItem("userInfo", JSON.stringify(user.dados));
+          localStorage.setItem("authenticated", true);
+          navigate("/");
+        }
       } else {
         setOpenLoginError(true);
       }
@@ -267,7 +286,7 @@ export default function Login() {
                   sx={{ mb: 2 }}
                 >
                   <AlertTitle>
-                    <strong>{t("registerpage.erroCadastro")}</strong>
+                    <strong>{t("loginPage.erroLogin")}</strong>
                   </AlertTitle>
                 </Alert>
               </Collapse>
@@ -287,12 +306,11 @@ export default function Login() {
           <GoogleLogin
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
-              localStorage.setItem("userInfo", JSON.stringify(decoded));
-              localStorage.setItem("authenticated", true);
-              navigate("/");
+              googleAccountLogin(decoded);
             }}
             onError={() => {
               console.log("Login Failed");
+              setOpenLoginError(true);
             }}
           />
         </div>

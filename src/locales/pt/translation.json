@@ -46,7 +46,8 @@
     "fazerLogin": "Fazer login",
     "novoUsuario": "Novo utilizador?",
     "crieConta": "Crie uma conta",
-    "login": "login"
+    "login": "login",
+    "erroLogin": "Erro ao efetuar login"
   },
   "navBar": {
     "perfil": "Perfil",
