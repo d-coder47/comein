@@ -32,6 +32,22 @@ const useRegisterUser = () => {
     }
   };
 
+  const getUserByMail = async (email) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/obterUtilizadorPorEmail/${email}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const login = async (email, palavra_passe) => {
     try {
       const params = new URLSearchParams({
@@ -49,7 +65,7 @@ const useRegisterUser = () => {
     }
   };
 
-  const getTermsPolicy = async (userID) => {
+  const getTermsPolicy = async () => {
     try {
       const response = await axiosInstance.get("/termos_politicas", {
         headers: {
@@ -74,8 +90,6 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );
@@ -100,17 +114,6 @@ const useRegisterUser = () => {
     img_perfil
   ) => {
     try {
-      // const params = new URLSearchParams({
-      //   _method,
-      //   sexo,
-      //   data_nasc,
-      //   id_geografia,
-      //   contatos,
-      //   residencia,
-      //   nacionalidade,
-      //   nome,
-      //   img_perfil,
-      // }).toString();
       let params;
       if (sexo === null) {
         params = new URLSearchParams({
@@ -146,7 +149,15 @@ const useRegisterUser = () => {
       console.error(error);
     }
   };
-  return { getAddresses, getUser, addUser, updateUser, getTermsPolicy, login };
+  return {
+    getAddresses,
+    getUser,
+    addUser,
+    updateUser,
+    getTermsPolicy,
+    login,
+    getUserByMail,
+  };
 };
 
 export default useRegisterUser;

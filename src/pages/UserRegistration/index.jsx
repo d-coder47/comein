@@ -50,7 +50,7 @@ export default function UserRegistration() {
   const [showDateError, setShowDateError] = React.useState(false);
   const [showGenderError, setShowGenderError] = React.useState(false);
 
-  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
+  const [showRegisterForm, setShowRegisterForm] = React.useState(true);
 
   const { addUser, getAddresses, updateUser, getUser, getTermsPolicy } =
     useRegisterUser();
@@ -113,7 +113,7 @@ export default function UserRegistration() {
     });
   };
 
-  const registeUserGoogleAccount = async (userDecoded) => {
+  const registeUserGoogleAccount = async (token, userDecoded) => {
     let email = userDecoded.email;
 
     const addRes = await addUser(email);
@@ -382,7 +382,10 @@ export default function UserRegistration() {
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 var decoded = jwt_decode(credentialResponse.credential);
-                registeUserGoogleAccount(decoded);
+                registeUserGoogleAccount(
+                  credentialResponse.credential,
+                  decoded
+                );
               }}
               onError={() => {
                 console.log("Login Failed");

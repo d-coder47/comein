@@ -44,7 +44,7 @@ export default function Login() {
 
   const [openLoginError, setOpenLoginError] = React.useState(false);
 
-  const { login, getUser } = useRegisterUser();
+  const { login, getUser, getUserByMail } = useRegisterUser();
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -63,9 +63,8 @@ export default function Login() {
     });
   };
 
-  const googleAccountLogin = async (decode) => {
-    // usar o meotod q humberto criar
-    // const user = await getUser(decode.email);
+  const googleAccountLogin = async (token, decode) => {
+    const user = await getUserByMail(decode.email);
     if (user) {
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
       localStorage.setItem("authenticated", true);
@@ -252,6 +251,17 @@ export default function Login() {
               }}
             />
 
+            <Grid container justifyContent="right">
+              <Button
+                sx={{
+                  fontSize: 13,
+                  textTransform: "none",
+                }}
+              >
+                Esqueceu-se da palavra-passe?
+              </Button>
+            </Grid>
+
             <Grid container justifyContent="center">
               <Button
                 type="submit"
@@ -306,7 +316,7 @@ export default function Login() {
           <GoogleLogin
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
-              googleAccountLogin(decoded);
+              googleAccountLogin(credentialResponse.credential, decoded);
             }}
             onError={() => {
               console.log("Login Failed");

@@ -233,7 +233,13 @@ const NavBar = () => {
                 </ListItemIcon>
                 {t("navBar.definicoes")}
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  localStorage.clear();
+                  navigate("/");
+                }}
+              >
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
