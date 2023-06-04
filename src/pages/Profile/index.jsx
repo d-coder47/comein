@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import { Edit, Settings, LocationOn, PhotoCamera } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import useUserProfile from "../../hooks/useUserProfile";
+import useRegisterUser from "../../hooks/useRegisterUser";
 
 const UserProfile = () => {
   const user = {
@@ -27,32 +29,91 @@ const UserProfile = () => {
     coverPhoto: "/static/images/cover-photo.jpg",
   };
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
   const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = React.useState(0);
+
+  const [profilePhoto, setProfilePhoto] = React.useState(
+    userInfo.img_perfil ? userInfo.img_perfil : null
+  );
+  const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(null);
+
+  const { updateUserProfilePhotos } = useUserProfile();
+
+  const { getUser } = useRegisterUser();
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
-  const [profilePhoto, setProfilePhoto] = React.useState(null);
-
-  const handlePhotoUpload = (event) => {
+  const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
-    // Perform any necessary file validation or resizing
-    // and set the profile photo state accordingly
+
+    await updateUserProfilePhotos(
+      userInfo.id,
+      "PUT",
+      URL.createObjectURL(file),
+      null
+    );
+
+    const user = await getUser(userInfo.id);
+
+    localStorage.setItem("userInfo", JSON.stringify(user.dados));
     setProfilePhoto(URL.createObjectURL(file));
+  };
+
+  const handleBannerPhotoUpload = async (event) => {
+    const file = event.target.files[0];
+
+    const res = await updateUserProfilePhotos(
+      userInfo.id,
+      "PUT",
+      null,
+      URL.createObjectURL(file)
+    );
+
+    const user = await getUser(userInfo.id);
+
+    localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    setProfileBannerPhoto(URL.createObjectURL(file));
   };
 
   return (
     <>
       <NavBar />
       <div className="profile_container">
-        <div className="banner_container"></div>
+        <div className="banner_container">
+          <div>
+            <label htmlFor="upload-banner-photo">
+              <Input
+                style={{ display: "none" }}
+                id="upload-banner-photo"
+                name="upload-photo"
+                type="file"
+                accept="image/*"
+                onChange={handleBannerPhotoUpload}
+              />
+
+              <IconButton
+                color="primary"
+                sx={{ width: "100%", height: "100%", padding: 0 }}
+                component="span"
+              >
+                <Avatar
+                  alt="User Profile Banner Photo"
+                  sx={{ width: "100%", height: 310, borderRadius: 0 }}
+                  src={profileBannerPhoto}
+                >
+                  <PhotoCamera />
+                </Avatar>
+              </IconButton>
+            </label>
+          </div>
+        </div>
         <Box
           sx={{
-            backgroundColor: "#f8f8f8",
-
             padding: "2rem",
             height: "100%",
           }}
