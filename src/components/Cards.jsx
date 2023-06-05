@@ -41,7 +41,7 @@ const Cards = ({ culturalAreaId }) => {
     <Box sx={{ margin: "2rem", flexGrow: 1 }}>
       <Grid container gap={2}>
         {posts?.map((card, index) => (
-          <Grid item key={index} xs={2.25}>
+          <Grid item key={index} xs={3.75}>
             <CustomCard
               key={index}
               id={card.id}

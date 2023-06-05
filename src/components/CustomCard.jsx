@@ -44,7 +44,7 @@ const CustomCard = ({
   return (
     <Box
       sx={{
-        height: "10rem",
+        height: "19rem",
       }}
       onMouseEnter={() => setshowTitle(true)}
       onMouseLeave={() => setshowTitle(false)}
@@ -63,7 +63,7 @@ const CustomCard = ({
           alt="event1"
           sx={{
             width: "100%",
-            height: "8rem",
+            height: "17rem",
             objectFit: "cover",
             "&:hover": {
               cursor: "pointer",
