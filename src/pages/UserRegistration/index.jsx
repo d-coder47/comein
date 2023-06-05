@@ -61,6 +61,9 @@ export default function UserRegistration() {
 
   const [openLoginError, setOpenLoginError] = React.useState(false);
 
+  const [showAccountExistError, setShowAccountExistError] =
+    React.useState(false);
+
   const [openTermsModal, setOpenTermsModal] = React.useState(false);
   const handleModalTermsOpen = () => setOpenTermsModal(true);
   const handleModalTermsClose = () => setOpenTermsModal(false);
@@ -110,6 +113,50 @@ export default function UserRegistration() {
     });
   };
 
+  const registeUserGoogleAccount = async (token, userDecoded) => {
+    let email = userDecoded.email;
+
+    const addRes = await addUser(email);
+
+    if (!addRes) {
+      setOpenLoginError(true);
+    } else if (
+      addRes.data ===
+      "Já tem uma conta utilizando o email: rubenmartins463@gmail.com"
+    ) {
+      setShowAccountExistError(true);
+    } else {
+      localStorage.setItem("userID", addRes.data.id);
+      localStorage.setItem("token", addRes.token);
+
+      let userId = addRes.data.id;
+      let token = addRes.token;
+      let nome = userDecoded.name;
+      let img_perfil = userDecoded.picture;
+
+      const updateRes = await updateUser(
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        userId,
+        token,
+        nome,
+        "PUT",
+        img_perfil
+      );
+      if (!updateRes) {
+        setOpenLoginError(true);
+      } else {
+        const user = await getUser(userId);
+        localStorage.setItem("authenticated", true);
+        localStorage.setItem("userInfo", JSON.stringify(user.dados));
+        navigate("/");
+      }
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -160,6 +207,11 @@ export default function UserRegistration() {
 
         if (!res) {
           setOpenLoginError(true);
+        } else if (
+          res.data ===
+          "Já tem uma conta utilizando o email: rubenmartins463@gmail.com"
+        ) {
+          setShowAccountExistError(true);
         } else {
           localStorage.setItem("userID", res.data.id);
           localStorage.setItem("token", res.token);
@@ -227,8 +279,8 @@ export default function UserRegistration() {
         let sexo = formData.gender;
         let data_nasc = formData.date;
         let contatos = formData.contact;
-        let residencia = formData.residence;
-        let nacionalidade = formData.nationality;
+        let residencia = id_geografia;
+        let nacionalidade = id_geografia;
         let userId = localStorage.getItem("userID");
         let token = localStorage.getItem("token");
         let nome = `${formData.name} ${formData.surname}`;
@@ -330,9 +382,10 @@ export default function UserRegistration() {
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 var decoded = jwt_decode(credentialResponse.credential);
-                localStorage.setItem("userInfo", JSON.stringify(decoded));
-                localStorage.setItem("authenticated", true);
-                navigate("/");
+                registeUserGoogleAccount(
+                  credentialResponse.credential,
+                  decoded
+                );
               }}
               onError={() => {
                 console.log("Login Failed");
@@ -680,6 +733,31 @@ export default function UserRegistration() {
               </Button>
             </Grid>
             <Grid>
+              <Collapse in={showAccountExistError}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setShowAccountExistError(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>{t("registerpage.erroUserExiste")}</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
+            </Grid>
+
+            <Grid>
               <Collapse in={openLoginError}>
                 <Alert
                   severity="error"
@@ -698,7 +776,7 @@ export default function UserRegistration() {
                   sx={{ mb: 2 }}
                 >
                   <AlertTitle>
-                    <strong>{t("regsiterpage.erroCadastro")}</strong>
+                    <strong>{t("registerpage.erroCadastro")}</strong>
                   </AlertTitle>
                 </Alert>
               </Collapse>

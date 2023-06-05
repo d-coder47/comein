@@ -32,18 +32,13 @@ const useRegisterUser = () => {
     }
   };
 
-  const login = async (email, palavra_passe) => {
+  const getUserByMail = async (email) => {
     try {
-      const params = new URLSearchParams({
-        email,
-        palavra_passe,
-      }).toString();
-      const response = await axiosInstance.post(
-        "/utilizadores/login/",
-        params,
+      const response = await axiosInstance.get(
+        `/utilizadores/obterUtilizadorPorEmail/${email}`,
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
           },
         }
       );
@@ -53,7 +48,24 @@ const useRegisterUser = () => {
     }
   };
 
-  const getTermsPolicy = async (userID) => {
+  const login = async (email, palavra_passe) => {
+    try {
+      const params = new URLSearchParams({
+        email,
+        palavra_passe,
+      }).toString();
+      const response = await axiosInstance.post("/utilizadores/login", params, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getTermsPolicy = async () => {
     try {
       const response = await axiosInstance.get("/termos_politicas", {
         headers: {
@@ -78,8 +90,6 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );
@@ -100,38 +110,54 @@ const useRegisterUser = () => {
     userId,
     token,
     nome,
-    _method
+    _method,
+    img_perfil
   ) => {
     try {
-      const params = new URLSearchParams({
-        sexo,
-        data_nasc,
-        id_geografia,
-        contatos,
-        residencia,
-        nacionalidade,
-        nome,
-        _method,
-      }).toString();
+      let params;
+      if (sexo === null) {
+        params = new URLSearchParams({
+          _method,
+          nome,
+          img_perfil,
+        }).toString();
+      } else {
+        params = new URLSearchParams({
+          _method,
+          sexo,
+          data_nasc,
+          id_geografia,
+          contatos,
+          residencia,
+          nacionalidade,
+          nome,
+        }).toString();
+      }
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,
         params,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      console.log(response.data);
 
       return response.data;
     } catch (error) {
       console.error(error);
     }
   };
-  return { getAddresses, getUser, addUser, updateUser, getTermsPolicy, login };
+  return {
+    getAddresses,
+    getUser,
+    addUser,
+    updateUser,
+    getTermsPolicy,
+    login,
+    getUserByMail,
+  };
 };
 
 export default useRegisterUser;

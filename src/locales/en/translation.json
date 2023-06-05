@@ -38,7 +38,15 @@
     "termosPoliticaParte2": "Terms of Use ",
     "termosPoliticaParte3": "and",
     "termosPoliticaParte4": "  Privacy Policy",
-    "erroCadastro": "Error when registering the user"
+    "erroCadastro": "Error when registering the user",
+    "erroUserExiste": "There is already an account with this email address"
+  },
+  "loginPage": {
+    "fazerLogin": "Log in",
+    "novoUsuario": "New user?",
+    "crieConta": "Create an account",
+    "login": "login",
+    "erroLogin": "Error logging in"
   },
   "navBar": {
     "perfil": "Profile",

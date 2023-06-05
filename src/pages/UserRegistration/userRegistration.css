@@ -15,14 +15,14 @@
   align-items: center;
   justify-content: flex-start;
   max-width: 35%;
+  min-width: 35%;
   min-height: 100%;
   margin-right: 10%;
 }
 .registerFormContainer {
-  max-width: 80%;
   min-width: 80%;
-  min-height: 600px;
-  max-height: 400px;
+  max-width: 80%;
+  max-height: 600px;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -99,11 +99,27 @@
 }
 
 @media screen and (max-width: 1366px) {
-  /* .registerPanel {
-      max-width: 35%;
-      min-height: 100%;
-    }
-    .registerFormContainer {
-      max-height: 400px;
-    } */
+  .css-pt8k7c-MuiTypography-root {
+    font-weight: 500;
+    font-size: 16px !important;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .css-1l3idtk-MuiTypography-root {
+    font-size: 18px !important;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .css-1f3sn2p-MuiTypography-root {
+    font-size: 18px !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .css-n8ntx6-MuiTypography-root {
+    font-size: 18px !important;
+  }
 }

@@ -146,7 +146,7 @@ const NavBar = () => {
                 >
                   <Avatar
                     sx={{ width: 32, height: 32 }}
-                    src={userData.picture}
+                    src={userData.img_perfil ? userData.img_perfil : ""}
                   />
                 </IconButton>
               </Tooltip>
@@ -188,7 +188,7 @@ const NavBar = () => {
             >
               <MenuItem className="userInfo" onClick={handleProfileClick}>
                 <Avatar
-                  src={userData.picture}
+                  src={userData.img_perfil ? userData.img_perfil : ""}
                   sx={{
                     width: "80px !important",
                     height: "80px !important",
@@ -202,7 +202,7 @@ const NavBar = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  {userData.name}
+                  {userData.nome}
                 </Typography>
 
                 <Typography
@@ -217,7 +217,8 @@ const NavBar = () => {
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleProfileClick}>
-                <Avatar src={userData.picture} /> {t("navBar.perfil")}
+                <Avatar src={userData.img_perfil ? userData.img_perfil : ""} />{" "}
+                {t("navBar.perfil")}
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleRegistration}>
@@ -232,7 +233,13 @@ const NavBar = () => {
                 </ListItemIcon>
                 {t("navBar.definicoes")}
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  localStorage.clear();
+                  navigate("/");
+                }}
+              >
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>

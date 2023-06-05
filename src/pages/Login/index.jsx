@@ -11,9 +11,13 @@ import {
   Grid,
   Avatar,
   Link,
+  Alert,
+  Collapse,
+  AlertTitle,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
+import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
@@ -38,7 +42,9 @@ export default function Login() {
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
 
-  const { login } = useRegisterUser();
+  const [openLoginError, setOpenLoginError] = React.useState(false);
+
+  const { login, getUser, getUserByMail } = useRegisterUser();
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -55,6 +61,17 @@ export default function Login() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const googleAccountLogin = async (token, decode) => {
+    const user = await getUserByMail(decode.email);
+    if (user) {
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      localStorage.setItem("authenticated", true);
+      navigate("/");
+    } else {
+      setOpenLoginError(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -103,10 +120,21 @@ export default function Login() {
       setFormErrors(errors);
     } else {
       const loginRes = await login(formData.email, formData.password);
-      console.log(loginRes);
-      // navigate("/");
-      //   localStorage.setItem("userInfo", JSON.stringify(decoded));
-      localStorage.setItem("authenticated", true);
+
+      if (loginRes.token) {
+        localStorage.setItem("userId", loginRes.data.id);
+        localStorage.setItem("token", loginRes.token);
+        const user = await getUser(loginRes.data.id);
+        if (user.dados === "Não existem dados para retornar") {
+          setOpenLoginError(true);
+        } else {
+          localStorage.setItem("userInfo", JSON.stringify(user.dados));
+          localStorage.setItem("authenticated", true);
+          navigate("/");
+        }
+      } else {
+        setOpenLoginError(true);
+      }
     }
   };
 
@@ -223,6 +251,17 @@ export default function Login() {
               }}
             />
 
+            <Grid container justifyContent="right">
+              <Button
+                sx={{
+                  fontSize: 13,
+                  textTransform: "none",
+                }}
+              >
+                Esqueceu-se da palavra-passe?
+              </Button>
+            </Grid>
+
             <Grid container justifyContent="center">
               <Button
                 type="submit"
@@ -237,6 +276,30 @@ export default function Login() {
               >
                 {t("loginPage.login")}
               </Button>
+            </Grid>
+            <Grid>
+              <Collapse in={openLoginError}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpenLoginError(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>{t("loginPage.erroLogin")}</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
             </Grid>
           </Box>
           <Divider style={{ width: "80%" }}>
@@ -253,12 +316,11 @@ export default function Login() {
           <GoogleLogin
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
-              localStorage.setItem("userInfo", JSON.stringify(decoded));
-              localStorage.setItem("authenticated", true);
-              navigate("/");
+              googleAccountLogin(credentialResponse.credential, decoded);
             }}
             onError={() => {
               console.log("Login Failed");
+              setOpenLoginError(true);
             }}
           />
         </div>

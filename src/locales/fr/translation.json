@@ -38,7 +38,15 @@
     "termosPoliticaParte2": "Conditions d’utilisation ",
     "termosPoliticaParte3": "et",
     "termosPoliticaParte4": "  Politique de confidentialité",
-    "erroCadastro": "Erreur lors de l'enregistrement de l'utilisateur"
+    "erroCadastro": "Erreur lors de l'enregistrement de l'utilisateur",
+    "erroUserExiste": "Il existe déjà un compte avec cette adresse e-mail"
+  },
+  "loginPage": {
+    "fazerLogin": "S'identifier",
+    "novoUsuario": "Nouvel utilisateur ?",
+    "crieConta": "Créer un compte",
+    "login": "connectez-vous",
+    "erroLogin": "Erreur lors de la connexion"
   },
   "navBar": {
     "perfil": "Profil",
