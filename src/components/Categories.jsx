@@ -20,31 +20,40 @@ import musicSVG from "../assets/svg/musica.svg";
 import standUpSVG from "../assets/svg/stand_up.svg";
 import theaterSVG from "../assets/svg/teatro.svg";
 
-const Categories = () => {
+const Categories = ({ onCategoryChange }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const { t } = useTranslation();
 
   const categories = [
-    { name: t("categories.music"), icon: musicSVG },
-    { name: t("categories.theater"), icon: theaterSVG },
-    { name: t("categories.dance"), icon: danceSVG },
-    { name: t("categories.movieTheater"), icon: movieTheaterSVG },
-    { name: t("categories.standUp"), icon: standUpSVG },
-    { name: t("categories.visualArts"), icon: visualArtsSVG },
-    { name: t("categories.sculpture"), icon: sculptureSVG },
-    { name: t("categories.craftsmanship"), icon: craftsmanshipSVG },
-    { name: t("categories.design"), icon: designSVG },
-    { name: t("categories.photography"), icon: photographySVG },
-    { name: t("categories.urbanArt"), icon: urbanArtSVG },
-    { name: t("categories.literature"), icon: literatureSVG },
-    { name: t("categories.gastronomy"), icon: gastronomySVG },
-    { name: t("categories.fashion"), icon: fashionSVG },
-    { name: t("categories.traditionalParties"), icon: traditionalPartiesSVG },
-    { name: t("categories.carnaval"), icon: carnavalSVG },
+    { id: 1, name: t("categories.music"), icon: musicSVG },
+    { id: 2, name: t("categories.theater"), icon: theaterSVG },
+    { id: 3, name: t("categories.dance"), icon: danceSVG },
+    { id: 4, name: t("categories.movieTheater"), icon: movieTheaterSVG },
+    { id: 5, name: t("categories.standUp"), icon: standUpSVG },
+    { id: 6, name: t("categories.visualArts"), icon: visualArtsSVG },
+    { id: 7, name: t("categories.sculpture"), icon: sculptureSVG },
+    { id: 8, name: t("categories.craftsmanship"), icon: craftsmanshipSVG },
+    { id: 9, name: t("categories.design"), icon: designSVG },
+    { id: 10, name: t("categories.photography"), icon: photographySVG },
+    { id: 11, name: t("categories.urbanArt"), icon: urbanArtSVG },
+    { id: 12, name: t("categories.literature"), icon: literatureSVG },
+    { id: 13, name: t("categories.gastronomy"), icon: gastronomySVG },
+    { id: 14, name: t("categories.fashion"), icon: fashionSVG },
+    {
+      id: 15,
+      name: t("categories.traditionalParties"),
+      icon: traditionalPartiesSVG,
+    },
+    { id: 16, name: t("categories.carnaval"), icon: carnavalSVG },
   ];
 
-  const handleCategoryClick = (categoryName) => {
+  const handleCategoryClick = (categoryId, categoryName) => {
+    if (selectedCategory === categoryName) {
+      onCategoryChange("");
+      return setSelectedCategory("");
+    }
     setSelectedCategory(categoryName);
+    onCategoryChange(categoryId);
   };
 
   return (

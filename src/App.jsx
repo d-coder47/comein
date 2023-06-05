@@ -9,6 +9,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
+          // width: "99vw",
           minHeight: "100vh",
           display: "flex",
           flexDirection: "column",

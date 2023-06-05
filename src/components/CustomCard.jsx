@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Avatar, Box, Typography, Icon } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Typography,
+  Icon,
+  Badge,
+  Modal,
+  Tooltip,
+} from "@mui/material";
 import {
   ThumbUpOffAlt,
   ThumbUp,
@@ -9,13 +17,29 @@ import {
   Reply,
 } from "@mui/icons-material";
 
+import event1 from "../assets/img/event1.jpg";
 import event2 from "../assets/img/event2.jpg";
+import event3 from "../assets/img/event3.jpg";
 import avatar from "../assets/img/avatar.jpg";
 
-const CustomCard = () => {
+import CardDetailed from "./CardDetailed";
+import CustomBadge from "./CustomBadge";
+import axiosInstance from "../api/axiosInstance";
+
+const CustomCard = ({
+  id = null,
+  name,
+  picture,
+  publisherName,
+  publisherPhoto,
+  type,
+}) => {
   const [showTitle, setshowTitle] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Box
@@ -35,7 +59,7 @@ const CustomCard = () => {
       >
         <Avatar
           variant="square"
-          src={event2}
+          src={picture || null}
           alt="event1"
           sx={{
             width: "100%",
@@ -47,26 +71,43 @@ const CustomCard = () => {
             },
           }}
         />
-        {/* <Typography
-          sx={{
-            color: showTitle ? "#fff" : "transparent",
-            marginLeft: "1rem",
-            marginTop: "-2rem",
-            fontWeight: "bold",
-            width: "fit-content",
-            zIndex: 99,
-            "&:hover": {
-              textDecoration: "underline",
-              cursor: "pointer",
-            },
-          }}
-        >
-          Título do Evento
-        </Typography> */}
-        <Box sx={{ position: "absolute", right: "1rem" }}>BADGE</Box>
+        <Tooltip title={name}>
+          <Typography
+            sx={{
+              color: showTitle ? "#fff" : "transparent",
+              marginLeft: "1rem",
+              marginTop: "-2rem",
+              fontWeight: "bold",
+              // width: "fit-content",
+              zIndex: 99,
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              width: "65%",
+              "&:hover": {
+                textDecoration: "underline",
+                cursor: "pointer",
+              },
+            }}
+            onClick={handleOpen}
+          >
+            {name}
+          </Typography>
+        </Tooltip>
+        {showTitle ? (
+          <Box
+            sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}
+          >
+            <CustomBadge isEvent={type === "E"} />
+          </Box>
+        ) : null}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-        <Avatar alt="avatar" src={avatar} sx={{ width: 18, height: 18 }} />
+        <Avatar
+          alt="avatar"
+          src={publisherPhoto || null}
+          sx={{ width: 18, height: "auto" }}
+        />
         <Typography
           fontWeight="bold"
           fontSize="0.9rem"
@@ -77,7 +118,7 @@ const CustomCard = () => {
             },
           }}
         >
-          Nome Publicador
+          {publisherName}
         </Typography>
 
         <Box sx={{ display: "flex", marginLeft: "auto" }}>
@@ -113,6 +154,30 @@ const CustomCard = () => {
           />
         </Box>
       </Box>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          ".MuiModal-backdrop": {
+            backgroundColor: "rgba(0,0,0,.9)",
+          },
+        }}
+      >
+        {open ? (
+          <CardDetailed
+            id={id}
+            publisherPhoto={publisherPhoto}
+            publishers={[publisherName]}
+            title={name}
+            type={type}
+            picture={picture}
+          />
+        ) : (
+          <div></div>
+        )}
+      </Modal>
     </Box>
   );
 };

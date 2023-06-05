@@ -1,10 +1,10 @@
 import React from "react";
 import axiosInstance from "../api/axiosInstance";
 
-const useEvents = () => {
-  const createEvent = async () => {
+const useProjects = () => {
+  const createProject = async () => {
     try {
-      const response = await axiosInstance.post(`/eventos/criar`, {
+      const response = await axiosInstance.post(`/projetos/criar`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           // Authorization:
@@ -17,7 +17,7 @@ const useEvents = () => {
     }
   };
 
-  const updateEvent = async (eventId, newName, newDescription) => {
+  const updateProject = async (projectId, newName, newDescription) => {
     try {
       const params = new URLSearchParams({
         nome: newName,
@@ -25,7 +25,7 @@ const useEvents = () => {
         _method: "PUT",
       }).toString();
       const response = await axiosInstance.post(
-        `/eventos/atualizar/${eventId}`,
+        `/projetos/atualizar/${projectId}`,
         params,
         {
           headers: {
@@ -41,13 +41,13 @@ const useEvents = () => {
     }
   };
 
-  const deleteEvent = async (eventId) => {
+  const deleteProject = async (projectId) => {
     try {
       const params = new URLSearchParams({
         _method: "DELETE",
       }).toString();
       const response = await axiosInstance.post(
-        `/eventos/eliminar/${eventId}`,
+        `/projetos/eliminar/${projectId}`,
         params,
         {
           headers: {
@@ -62,9 +62,9 @@ const useEvents = () => {
     }
   };
 
-  const getEvents = async () => {
+  const getProjects = async () => {
     try {
-      const response = await axiosInstance.get(`/eventos/listar`, {
+      const response = await axiosInstance.get(`/projetos/listar`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           // Authorization:
@@ -77,25 +77,10 @@ const useEvents = () => {
     }
   };
 
-  const getEvent = async (eventId) => {
-    try {
-      const response = await axiosInstance.get(`/eventos/listar/${eventId}`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getEventsByUser = async (userId) => {
+  const getProject = async (projectId) => {
     try {
       const response = await axiosInstance.get(
-        `/eventos/obterEventosPorUtilizador/${userId}`,
+        `/projetos/listar/${projectId}`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -110,14 +95,32 @@ const useEvents = () => {
     }
   };
 
-  const likeEvent = async (eventId, userId) => {
+  const getProjectsByUser = async (userId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/projetos/listarPorUtilizador/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const likeProject = async (projectId, userId) => {
     try {
       const params = new URLSearchParams({
         id_utilizador: userId,
-        id_publicacao: eventId,
+        id_publicacao: projectId,
       }).toString();
       const response = await axiosInstance.post(
-        `/gostosEventos/gosto`,
+        `/gostosProjectos/gosto`,
         params,
         {
           headers: {
@@ -133,13 +136,13 @@ const useEvents = () => {
     }
   };
 
-  const removeLikeFromEvent = async (eventId, userId) => {
+  const removeLikeFromProject = async (projectId, userId) => {
     try {
       const params = new URLSearchParams({
         _method: "DELETE",
       }).toString();
       const response = await axiosInstance.post(
-        `/gostosEventos/eliminar/${eventId}`,
+        `/gostosProjectos/eliminar/${projectId}`,
         params,
         {
           headers: {
@@ -155,24 +158,9 @@ const useEvents = () => {
     }
   };
 
-  const getEventLikes = async (userId) => {
+  const getProjectLikes = async (userId) => {
     try {
-      const response = await axiosInstance.get(`/gostosEventos/gostos/1,1`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-        },
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getEventProgram = async (userId) => {
-    try {
-      const response = await axiosInstance.get(`/programaEvento/listar/`, {
+      const response = await axiosInstance.get(`/gostosProjectos/gostos/1,1`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           // Authorization:
@@ -186,16 +174,16 @@ const useEvents = () => {
   };
 
   return {
-    createEvent,
-    updateEvent,
-    deleteEvent,
-    getEvents,
-    getEvent,
-    getEventsByUser,
-    likeEvent,
-    removeLikeFromEvent,
-    getEventLikes,
+    createProject,
+    updateProject,
+    deleteProject,
+    getProjects,
+    getProject,
+    getProjectsByUser,
+    likeProject,
+    removeLikeFromProject,
+    getProjectLikes,
   };
 };
 
-export default useEvents;
+export default useProjects;
