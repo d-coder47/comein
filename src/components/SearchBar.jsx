@@ -10,11 +10,16 @@ import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import useRegisterUser from "../hooks/useRegisterUser";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState(false);
   const [filterSelected, setFilterSelected] = useState("");
+
+  const [addresses, setAddresses] = useState([]);
+
+  const { getAddresses } = useRegisterUser();
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -137,19 +142,18 @@ const SearchBar = () => {
             type="date"
             sx={{ height: "2rem", ".MuiInputBase-root": { height: "2rem" } }}
           />
-          {/* <Autocomplete
+          <Autocomplete
             id="address-select"
             options={addresses}
             autoHighlight
+            sx={{ width: "10rem" }}
             renderInput={(params) => (
               <TextField
                 {...params}
-                label={t("registerpage.residencia")}
+                // label={"Local"}
                 variant="standard"
+                placeholder="Local"
                 name="residence"
-                value={formData.residence}
-                error={showResidenceError}
-                helperText={formErrors.residence}
                 fullWidth
                 InputLabelProps={{
                   shrink: true,
@@ -160,30 +164,30 @@ const SearchBar = () => {
                 }}
               />
             )}
-						onInputChange={async (event, value) => {
-							// formData.residence = value;
-							if (value.length >= 2 && value.length <= 4) {
-								const res = await getAddresses(value);
-								const newAddresses = [];
-								const newGeoIds = [];
-								for (let key in res.dados) {
-									if (res.dados.hasOwnProperty(key)) {
-										const value = res.dados[key];
-										newAddresses.push(value.nome);
-										newGeoIds.push({
-											id: value.id,
-											nome: value.nome,
-										});
-									}
-								}
-								setAddresses(newAddresses);
-								setGeoIds(newGeoIds);
-							}
-						}}
-						onChange={(event, value) => {
-							formData.residence = value;
-						}}
-          /> */}
+            onInputChange={async (event, value) => {
+              // formData.residence = value;
+              if (value.length >= 2 && value.length <= 4) {
+                const res = await getAddresses(value);
+                const newAddresses = [];
+                // const newGeoIds = [];
+                for (let key in res.dados) {
+                  if (res.dados.hasOwnProperty(key)) {
+                    const value = res.dados[key];
+                    newAddresses.push(value.nome);
+                    // newGeoIds.push({
+                    // 	id: value.id,
+                    // 	nome: value.nome,
+                    // });
+                  }
+                }
+                setAddresses(newAddresses);
+                // setGeoIds(newGeoIds);
+              }
+            }}
+            onChange={(event, value) => {
+              console.log(value);
+            }}
+          />
         </Box>
       ) : null}
     </Box>

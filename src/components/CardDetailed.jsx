@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -15,8 +15,14 @@ import {
   ThumbUp,
 } from "@mui/icons-material";
 import CustomBadge from "./CustomBadge";
+import axiosInstance from "../api/axiosInstance";
 
-const DetailedHeader = ({ publisherPhoto, publishers, title, type }) => {
+const DetailedHeader = ({
+  publisherPhoto,
+  publishers,
+  title = "denny",
+  type,
+}) => {
   return (
     <Box
       sx={{
@@ -37,25 +43,150 @@ const DetailedHeader = ({ publisherPhoto, publishers, title, type }) => {
       >
         <Typography fontWeight="bold">{title}</Typography>
         <Box sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
-          <Typography>{publishers[0]}</Typography>
+          <Typography>{publishers?.nome}</Typography>
           <Dot sx={{ fontSize: ".5rem" }} />
           <Typography>Seguir</Typography>
         </Box>
       </Box>
       <Box sx={{ marginLeft: "auto" }}>
-        <CustomBadge />
+        <CustomBadge isEvent={type === "E"} />
       </Box>
     </Box>
   );
 };
 
+const DetailedInfo = ({ location, dateStart, dateEnd }) => {
+  return (
+    <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
+      <Box>
+        <Typography display="flex" gap=".5rem" fontWeight="bold">
+          Local: {<Typography fontWeight="normal">{location}</Typography>}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography display="flex" gap=".5rem" fontWeight="bold">
+          Data Início:{" "}
+          {<Typography fontWeight="normal">{dateStart}</Typography>}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography display="flex" gap=".5rem" fontWeight="bold">
+          Data Fim: {<Typography fontWeight="normal">{dateEnd}</Typography>}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
+const DetailedProgram = ({ programs = [] }) => {
+  return (
+    <Box display="flex" flexDirection="column" alignItems="center">
+      {programs.length > 0 ? (
+        <>
+          {" "}
+          <Typography fontWeight="bold" textTransform="uppercase">
+            Programa
+          </Typography>
+          {programs?.map((program) => (
+            <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
+              <Typography mx="auto">{program?.data}</Typography>
+              <Avatar
+                src={`https://comein.cv/comeincv_api_test/programa_eventosImg/${program?.imagem}`}
+                alt={`Foto de ${program?.titulo}`}
+                variant="square"
+                sx={{ width: "100%", height: "auto" }}
+              />
+              <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
+                <Typography fontWeight="bold">{program?.titulo}</Typography>
+                <Box>
+                  <Typography display="flex" gap=".5rem" fontWeight="bold">
+                    Local:{" "}
+                    {
+                      <Typography fontWeight="normal">
+                        {program?.local}
+                      </Typography>
+                    }
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography display="flex" gap=".5rem" fontWeight="bold">
+                    Hora:{" "}
+                    {
+                      <Typography fontWeight="normal">
+                        {program?.hora}
+                      </Typography>
+                    }
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography display="flex" gap=".5rem">
+                    {program?.tipoBilhete ? "Entrada Livre" : ""}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          ))}{" "}
+        </>
+      ) : null}
+    </Box>
+  );
+};
+
+const DetailedOther = ({ others }) => {
+  return (
+    <Box>
+      {others?.map((program) => (
+        <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
+          <Avatar
+            src={`https://comein.cv/comeincv_api_test/programa_eventosImg/${program?.imagem}`}
+            alt={`Foto de ${program?.titulo}`}
+            variant="square"
+            sx={{ width: "100%", height: "auto" }}
+          />
+          <Typography fontWeight="bold" mx="auto">
+            {program?.titulo}
+          </Typography>
+          <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
+            <Typography>{program?.descricao1}</Typography>
+            <Typography>{program?.descricao2}</Typography>
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
 const CardDetailed = ({
+  id,
   publisherPhoto,
   publishers,
   title,
   type,
-  pictures,
+  picture,
 }) => {
+  const [details, setDetails] = useState(null);
+
+  useEffect(() => {
+    if (!id) return;
+    const url = `/${type === "E" ? "eventos" : "projetos"}/listar/${id}`;
+    const getDetails = async () => {
+      try {
+        const response = await axiosInstance.get(url, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        });
+        setDetails(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getDetails();
+  }, [id]);
+
   return (
     <Box
       sx={{
@@ -71,19 +202,26 @@ const CardDetailed = ({
       <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
         <DetailedHeader
           publisherPhoto={publisherPhoto}
-          publishers={publishers}
-          title={title}
+          publishers={details?.utilizador}
+          title={details?.dados?.nome}
           type={type}
         />
         <Box sx={{ backgroundColor: "white" }}>
-          {pictures.map((picture) => (
+          {picture ? (
             <Avatar
               src={picture}
               alt={`Foto de ${title}`}
               variant="square"
               sx={{ width: "100%", height: "auto" }}
             />
-          ))}
+          ) : null}
+          <DetailedInfo
+            location={details?.dados?.local}
+            dateStart={details?.dados?.data_inicio}
+            dateEnd={details?.dados?.data_fim}
+          />
+          <DetailedProgram programs={details?.programa} />
+          <DetailedOther others={details?.outros} />
         </Box>
       </Box>
       <Box

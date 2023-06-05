@@ -11,7 +11,7 @@ const Category = ({ name, icon, onCategoryClick, isSelected }) => {
         justifyContent: "center",
         cursor: "pointer",
       }}
-      onClick={() => onCategoryClick(name)}
+      onClick={() => onCategoryClick(id, name)}
     >
       <Avatar
         alt="category"
@@ -19,8 +19,8 @@ const Category = ({ name, icon, onCategoryClick, isSelected }) => {
         sx={{
           width: 45,
           height: 45,
-          border: (theme) =>
-            isSelected ? `2px solid ${theme.palette.primary.main}` : "none",
+          padding: ".25rem",
+          border: (theme) => `2px solid ${theme.palette.primary.main}`,
         }}
       />
       <Typography

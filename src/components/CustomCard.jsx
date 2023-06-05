@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Avatar, Box, Typography, Icon, Badge, Modal } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Typography,
+  Icon,
+  Badge,
+  Modal,
+  Tooltip,
+} from "@mui/material";
 import {
   ThumbUpOffAlt,
   ThumbUp,
   Star,
   StarOutline,
   Reply,
-  Bookmark,
 } from "@mui/icons-material";
 
 import event1 from "../assets/img/event1.jpg";
@@ -17,8 +24,16 @@ import avatar from "../assets/img/avatar.jpg";
 
 import CardDetailed from "./CardDetailed";
 import CustomBadge from "./CustomBadge";
+import axiosInstance from "../api/axiosInstance";
 
-const CustomCard = () => {
+const CustomCard = ({
+  id = null,
+  name,
+  picture,
+  publisherName,
+  publisherPhoto,
+  type,
+}) => {
   const [showTitle, setshowTitle] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -44,7 +59,7 @@ const CustomCard = () => {
       >
         <Avatar
           variant="square"
-          src={event2}
+          src={picture || null}
           alt="event1"
           sx={{
             width: "100%",
@@ -56,33 +71,43 @@ const CustomCard = () => {
             },
           }}
         />
-        <Typography
-          sx={{
-            color: showTitle ? "#fff" : "transparent",
-            marginLeft: "1rem",
-            marginTop: "-2rem",
-            fontWeight: "bold",
-            width: "fit-content",
-            zIndex: 99,
-            "&:hover": {
-              textDecoration: "underline",
-              cursor: "pointer",
-            },
-          }}
-          onClick={handleOpen}
-        >
-          Título do Evento
-        </Typography>
+        <Tooltip title={name}>
+          <Typography
+            sx={{
+              color: showTitle ? "#fff" : "transparent",
+              marginLeft: "1rem",
+              marginTop: "-2rem",
+              fontWeight: "bold",
+              // width: "fit-content",
+              zIndex: 99,
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              width: "65%",
+              "&:hover": {
+                textDecoration: "underline",
+                cursor: "pointer",
+              },
+            }}
+            onClick={handleOpen}
+          >
+            {name}
+          </Typography>
+        </Tooltip>
         {showTitle ? (
           <Box
             sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}
           >
-            <CustomBadge />
+            <CustomBadge isEvent={type === "E"} />
           </Box>
         ) : null}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-        <Avatar alt="avatar" src={avatar} sx={{ width: 18, height: 18 }} />
+        <Avatar
+          alt="avatar"
+          src={publisherPhoto || null}
+          sx={{ width: 18, height: "auto" }}
+        />
         <Typography
           fontWeight="bold"
           fontSize="0.9rem"
@@ -93,7 +118,7 @@ const CustomCard = () => {
             },
           }}
         >
-          Nome Publicador
+          {publisherName}
         </Typography>
 
         <Box sx={{ display: "flex", marginLeft: "auto" }}>
@@ -140,13 +165,18 @@ const CustomCard = () => {
           },
         }}
       >
-        <CardDetailed
-          publisherPhoto={avatar}
-          publishers={["Hélio Batalha"]}
-          title={"Di Cairo a Cabo"}
-          type="event"
-          pictures={[event1, event2, event3]}
-        />
+        {open ? (
+          <CardDetailed
+            id={id}
+            publisherPhoto={publisherPhoto}
+            publishers={[publisherName]}
+            title={name}
+            type={type}
+            picture={picture}
+          />
+        ) : (
+          <div></div>
+        )}
       </Modal>
     </Box>
   );
