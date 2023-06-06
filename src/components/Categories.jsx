@@ -92,7 +92,7 @@ const Categories = ({ onCategoryChange }) => {
               name={category.name}
               icon={category.icon}
               onCategoryClick={handleCategoryClick}
-              isSelected={category.id === selectedCategory}
+              isSelected={category.name === selectedCategory}
             />
           );
         })}

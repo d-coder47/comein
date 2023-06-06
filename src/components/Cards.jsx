@@ -15,7 +15,7 @@ const Cards = ({ culturalAreaId }) => {
   useEffect(() => {
     if (culturalAreaId === undefined || culturalAreaId === "")
       return setPosts(allPosts);
-    const getPostsByArea = async (culturalAreaId) => {
+    const getPostsByArea = async () => {
       try {
         const response = await axiosInstance.get(
           `/publicacoes/listar/${culturalAreaId}`,
@@ -27,6 +27,7 @@ const Cards = ({ culturalAreaId }) => {
             },
           }
         );
+        if (response.data.dados === "null") return setPosts(allPosts);
         setPosts(response.data.dados);
       } catch (error) {
         console.error(error);

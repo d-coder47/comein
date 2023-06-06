@@ -16,7 +16,7 @@ export default function Home() {
       <NavBar />
       <Categories onCategoryChange={onCategoryChange} />
       <SearchBar />
-      <Cards category={category} />
+      <Cards culturalAreaId={category} />
     </>
   );
 }
