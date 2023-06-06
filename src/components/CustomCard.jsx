@@ -17,14 +17,8 @@ import {
   Reply,
 } from "@mui/icons-material";
 
-import event1 from "../assets/img/event1.jpg";
-import event2 from "../assets/img/event2.jpg";
-import event3 from "../assets/img/event3.jpg";
-import avatar from "../assets/img/avatar.jpg";
-
 import CardDetailed from "./CardDetailed";
 import CustomBadge from "./CustomBadge";
-import axiosInstance from "../api/axiosInstance";
 
 const CustomCard = ({
   id = null,
@@ -57,22 +51,23 @@ const CustomCard = ({
           position: "relative",
         }}
       >
-        <Avatar
-          variant="square"
-          src={picture || null}
-          alt="event1"
-          sx={{
-            width: "100%",
-            height: "17rem",
-            objectFit: "cover",
-            "&:hover": {
-              cursor: "pointer",
-              borderRadius: "0.25rem",
-            },
-          }}
-        />
         <Tooltip title={name}>
-          <Typography
+          <Avatar
+            variant="square"
+            src={picture || null}
+            alt="event1"
+            sx={{
+              width: "100%",
+              height: "17rem",
+              objectFit: "cover",
+              "&:hover": {
+                cursor: "pointer",
+                borderRadius: "0.25rem",
+              },
+            }}
+          />
+        </Tooltip>
+        {/* <Typography
             sx={{
               color: showTitle ? "#fff" : "transparent",
               marginLeft: "1rem",
@@ -92,8 +87,7 @@ const CustomCard = ({
             onClick={handleOpen}
           >
             {name}
-          </Typography>
-        </Tooltip>
+          </Typography> */}
         {showTitle ? (
           <Box
             sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}

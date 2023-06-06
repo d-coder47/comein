@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Avatar, Typography } from "@mui/material";
 
-const Category = ({ name, icon, onCategoryClick, isSelected }) => {
+const Category = ({ id, name, icon, onCategoryClick, isSelected }) => {
   return (
     <Box
+      className="category"
       sx={{
         display: "flex",
         flexDirection: "column",

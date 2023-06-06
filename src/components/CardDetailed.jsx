@@ -17,12 +17,7 @@ import {
 import CustomBadge from "./CustomBadge";
 import axiosInstance from "../api/axiosInstance";
 
-const DetailedHeader = ({
-  publisherPhoto,
-  publishers,
-  title = "denny",
-  type,
-}) => {
+const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
   return (
     <Box
       sx={{

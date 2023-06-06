@@ -19,6 +19,8 @@ import fashionSVG from "../assets/svg/moda.svg";
 import musicSVG from "../assets/svg/musica.svg";
 import standUpSVG from "../assets/svg/stand_up.svg";
 import theaterSVG from "../assets/svg/teatro.svg";
+import Flickity from "react-flickity-component";
+import "../flickity.css";
 
 const Categories = ({ onCategoryChange }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -56,29 +58,67 @@ const Categories = ({ onCategoryChange }) => {
     onCategoryChange(categoryId);
   };
 
+  const flickityOptions = {
+    groupCells: "21%",
+    initialIndex: 2,
+    // contain: true,
+  };
+
   return (
     <Box
       sx={{
         margin: "1rem 2rem",
-        overflowX: "auto",
-        scrollbarWidth: "none",
+        // overflowX: "auto",
+        // scrollbarWidth: "none",
         paddingBottom: "1rem",
-        display: "flex",
-        alignItems: "center",
+        // display: "flex",
+        // alignItems: "center",
         gap: "3rem",
       }}
     >
-      {categories.map((category, index) => {
-        return (
-          <Category
-            key={index}
-            name={category.name}
-            icon={category.icon}
-            onCategoryClick={handleCategoryClick}
-            isSelected={category.name === selectedCategory}
-          />
-        );
-      })}
+      <Flickity
+        className={"carousel"} // default ''
+        elementType={"div"} // default 'div'
+        options={flickityOptions} // takes flickity options {}
+        disableImagesLoaded={false} // default false
+        reloadOnUpdate // default false
+        // static // default false
+      >
+        {categories.map((category, index) => {
+          return (
+            <Category
+              key={index}
+              id={category.id}
+              name={category.name}
+              icon={category.icon}
+              onCategoryClick={handleCategoryClick}
+              isSelected={category.id === selectedCategory}
+            />
+          );
+        })}
+        {/* {categories.slice(5, 10).map((category, index) => {
+          return (
+            <Category
+              key={index}
+              name={category.name}
+              icon={category.icon}
+              onCategoryClick={handleCategoryClick}
+              isSelected={category.name === selectedCategory}
+            />
+          );
+        })}
+        {categories.slice(10, 16).map((category, index) => {
+          return (
+            <Category
+              key={index}
+              name={category.name}
+              icon={category.icon}
+              onCategoryClick={handleCategoryClick}
+              isSelected={category.name === selectedCategory}
+            />
+          );
+        })} */}
+      </Flickity>
     </Box>
   );
 };
