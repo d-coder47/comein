@@ -16,6 +16,7 @@ import {
 } from "@mui/icons-material";
 import CustomBadge from "./CustomBadge";
 import axiosInstance from "../api/axiosInstance";
+import Publisher from "./Publisher";
 
 const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
   return (
@@ -38,7 +39,7 @@ const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
       >
         <Typography fontWeight="bold">{title}</Typography>
         <Box sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
-          <Typography>{publishers?.nome}</Typography>
+          <Publisher publishers={publishers} />
           <Dot sx={{ fontSize: ".5rem" }} />
           <Typography>Seguir</Typography>
         </Box>
