@@ -12,9 +12,16 @@ import {
   Button,
   Input,
   Tabs,
+  Tooltip,
   Tab,
 } from "@mui/material";
-import { Edit, Settings, LocationOn, PhotoCamera } from "@mui/icons-material";
+import {
+  Edit,
+  Settings,
+  LocationOn,
+  PhotoCamera,
+  Add,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import useUserProfile from "../../hooks/useUserProfile";
 import useRegisterUser from "../../hooks/useRegisterUser";
@@ -51,16 +58,10 @@ const UserProfile = () => {
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    await updateUserProfilePhotos(
-      userInfo.id,
-      "PUT",
-      URL.createObjectURL(file),
-      null
-    );
+    // await updateUserProfilePhotos(userInfo.id, "PUT", file, null);
+    // const user = await getUser(userInfo.id);
 
-    const user = await getUser(userInfo.id);
-
-    localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    // localStorage.setItem("userInfo", JSON.stringify(user.dados));
     setProfilePhoto(URL.createObjectURL(file));
   };
 
@@ -314,6 +315,20 @@ const UserProfile = () => {
                   <Tab label="Favoritos" />
                 </Tabs>
               </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Tooltip title="Adicionar evento">
+                  <IconButton color="primary">
+                    <Add />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+
               {selectedTab === 0 && <ProfileCards />}
               {selectedTab === 1 && (
                 <Typography variant="h6">Projetos</Typography>
