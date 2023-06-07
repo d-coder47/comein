@@ -1,32 +1,20 @@
 import axiosInstance from "../api/axiosInstance";
 
 const useUserProfile = () => {
-  const updateUserProfilePhotos = async (
-    userId,
-    _method,
-    img_perfil,
-    img_capa
-  ) => {
+  const updateUserProfileBanner = async (idUser, token, photoCapa) => {
     try {
-      let params;
-      if (img_perfil === null) {
-        params = new URLSearchParams({
-          _method,
-          img_capa,
-        }).toString();
-      } else {
-        params = new URLSearchParams({
-          _method,
-          img_perfil,
-        }).toString();
-      }
+      const params = new URLSearchParams({
+        idUser,
+        photoCapa,
+      }).toString();
+
       const response = await axiosInstance.post(
-        `/utilizadores/atualizar/${userId}`,
+        "/utilizadores/fotoCapa",
         params,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -36,8 +24,35 @@ const useUserProfile = () => {
       console.error(error);
     }
   };
+  const updateUserProfilePhoto = async (idUser, photoPerfil) => {
+    try {
+      const params = new URLSearchParams({
+        idUser,
+        photoPerfil,
+      }).toString();
+      console.log(photoPerfil);
+
+      const response = await axiosInstance.post(
+        "/utilizadores/fotoPerfil",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("hello");
+      console.error(error);
+    }
+  };
   return {
-    updateUserProfilePhotos,
+    updateUserProfileBanner,
+    updateUserProfilePhoto,
   };
 };
 

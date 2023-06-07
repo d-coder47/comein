@@ -149,6 +149,7 @@ const useRegisterUser = () => {
       console.error(error);
     }
   };
+
   return {
     getAddresses,
     getUser,

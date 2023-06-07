@@ -87,7 +87,15 @@ const NavBar = () => {
         src={siteLogo}
         alt="Come In"
         onClick={() => navigate("/")}
-        sx={{ width: "8rem", height: "auto", objectFit: "cover" }}
+        sx={{
+          width: "8rem",
+          height: "auto",
+          objectFit: "cover",
+          cursor: "pointer",
+          "&:hover": {
+            opacity: 0.8, // Adjust the opacity or add more styles as desired
+          },
+        }}
       />
       <Box
         sx={{
