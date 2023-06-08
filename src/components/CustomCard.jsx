@@ -8,6 +8,8 @@ import {
   Badge,
   Modal,
   Tooltip,
+  Skeleton,
+  Stack,
 } from "@mui/material";
 import {
   ThumbUpOffAlt,
@@ -31,9 +33,35 @@ const CustomCard = ({
   const [showTitle, setshowTitle] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    setTimeout(() => setIsLoading(false), 1500);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Stack spacing={1}>
+        <Skeleton variant="rectangular" width="100%" height="17rem" />
+        <Box display="flex">
+          <Skeleton variant="circular" width={25} height={25} />
+          <Box
+            display="flex"
+            alignItems="center"
+            gap=".5rem"
+            sx={{ marginLeft: "auto" }}
+          >
+            <Skeleton variant="rounded" width={12} height={12} />
+            <Skeleton variant="rounded" width={12} height={12} />
+            <Skeleton variant="rounded" width={12} height={12} />
+          </Box>
+        </Box>
+      </Stack>
+    );
+  }
 
   return (
     <Box
@@ -55,7 +83,8 @@ const CustomCard = ({
           <Avatar
             variant="square"
             src={picture || null}
-            alt="event1"
+            alt={`Foto de ${name}`}
+            onClick={handleOpen}
             sx={{
               width: "100%",
               height: "17rem",
@@ -101,7 +130,9 @@ const CustomCard = ({
           alt="avatar"
           src={publisherPhoto || null}
           sx={{ width: 18, height: "auto" }}
-        />
+        >
+          {publisherName[0] || "A"}
+        </Avatar>
         <Typography
           fontWeight="bold"
           fontSize="0.9rem"

@@ -4,6 +4,7 @@ import {
   Badge,
   Box,
   IconButton,
+  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -16,6 +17,7 @@ import {
 } from "@mui/icons-material";
 import CustomBadge from "./CustomBadge";
 import axiosInstance from "../api/axiosInstance";
+import Publisher from "./Publisher";
 
 const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
   return (
@@ -38,7 +40,7 @@ const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
       >
         <Typography fontWeight="bold">{title}</Typography>
         <Box sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
-          <Typography>{publishers?.nome}</Typography>
+          <Publisher publishers={publishers} />
           <Dot sx={{ fontSize: ".5rem" }} />
           <Typography>Seguir</Typography>
         </Box>
@@ -133,7 +135,7 @@ const DetailedOther = ({ others }) => {
       {others?.map((program) => (
         <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
           <Avatar
-            src={`https://comein.cv/comeincv_api_test/programa_eventosImg/${program?.imagem}`}
+            src={`https://comein.cv/comeincv_api_test/carnavalImg/${program?.imagem}`}
             alt={`Foto de ${program?.titulo}`}
             variant="square"
             sx={{ width: "100%", height: "auto" }}
@@ -148,6 +150,22 @@ const DetailedOther = ({ others }) => {
         </Box>
       ))}
     </Box>
+  );
+};
+
+const DetailedImages = ({ images }) => {
+  return (
+    <Stack>
+      {images?.map((img, index) => (
+        <Avatar
+          key={img.id}
+          src={`https://comein.cv/comeincv_api_test/programa_eventosImg/${img.imagem}`}
+          alt={`Imagem _${index}`}
+          variant="square"
+          sx={{ width: "100%", height: "auto" }}
+        />
+      ))}
+    </Stack>
   );
 };
 
@@ -217,6 +235,7 @@ const CardDetailed = ({
           />
           <DetailedProgram programs={details?.programa} />
           <DetailedOther others={details?.outros} />
+          <DetailedImages images={details?.imagens} />
         </Box>
       </Box>
       <Box
