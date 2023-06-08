@@ -130,7 +130,9 @@ const CustomCard = ({
           alt="avatar"
           src={publisherPhoto || null}
           sx={{ width: 18, height: "auto" }}
-        />
+        >
+          {publisherName[0] || "A"}
+        </Avatar>
         <Typography
           fontWeight="bold"
           fontSize="0.9rem"
