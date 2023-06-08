@@ -38,13 +38,14 @@ const UserProfile = () => {
   };
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const authenticated = localStorage.getItem("authenticated");
 
   const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const [profilePhoto, setProfilePhoto] = React.useState(
-    userInfo.img_perfil ? userInfo.img_perfil : null
+    userInfo ? userInfo.img_perfil : null
   );
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(null);
 
@@ -89,6 +90,11 @@ const UserProfile = () => {
     setProfileBannerPhoto(URL.createObjectURL(file));
   };
 
+  React.useEffect(() => {
+    if (!authenticated) {
+      navigate("/");
+    }
+  }, []);
   return (
     <>
       <NavBar />
@@ -362,7 +368,9 @@ const UserProfile = () => {
                 </Tooltip>
               </Box>
 
-              {selectedTab === 0 && <ProfileCards />}
+              {selectedTab === 0 && (
+                <Typography variant="h6">Eventos</Typography>
+              )}
               {selectedTab === 1 && (
                 <Typography variant="h6">Projetos</Typography>
               )}

@@ -321,8 +321,6 @@ export default function Login() {
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
               googleAccountLogin(credentialResponse.credential, decoded);
-
-              console.log(decoded);
             }}
             onError={() => {
               console.log("Login Failed");

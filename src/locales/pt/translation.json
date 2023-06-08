@@ -1,7 +1,8 @@
 {
   "homepage": {
     "login": "Entrar",
-    "signUp": "Cadastrar"
+    "signUp": "Cadastrar",
+    "definicoesConta": "Definições da conta"
   },
   "registerpage": {
     "etapa1": "Etapa 1 de 2",

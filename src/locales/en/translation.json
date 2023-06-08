@@ -1,7 +1,8 @@
 {
   "homepage": {
     "login": "Log In",
-    "signUp": "Sign Up"
+    "signUp": "Sign Up",
+    "definicoesConta": "Account settings"
   },
   "registerpage": {
     "etapa1": "Stage 1 of 2",

@@ -24,9 +24,7 @@ import { useTranslation } from "react-i18next";
 
 const NavBar = () => {
   const navigate = useNavigate();
-
   const { t, i18n } = useTranslation();
-
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
@@ -143,7 +141,7 @@ const NavBar = () => {
                 textAlign: "center",
               }}
             >
-              <Tooltip title="Account settings">
+              <Tooltip title={t("homepage.definicoesConta")}>
                 <IconButton
                   onClick={handleClick}
                   size="small"
