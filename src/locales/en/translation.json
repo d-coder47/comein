@@ -42,6 +42,12 @@
     "erroCadastro": "Error when registering the user",
     "erroUserExiste": "There is already an account with this email address"
   },
+  "userProfile": {
+    "configuracoes": "Paramètres",
+    "eventos": "Events",
+    "projetos": "Projects",
+    "favoritos": "Bookmark"
+  },
   "loginPage": {
     "fazerLogin": "Log in",
     "novoUsuario": "New user?",

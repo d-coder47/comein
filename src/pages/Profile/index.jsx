@@ -26,6 +26,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import useUserProfile from "../../hooks/useUserProfile";
 import useRegisterUser from "../../hooks/useRegisterUser";
+import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
   const user = {
@@ -41,6 +42,7 @@ const UserProfile = () => {
   const authenticated = localStorage.getItem("authenticated");
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [selectedTab, setSelectedTab] = React.useState(0);
 
@@ -217,8 +219,11 @@ const UserProfile = () => {
                     </IconButton>
                   </Button>
                 </Box>
-                <Tooltip title="Configurações">
-                  <IconButton color="primary">
+                <Tooltip title={t("userProfile.configuracoes")}>
+                  <IconButton
+                    color="primary"
+                    onClick={() => navigate("/user-profile-configuration")}
+                  >
                     <Settings />
                   </IconButton>
                 </Tooltip>
@@ -349,33 +354,56 @@ const UserProfile = () => {
                 }}
               >
                 <Tabs value={selectedTab} onChange={handleTabChange}>
-                  <Tab label="Eventos" />
-                  <Tab label="Projetos" />
-                  <Tab label="Favoritos" />
+                  <Tab label={t("userProfile.eventos")} />
+                  <Tab label={t("userProfile.projetos")} />
+                  <Tab label={t("userProfile.favoritos")} />
                 </Tabs>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Tooltip title="Adicionar evento">
-                  <IconButton color="primary">
-                    <Add />
-                  </IconButton>
-                </Tooltip>
               </Box>
 
               {selectedTab === 0 && (
-                <Typography variant="h6">Eventos</Typography>
+                <Typography variant="h6">
+                  <>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Tooltip title="Adicionar evento">
+                        <IconButton color="primary">
+                          <Add />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    {t("userProfile.eventos")}
+                  </>
+                </Typography>
               )}
               {selectedTab === 1 && (
-                <Typography variant="h6">Projetos</Typography>
+                <Typography variant="h6">
+                  <>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Tooltip title="Adicionar evento">
+                        <IconButton color="primary">
+                          <Add />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                    {t("userProfile.projetos")}
+                  </>
+                </Typography>
               )}
               {selectedTab === 2 && (
-                <Typography variant="h6">Favoritos</Typography>
+                <Typography variant="h6">
+                  {t("userProfile.favoritos")}
+                </Typography>
               )}
             </Grid>
           </Grid>

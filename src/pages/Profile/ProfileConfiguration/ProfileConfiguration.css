@@ -1,0 +1,11 @@
+.remove-account-button-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.remove-account-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -43,6 +43,12 @@
     "erroCadastro": "Erro ao cadastrar o utilizador",
     "erroUserExiste": "Ja existe uma conta com este email"
   },
+  "userProfile": {
+    "configuracoes": "Configurações",
+    "eventos": "Eventos",
+    "projetos": "Projetos",
+    "favoritos": "Favoritos"
+  },
   "loginPage": {
     "fazerLogin": "Fazer login",
     "novoUsuario": "Novo utilizador?",

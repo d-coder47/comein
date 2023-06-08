@@ -50,7 +50,7 @@ export default function UserRegistration() {
   const [showDateError, setShowDateError] = React.useState(false);
   const [showGenderError, setShowGenderError] = React.useState(false);
 
-  const [showRegisterForm, setShowRegisterForm] = React.useState(true);
+  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
 
   const { addUser, getAddresses, updateUser, getUser, getTermsPolicy } =
     useRegisterUser();

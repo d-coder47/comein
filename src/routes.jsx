@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/Profile/EditProfile";
+import ProfileConfiguration from "./pages/Profile/ProfileConfiguration";
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,10 @@ const AppRoutes = () => {
         <Route path="/user-login" element={<Login />} />
         <Route path="/user-profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route
+          path="/user-profile-configuration"
+          element={<ProfileConfiguration />}
+        />
       </Routes>
     </Router>
   );
