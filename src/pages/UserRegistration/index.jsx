@@ -351,6 +351,10 @@ export default function UserRegistration() {
           sx={{
             width: "232px",
             height: "auto",
+            cursor: "pointer",
+            "&:hover": {
+              opacity: 0.8, // Adjust the opacity or add more styles as desired
+            },
           }}
         />
       </div>

@@ -14,6 +14,7 @@ import {
   Tabs,
   Tooltip,
   Tab,
+  TextField,
 } from "@mui/material";
 import {
   Edit,
@@ -47,7 +48,7 @@ const UserProfile = () => {
   );
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(null);
 
-  const { updateUserProfilePhotos } = useUserProfile();
+  const { updateUserProfileBanner, updateUserProfilePhoto } = useUserProfile();
 
   const { getUser } = useRegisterUser();
 
@@ -57,12 +58,19 @@ const UserProfile = () => {
 
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = async function (e) {
+      const update_res = await updateUserProfilePhoto(userInfo.id, {
+        uri: e.target.result,
+        name: file.name,
+        type: file.type,
+      });
+      const user = await getUser(userInfo.id);
+      setProfilePhoto(e.target.result);
 
-    // await updateUserProfilePhotos(userInfo.id, "PUT", file, null);
-    // const user = await getUser(userInfo.id);
-
-    // localStorage.setItem("userInfo", JSON.stringify(user.dados));
-    setProfilePhoto(URL.createObjectURL(file));
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    };
+    reader.readAsDataURL(event.target.files[0]);
   };
 
   const handleBannerPhotoUpload = async (event) => {
@@ -203,6 +211,11 @@ const UserProfile = () => {
                     </IconButton>
                   </Button>
                 </Box>
+                <Tooltip title="Configurações">
+                  <IconButton color="primary">
+                    <Settings />
+                  </IconButton>
+                </Tooltip>
                 <Box
                   sx={{
                     display: "flex",
@@ -296,9 +309,29 @@ const UserProfile = () => {
                     44545{" "}
                   </Typography>
                 </Box>
-                <IconButton color="primary">
-                  <Settings />
-                </IconButton>
+                <TextField
+                  label={
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "#000",
+                      }}
+                    >
+                      Sobre
+                    </Typography>
+                  }
+                  value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed gravida feugiat neque, nec viverra ante volutpat id."
+                  disabled
+                  multiline
+                  rows={4}
+                  fullWidth
+                  variant="standard"
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                />
               </Paper>
             </Grid>
             <Grid item xs={5} md={8} className="cards_grid_container">
