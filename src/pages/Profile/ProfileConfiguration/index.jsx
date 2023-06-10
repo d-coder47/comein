@@ -28,6 +28,9 @@ import "./ProfileConfiguration.css";
 const ProfileConfiguration = () => {
   const navigate = useNavigate();
 
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const authenticated = localStorage.getItem("authenticated");
+
   const { getTermsPolicy } = useRegisterUser();
 
   const [terms, setTerms] = React.useState();
@@ -64,6 +67,10 @@ const ProfileConfiguration = () => {
         // Handle error if necessary
       }
     };
+
+    if (!authenticated) {
+      navigate("/");
+    }
 
     fetchData();
   }, []);
@@ -396,7 +403,15 @@ const ProfileConfiguration = () => {
                     associados a ela e você perderá acesso à conta
                     imediatamente.
                   </Typography>
-                  <div className="remove-account-area">
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "60%",
+                    }}
+                  >
                     <Typography
                       variant="h6"
                       sx={{
@@ -405,25 +420,22 @@ const ProfileConfiguration = () => {
                         fontSize: 15,
                       }}
                     >
-                      Insira seu email para continuar
+                      Insira o seu email para a sua conta
                     </Typography>
-                    <div className="remove-account-button-area">
-                      <TextField variant="outlined" fullWidth />
-                      <InputAdornment position="end">
-                        <Button
-                          variant="contained"
-                          className="remove-account-button"
-                          sx={{
-                            marginLeft: "15px",
-                            borderRadius: "20px",
-                          }}
-                          startIcon={<DeleteIcon />}
-                        >
-                          Remover conta
-                        </Button>
-                      </InputAdornment>
-                    </div>
-                  </div>
+
+                    <TextField variant="outlined" fullWidth />
+                    <Button
+                      variant="contained"
+                      className="remove-account-button"
+                      sx={{
+                        marginTop: "15px",
+                        borderRadius: "20px",
+                      }}
+                      startIcon={<DeleteIcon />}
+                    >
+                      Remover conta
+                    </Button>
+                  </Box>
                 </Paper>
               )}
             </Grid>
