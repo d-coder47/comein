@@ -215,7 +215,7 @@ const UserProfile = () => {
                         fontSize: "16px",
                       }}
                     >
-                      <Edit /> Editar perfil
+                      <Edit /> {t("userProfile.editarPerfil")}
                     </IconButton>
                   </Button>
                 </Box>
@@ -244,7 +244,7 @@ const UserProfile = () => {
                       fontSize: 18,
                     }}
                   >
-                    Seguidores
+                    {t("userProfile.seguidores")}
                   </Typography>
 
                   <Typography
@@ -274,7 +274,7 @@ const UserProfile = () => {
                       fontSize: 18,
                     }}
                   >
-                    Seguindo
+                    {t("userProfile.seguindo")}
                   </Typography>
 
                   <Typography
@@ -305,7 +305,7 @@ const UserProfile = () => {
                       fontSize: 18,
                     }}
                   >
-                    Visitantes
+                    {t("userProfile.visitantes")}
                   </Typography>
 
                   <Typography
@@ -330,7 +330,7 @@ const UserProfile = () => {
                         color: "#000",
                       }}
                     >
-                      Sobre
+                      {t("userProfile.sobre")}
                     </Typography>
                   }
                   value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed gravida feugiat neque, nec viverra ante volutpat id."

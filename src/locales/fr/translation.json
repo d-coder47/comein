@@ -46,7 +46,32 @@
     "configuracoes": "Settings",
     "eventos": "Evénements",
     "projetos": "Projets",
-    "favoritos": "Favoris"
+    "favoritos": "Favoris",
+    "editarPerfil": "Modifier le profil",
+    "seguidores": "Adhérents",
+    "seguindo": "Suivant",
+    "visitantes": "Visiteurs",
+    "sobre": "A propos de",
+    "configPage": {
+      "ajudaSuporte": "Aide et support",
+      "reportarErro": "Signaler un bug",
+      "termosdeUsoPoliticas": "Conditions d’utilisation et politiques de confidentialité",
+      "removerConta": "Supprimer un compte",
+      "comoAddPub": "Comment ajouter une publication ?",
+      "comoAddPubDetails": "Vous devez cliquer sur l’icône avec votre photo de profil qui apparaît dans le coin supérieur droit du site, après cela, vous devez cliquer sur Profil, si vous n’avez toujours pas de publication apparaîtra une zone écrite Ajouter un événement, dans le cas où il s’agit d’un événement que vous souhaitez ajouter, pour finir, vous devez remplir le formulaire qui apparaîtra avec les informations de l’événement.",
+      "comoMudarProfileInfo": "Comment puis-je modifier les informations de mon profil ?",
+      "comoMudarProfileInfoDetails": "Vous devez cliquer sur l’icône avec votre photo de profil qui apparaît dans le coin supérieur droit du site, après cela, vous devez cliquer sur Profil, cliquez sur le bouton Modifier le profil qui apparaît sur le côté gauche de la page, cela vous dirigera vers une section où vous pourrez modifier les informations relatives à votre profil.",
+      "comoMudarProfilePhoto": "Comment puis-je changer ma photo de profil et ma couverture?",
+      "comoMudarProfilePhotoDetails": " Vous devez cliquer sur l’icône avec votre photo de profil qui apparaît dans le coin supérieur droit du site, après cela, vous devez cliquer sur Profil, dans votre profil, vous devez cliquer en haut de votre photo de profil pour sélectionner une nouvelle photo, le même processus doit être fait pour ajouter une nouvelle photo de couverture.",
+      "comoReportarError": "Comment signaler une erreur ?",
+      "comoReportarErrorDetails": "Vous devez cliquer sur l’icône avec votre photo de profil qui apparaît dans le coin supérieur droit du site, cliquez sur l’icône Paramètres qui apparaît sur le côté gauche de la page sous le bouton Modifier le profil, cliquez sur l’élément Signaler une erreur qui apparaît dans le menu sur le côté gauche de la page.",
+      "comoRemoverConta": "Comment puis-je supprimer mon compte ?",
+      "comoRemoverContaDetails": "Vous devez cliquer sur l’icône avec votre photo de profil qui apparaît dans le coin supérieur droit du site, cliquer sur l’icône Paramètres qui apparaît sur le côté gauche de la page sous le bouton Modifier le profil, cliquer sur l’élément Supprimer le compte qui apparaît dans le menu sur le côté gauche de la page.",
+      "termosUso": "Conditions d’utilisation",
+      "politicasPrivacidade": "Politique de confidentialité",
+      "removerContaDetails": "La suppression du compte supprimera tout le contenu et les données associés au compte et vous perdrez immédiatement l’accès au compte.",
+      "inserirEmail": "Entrez votre adresse e-mail pour votre compte"
+    }
   },
   "loginPage": {
     "fazerLogin": "S'identifier",

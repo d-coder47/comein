@@ -46,7 +46,32 @@
     "configuracoes": "Paramètres",
     "eventos": "Events",
     "projetos": "Projects",
-    "favoritos": "Bookmark"
+    "favoritos": "Bookmark",
+    "editarPerfil": "Edit profile",
+    "seguidores": "Followers",
+    "seguindo": "Following",
+    "visitantes": "Visitors",
+    "sobre": "About",
+    "configPage": {
+      "ajudaSuporte": "Help & Support",
+      "reportarErro": "Report bug",
+      "termosdeUsoPoliticas": "Terms of use and privacy policies",
+      "removerConta": "Remove account",
+      "comoAddPub": "How do I add a post?",
+      "comoAddPubDetails": "You must click on the icon with your profile picture that appears in the upper right corner of the site, after this you must click on Profile, if you still do not have any publication will appear an area written Add Event, in case it is an event that you want to add, to finish you must fill out the form that will appear with the information of the event.",
+      "comoMudarProfileInfo": "How do I change my profile information?",
+      "comoMudarProfileInfoDetails": "You should click on the icon with your profile picture that appears in the upper right corner of the site, after this you should click on Profile, click on the edit profile button that appears on the left side of the page, this will direct you to a section where you can edit the information related to your profile.",
+      "comoMudarProfilePhoto": "How do I change my profile picture and cover?",
+      "comoMudarProfilePhotoDetails": " You must click on the icon with your profile picture that appears in the upper right corner of the site, after this you must click on Profile, in your profile you must click on top of your profile picture to select a new photo, the same process must be done to add a new cover photo.",
+      "comoReportarError": "How do I report an error?",
+      "comoReportarErrorDetails": "You should click on the icon with your profile picture that appears in the upper right corner of the site, click the Settings icon that appears on the left side of the page under the Edit Profile button, click on the Report Error item that appears in the menu on the left side of the page.",
+      "comoRemoverConta": "How do I remove my account?",
+      "comoRemoverContaDetails": "You must click on the icon with your profile picture that appears in the upper right corner of the site, click on the Settings icon that appears on the left side of the page under the Edit Profile button, click on the Remove Account item that appears in the menu on the left side of the page.",
+      "termosUso": "Terms of Use",
+      "politicasPrivacidade": "Privacy Policy",
+      "removerContaDetails": "Deleting the account will remove all content and data associated with the account and you will lose access to the account immediately.",
+      "inserirEmail": "Enter your email address for your account"
+    }
   },
   "loginPage": {
     "fazerLogin": "Log in",

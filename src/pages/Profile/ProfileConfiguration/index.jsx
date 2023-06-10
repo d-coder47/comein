@@ -24,12 +24,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import "./ProfileConfiguration.css";
+import { useTranslation } from "react-i18next";
 
 const ProfileConfiguration = () => {
   const navigate = useNavigate();
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
+
+  const { t } = useTranslation();
 
   const { getTermsPolicy } = useRegisterUser();
 
@@ -111,26 +114,34 @@ const ProfileConfiguration = () => {
                     selected={selectedIndex === 1}
                     onClick={(event) => handleListItemClick(event, 1)}
                   >
-                    <ListItemText primary="Ajuda e suporte" />
+                    <ListItemText
+                      primary={t("userProfile.configPage.ajudaSuporte")}
+                    />
                   </ListItemButton>
                   <ListItemButton
                     selected={selectedIndex === 2}
                     onClick={(event) => handleListItemClick(event, 2)}
                   >
-                    <ListItemText primary="Reportar erro" />
+                    <ListItemText
+                      primary={t("userProfile.configPage.reportarErro")}
+                    />
                   </ListItemButton>
                   <ListItemButton
                     selected={selectedIndex === 3}
                     onClick={(event) => handleListItemClick(event, 3)}
                   >
-                    <ListItemText primary="Termos de uso e políticas de privacidade" />
+                    <ListItemText
+                      primary={t("userProfile.configPage.termosdeUsoPoliticas")}
+                    />
                   </ListItemButton>
 
                   <ListItemButton
                     selected={selectedIndex === 4}
                     onClick={(event) => handleListItemClick(event, 4)}
                   >
-                    <ListItemText primary="Remover conta" />
+                    <ListItemText
+                      primary={t("userProfile.configPage.removerConta")}
+                    />
                   </ListItemButton>
                 </List>
               </Paper>
@@ -155,7 +166,7 @@ const ProfileConfiguration = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Ajuda e suporte
+                    {t("userProfile.configPage.ajudaSuporte")}
                   </Typography>
                   <div className="help-topics-area">
                     <div>
@@ -166,19 +177,12 @@ const ProfileConfiguration = () => {
                           id="panel1a-header"
                         >
                           <Typography>
-                            Como adicionar uma publicação?{" "}
+                            {t("userProfile.configPage.comoAddPub")}{" "}
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            Deve clicar no ícone com a sua foto de perfil que
-                            aparece no canto superior direito do site, após isto
-                            deve clicar em "Perfil", se ainda não tiver nenhuma
-                            publicação vai aparecer uma área escrita "Adicionar
-                            Evento", no caso de ser um evento que deseja
-                            adicionar, para finalizar deve preencher o
-                            formulário que aparecera com as informações do
-                            evento.
+                            {t("userProfile.configPage.comoAddPubDetails")}
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -189,17 +193,14 @@ const ProfileConfiguration = () => {
                           id="panel2a-header"
                         >
                           <Typography>
-                            Como mudar as informações do meu perfil?
+                            {t("userProfile.configPage.comoMudarProfileInfo")}
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            Deve clicar no ícone com a sua foto de perfil que
-                            aparece no canto superior direito do site, após isto
-                            deve clicar em "Perfil", clicar no botão "editar
-                            perfil" que aparece no lado esquerdo da página, isto
-                            encaminhara-lhe para uma secção onde poderá editar
-                            as informações relacionadas com o seu perfil.
+                            {t(
+                              "userProfile.configPage.comoMudarProfileInfoDetails"
+                            )}
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -210,17 +211,14 @@ const ProfileConfiguration = () => {
                           id="panel2a-header"
                         >
                           <Typography>
-                            Como mudar a minha foto de perfil e capa?
+                            {t("userProfile.configPage.comoMudarProfilePhoto")}
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            Deve clicar no ícone com a sua foto de perfil que
-                            aparece no canto superior direito do site, após isto
-                            deve clicar em "Perfil", no seu perfil deve clicar
-                            em cima da sua foto de perfil para selecionar uma
-                            nova foto, o mesmo processo deve ser feito para
-                            adicionar uma nova foto de capa.
+                            {t(
+                              "userProfile.configPage.comoMudarProfilePhotoDetails"
+                            )}
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -230,16 +228,15 @@ const ProfileConfiguration = () => {
                           aria-controls="panel2a-content"
                           id="panel2a-header"
                         >
-                          <Typography>Como reportar um erro?</Typography>
+                          <Typography>
+                            {t("userProfile.configPage.comoReportarError")}
+                          </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            Deve clicar no ícone com a sua foto de perfil que
-                            aparece no canto superior direito do site, clique no
-                            ícone de "Configurações" que aparece no lado
-                            esquerdo da página debaixo do botão "Editar perfil",
-                            clique no item "Reportar erro" que aparece no menu
-                            do lado esquerdo da página.
+                            {t(
+                              "userProfile.configPage.comoReportarErrorDetails"
+                            )}
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -249,16 +246,15 @@ const ProfileConfiguration = () => {
                           aria-controls="panel2a-content"
                           id="panel2a-header"
                         >
-                          <Typography>Como remover a minha conta?</Typography>
+                          <Typography>
+                            {t("userProfile.configPage.comoRemoverConta")}
+                          </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            Deve clicar no ícone com a sua foto de perfil que
-                            aparece no canto superior direito do site, clique no
-                            ícone de "Configurações" que aparece no lado
-                            esquerdo da página debaixo do botão "Editar perfil",
-                            clique no item "Remover conta" que aparece no menu
-                            do lado esquerdo da página.
+                            {t(
+                              "userProfile.configPage.comoRemoverContaDetails"
+                            )}
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -285,7 +281,7 @@ const ProfileConfiguration = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Reportar erro
+                    {t("userProfile.configPage.reportarErro")}
                   </Typography>
                   <Box
                     component="form"
@@ -317,7 +313,7 @@ const ProfileConfiguration = () => {
                         borderRadius: "20px",
                       }}
                     >
-                      Report Error
+                      {t("userProfile.configPage.reportarErro")}
                     </Button>
                   </Box>
                 </Paper>
@@ -342,7 +338,7 @@ const ProfileConfiguration = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Termos de uso e políticas de privacidade
+                    {t("userProfile.configPage.termosdeUsoPoliticas")}
                   </Typography>
                   <Accordion>
                     <AccordionSummary
@@ -350,7 +346,9 @@ const ProfileConfiguration = () => {
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
-                      <Typography>Termos de uso</Typography>
+                      <Typography>
+                        {t("userProfile.configPage.termosUso")}
+                      </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
@@ -364,7 +362,10 @@ const ProfileConfiguration = () => {
                       aria-controls="panel2a-content"
                       id="panel2a-header"
                     >
-                      <Typography>Políticas de privacidade</Typography>
+                      <Typography>
+                        {" "}
+                        {t("userProfile.configPage.politicasPrivacidade")}
+                      </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
@@ -395,13 +396,11 @@ const ProfileConfiguration = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Remover conta
+                    {t("userProfile.configPage.removerConta")}
                   </Typography>
 
                   <Typography variant="body2" gutterBottom>
-                    A exclusão da conta removerá todo o conteúdo e dados
-                    associados a ela e você perderá acesso à conta
-                    imediatamente.
+                    {t("userProfile.configPage.removerContaDetails")}
                   </Typography>
                   <Box
                     sx={{
@@ -420,7 +419,7 @@ const ProfileConfiguration = () => {
                         fontSize: 15,
                       }}
                     >
-                      Insira o seu email para a sua conta
+                      {t("userProfile.configPage.inserirEmail")}
                     </Typography>
 
                     <TextField variant="outlined" fullWidth />
@@ -433,7 +432,7 @@ const ProfileConfiguration = () => {
                       }}
                       startIcon={<DeleteIcon />}
                     >
-                      Remover conta
+                      {t("userProfile.configPage.removerConta")}
                     </Button>
                   </Box>
                 </Paper>
