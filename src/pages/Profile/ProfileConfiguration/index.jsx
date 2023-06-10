@@ -3,24 +3,21 @@ import NavBar from "../../../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import {
   Typography,
-  Avatar,
   Grid,
   Paper,
   Box,
-  IconButton,
   Button,
-  Tabs,
-  Tab,
   List,
   ListItemButton,
   ListItemText,
   TextField,
   InputAdornment,
-  ListItem,
   Accordion,
   AccordionDetails,
   AccordionSummary,
 } from "@mui/material";
+
+import useRegisterUser from "../../../hooks/useRegisterUser";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -31,11 +28,46 @@ import "./ProfileConfiguration.css";
 const ProfileConfiguration = () => {
   const navigate = useNavigate();
 
+  const { getTermsPolicy } = useRegisterUser();
+
+  const [terms, setTerms] = React.useState();
+  const [policy, setPolicy] = React.useState();
+
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+
+  const handleErrorSubmit = (event) => {
+    event.preventDefault();
+    // Here you can perform the error reporting logic
+    console.log("Error message:", errorMessage);
+    // Reset the form
+    setErrorMessage("");
+  };
+
+  const handleErrorChange = (event) => {
+    setErrorMessage(event.target.value);
+  };
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getTermsPolicy();
+        setTerms(res.termos);
+        setPolicy(res.politicas);
+      } catch (error) {
+        console.error(error);
+        // Handle error if necessary
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -83,6 +115,13 @@ const ProfileConfiguration = () => {
                   <ListItemButton
                     selected={selectedIndex === 3}
                     onClick={(event) => handleListItemClick(event, 3)}
+                  >
+                    <ListItemText primary="Termos de uso e políticas de privacidade" />
+                  </ListItemButton>
+
+                  <ListItemButton
+                    selected={selectedIndex === 4}
+                    onClick={(event) => handleListItemClick(event, 4)}
                   >
                     <ListItemText primary="Remover conta" />
                   </ListItemButton>
@@ -231,11 +270,105 @@ const ProfileConfiguration = () => {
                     alignItems: "center",
                   }}
                 >
-                  Reportar erro
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      marginTop: "1rem",
+                      marginBottom: "1rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Reportar erro
+                  </Typography>
+                  <Box
+                    component="form"
+                    onSubmit={handleErrorSubmit}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "60%",
+                    }}
+                  >
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={4}
+                      value={errorMessage}
+                      onChange={handleErrorChange}
+                      margin="normal"
+                    />
+
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{
+                        width: "30%",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      Report Error
+                    </Button>
+                  </Box>
                 </Paper>
               )}
 
               {selectedIndex === 3 && (
+                <Paper
+                  elevation={3}
+                  className=""
+                  sx={{
+                    padding: "1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      marginTop: "1rem",
+                      marginBottom: "1rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Termos de uso e políticas de privacidade
+                  </Typography>
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography>Termos de uso</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <div dangerouslySetInnerHTML={{ __html: terms }} />
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography>Políticas de privacidade</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <div dangerouslySetInnerHTML={{ __html: policy }} />
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                </Paper>
+              )}
+
+              {selectedIndex === 4 && (
                 <Paper
                   elevation={3}
                   className=""
@@ -282,6 +415,7 @@ const ProfileConfiguration = () => {
                           className="remove-account-button"
                           sx={{
                             marginLeft: "15px",
+                            borderRadius: "20px",
                           }}
                           startIcon={<DeleteIcon />}
                         >
