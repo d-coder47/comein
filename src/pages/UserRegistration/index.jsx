@@ -273,7 +273,6 @@ export default function UserRegistration() {
       } else {
         let id_geografia_residencia;
         let id_geografia_nacionalidade;
-        geoIdsNationality;
         geoIds.forEach((item) => {
           if (item.nome === formData.residence) {
             id_geografia_redidencia = item.id;

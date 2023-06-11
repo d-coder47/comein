@@ -189,9 +189,7 @@ const UserProfile = () => {
                   }}
                 >
                   <LocationOn fontSize="small" sx={{ marginRight: "0.5rem" }} />
-                  <Typography variant="body2">
-                    Localizacao por implmentar
-                  </Typography>
+                  <Typography variant="body2">{userInfo.residencia}</Typography>
                 </Box>
                 <Box
                   sx={{

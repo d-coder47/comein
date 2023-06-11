@@ -70,7 +70,7 @@ const EditProfile = () => {
   });
 
   const [aboutMeValue, setAboutMeValue] = React.useState();
-
+  const [geoIdsNationality, setGeoIdsNationality] = React.useState([]);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfPassword, setShowConfPassword] = React.useState(false);
@@ -137,9 +137,10 @@ const EditProfile = () => {
     formData.email = userInfo.email;
     if (userInfo.sexo) {
       formData.date = userInfo.data_nasc;
-      // formData.nationality = userInfo.nationality;
-      // formData.contact = userInfo.residence;
+      formData.nationality = userInfo.nacionalidade;
+      formData.contact = userInfo.contatos;
       formData.gender = userInfo.sexo;
+      formData.residence = userInfo.residencia;
     }
   }, []);
 
@@ -263,17 +264,23 @@ const EditProfile = () => {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      let id_geografia;
+      let id_geografia_residencia;
+      let id_geografia_nacionalidade;
       geoIds.forEach((item) => {
         if (item.nome === formData.residence) {
-          id_geografia = item.id;
+          id_geografia_residencia = item.id;
+        }
+      });
+      geoIdsNationality.forEach((item) => {
+        if (item.nome === formData.residence) {
+          id_geografia_nacionalidade = item.id;
         }
       });
       let sexo = formData.gender;
       let data_nasc = formData.date;
       let contatos = formData.contact;
-      let residencia = id_geografia;
-      let nacionalidade = id_geografia;
+      let residencia = id_geografia_residencia;
+      let nacionalidade = id_geografia_nacionalidade;
       let userId = userInfo.id;
       let token = localStorage.getItem("token");
       let nome = formData.name;
@@ -520,6 +527,7 @@ const EditProfile = () => {
                         <Autocomplete
                           id="country-select"
                           options={countries}
+                          value={formData.nationality}
                           autoHighlight
                           renderInput={(params) => (
                             <TextField
@@ -544,14 +552,20 @@ const EditProfile = () => {
                             if (value.length >= 2 && value.length <= 4) {
                               const res = await getAddresses(value);
                               const newCountries = [];
+                              const newNationalityGeoIds = [];
                               for (let key in res.dados) {
                                 if (res.dados.hasOwnProperty(key)) {
                                   const value = res.dados[key];
 
                                   newCountries.push(value.nacionalidade);
+                                  newNationalityGeoIds.push({
+                                    id: value.id,
+                                    nome: value.nacionalidade,
+                                  });
                                 }
                               }
                               setCountries(newCountries);
+                              setGeoIdsNationality(newNationalityGeoIds);
                             }
                           }}
                           onChange={(event, value) => {
@@ -572,6 +586,7 @@ const EditProfile = () => {
                         <Autocomplete
                           id="address-select"
                           options={addresses}
+                          value={formData.residence}
                           autoHighlight
                           renderInput={(params) => (
                             <TextField
