@@ -3,20 +3,16 @@ import NavBar from "../../../components/NavBar";
 import { useNavigate } from "react-router-dom";
 import {
   Typography,
-  Avatar,
   Grid,
   Paper,
   Box,
   IconButton,
   Button,
-  Tabs,
-  Tab,
   List,
   InputAdornment,
   ListItemButton,
   ListItemText,
   TextField,
-  ListItem,
   FormLabel,
   Collapse,
   MenuItem,
@@ -36,8 +32,7 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const { addUser, getAddresses, updateUser, getUser, getTermsPolicy } =
-    useRegisterUser();
+  const { getAddresses, updateUser, getUser } = useRegisterUser();
 
   const [countries, setCountries] = React.useState([]);
   const [addresses, setAddresses] = React.useState([]);
@@ -97,7 +92,7 @@ const EditProfile = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -158,35 +153,37 @@ const EditProfile = () => {
     let errors = {};
 
     if (formData.password.trim() === "") {
-      errors.password = "Palavra-passe atual é obrigatório";
+      errors.password = t("editProfilePage.palavraPasseAtualObrigatorio");
       setShowPasswordError(true);
     } else {
       setShowPasswordError(false);
     }
 
     if (formData.newPassword.trim() === "") {
-      errors.newPassword = "Palavra-passe nova é obrigatório";
+      errors.newPassword = t("editProfilePage.palavraPasseNovaObrigatorio");
       setShowNewPasswordError(true);
     } else {
       setShowNewPasswordError(false);
     }
 
     if (formData.confPassword.trim() === "") {
-      errors.confPassword = "É obrigatório confirmar a nova palavra-passe";
+      errors.confPassword = t(
+        "editProfilePage.confPalavraPasseNovaObrigatorio"
+      );
       setShowConfPasswordError(true);
     } else {
       setShowConfPasswordError(false);
     }
 
     if (formData.newPassword.trim() !== formData.confPassword.trim()) {
-      errors.confPassword = "Palavra-passes não coincidem";
+      errors.confPassword = t("editProfilePage.palavraPasseNCoincidem");
       setShowConfPasswordError(true);
     } else {
       setShowConfPasswordError(false);
     }
 
     if (formData.confPassword.trim() === "") {
-      errors.confPassword = "É obrigatório confirmar a nova palavra-passe";
+      errors.confPassword = t("editProfilePage.confPassObrigatorio");
       setShowConfPasswordError(true);
     } else {
       setShowConfPasswordError(false);
@@ -341,19 +338,23 @@ const EditProfile = () => {
                     selected={selectedIndex === 1}
                     onClick={(event) => handleListItemClick(event, 1)}
                   >
-                    <ListItemText primary="Informações básicas" />
+                    <ListItemText
+                      primary={t("editProfilePage.informaçõesBasicas")}
+                    />
                   </ListItemButton>
                   <ListItemButton
                     selected={selectedIndex === 2}
                     onClick={(event) => handleListItemClick(event, 2)}
                   >
-                    <ListItemText primary="Mudar Palavra-Passe" />
+                    <ListItemText
+                      primary={t("editProfilePage.mudarPalavraPasse")}
+                    />
                   </ListItemButton>
                   <ListItemButton
                     selected={selectedIndex === 3}
                     onClick={(event) => handleListItemClick(event, 3)}
                   >
-                    <ListItemText primary="Sobre mim" />
+                    <ListItemText primary={t("editProfilePage.sobreMim")} />
                   </ListItemButton>
                 </List>
               </Paper>

@@ -73,6 +73,16 @@
       "inserirEmail": "Enter your email address for your account"
     }
   },
+  "editProfilePage": {
+    "palavraPasseAtualObrigatorio": "Current password is required",
+    "palavraPasseNovaObrigatorio": "New password is required",
+    "confPalavraPasseNovaObrigatorio": "Confirm new password is required",
+    "palavraPasseNCoincidem": "Passwords do not match",
+    "confPassObrigatorio": "Confirm new password is required",
+    "informaçõesBasicas": "Background",
+    "mudarPalavraPasse": "Change Password",
+    "sobreMim": "About Me"
+  },
   "loginPage": {
     "fazerLogin": "Log in",
     "novoUsuario": "New user?",
