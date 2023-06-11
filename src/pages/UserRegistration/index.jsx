@@ -58,6 +58,7 @@ export default function UserRegistration() {
   const [addresses, setAddresses] = React.useState([]);
   const [countries, setCountries] = React.useState([]);
   const [geoIds, setGeoIds] = React.useState([]);
+  const [geoIdsNationality, setGeoIdsNationality] = React.useState([]);
 
   const [openLoginError, setOpenLoginError] = React.useState(false);
 
@@ -270,17 +271,24 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        let id_geografia;
+        let id_geografia_residencia;
+        let id_geografia_nacionalidade;
+        geoIdsNationality;
         geoIds.forEach((item) => {
           if (item.nome === formData.residence) {
-            id_geografia = item.id;
+            id_geografia_redidencia = item.id;
+          }
+        });
+        geoIdsNationality.forEach((item) => {
+          if (item.nome === formData.residence) {
+            id_geografia_nacionalidade = item.id;
           }
         });
         let sexo = formData.gender;
         let data_nasc = formData.date;
         let contatos = formData.contact;
-        let residencia = id_geografia;
-        let nacionalidade = id_geografia;
+        let residencia = id_geografia_residencia;
+        let nacionalidade = id_geografia_nacionalidade;
         let userId = localStorage.getItem("userID");
         let token = localStorage.getItem("token");
         let nome = `${formData.name} ${formData.surname}`;
@@ -599,14 +607,20 @@ export default function UserRegistration() {
                         if (value.length >= 2 && value.length <= 4) {
                           const res = await getAddresses(value);
                           const newCountries = [];
+                          const newNationalityGeoIds = [];
                           for (let key in res.dados) {
                             if (res.dados.hasOwnProperty(key)) {
                               const value = res.dados[key];
 
+                              newNationalityGeoIds.push({
+                                id: value.id,
+                                nome: value.nacionalidade,
+                              });
                               newCountries.push(value.nacionalidade);
                             }
                           }
                           setCountries(newCountries);
+                          setGeoIdsNationality(newNationalityGeoIds);
                         }
                       }}
                       onChange={(event, value) => {
