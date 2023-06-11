@@ -25,8 +25,8 @@ import {
   Autocomplete,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-// import Visibility from "@mui/icons-material/Visibility";
-// import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import validator from "validator";
 
 import { useTranslation } from "react-i18next";
@@ -49,9 +49,11 @@ const EditProfile = () => {
 
   const [formData, setFormData] = React.useState({
     email: "",
-    password: "",
     name: "",
     date: "",
+    password: "",
+    newPassword: "",
+    confPassword: "",
     nationality: "",
     residence: "",
     contact: "",
@@ -60,9 +62,11 @@ const EditProfile = () => {
 
   const [formErrors, setFormErrors] = React.useState({
     email: "",
-    password: "",
     name: "",
     surname: "",
+    password: "",
+    newPassword: "",
+    confPassword: "",
     date: "",
     nationality: "",
     residence: "",
@@ -70,11 +74,16 @@ const EditProfile = () => {
     gender: "",
   });
 
-  // const [showPassword, setShowPassword] = React.useState(false);
-  // const [showPasswordError, setShowPasswordError] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showNewPassword, setShowNewPassword] = React.useState(false);
+  const [showConfPassword, setShowConfPassword] = React.useState(false);
+  const [showPasswordError, setShowPasswordError] = React.useState(false);
+  const [showNewPasswordError, setShowNewPasswordError] = React.useState(false);
+  const [showConfPasswordError, setShowConfPasswordError] =
+    React.useState(false);
+
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showNameError, setShowNameError] = React.useState(false);
-  const [showSurnameError, setShowSurnameError] = React.useState(false);
   const [showNationalityError, setShowNationalityError] = React.useState(false);
   const [showResidenceError, setShowResidenceError] = React.useState(false);
   const [showContactError, setShowContactError] = React.useState(false);
@@ -92,7 +101,10 @@ const EditProfile = () => {
     setSelectedIndex(index);
   };
 
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowNewPassword = () => setShowNewPassword((show) => !show);
+  const handleClickShowConfPassword = () =>
+    setShowConfPassword((show) => !show);
 
   const handlePhoneChange = (newValue) => {
     setFormData({
@@ -101,9 +113,9 @@ const EditProfile = () => {
     });
   };
 
-  // const handleMouseDownPassword = (event) => {
-  //   event.preventDefault();
-  // };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -120,11 +132,63 @@ const EditProfile = () => {
     formData.email = userInfo.email;
     if (userInfo.sexo) {
       formData.date = userInfo.data_nasc;
-      formData.nationality = userInfo.nationality;
-      formData.contact = userInfo.residence;
+      // formData.nationality = userInfo.nationality;
+      // formData.contact = userInfo.residence;
       formData.gender = userInfo.sexo;
     }
   }, []);
+
+  const handleChangePassSubmit = async (e) => {
+    e.preventDefault();
+
+    let errors = {};
+
+    if (formData.password.trim() === "") {
+      errors.password = "Palavra-passe atual é obrigatório";
+      setShowPasswordError(true);
+    } else {
+      setShowPasswordError(false);
+    }
+
+    if (formData.newPassword.trim() === "") {
+      errors.newPassword = "Palavra-passe nova é obrigatório";
+      setShowNewPasswordError(true);
+    } else {
+      setShowNewPasswordError(false);
+    }
+
+    if (formData.confPassword.trim() === "") {
+      errors.confPassword = "É obrigatório confirmar a nova palavra-passe";
+      setShowConfPasswordError(true);
+    } else {
+      setShowConfPasswordError(false);
+    }
+
+    if (formData.newPassword.trim() !== formData.confPassword.trim()) {
+      errors.confPassword = "Palavra-passes não coincidem";
+      setShowConfPasswordError(true);
+    } else {
+      setShowConfPasswordError(false);
+    }
+
+    if (formData.confPassword.trim() === "") {
+      errors.confPassword = "É obrigatório confirmar a nova palavra-passe";
+      setShowConfPasswordError(true);
+    } else {
+      setShowConfPasswordError(false);
+    }
+
+    if (Object.keys(errors).length) {
+      setFormErrors(errors);
+    } else {
+      console.log(
+        formData.password,
+        formData.newPassword,
+        formData.confPassword
+      );
+    }
+  };
+
   const handleEditProfileSubmit = async (e) => {
     e.preventDefault();
 
@@ -150,13 +214,6 @@ const EditProfile = () => {
     } else {
       setShowNameError(false);
     }
-
-    // if (formData.surname.trim() === "") {
-    //   errors.surname = t("registerpage.sobrenomeObrigatorio");
-    //   setShowSurnameError(true);
-    // } else {
-    //   setShowSurnameError(false);
-    // }
 
     if (formData.date.trim() === "") {
       errors.date = t("registerpage.dataNascObrigatorio");
@@ -276,7 +333,7 @@ const EditProfile = () => {
                     selected={selectedIndex === 2}
                     onClick={(event) => handleListItemClick(event, 2)}
                   >
-                    <ListItemText primary="Na web" />
+                    <ListItemText primary="Mudar Palavra-Passe" />
                   </ListItemButton>
                   <ListItemButton
                     selected={selectedIndex === 3}
@@ -352,70 +409,7 @@ const EditProfile = () => {
                           fullWidth
                         />
                       </Grid>
-                      {/* <Grid item xs={6} textAlign="left">
-                        <FormLabel
-                          id="surname_label"
-                          sx={{
-                            margin: "8px",
-                          }}
-                        >
-                          {t("registerpage.sobrenome")}
-                        </FormLabel>
-                        <TextField
-                          id="surnameField"
-                          name="surname"
-                          value={formData.surname}
-                          error={showSurnameError}
-                          helperText={formErrors.surname}
-                          variant="outlined"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          onChange={handleInputChange}
-                          fullWidth
-                        />
-                      </Grid> */}
-                      {/* <Grid item xs={6} textAlign="left">
-                        <FormLabel
-                          id="password _label"
-                          sx={{
-                            marginLeft: "8px",
-                          }}
-                        >
-                          {t("registerpage.password")}
-                        </FormLabel>
-                        <TextField
-                          id="password"
-                          name="password"
-                          variant="outlined"
-                          type={showPassword ? "text" : "password"}
-                          value={formData.password}
-                          onChange={handleInputChange}
-                          error={showPasswordError}
-                          helperText={formErrors.password}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          InputProps={{
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  aria-label="toggle password visibility"
-                                  onClick={handleClickShowPassword}
-                                  onMouseDown={handleMouseDownPassword}
-                                  edge="end"
-                                >
-                                  {showPassword ? (
-                                    <VisibilityOff />
-                                  ) : (
-                                    <Visibility />
-                                  )}
-                                </IconButton>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                      </Grid> */}
+
                       <Grid item xs={6} textAlign="left">
                         <FormLabel
                           id="email_label"
@@ -717,8 +711,174 @@ const EditProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Na web
+                    Mudar palavra-passe
                   </Typography>
+
+                  <Box
+                    component="form"
+                    className="change_pass_form"
+                    sx={{
+                      "& .MuiTextField-root": {
+                        m: 1,
+                        width: "40ch",
+                      },
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                    noValidate
+                    autoComplete="off"
+                    onSubmit={handleChangePassSubmit}
+                  >
+                    <Grid
+                      container
+                      spacing={2}
+                      justifyContent="center"
+                      alignItems="center"
+                      display="flex"
+                      flexDirection="column"
+                    >
+                      <Grid item xs={6} textAlign="left">
+                        <FormLabel
+                          id="change_password _label"
+                          sx={{
+                            marginLeft: "8px",
+                          }}
+                        >
+                          {t("registerpage.password")}
+                        </FormLabel>
+                        <TextField
+                          id="change_password"
+                          name="password"
+                          variant="outlined"
+                          type={showPassword ? "text" : "password"}
+                          value={formData.password}
+                          onChange={handleInputChange}
+                          error={showPasswordError}
+                          helperText={formErrors.password}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+
+                      <Grid item xs={6} textAlign="left">
+                        <FormLabel
+                          id="new_password _label"
+                          sx={{
+                            marginLeft: "8px",
+                          }}
+                        >
+                          Novo palavra-passe
+                        </FormLabel>
+                        <TextField
+                          id="new_password"
+                          name="newPassword"
+                          variant="outlined"
+                          type={showNewPassword ? "text" : "password"}
+                          value={formData.newPassword}
+                          onChange={handleInputChange}
+                          error={showNewPasswordError}
+                          helperText={formErrors.newPassword}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowNewPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showNewPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={6} textAlign="left">
+                        <FormLabel
+                          id="conf_password_label"
+                          sx={{
+                            marginLeft: "8px",
+                          }}
+                        >
+                          Confirmar palavra-passe
+                        </FormLabel>
+                        <TextField
+                          id="conf_password"
+                          name="confPassword"
+                          variant="outlined"
+                          type={showConfPassword ? "text" : "password"}
+                          value={formData.confPassword}
+                          onChange={handleInputChange}
+                          error={showConfPasswordError}
+                          helperText={formErrors.confPassword}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="toggle password visibility"
+                                  onClick={handleClickShowConfPassword}
+                                  onMouseDown={handleMouseDownPassword}
+                                  edge="end"
+                                >
+                                  {showConfPassword ? (
+                                    <VisibilityOff />
+                                  ) : (
+                                    <Visibility />
+                                  )}
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Grid container justifyContent="center">
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        className="change_pass_button"
+                        color="primary"
+                        sx={{
+                          m: 3,
+                          color: "#ffffff",
+                          width: "20ch",
+                          borderRadius: "16px",
+                        }}
+                      >
+                        Concluir
+                      </Button>
+                    </Grid>
+                  </Box>
                 </Paper>
               )}
               {selectedIndex === 3 && (
