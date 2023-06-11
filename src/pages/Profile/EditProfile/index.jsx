@@ -379,7 +379,7 @@ const EditProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Informações básicas
+                    {t("editProfilePage.informaçõesBasicas")}
                   </Typography>
                   <Box
                     component="form"
@@ -675,7 +675,9 @@ const EditProfile = () => {
                           sx={{ mb: 2 }}
                         >
                           <AlertTitle>
-                            <strong>Erro ao atualizar perfil</strong>
+                            <strong>
+                              {t("editProfilePage.erroAtualizarPerfil")}
+                            </strong>
                           </AlertTitle>
                         </Alert>
                       </Collapse>
@@ -699,7 +701,9 @@ const EditProfile = () => {
                           sx={{ mb: 2 }}
                         >
                           <AlertTitle>
-                            <strong>Perfil atualizado com sucesso</strong>
+                            <strong>
+                              {t("editProfilePage.perfilAtualizadoSucesso")}
+                            </strong>
                           </AlertTitle>
                         </Alert>
                       </Collapse>
@@ -726,7 +730,7 @@ const EditProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Mudar palavra-passe
+                    {t("editProfilePage.mudarPalavraPasse")}
                   </Typography>
 
                   <Box
@@ -801,7 +805,7 @@ const EditProfile = () => {
                             marginLeft: "8px",
                           }}
                         >
-                          Novo palavra-passe
+                          {t("editProfilePage.novoPass")}
                         </FormLabel>
                         <TextField
                           id="new_password"
@@ -842,7 +846,7 @@ const EditProfile = () => {
                             marginLeft: "8px",
                           }}
                         >
-                          Confirmar palavra-passe
+                          {t("editProfilePage.confirmPass")}
                         </FormLabel>
                         <TextField
                           id="conf_password"
@@ -890,7 +894,7 @@ const EditProfile = () => {
                           borderRadius: "16px",
                         }}
                       >
-                        Guardar
+                        {t("editProfilePage.guardar")}
                       </Button>
                     </Grid>
                   </Box>
@@ -915,7 +919,7 @@ const EditProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Sobre mim
+                    {t("editProfilePage.sobreMim")}
                   </Typography>
 
                   <Box
@@ -948,7 +952,7 @@ const EditProfile = () => {
                         borderRadius: "20px",
                       }}
                     >
-                      Guardar
+                      {t("editProfilePage.guardar")}
                     </Button>
                   </Box>
                 </Paper>

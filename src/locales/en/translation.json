@@ -79,9 +79,14 @@
     "confPalavraPasseNovaObrigatorio": "Confirm new password is required",
     "palavraPasseNCoincidem": "Passwords do not match",
     "confPassObrigatorio": "Confirm new password is required",
-    "informaçõesBasicas": "Background",
+    "informaçõesBasicas": "Basic Information",
     "mudarPalavraPasse": "Change Password",
-    "sobreMim": "About Me"
+    "sobreMim": "About Me",
+    "guardar": "Guardar",
+    "confirmPass": "Confirmar palavra-passe",
+    "novoPass": "Novo palavra-passe",
+    "perfilAtualizadoSucesso": "Perfil atualizado com sucesso",
+    "erroAtualizarPerfil": "Erro ao atualizar perfil"
   },
   "loginPage": {
     "fazerLogin": "Log in",
