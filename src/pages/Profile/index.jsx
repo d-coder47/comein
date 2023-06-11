@@ -29,14 +29,14 @@ import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
-  const user = {
-    name: "John Doe",
-    email: "johndoe@example.com",
-    location: "New York",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum hendrerit justo, et efficitur ligula tincidunt eu.",
-    avatar: "/static/images/avatar.jpg",
-    coverPhoto: "/static/images/cover-photo.jpg",
-  };
+  // const user = {
+  //   name: "John Doe",
+  //   email: "johndoe@example.com",
+  //   location: "New York",
+  //   bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum hendrerit justo, et efficitur ligula tincidunt eu.",
+  //   avatar: "/static/images/avatar.jpg",
+  //   coverPhoto: "/static/images/cover-photo.jpg",
+  // };
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
@@ -176,10 +176,10 @@ const UserProfile = () => {
                   </label>
                 </div>
                 <Typography variant="h5" sx={{ marginTop: "1rem" }}>
-                  {user.name}
+                  {userInfo.nome}
                 </Typography>
                 <Typography variant="body1" color="textSecondary">
-                  {user.email}
+                  {userInfo.email}
                 </Typography>
                 <Box
                   sx={{
@@ -189,7 +189,9 @@ const UserProfile = () => {
                   }}
                 >
                   <LocationOn fontSize="small" sx={{ marginRight: "0.5rem" }} />
-                  <Typography variant="body2">{user.location}</Typography>
+                  <Typography variant="body2">
+                    Localizacao por implmentar
+                  </Typography>
                 </Box>
                 <Box
                   sx={{
