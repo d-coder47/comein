@@ -74,6 +74,8 @@ const EditProfile = () => {
     gender: "",
   });
 
+  const [aboutMeValue, setAboutMeValue] = React.useState();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfPassword, setShowConfPassword] = React.useState(false);
@@ -124,6 +126,14 @@ const EditProfile = () => {
     });
   };
 
+  const handleAboutMeSubmit = (event) => {
+    event.preventDefault();
+    // Here you can perform the error reporting logic
+    console.log("About me:", aboutMeValue);
+    // Reset the form
+    setAboutMeValue("");
+  };
+
   React.useEffect(() => {
     if (!authenticated) {
       navigate("/");
@@ -137,6 +147,10 @@ const EditProfile = () => {
       formData.gender = userInfo.sexo;
     }
   }, []);
+
+  const handleAboutMeChange = (event) => {
+    setAboutMeValue(event.target.value);
+  };
 
   const handleChangePassSubmit = async (e) => {
     e.preventDefault();
@@ -875,7 +889,7 @@ const EditProfile = () => {
                           borderRadius: "16px",
                         }}
                       >
-                        Concluir
+                        Guardar
                       </Button>
                     </Grid>
                   </Box>
@@ -902,6 +916,40 @@ const EditProfile = () => {
                   >
                     Sobre mim
                   </Typography>
+
+                  <Box
+                    component="form"
+                    onSubmit={handleAboutMeSubmit}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "60%",
+                    }}
+                  >
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      multiline
+                      rows={4}
+                      value={aboutMeValue}
+                      onChange={handleAboutMeChange}
+                      margin="normal"
+                    />
+
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{
+                        width: "30%",
+                        borderRadius: "20px",
+                      }}
+                    >
+                      Guardar
+                    </Button>
+                  </Box>
                 </Paper>
               )}
             </Grid>
