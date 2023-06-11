@@ -18,11 +18,16 @@ import {
   TextField,
   ListItem,
   FormLabel,
+  Collapse,
   MenuItem,
+  Alert,
+  AlertTitle,
   Autocomplete,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CloseIcon from "@mui/icons-material/Close";
+// import Visibility from "@mui/icons-material/Visibility";
+// import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import validator from "validator";
 
 import { useTranslation } from "react-i18next";
 import { MuiTelInput } from "mui-tel-input";
@@ -37,13 +42,15 @@ const EditProfile = () => {
   const [countries, setCountries] = React.useState([]);
   const [addresses, setAddresses] = React.useState([]);
 
+  const [openUpdateError, setOpenUpdateError] = React.useState(false);
+  const [openUpdateSuccess, setOpenUpdateSuccess] = React.useState(false);
+
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
     name: "",
-    surname: "",
     date: "",
     nationality: "",
     residence: "",
@@ -63,8 +70,8 @@ const EditProfile = () => {
     gender: "",
   });
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showPasswordError, setShowPasswordError] = React.useState(false);
+  // const [showPassword, setShowPassword] = React.useState(false);
+  // const [showPasswordError, setShowPasswordError] = React.useState(false);
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showNameError, setShowNameError] = React.useState(false);
   const [showSurnameError, setShowSurnameError] = React.useState(false);
@@ -73,6 +80,8 @@ const EditProfile = () => {
   const [showContactError, setShowContactError] = React.useState(false);
   const [showDateError, setShowDateError] = React.useState(false);
   const [showGenderError, setShowGenderError] = React.useState(false);
+
+  const [geoIds, setGeoIds] = React.useState([]);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
@@ -83,7 +92,7 @@ const EditProfile = () => {
     setSelectedIndex(index);
   };
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  // const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handlePhoneChange = (newValue) => {
     setFormData({
@@ -92,9 +101,9 @@ const EditProfile = () => {
     });
   };
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event) => {
+  //   event.preventDefault();
+  // };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -107,9 +116,123 @@ const EditProfile = () => {
     if (!authenticated) {
       navigate("/");
     }
+    formData.name = userInfo.nome;
+    formData.email = userInfo.email;
+    if (userInfo.sexo) {
+      formData.date = userInfo.data_nasc;
+      formData.nationality = userInfo.nationality;
+      formData.contact = userInfo.residence;
+      formData.gender = userInfo.sexo;
+    }
   }, []);
-  const handleEditProfileSubmit = (e) => {
+  const handleEditProfileSubmit = async (e) => {
     e.preventDefault();
+
+    let errors = {};
+    // Validate email field
+    if (formData.email.trim() === "") {
+      errors.email = t("registerpage.emailObrigatorio");
+      setShowEmailError(true);
+    } else if (!validator.isEmail(formData.email)) {
+      errors.email = t("registerpage.emailInvalido");
+      setShowEmailError(true);
+    } else {
+      setShowEmailError(false);
+      setFormErrors({
+        email: "",
+        password: "",
+      });
+    }
+
+    if (formData.name.trim() === "") {
+      errors.name = t("registerpage.nomeObrigatorio");
+      setShowNameError(true);
+    } else {
+      setShowNameError(false);
+    }
+
+    // if (formData.surname.trim() === "") {
+    //   errors.surname = t("registerpage.sobrenomeObrigatorio");
+    //   setShowSurnameError(true);
+    // } else {
+    //   setShowSurnameError(false);
+    // }
+
+    if (formData.date.trim() === "") {
+      errors.date = t("registerpage.dataNascObrigatorio");
+      setShowDateError(true);
+    } else {
+      setShowDateError(false);
+    }
+
+    if (formData.nationality.trim() === "") {
+      errors.nationality = t("registerpage.nacionalidadeObrigatorio");
+      setShowNationalityError(true);
+    } else {
+      setShowNationalityError(false);
+    }
+
+    if (formData.residence.trim() === "") {
+      errors.residence = t("registerpage.residenciaObrigatorio");
+      setShowResidenceError(true);
+    } else {
+      setShowResidenceError(false);
+    }
+
+    if (formData.contact.trim() === "") {
+      errors.contact = t("registerpage.contatoObrigatorio");
+      setShowContactError(true);
+    } else {
+      setShowContactError(false);
+    }
+
+    if (formData.gender.trim() === "") {
+      errors.gender = t("registerpage.generoObrigatorio");
+      setShowGenderError(true);
+    } else {
+      setShowGenderError(false);
+    }
+    if (Object.keys(errors).length) {
+      setFormErrors(errors);
+    } else {
+      let id_geografia;
+      geoIds.forEach((item) => {
+        if (item.nome === formData.residence) {
+          id_geografia = item.id;
+        }
+      });
+      let sexo = formData.gender;
+      let data_nasc = formData.date;
+      let contatos = formData.contact;
+      let residencia = id_geografia;
+      let nacionalidade = id_geografia;
+      let userId = userInfo.id;
+      let token = localStorage.getItem("token");
+      let nome = formData.name;
+      let _method = "PUT";
+
+      const res = await updateUser(
+        sexo,
+        data_nasc,
+        id_geografia,
+        contatos,
+        residencia,
+        nacionalidade,
+        userId,
+        token,
+        nome,
+        _method
+      );
+
+      if (!res) {
+        setOpenUpdateError(true);
+      } else {
+        const user = await getUser(userId);
+        localStorage.setItem("idGeografia", id_geografia);
+        localStorage.setItem("userInfo", JSON.stringify(user.dados));
+        setOpenUpdateSuccess(true);
+      }
+    }
   };
   return (
     <>
@@ -229,7 +352,7 @@ const EditProfile = () => {
                           fullWidth
                         />
                       </Grid>
-                      <Grid item xs={6} textAlign="left">
+                      {/* <Grid item xs={6} textAlign="left">
                         <FormLabel
                           id="surname_label"
                           sx={{
@@ -251,8 +374,8 @@ const EditProfile = () => {
                           onChange={handleInputChange}
                           fullWidth
                         />
-                      </Grid>
-                      <Grid item xs={6} textAlign="left">
+                      </Grid> */}
+                      {/* <Grid item xs={6} textAlign="left">
                         <FormLabel
                           id="password _label"
                           sx={{
@@ -292,7 +415,7 @@ const EditProfile = () => {
                             ),
                           }}
                         />
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={6} textAlign="left">
                         <FormLabel
                           id="email_label"
@@ -521,8 +644,56 @@ const EditProfile = () => {
                           borderRadius: "16px",
                         }}
                       >
-                        {t("registerpage.concluido")}
+                        Guardar
                       </Button>
+                    </Grid>
+                    <Grid>
+                      <Collapse in={openUpdateError}>
+                        <Alert
+                          severity="error"
+                          action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpenUpdateError(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2 }}
+                        >
+                          <AlertTitle>
+                            <strong>Erro ao atualizar perfil</strong>
+                          </AlertTitle>
+                        </Alert>
+                      </Collapse>
+                    </Grid>
+                    <Grid>
+                      <Collapse in={openUpdateSuccess}>
+                        <Alert
+                          severity="success"
+                          action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpenUpdateSuccess(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2 }}
+                        >
+                          <AlertTitle>
+                            <strong>Perfil atualizado com sucesso</strong>
+                          </AlertTitle>
+                        </Alert>
+                      </Collapse>
                     </Grid>
                   </Box>
                 </Paper>
