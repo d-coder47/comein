@@ -12,6 +12,7 @@ import {
   ListItemText,
   TextField,
   InputAdornment,
+  Modal,
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -26,13 +27,20 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./ProfileConfiguration.css";
 import { useTranslation } from "react-i18next";
 
+import useUserProfile from "../../../hooks/useUserProfile";
+
 const ProfileConfiguration = () => {
   const navigate = useNavigate();
+
+  const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
+  const handleOpenRemoveModal = () => setOpenRemoveModal(true);
+  const handleCloseRemoveModal = () => setOpenRemoveModal(false);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
 
   const { t } = useTranslation();
+  const { deleteUserProfile } = useUserProfile();
 
   const { getTermsPolicy } = useRegisterUser();
 
@@ -57,6 +65,14 @@ const ProfileConfiguration = () => {
 
   const handleErrorChange = (event) => {
     setErrorMessage(event.target.value);
+  };
+
+  const handleRemoveAccount = async () => {
+    console.log("Remove account");
+    const res = await deleteUserProfile(userInfo.id);
+    setOpenRemoveModal(false);
+    localStorage.clear();
+    navigate("/");
   };
 
   React.useEffect(() => {
@@ -411,7 +427,7 @@ const ProfileConfiguration = () => {
                       width: "60%",
                     }}
                   >
-                    <Typography
+                    {/* <Typography
                       variant="h6"
                       sx={{
                         marginTop: "1rem",
@@ -422,7 +438,7 @@ const ProfileConfiguration = () => {
                       {t("userProfile.configPage.inserirEmail")}
                     </Typography>
 
-                    <TextField variant="outlined" fullWidth />
+                    <TextField variant="outlined" fullWidth /> */}
                     <Button
                       variant="contained"
                       className="remove-account-button"
@@ -430,11 +446,75 @@ const ProfileConfiguration = () => {
                         marginTop: "15px",
                         borderRadius: "20px",
                       }}
+                      onClick={handleOpenRemoveModal}
                       startIcon={<DeleteIcon />}
                     >
                       {t("userProfile.configPage.removerConta")}
                     </Button>
                   </Box>
+                  <Modal
+                    open={openRemoveModal}
+                    onClose={handleCloseRemoveModal}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 400,
+                        bgcolor: "background.paper",
+                        border: "2px solid #000",
+                        boxShadow: 24,
+                        p: 4,
+                      }}
+                    >
+                      <Typography
+                        id="modal-modal-title"
+                        variant="h6"
+                        component="h2"
+                      >
+                        Tem certeza de que deseja remover a sua conta?
+                      </Typography>
+                      <Grid
+                        container
+                        spacing={2}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Grid item xs={6} md={4}>
+                          <Button
+                            variant="contained"
+                            className="remove-account-button"
+                            sx={{
+                              marginTop: "15px",
+                              borderRadius: "20px",
+                            }}
+                            onClick={handleRemoveAccount}
+                          >
+                            Sim
+                          </Button>
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                          <Button
+                            variant="contained"
+                            className="remove-account-button"
+                            sx={{
+                              marginTop: "15px",
+                              borderRadius: "20px",
+                            }}
+                            onClick={handleCloseRemoveModal}
+                          >
+                            Não
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Modal>
                 </Paper>
               )}
             </Grid>

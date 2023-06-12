@@ -154,7 +154,7 @@ export default function UserRegistration() {
         const user = await getUser(userId);
         localStorage.setItem("authenticated", true);
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
-        navigate("/");
+        navigate("/edit-profile");
       }
     }
   };

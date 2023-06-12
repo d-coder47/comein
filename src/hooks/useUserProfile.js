@@ -51,13 +51,36 @@ const useUserProfile = () => {
 
       return response.data;
     } catch (error) {
-      console.log("hello");
+      console.error(error);
+    }
+  };
+
+  const deleteUserProfile = async (idUser) => {
+    try {
+      const params = new URLSearchParams({
+        _method: "PUT",
+      }).toString();
+      const response = await axiosInstance.post(
+        `/utilizadores/remover/${idUser}`,
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
       console.error(error);
     }
   };
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
+    deleteUserProfile,
   };
 };
 
