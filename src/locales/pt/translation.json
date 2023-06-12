@@ -74,6 +74,16 @@
       "inserirEmail": "Insira o seu email para a sua conta"
     }
   },
+  "editProfilePage": {
+    "palavraPasseAtualObrigatorio": "Palavra-passe atual é obrigatório",
+    "palavraPasseNovaObrigatorio": "Palavra-passe nova é obrigatório",
+    "confPalavraPasseNovaObrigatorio": "É obrigatório confirmar a nova palavra-passe",
+    "palavraPasseNCoincidem": "Palavra-passes não coincidem",
+    "confPassObrigatorio": "É obrigatório confirmar a nova palavra-passe",
+    "informaçõesBasicas": "Informações básicas",
+    "mudarPalavraPasse": "Mudar Palavra-Passe",
+    "sobreMim": "Sobre mim"
+  },
   "loginPage": {
     "fazerLogin": "Fazer login",
     "novoUsuario": "Novo utilizador?",

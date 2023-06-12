@@ -73,6 +73,21 @@
       "inserirEmail": "Enter your email address for your account"
     }
   },
+  "editProfilePage": {
+    "palavraPasseAtualObrigatorio": "Current password is required",
+    "palavraPasseNovaObrigatorio": "New password is required",
+    "confPalavraPasseNovaObrigatorio": "Confirm new password is required",
+    "palavraPasseNCoincidem": "Passwords do not match",
+    "confPassObrigatorio": "Confirm new password is required",
+    "informaçõesBasicas": "Basic Information",
+    "mudarPalavraPasse": "Change Password",
+    "sobreMim": "About Me",
+    "guardar": "Guardar",
+    "confirmPass": "Confirmar palavra-passe",
+    "novoPass": "Novo palavra-passe",
+    "perfilAtualizadoSucesso": "Perfil atualizado com sucesso",
+    "erroAtualizarPerfil": "Erro ao atualizar perfil"
+  },
   "loginPage": {
     "fazerLogin": "Log in",
     "novoUsuario": "New user?",

@@ -73,6 +73,16 @@
       "inserirEmail": "Entrez votre adresse e-mail pour votre compte"
     }
   },
+  "editProfilePage": {
+    "palavraPasseAtualObrigatorio": "Le mot de passe actuel est requis",
+    "palavraPasseNovaObrigatorio": "Un nouveau mot de passe est requis",
+    "confPalavraPasseNovaObrigatorio": "Confirmer qu’un nouveau mot de passe est requis",
+    "palavraPasseNCoincidem": "Les mots de passe ne correspondent pas",
+    "confPassObrigatorio": "Confirmer qu’un nouveau mot de passe est requis",
+    "informaçõesBasicas": "Arrière-plan",
+    "mudarPalavraPasse": "Modifier le mot de passe",
+    "sobreMim": "À propos de moi"
+  },
   "loginPage": {
     "fazerLogin": "S'identifier",
     "novoUsuario": "Nouvel utilisateur ?",
