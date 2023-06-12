@@ -26,15 +26,20 @@ const useUserProfile = () => {
   };
   const updateUserProfilePhoto = async (idUser, photoPerfil) => {
     try {
-      const params = new URLSearchParams({
-        idUser,
-        photoPerfil,
-      }).toString();
+      // const params = new URLSearchParams({
+      //   idUser,
+      //   photoPerfil,
+      // }).toString();
+
+      const body = new FormData();
+      body.append("idUser", idUser);
+      body.append("photoPerfil", photoPerfil);
+
       console.log(photoPerfil);
 
       const response = await axiosInstance.post(
         "/utilizadores/fotoPerfil",
-        params,
+        body,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",

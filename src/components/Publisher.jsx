@@ -11,6 +11,11 @@ import {
 import { ArrowDropDown, LocationOn } from "@mui/icons-material";
 
 const PublisherCard = ({ publisher }) => {
+  const getResidencia = (residencia) => {
+    return residencia === "MUNDO" || residencia === null
+      ? ""
+      : `${residencia}, `;
+  };
   return (
     <Box display="flex" alignItems="center" gap=".5rem">
       <Avatar
@@ -24,7 +29,7 @@ const PublisherCard = ({ publisher }) => {
         <Stack direction="row" alignItems="center" spacing={0.25}>
           <LocationOn sx={{ color: "gray" }} fontSize="1.25rem" />
           <Typography>
-            {publisher.residencia}, {publisher.pais}
+            {`${getResidencia(publisher.residencia)}`} {publisher.pais}
           </Typography>
         </Stack>
       </Stack>

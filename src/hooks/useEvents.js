@@ -133,7 +133,7 @@ const useEvents = () => {
     }
   };
 
-  const removeLikeFromEvent = async (eventId, userId) => {
+  const removeLikeFromEvent = async (eventId) => {
     try {
       const params = new URLSearchParams({
         _method: "DELETE",
@@ -155,18 +155,22 @@ const useEvents = () => {
     }
   };
 
-  const getEventLikes = async (userId) => {
+  const getEventLikes = async (userId, eventId) => {
     try {
-      const response = await axiosInstance.get(`/gostosEventos/gostos/1,1`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-        },
-      });
-      return response.data;
+      const response = await axiosInstance.get(
+        `/gostosEventos/gostos/${userId},${eventId}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      return response.data.dados || 0;
     } catch (error) {
       console.error(error);
+      return 0;
     }
   };
 

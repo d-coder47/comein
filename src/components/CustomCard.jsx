@@ -22,6 +22,11 @@ import {
 import CardDetailed from "./CardDetailed";
 import CustomBadge from "./CustomBadge";
 
+import LazyLoad from "react-lazy-load";
+import useEvents from "../hooks/useEvents";
+import useProjects from "../hooks/useProjects";
+import axiosInstance from "../api/axiosInstance";
+
 const CustomCard = ({
   id = null,
   name,
@@ -31,16 +36,65 @@ const CustomCard = ({
   type,
 }) => {
   const [showTitle, setshowTitle] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const { likeEvent, removeLikeFromEvent } = useEvents();
+  const { likeProject, removeLikeFromProject } = useProjects();
+
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500);
   }, []);
+
+  useEffect(() => {
+    if (!id && isLiked === null) return;
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (type !== "E") return;
+
+    const getEventLikes = async (userId, eventId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/gostosEventos/gostos/${userId},${eventId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        const liked = response?.data?.dados || 0;
+        setIsLiked(liked);
+      } catch (error) {
+        console.error(error);
+        return 0;
+      }
+    };
+
+    getEventLikes(user.id, id);
+  }, [id]);
+
+  const handleLike = (like) => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    const userId = user.id;
+
+    if (type === "E") {
+      if (like) {
+        return likeEvent(id, userId);
+      }
+      return removeLikeFromEvent(id);
+    }
+
+    if (like) {
+      return likeProject(id, userId);
+    }
+    return removeLikeFromProject(id);
+  };
 
   if (isLoading) {
     return (
@@ -126,13 +180,22 @@ const CustomCard = ({
         ) : null}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-        <Avatar
+        {/* <Avatar
           alt="avatar"
           src={publisherPhoto || null}
           sx={{ width: 18, height: "auto" }}
+          loading="lazy"
         >
           {publisherName[0] || "A"}
-        </Avatar>
+        </Avatar> */}
+        <LazyLoad>
+          <img
+            alt="avatar"
+            src={publisherPhoto || null}
+            style={{ width: "18px", height: "auto" }}
+            loading="lazy"
+          />
+        </LazyLoad>
         <Typography
           fontWeight="bold"
           fontSize="0.9rem"
@@ -149,12 +212,12 @@ const CustomCard = ({
         <Box sx={{ display: "flex", marginLeft: "auto" }}>
           {isLiked ? (
             <ThumbUp
-              onClick={() => setIsLiked(false)}
+              onClick={() => handleLike(false)}
               sx={{ width: 18, height: 18, cursor: "pointer" }}
             />
           ) : (
             <ThumbUpOffAlt
-              onClick={() => setIsLiked(true)}
+              onClick={() => handleLike(true)}
               sx={{ width: 18, height: 18, cursor: "pointer" }}
             />
           )}

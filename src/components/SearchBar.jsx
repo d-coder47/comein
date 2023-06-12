@@ -3,8 +3,12 @@ import {
   Autocomplete,
   Box,
   Button,
+  Grid,
   InputAdornment,
+  Stack,
   TextField,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,6 +25,8 @@ const SearchBar = () => {
 
   const { getAddresses } = useRegisterUser();
 
+  const theme = useTheme();
+
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -36,21 +42,36 @@ const SearchBar = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      gap=".5rem"
-      flexDirection="column"
-      alignItems="flex-end"
-      maxWidth="md"
-      sx={{ ml: "auto", mr: "2rem" }}
+    <Grid
+      container
+      spacing={1}
+      // display="flex"
+      // gap=".5rem"
+      // flexDirection="row"
+      alignItems="center"
+      // maxWidth="md"
+      sx={{
+        ml: "2rem",
+        mr: "2rem",
+        border: "1px solid rgba(0, 0, 0, 0.23)",
+        borderRadius: "10rem",
+        marginTop: "1rem",
+        width: "auto",
+        height: "3rem",
+      }}
     >
-      <Box
+      <Grid
+        xs={5}
+        md={4.75}
+        item
         id="searchbar"
-        display="flex"
-        gap=".5rem"
-        alignItems="center"
+        spacing={1}
         maxWidth="md"
-        sx={{ maxHeight: "2rem" }}
+        sx={{
+          maxHeight: "3rem",
+          paddingLeft: "0 !important",
+          paddingTop: "0 !important",
+        }}
       >
         <TextField
           id="search"
@@ -59,138 +80,117 @@ const SearchBar = () => {
           value={searchTerm}
           onChange={handleChange}
           sx={{
-            width: 300,
-            ".MuiInputBase-root": { height: "2rem", width: "300px" },
+            ".MuiInputBase-root": {
+              height: "3rem",
+              width: "30rem",
+              padding: "1.5rem",
+              borderTopLeftRadius: "10rem",
+              borderBottomLeftRadius: "10rem",
+              [theme.breakpoints.down("xs")]: {
+                width: "30rem",
+              },
+              [theme.breakpoints.up("lg")]: {
+                width: "45rem",
+              },
+            },
           }}
           InputProps={{
-            endAdornment: (
+            startAdornment: (
               <InputAdornment position="end">
                 <SearchIcon />
               </InputAdornment>
             ),
           }}
         />
-        <FilterListIcon
-          sx={{ cursor: "pointer" }}
-          onClick={() => handleChangeFilterType("basic")}
-        />
-        <CalendarMonthIcon
-          sx={{ cursor: "pointer" }}
-          onClick={() => handleChangeFilterType("date")}
-        />
-      </Box>
-      {filterType === "basic" ? (
-        <Box
-          id="filterbar"
-          sx={{ color: (theme) => theme.palette.primary.main }}
+      </Grid>
+      <Grid xs={1.3} md={1.25} m={"0 .5rem"}>
+        <Typography
+          sx={{
+            fontWeight: filterSelected === "highlights" ? "bold" : "normal",
+            cursor: "pointer",
+            backgroundColor:
+              filterSelected === "highlights" ? "black" : "transparent",
+            border:
+              filterSelected === "highlights" ? "1px solid black" : "none",
+            borderRadius: filterSelected === "highlights" ? "10rem" : "none",
+            padding: filterSelected === "highlights" ? "0.25rem" : "0",
+            color: filterSelected === "highlights" ? "white" : "black",
+            textAlign: "center",
+          }}
+          onClick={() => handleChangeFilterSelected("highlights")}
         >
-          <Button
-            sx={
-              filterSelected === "highlights"
-                ? {
-                    border: "1px solid",
-                    fontWeight: "bold",
-                  }
-                : {}
-            }
-            onClick={() => handleChangeFilterSelected("highlights")}
-          >
-            Destaques
-          </Button>
-          <Button
-            sx={
-              filterSelected === "bestOfTheWeek"
-                ? {
-                    border: "1px solid",
-                    fontWeight: "bold",
-                  }
-                : {}
-            }
-            onClick={() => handleChangeFilterSelected("bestOfTheWeek")}
-          >
-            Melhores da semana
-          </Button>
-          <Button
-            sx={
-              filterSelected === "closeOnes"
-                ? {
-                    border: "1px solid",
-                    fontWeight: "bold",
-                  }
-                : {}
-            }
-            onClick={() => handleChangeFilterSelected("closeOnes")}
-          >
-            Perto de si
-          </Button>
-        </Box>
-      ) : null}
-      {filterType === "date" ? (
-        <Box
-          id="date-filterbar"
-          display="flex"
-          gap=".5rem"
-          sx={{ color: (theme) => theme.palette.primary.main }}
-        >
-          <TextField
-            id="date-start"
-            type="date"
-            sx={{ height: "2rem", ".MuiInputBase-root": { height: "2rem" } }}
-          />
-          <TextField
-            id="date-end"
-            type="date"
-            sx={{ height: "2rem", ".MuiInputBase-root": { height: "2rem" } }}
-          />
-          <Autocomplete
-            id="address-select"
-            options={addresses}
-            autoHighlight
-            sx={{ width: "10rem" }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                // label={"Local"}
-                variant="standard"
-                placeholder="Local"
-                name="residence"
-                fullWidth
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  ...params.inputProps,
-                  autoComplete: "new-password", // disable autocomplete and autofill
-                }}
-              />
-            )}
-            onInputChange={async (event, value) => {
-              // formData.residence = value;
-              if (value.length >= 2 && value.length <= 4) {
-                const res = await getAddresses(value);
-                const newAddresses = [];
-                // const newGeoIds = [];
-                for (let key in res.dados) {
-                  if (res.dados.hasOwnProperty(key)) {
-                    const value = res.dados[key];
-                    newAddresses.push(value.nome);
-                    // newGeoIds.push({
-                    // 	id: value.id,
-                    // 	nome: value.nome,
-                    // });
-                  }
+          Destaques
+        </Typography>
+      </Grid>
+      <Grid xs={1.7} md={1.25}>
+        <TextField
+          id="date-start"
+          type="date"
+          sx={{
+            height: "2rem",
+            ".MuiInputBase-root": { height: "2rem", borderRadius: "10rem" },
+          }}
+        />
+      </Grid>
+      <Grid xs={1.7} md={1.25}>
+        <TextField
+          id="date-end"
+          type="date"
+          sx={{
+            height: "2rem",
+            ".MuiInputBase-root": { height: "2rem", borderRadius: "10rem" },
+          }}
+        />
+      </Grid>
+      <Grid xs={1.7} md={1.25}>
+        <Autocomplete
+          id="address-select"
+          options={addresses}
+          autoHighlight
+          sx={{ width: "10rem" }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              // label={"Local"}
+              variant="standard"
+              placeholder="Local"
+              name="residence"
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                ...params.inputProps,
+                autoComplete: "new-password", // disable autocomplete and autofill
+              }}
+            />
+          )}
+          onInputChange={async (event, value) => {
+            // formData.residence = value;
+            if (value.length >= 2 && value.length <= 4) {
+              const res = await getAddresses(value);
+              const newAddresses = [];
+              // const newGeoIds = [];
+              for (let key in res.dados) {
+                if (res.dados.hasOwnProperty(key)) {
+                  const value = res.dados[key];
+                  newAddresses.push(value.nome);
+                  // newGeoIds.push({
+                  // 	id: value.id,
+                  // 	nome: value.nome,
+                  // });
                 }
-                setAddresses(newAddresses);
-                // setGeoIds(newGeoIds);
               }
-            }}
-            onChange={(event, value) => {
-              console.log(value);
-            }}
-          />
-        </Box>
-      ) : null}
-    </Box>
+              setAddresses(newAddresses);
+              // setGeoIds(newGeoIds);
+            }
+          }}
+          onChange={(event, value) => {
+            console.log(value);
+          }}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

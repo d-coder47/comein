@@ -52,9 +52,10 @@ const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
   );
 };
 
-const DetailedInfo = ({ location, dateStart, dateEnd }) => {
+const DetailedInfo = ({ location, description, dateStart, dateEnd }) => {
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
+      <Typography sx={{ textAlign: "justify" }}>{description}</Typography>
       <Box>
         <Typography display="flex" gap=".5rem" fontWeight="bold">
           Local: {<Typography fontWeight="normal">{location}</Typography>}
@@ -230,6 +231,7 @@ const CardDetailed = ({
           ) : null}
           <DetailedInfo
             location={details?.dados?.local}
+            description={details?.dados?.descricao}
             dateStart={details?.dados?.data_inicio}
             dateEnd={details?.dados?.data_fim}
           />

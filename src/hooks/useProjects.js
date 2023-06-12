@@ -136,7 +136,7 @@ const useProjects = () => {
     }
   };
 
-  const removeLikeFromProject = async (projectId, userId) => {
+  const removeLikeFromProject = async (projectId) => {
     try {
       const params = new URLSearchParams({
         _method: "DELETE",
