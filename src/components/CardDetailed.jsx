@@ -56,7 +56,7 @@ const DetailedInfo = ({ location, description, dateStart, dateEnd }) => {
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       <Typography sx={{ textAlign: "justify" }}>{description}</Typography>
-      <Box>
+      <Box mt="1rem">
         <Typography display="flex" gap=".5rem" fontWeight="bold">
           Local: {<Typography fontWeight="normal">{location}</Typography>}
         </Typography>

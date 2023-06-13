@@ -120,7 +120,7 @@ const useProjects = () => {
         id_publicacao: projectId,
       }).toString();
       const response = await axiosInstance.post(
-        `/gostosProjectos/gosto`,
+        `/gostosProjetos/gosto`,
         params,
         {
           headers: {
@@ -142,7 +142,7 @@ const useProjects = () => {
         _method: "DELETE",
       }).toString();
       const response = await axiosInstance.post(
-        `/gostosProjectos/eliminar/${projectId}`,
+        `/gostosProjetos/eliminar/${projectId}`,
         params,
         {
           headers: {
@@ -158,15 +158,18 @@ const useProjects = () => {
     }
   };
 
-  const getProjectLikes = async (userId) => {
+  const getProjectLikes = async (userId, projectId) => {
     try {
-      const response = await axiosInstance.get(`/gostosProjectos/gostos/1,1`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-        },
-      });
+      const response = await axiosInstance.get(
+        `/gostosProjetos/gostos/${userId},${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.error(error);
