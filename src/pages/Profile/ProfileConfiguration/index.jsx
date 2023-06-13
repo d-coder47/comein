@@ -68,7 +68,6 @@ const ProfileConfiguration = () => {
   };
 
   const handleRemoveAccount = async () => {
-    console.log("Remove account");
     const res = await deleteUserProfile(userInfo.id);
     setOpenRemoveModal(false);
     localStorage.clear();

@@ -81,7 +81,12 @@
     "confPassObrigatorio": "Confirmer qu’un nouveau mot de passe est requis",
     "informaçõesBasicas": "Arrière-plan",
     "mudarPalavraPasse": "Modifier le mot de passe",
-    "sobreMim": "À propos de moi"
+    "sobreMim": "À propos de moi",
+    "guardar": "Sauvegarder",
+    "confirmPass": "Confirmer le mot de passe",
+    "novoPass": "Nouveau mot de passe",
+    "perfilAtualizadoSucesso": "Mise à jour du profil réussie",
+    "erroAtualizarPerfil": "Erreur lors de la mise à jour du profil"
   },
   "loginPage": {
     "fazerLogin": "S'identifier",

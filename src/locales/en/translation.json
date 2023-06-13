@@ -82,11 +82,11 @@
     "informaçõesBasicas": "Basic Information",
     "mudarPalavraPasse": "Change Password",
     "sobreMim": "About Me",
-    "guardar": "Guardar",
-    "confirmPass": "Confirmar palavra-passe",
-    "novoPass": "Novo palavra-passe",
-    "perfilAtualizadoSucesso": "Perfil atualizado com sucesso",
-    "erroAtualizarPerfil": "Erro ao atualizar perfil"
+    "guardar": "Save",
+    "confirmPass": "Confirm password",
+    "novoPass": "New password",
+    "perfilAtualizadoSucesso": "Profile successfully updated",
+    "erroAtualizarPerfil": "Error updating profile"
   },
   "loginPage": {
     "fazerLogin": "Log in",

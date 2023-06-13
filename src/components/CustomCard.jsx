@@ -76,7 +76,9 @@ const CustomCard = ({
       }
     };
 
-    getEventLikes(user.id, id);
+    if (user) {
+      getEventLikes(user.id, id);
+    }
   }, [id]);
 
   const handleLike = (like) => {

@@ -3,6 +3,21 @@ import axiosInstance from "../api/axiosInstance";
 const useRegisterUser = () => {
   const getAddresses = async (address) => {
     try {
+      const response = await axiosInstance.get(`/geografia/search/${address}`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          // Authorization:
+          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getCountries = async (address) => {
+    try {
       const response = await axiosInstance.get(
         `/geografia/search-nationality/${address}`,
         {
@@ -161,6 +176,7 @@ const useRegisterUser = () => {
     getTermsPolicy,
     login,
     getUserByMail,
+    getCountries,
   };
 };
 
