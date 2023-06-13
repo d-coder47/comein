@@ -62,7 +62,8 @@ const SearchBar = () => {
     >
       <Grid
         xs={5}
-        md={4.75}
+        md={3.75}
+        lg={4.75}
         item
         id="searchbar"
         spacing={1}
@@ -89,6 +90,9 @@ const SearchBar = () => {
               [theme.breakpoints.down("xs")]: {
                 width: "30rem",
               },
+              [theme.breakpoints.up("md")]: {
+                width: "16rem",
+              },
               [theme.breakpoints.up("lg")]: {
                 width: "45rem",
               },
@@ -103,7 +107,7 @@ const SearchBar = () => {
           }}
         />
       </Grid>
-      <Grid xs={1.3} md={1.25} m={"0 .5rem"}>
+      <Grid xs={1.3} md={1.5} lg={1.25} m={"0 .5rem"}>
         <Typography
           sx={{
             fontWeight: filterSelected === "highlights" ? "bold" : "normal",
@@ -122,7 +126,7 @@ const SearchBar = () => {
           Destaques
         </Typography>
       </Grid>
-      <Grid xs={1.7} md={1.25}>
+      <Grid xs={1.7} md={1.5} lg={1.25}>
         <TextField
           id="date-start"
           type="date"
@@ -132,7 +136,7 @@ const SearchBar = () => {
           }}
         />
       </Grid>
-      <Grid xs={1.7} md={1.25}>
+      <Grid xs={1.7} md={1.5} lg={1.25}>
         <TextField
           id="date-end"
           type="date"
@@ -142,7 +146,7 @@ const SearchBar = () => {
           }}
         />
       </Grid>
-      <Grid xs={1.7} md={1.25}>
+      <Grid xs={1.7} md={1.5} lg={1.25}>
         <Autocomplete
           id="address-select"
           options={addresses}
