@@ -1,13 +1,12 @@
 import axiosInstance from "../api/axiosInstance";
 
 const useRegisterUser = () => {
-  const getAddresses = async (address) => {
+  const getAddresses = async (address, token) => {
     try {
       const response = await axiosInstance.get(`/geografia/search/${address}`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -16,15 +15,14 @@ const useRegisterUser = () => {
     }
   };
 
-  const getCountries = async (address) => {
+  const getCountries = async (address, token) => {
     try {
       const response = await axiosInstance.get(
         `/geografia/search-nationality/${address}`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -121,7 +119,6 @@ const useRegisterUser = () => {
   const updateUser = async (
     sexo,
     data_nasc,
-    id_geografia,
     contatos,
     residencia,
     nacionalidade,
@@ -129,28 +126,26 @@ const useRegisterUser = () => {
     token,
     nome,
     _method,
-    img_perfil
+    img_perfil,
+    img_capa
   ) => {
     try {
-      let params;
-      if (sexo === null) {
-        params = new URLSearchParams({
-          _method,
-          nome,
-          img_perfil,
-        }).toString();
-      } else {
-        params = new URLSearchParams({
-          _method,
-          sexo,
-          data_nasc,
-          id_geografia,
-          contatos,
-          residencia,
-          nacionalidade,
-          nome,
-        }).toString();
-      }
+      // console.log(nacionalidade);
+      // console.log(residencia);
+      const params = new URLSearchParams({
+        _method,
+        sexo,
+        data_nasc,
+        contatos,
+        residencia,
+        nacionalidade,
+        nome,
+        img_perfil,
+        img_capa,
+      }).toString();
+
+      // console.log(params);
+
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,
         params,
