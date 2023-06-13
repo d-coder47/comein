@@ -204,12 +204,13 @@ const CardDetailed = ({
   return (
     <Box
       sx={{
-        margin: "0 4rem 0 6rem",
+        margin: "0",
         backgroundColor: "transparent",
         outline: "none",
         height: "100vh",
         overflowY: "auto",
         display: "flex",
+        justifyContent: "center",
         gap: "1.5rem",
       }}
     >

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Avatar, Typography } from "@mui/material";
+import { Box, Avatar, Typography, Tooltip } from "@mui/material";
 
 const Category = ({ id, name, icon, onCategoryClick, isSelected }) => {
   return (
@@ -24,17 +24,23 @@ const Category = ({ id, name, icon, onCategoryClick, isSelected }) => {
           border: (theme) => `2px solid ${theme.palette.primary.main}`,
         }}
       />
-      <Typography
-        fontSize={14}
-        sx={{
-          whiteSpace: "nowrap",
-          fontWeight: isSelected ? "bold" : "normal",
-          color: (theme) =>
-            isSelected ? theme.palette.primary.main : "normal",
-        }}
-      >
-        {name}
-      </Typography>
+      <Tooltip title={name}>
+        <Typography
+          fontSize={14}
+          sx={{
+            whiteSpace: "nowrap",
+            fontWeight: isSelected ? "bold" : "normal",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            width: "80%",
+            color: (theme) =>
+              isSelected ? theme.palette.primary.main : "normal",
+          }}
+        >
+          {name}
+        </Typography>
+      </Tooltip>
     </Box>
   );
 };

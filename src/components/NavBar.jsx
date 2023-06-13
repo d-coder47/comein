@@ -22,6 +22,10 @@ import Logout from "@mui/icons-material/Logout";
 import siteLogo from "../assets/img/logo_cicv3.png";
 import { useTranslation } from "react-i18next";
 
+import englandFlag from "../assets/img/inglaterra.png";
+import franceFlag from "../assets/img/franca.png";
+import portugalFlag from "../assets/img/portugal.png";
+
 const NavBar = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -108,7 +112,7 @@ const NavBar = () => {
         }}
       >
         <Box>
-          <NotificationsIcon color="primary" sx={{ fontSize: 34 }} />
+          <NotificationsIcon color="primary" sx={{ fontSize: "1.5rem" }} />
         </Box>
         <Select
           labelId="internationalization-label"
@@ -119,17 +123,53 @@ const NavBar = () => {
             height: "2rem",
             marginRight: "0.5rem",
             color: (theme) => theme.palette.primary.main,
+            ".MuiOutlinedInput-input": {
+              borderColor: "transparent !important",
+              display: "flex",
+              alignItems: "center",
+              gap: ".5rem",
+            },
+            ".MuiOutlinedInput-input::active": {
+              borderColor: "red !important",
+            },
             ".MuiOutlinedInput-notchedOutline": {
-              borderColor: (theme) => theme.palette.primary.main,
+              borderColor: "transparent",
             },
             ".MuiSvgIcon-root-MuiSelect-icon": {
               color: (theme) => theme.palette.primary.main,
             },
           }}
         >
-          <MenuItem value={"en"}>EN</MenuItem>
-          <MenuItem value={"pt"}>PT</MenuItem>
-          <MenuItem value={"fr"}>FR</MenuItem>
+          <MenuItem
+            value={"en"}
+            sx={{
+              display: "flex",
+              gap: ".5rem",
+            }}
+          >
+            {" "}
+            EN <Avatar src={englandFlag} alt="Bandeira Inglaterra" />{" "}
+          </MenuItem>
+          <MenuItem
+            value={"pt"}
+            sx={{
+              display: "flex",
+              gap: ".5rem",
+            }}
+          >
+            {" "}
+            PT <Avatar src={portugalFlag} alt="Bandeira Portugal" />{" "}
+          </MenuItem>
+          <MenuItem
+            value={"fr"}
+            sx={{
+              display: "flex",
+              gap: ".5rem",
+            }}
+          >
+            {" "}
+            FR <Avatar src={franceFlag} alt="Bandeira França" />{" "}
+          </MenuItem>
         </Select>
 
         {authenticated && (
@@ -255,12 +295,14 @@ const NavBar = () => {
           </div>
         )}
 
-        {!localStorage.getItem("authenticated") && (
+        {!authenticated && (
           <>
             <Button
               sx={{
                 marginRight: "0.5rem",
                 height: "2rem",
+                textTransform: "capitalize",
+                // fontWeight: "bold",
                 color: (theme) => theme.palette.primary.contrastText,
               }}
               variant="contained"
@@ -270,7 +312,12 @@ const NavBar = () => {
               {t("homepage.login")}
             </Button>
             <Button
-              sx={{ marginRight: "2.5rem", height: "2rem" }}
+              sx={{
+                marginRight: "2.5rem",
+                height: "2rem",
+                textTransform: "capitalize",
+                // fontWeight: "bold",
+              }}
               onClick={handleCadastrarClick}
               variant="outlined"
               color="primary"
