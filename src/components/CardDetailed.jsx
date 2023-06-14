@@ -14,12 +14,170 @@ import {
   Star,
   RecommendRounded,
   ThumbUp,
+  Close,
 } from "@mui/icons-material";
 import CustomBadge from "./CustomBadge";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
 
-const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
+const CardDetailed = ({
+  id,
+  publisherPhoto,
+  publishers,
+  title,
+  type,
+  onCloseModal,
+  picture,
+}) => {
+  const [details, setDetails] = useState(null);
+
+  useEffect(() => {
+    if (!id) return;
+    const url = `/${type === "E" ? "eventos" : "projetos"}/listar/${id}`;
+    const getDetails = async () => {
+      try {
+        const response = await axiosInstance.get(url, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        });
+        setDetails(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getDetails();
+  }, [id]);
+
+  return (
+    <Box
+      sx={{
+        margin: "0",
+        backgroundColor: "transparent",
+        outline: "none",
+        height: "100vh",
+        overflowY: "auto",
+        display: "flex",
+        justifyContent: "center",
+        gap: "1.5rem",
+      }}
+    >
+      <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
+        <DetailedHeader
+          publisherPhoto={publisherPhoto}
+          publishers={details?.utilizador}
+          title={details?.dados?.nome}
+          onCloseModal={onCloseModal}
+          type={type}
+        />
+        <Box sx={{ backgroundColor: "white" }}>
+          {picture ? (
+            <Avatar
+              src={picture}
+              alt={`Foto de ${title}`}
+              variant="square"
+              sx={{ width: "100%", height: "auto" }}
+            />
+          ) : null}
+          <DetailedInfo
+            location={details?.dados?.local}
+            description={details?.dados?.descricao}
+            dateStart={details?.dados?.data_inicio}
+            dateEnd={details?.dados?.data_fim}
+          />
+          <DetailedProgram programs={details?.programa} />
+          <DetailedOther others={details?.outros} />
+          <DetailedImages images={details?.imagens} />
+        </Box>
+      </Box>
+      <Box
+        id="interactions"
+        display="flex"
+        flexDirection="column"
+        gap="1.5rem"
+        marginTop="14%"
+        mr={".5rem"}
+      >
+        <IconButton
+          id="follow"
+          sx={{ padding: "0" }}
+          onClick={() => console.log("Seguir")}
+        >
+          <Badge
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            badgeContent="+"
+            overlap="circular"
+            color="info"
+          >
+            <Avatar
+              src={publisherPhoto}
+              alt="Foto do Publicador"
+              sx={{ width: "3rem", height: "3rem" }}
+            />
+          </Badge>
+        </IconButton>
+        {/* <Avatar
+          src={publisherPhoto}
+          alt="Foto do Publicador"
+          sx={{ width: "3rem", height: "3rem" }}
+        /> */}
+        <Tooltip title="Adicionar aos favoritos" placement="left" arrow>
+          <Box
+            id="favorite"
+            sx={{
+              borderRadius: "50%",
+              height: "3rem",
+              width: "3rem",
+              backgroundColor: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+            onClick={() => console.log("Favorito")}
+          >
+            <Star color="black" sx={{ width: "1.25rem", height: "1.25rem" }} />
+          </Box>
+        </Tooltip>
+
+        <Tooltip title="Curtir" placement="left" arrow>
+          <Box
+            id="like"
+            sx={{
+              borderRadius: "50%",
+              height: "3rem",
+              width: "3rem",
+              backgroundColor: (theme) => theme.palette.primary.main,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+            onClick={() => console.log("Gosto")}
+          >
+            <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
+          </Box>
+        </Tooltip>
+        {/* <Avatar
+          src={publisherPhoto}
+          alt="Foto do Publicador"
+          sx={{ width: "3rem", height: "3rem" }}
+        /> */}
+      </Box>
+    </Box>
+  );
+};
+
+const DetailedHeader = ({
+  publisherPhoto,
+  publishers,
+  title = "",
+  onCloseModal,
+  type,
+}) => {
   return (
     <Box
       sx={{
@@ -47,6 +205,20 @@ const DetailedHeader = ({ publisherPhoto, publishers, title = "", type }) => {
       </Box>
       <Box sx={{ marginLeft: "auto" }}>
         <CustomBadge isEvent={type === "E"} />
+      </Box>
+      <Box onClick={onCloseModal}>
+        <Close
+          sx={{
+            color: "white",
+            position: "absolute",
+            right: "1rem",
+            top: ".5rem",
+            cursor: "pointer",
+            "&:hover": {
+              color: "#EAEAEA",
+            },
+          }}
+        />
       </Box>
     </Box>
   );
@@ -167,155 +339,6 @@ const DetailedImages = ({ images }) => {
         />
       ))}
     </Stack>
-  );
-};
-
-const CardDetailed = ({
-  id,
-  publisherPhoto,
-  publishers,
-  title,
-  type,
-  picture,
-}) => {
-  const [details, setDetails] = useState(null);
-
-  useEffect(() => {
-    if (!id) return;
-    const url = `/${type === "E" ? "eventos" : "projetos"}/listar/${id}`;
-    const getDetails = async () => {
-      try {
-        const response = await axiosInstance.get(url, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-          },
-        });
-        setDetails(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getDetails();
-  }, [id]);
-
-  return (
-    <Box
-      sx={{
-        margin: "0",
-        backgroundColor: "transparent",
-        outline: "none",
-        height: "100vh",
-        overflowY: "auto",
-        display: "flex",
-        justifyContent: "center",
-        gap: "1.5rem",
-      }}
-    >
-      <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
-        <DetailedHeader
-          publisherPhoto={publisherPhoto}
-          publishers={details?.utilizador}
-          title={details?.dados?.nome}
-          type={type}
-        />
-        <Box sx={{ backgroundColor: "white" }}>
-          {picture ? (
-            <Avatar
-              src={picture}
-              alt={`Foto de ${title}`}
-              variant="square"
-              sx={{ width: "100%", height: "auto" }}
-            />
-          ) : null}
-          <DetailedInfo
-            location={details?.dados?.local}
-            description={details?.dados?.descricao}
-            dateStart={details?.dados?.data_inicio}
-            dateEnd={details?.dados?.data_fim}
-          />
-          <DetailedProgram programs={details?.programa} />
-          <DetailedOther others={details?.outros} />
-          <DetailedImages images={details?.imagens} />
-        </Box>
-      </Box>
-      <Box
-        id="interactions"
-        display="flex"
-        flexDirection="column"
-        gap="1.5rem"
-        marginTop="14%"
-        mr={".5rem"}
-      >
-        <IconButton
-          id="follow"
-          sx={{ padding: "0" }}
-          onClick={() => console.log("Seguir")}
-        >
-          <Badge
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent="+"
-            overlap="circular"
-            color="info"
-          >
-            <Avatar
-              src={publisherPhoto}
-              alt="Foto do Publicador"
-              sx={{ width: "3rem", height: "3rem" }}
-            />
-          </Badge>
-        </IconButton>
-        {/* <Avatar
-          src={publisherPhoto}
-          alt="Foto do Publicador"
-          sx={{ width: "3rem", height: "3rem" }}
-        /> */}
-        <Tooltip title="Adicionar aos favoritos" placement="left" arrow>
-          <Box
-            id="favorite"
-            sx={{
-              borderRadius: "50%",
-              height: "3rem",
-              width: "3rem",
-              backgroundColor: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-            onClick={() => console.log("Favorito")}
-          >
-            <Star color="black" sx={{ width: "1.25rem", height: "1.25rem" }} />
-          </Box>
-        </Tooltip>
-
-        <Tooltip title="Curtir" placement="left" arrow>
-          <Box
-            id="like"
-            sx={{
-              borderRadius: "50%",
-              height: "3rem",
-              width: "3rem",
-              backgroundColor: (theme) => theme.palette.primary.main,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-            onClick={() => console.log("Gosto")}
-          >
-            <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
-          </Box>
-        </Tooltip>
-        {/* <Avatar
-          src={publisherPhoto}
-          alt="Foto do Publicador"
-          sx={{ width: "3rem", height: "3rem" }}
-        /> */}
-      </Box>
-    </Box>
   );
 };
 

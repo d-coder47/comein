@@ -307,18 +307,19 @@ const CustomCard = ({
             },
           }}
         >
-          {open ? (
-            <CardDetailed
-              id={id}
-              publisherPhoto={publisherPhoto}
-              publishers={[publisherName]}
-              title={name}
-              type={type}
-              picture={picture}
-            />
-          ) : (
+          {/* {open ? ( */}
+          <CardDetailed
+            id={id}
+            publisherPhoto={publisherPhoto}
+            publishers={[publisherName]}
+            title={name}
+            type={type}
+            onCloseModal={handleClose}
+            picture={picture}
+          />
+          {/* ) : (
             <div></div>
-          )}
+          )} */}
         </Modal>
       </Box>
     </>
