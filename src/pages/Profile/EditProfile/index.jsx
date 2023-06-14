@@ -32,7 +32,10 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const { getAddresses, updateUser, getUser } = useRegisterUser();
+  const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const authenticated = localStorage.getItem("authenticated");
 
   const [countries, setCountries] = React.useState([]);
   const [addresses, setAddresses] = React.useState([]);
@@ -41,6 +44,9 @@ const EditProfile = () => {
   const [openUpdateSuccess, setOpenUpdateSuccess] = React.useState(false);
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const [countrie, setCountrie] = React.useState(userInfo.nacionalidade);
+  const [address, setAddress] = React.useState(userInfo.residencia);
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -70,7 +76,6 @@ const EditProfile = () => {
   });
 
   const [aboutMeValue, setAboutMeValue] = React.useState();
-  const [geoIdsNationality, setGeoIdsNationality] = React.useState([]);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfPassword, setShowConfPassword] = React.useState(false);
@@ -86,11 +91,6 @@ const EditProfile = () => {
   const [showContactError, setShowContactError] = React.useState(false);
   const [showDateError, setShowDateError] = React.useState(false);
   const [showGenderError, setShowGenderError] = React.useState(false);
-
-  const [geoIds, setGeoIds] = React.useState([]);
-
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const authenticated = localStorage.getItem("authenticated");
 
   const { t } = useTranslation();
 
@@ -264,46 +264,44 @@ const EditProfile = () => {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      let id_geografia_residencia;
-      let id_geografia_nacionalidade;
-      geoIds.forEach((item) => {
-        if (item.nome === formData.residence) {
-          id_geografia_residencia = item.id;
-        }
-      });
-      geoIdsNationality.forEach((item) => {
-        if (item.nome === formData.residence) {
-          id_geografia_nacionalidade = item.id;
-        }
-      });
+      let token = localStorage.getItem("token");
+
+      const id_geografia_nacionalidade = await getCountries(
+        formData.nationality,
+        token
+      );
+      const id_geografia_residencia = await getAddresses(
+        formData.residence,
+        token
+      );
+
       let sexo = formData.gender;
       let data_nasc = formData.date;
       let contatos = formData.contact;
-      let residencia = id_geografia_residencia;
-      let nacionalidade = id_geografia_nacionalidade;
+      let residencia = id_geografia_residencia.dados[0].id;
+      let nacionalidade = id_geografia_nacionalidade.dados[0].id;
       let userId = userInfo.id;
-      let token = localStorage.getItem("token");
+
       let nome = formData.name;
       let _method = "PUT";
-
       const res = await updateUser(
         sexo,
         data_nasc,
-        id_geografia,
         contatos,
         residencia,
         nacionalidade,
         userId,
         token,
         nome,
-        _method
+        _method,
+        null,
+        null
       );
 
       if (!res) {
         setOpenUpdateError(true);
       } else {
         const user = await getUser(userId);
-        localStorage.setItem("idGeografia", id_geografia);
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
         setOpenUpdateSuccess(true);
       }
@@ -527,14 +525,14 @@ const EditProfile = () => {
                         <Autocomplete
                           id="country-select"
                           options={countries}
-                          value={formData.nationality}
+                          value={countrie}
                           autoHighlight
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               variant="outlined"
                               name="nationality"
-                              value={formData.nationality}
+                              value={countrie}
                               error={showNationalityError}
                               helperText={formErrors.nationality}
                               fullWidth
@@ -548,9 +546,8 @@ const EditProfile = () => {
                             />
                           )}
                           onInputChange={async (event, value) => {
-                            formData.nationality = value;
-                            if (value.length >= 2 && value.length <= 4) {
-                              const res = await getAddresses(value);
+                            if (value.length >= 2) {
+                              const res = await getCountries(value);
                               const newCountries = [];
                               const newNationalityGeoIds = [];
                               for (let key in res.dados) {
@@ -558,17 +555,13 @@ const EditProfile = () => {
                                   const value = res.dados[key];
 
                                   newCountries.push(value.nacionalidade);
-                                  newNationalityGeoIds.push({
-                                    id: value.id,
-                                    nome: value.nacionalidade,
-                                  });
                                 }
                               }
                               setCountries(newCountries);
-                              setGeoIdsNationality(newNationalityGeoIds);
                             }
                           }}
                           onChange={(event, value) => {
+                            setCountrie(value);
                             formData.nationality = value;
                           }}
                         />
@@ -586,14 +579,14 @@ const EditProfile = () => {
                         <Autocomplete
                           id="address-select"
                           options={addresses}
-                          value={formData.residence}
+                          value={address}
                           autoHighlight
                           renderInput={(params) => (
                             <TextField
                               {...params}
                               variant="outlined"
                               name="residence"
-                              value={formData.residence}
+                              value={address}
                               error={showResidenceError}
                               helperText={formErrors.residence}
                               fullWidth
@@ -611,22 +604,17 @@ const EditProfile = () => {
                             if (value.length >= 2 && value.length <= 4) {
                               const res = await getAddresses(value);
                               const newAddresses = [];
-                              const newGeoIds = [];
                               for (let key in res.dados) {
                                 if (res.dados.hasOwnProperty(key)) {
                                   const value = res.dados[key];
                                   newAddresses.push(value.nome);
-                                  newGeoIds.push({
-                                    id: value.id,
-                                    nome: value.nome,
-                                  });
                                 }
                               }
                               setAddresses(newAddresses);
-                              setGeoIds(newGeoIds);
                             }
                           }}
                           onChange={(event, value) => {
+                            setAddress(value);
                             formData.residence = value;
                           }}
                         />
