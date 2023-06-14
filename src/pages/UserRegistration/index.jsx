@@ -701,6 +701,7 @@ export default function UserRegistration() {
                   <Button
                     sx={{
                       fontSize: 14,
+                      textTransform: "none",
                     }}
                     onClick={handleModalTermsOpen}
                   >
@@ -710,6 +711,7 @@ export default function UserRegistration() {
                   <Button
                     sx={{
                       fontSize: 14,
+                      textTransform: "none",
                     }}
                     onClick={handleModalPrivacityOpen}
                   >
@@ -729,6 +731,7 @@ export default function UserRegistration() {
                   color: "#ffffff",
                   width: "20ch",
                   borderRadius: "16px",
+                  textTransform: "none",
                 }}
               >
                 {showRegisterForm

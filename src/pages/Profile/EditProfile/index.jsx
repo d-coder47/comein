@@ -654,6 +654,7 @@ const EditProfile = () => {
                           color: "#ffffff",
                           width: "20ch",
                           borderRadius: "16px",
+                          textTransform: "none",
                         }}
                       >
                         Guardar
@@ -902,6 +903,7 @@ const EditProfile = () => {
                           color: "#ffffff",
                           width: "20ch",
                           borderRadius: "16px",
+                          textTransform: "none",
                         }}
                       >
                         {t("editProfilePage.guardar")}
@@ -960,6 +962,7 @@ const EditProfile = () => {
                       sx={{
                         width: "30%",
                         borderRadius: "20px",
+                        textTransform: "none",
                       }}
                     >
                       {t("editProfilePage.guardar")}

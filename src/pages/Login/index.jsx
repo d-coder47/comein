@@ -276,6 +276,7 @@ export default function Login() {
                   color: "#ffffff",
                   width: "20ch",
                   borderRadius: "16px",
+                  textTransform: "none",
                 }}
               >
                 {t("loginPage.login")}

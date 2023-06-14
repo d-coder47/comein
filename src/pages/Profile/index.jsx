@@ -207,6 +207,7 @@ const UserProfile = () => {
                       color: "#ffffff",
                       width: "40ch",
                       borderRadius: "20px",
+                      textTransform: "none",
                     }}
                   >
                     <IconButton

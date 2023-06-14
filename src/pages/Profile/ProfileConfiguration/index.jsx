@@ -326,6 +326,7 @@ const ProfileConfiguration = () => {
                       sx={{
                         width: "30%",
                         borderRadius: "20px",
+                        textTransform: "none",
                       }}
                     >
                       {t("userProfile.configPage.reportarErro")}
@@ -444,6 +445,7 @@ const ProfileConfiguration = () => {
                       sx={{
                         marginTop: "15px",
                         borderRadius: "20px",
+                        textTransform: "none",
                       }}
                       onClick={handleOpenRemoveModal}
                       startIcon={<DeleteIcon />}
@@ -492,6 +494,7 @@ const ProfileConfiguration = () => {
                             sx={{
                               marginTop: "15px",
                               borderRadius: "20px",
+                              textTransform: "none",
                             }}
                             onClick={handleRemoveAccount}
                           >
@@ -505,6 +508,7 @@ const ProfileConfiguration = () => {
                             sx={{
                               marginTop: "15px",
                               borderRadius: "20px",
+                              textTransform: "none",
                             }}
                             onClick={handleCloseRemoveModal}
                           >
