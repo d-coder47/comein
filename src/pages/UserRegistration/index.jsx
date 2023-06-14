@@ -38,6 +38,9 @@ export default function UserRegistration() {
 
   const { t, i18n } = useTranslation();
 
+  const token = localStorage.getItem("token");
+  const userID = localStorage.getItem("userID");
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [showEmailError, setShowEmailError] = React.useState(false);
@@ -52,13 +55,17 @@ export default function UserRegistration() {
 
   const [showRegisterForm, setShowRegisterForm] = React.useState(false);
 
-  const { addUser, getAddresses, updateUser, getUser, getTermsPolicy } =
-    useRegisterUser();
+  const {
+    addUser,
+    getAddresses,
+    updateUser,
+    getUser,
+    getTermsPolicy,
+    getCountries,
+  } = useRegisterUser();
 
   const [addresses, setAddresses] = React.useState([]);
   const [countries, setCountries] = React.useState([]);
-  const [geoIds, setGeoIds] = React.useState([]);
-  const [geoIdsNationality, setGeoIdsNationality] = React.useState([]);
 
   const [openLoginError, setOpenLoginError] = React.useState(false);
 
@@ -121,10 +128,7 @@ export default function UserRegistration() {
 
     if (!addRes) {
       setOpenLoginError(true);
-    } else if (
-      addRes.data ===
-      "Já tem uma conta utilizando o email: rubenmartins463@gmail.com"
-    ) {
+    } else if (!addRes.data.id) {
       setShowAccountExistError(true);
     } else {
       localStorage.setItem("userID", addRes.data.id);
@@ -141,12 +145,12 @@ export default function UserRegistration() {
         null,
         null,
         null,
-        null,
         userId,
         token,
         nome,
         "PUT",
-        img_perfil
+        img_perfil,
+        null
       );
       if (!updateRes) {
         setOpenLoginError(true);
@@ -271,46 +275,41 @@ export default function UserRegistration() {
       if (Object.keys(errors).length) {
         setFormErrors(errors);
       } else {
-        let id_geografia_residencia;
-        let id_geografia_nacionalidade;
-        geoIds.forEach((item) => {
-          if (item.nome === formData.residence) {
-            id_geografia_redidencia = item.id;
-          }
-        });
-        geoIdsNationality.forEach((item) => {
-          if (item.nome === formData.residence) {
-            id_geografia_nacionalidade = item.id;
-          }
-        });
+        const id_geografia_nacionalidade = await getCountries(
+          formData.nationality,
+          token
+        );
+        const id_geografia_residencia = await getAddresses(
+          formData.residence,
+          token
+        );
+
         let sexo = formData.gender;
         let data_nasc = formData.date;
         let contatos = formData.contact;
-        let residencia = id_geografia_residencia;
-        let nacionalidade = id_geografia_nacionalidade;
-        let userId = localStorage.getItem("userID");
-        let token = localStorage.getItem("token");
+        let residencia = id_geografia_residencia.dados[0].id;
+        let nacionalidade = id_geografia_nacionalidade.dados[0].id;
         let nome = `${formData.name} ${formData.surname}`;
         let _method = "PUT";
 
         const res = await updateUser(
           sexo,
           data_nasc,
-          id_geografia,
           contatos,
           residencia,
           nacionalidade,
-          userId,
+          userID,
           token,
           nome,
-          _method
+          _method,
+          null,
+          null
         );
         if (!res) {
           setOpenLoginError(true);
         } else {
-          const user = await getUser(userId);
+          const user = await getUser(userID);
           localStorage.setItem("authenticated", true);
-          localStorage.setItem("idGeografia", id_geografia);
           localStorage.setItem("userInfo", JSON.stringify(user.dados));
           navigate("/");
         }
@@ -602,24 +601,18 @@ export default function UserRegistration() {
                         />
                       )}
                       onInputChange={async (event, value) => {
-                        formData.nationality = value;
                         if (value.length >= 2 && value.length <= 4) {
-                          const res = await getAddresses(value);
+                          const res = await getCountries(value, token);
                           const newCountries = [];
-                          const newNationalityGeoIds = [];
+
                           for (let key in res.dados) {
                             if (res.dados.hasOwnProperty(key)) {
                               const value = res.dados[key];
 
-                              newNationalityGeoIds.push({
-                                id: value.id,
-                                nome: value.nacionalidade,
-                              });
                               newCountries.push(value.nacionalidade);
                             }
                           }
                           setCountries(newCountries);
-                          setGeoIdsNationality(newNationalityGeoIds);
                         }
                       }}
                       onChange={(event, value) => {
@@ -653,23 +646,17 @@ export default function UserRegistration() {
                         />
                       )}
                       onInputChange={async (event, value) => {
-                        formData.residence = value;
                         if (value.length >= 2 && value.length <= 4) {
-                          const res = await getAddresses(value);
+                          const res = await getAddresses(value, token);
+
                           const newAddresses = [];
-                          const newGeoIds = [];
                           for (let key in res.dados) {
                             if (res.dados.hasOwnProperty(key)) {
                               const value = res.dados[key];
                               newAddresses.push(value.nome);
-                              newGeoIds.push({
-                                id: value.id,
-                                nome: value.nome,
-                              });
                             }
                           }
                           setAddresses(newAddresses);
-                          setGeoIds(newGeoIds);
                         }
                       }}
                       onChange={(event, value) => {
@@ -749,7 +736,14 @@ export default function UserRegistration() {
                   : t("registerpage.continuar")}
               </Button>
             </Grid>
-            <Grid>
+            <Grid
+              sx={{
+                position: "fixed",
+                top: "20px", // Adjust the top position as needed
+                left: "20px", // Adjust the left position as needed
+                zIndex: 9999, // Ensure the alert is above other elements
+              }}
+            >
               <Collapse in={showAccountExistError}>
                 <Alert
                   severity="error"
@@ -774,7 +768,14 @@ export default function UserRegistration() {
               </Collapse>
             </Grid>
 
-            <Grid>
+            <Grid
+              sx={{
+                position: "fixed",
+                top: "20px", // Adjust the top position as needed
+                left: "20px", // Adjust the left position as needed
+                zIndex: 9999, // Ensure the alert is above other elements
+              }}
+            >
               <Collapse in={openLoginError}>
                 <Alert
                   severity="error"

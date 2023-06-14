@@ -6,7 +6,7 @@ const useRegisterUser = () => {
       const response = await axiosInstance.get(`/geografia/search/${address}`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -22,7 +22,7 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -130,8 +130,6 @@ const useRegisterUser = () => {
     img_capa
   ) => {
     try {
-      // console.log(nacionalidade);
-      // console.log(residencia);
       const params = new URLSearchParams({
         _method,
         sexo,
@@ -144,7 +142,19 @@ const useRegisterUser = () => {
         img_capa,
       }).toString();
 
-      // console.log(params);
+      console.log(
+        sexo,
+        data_nasc,
+        contatos,
+        residencia,
+        nacionalidade,
+        userId,
+        token,
+        nome,
+        _method,
+        img_perfil,
+        img_capa
+      );
 
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,

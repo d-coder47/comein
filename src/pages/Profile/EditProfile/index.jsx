@@ -659,7 +659,14 @@ const EditProfile = () => {
                         Guardar
                       </Button>
                     </Grid>
-                    <Grid>
+                    <Grid
+                      sx={{
+                        position: "fixed",
+                        top: "20px", // Adjust the top position as needed
+                        left: "20px", // Adjust the left position as needed
+                        zIndex: 9999, // Ensure the alert is above other elements
+                      }}
+                    >
                       <Collapse in={openUpdateError}>
                         <Alert
                           severity="error"
