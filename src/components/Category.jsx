@@ -28,7 +28,6 @@ const Category = ({ id, name, icon, onCategoryClick, isSelected }) => {
         <Typography
           fontSize={14}
           sx={{
-            whiteSpace: "nowrap",
             fontWeight: isSelected ? "bold" : "normal",
             overflow: "hidden",
             whiteSpace: "nowrap",
