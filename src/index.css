@@ -7,3 +7,7 @@ body {
 body > #root > div {
   min-height: 100vh;
 }
+
+:root {
+  --swiper-theme-color: #33b3cc;
+}

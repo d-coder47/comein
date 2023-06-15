@@ -112,7 +112,7 @@ const NavBar = () => {
         }}
       >
         <Box>
-          <NotificationsIcon color="primary" sx={{ fontSize: "1.5rem" }} />
+          <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
         </Box>
         <Select
           labelId="internationalization-label"
@@ -124,7 +124,6 @@ const NavBar = () => {
             marginRight: "0.5rem",
             color: (theme) => theme.palette.primary.main,
             ".MuiOutlinedInput-input": {
-              borderColor: "transparent !important",
               display: "flex",
               alignItems: "center",
               gap: ".5rem",
@@ -133,7 +132,15 @@ const NavBar = () => {
               borderColor: "red !important",
             },
             ".MuiOutlinedInput-notchedOutline": {
-              borderColor: "transparent",
+              borderColor: "white",
+              outline: "none",
+              "&:hover": {
+                borderColor: "white",
+              },
+              ".Mui-focused": {
+                borderColor: "white",
+                outline: "none",
+              },
             },
             ".MuiSvgIcon-root-MuiSelect-icon": {
               color: (theme) => theme.palette.primary.main,
@@ -148,7 +155,11 @@ const NavBar = () => {
             }}
           >
             {" "}
-            EN <Avatar src={englandFlag} alt="Bandeira Inglaterra" />{" "}
+            <Avatar
+              src={englandFlag}
+              alt="Bandeira Inglaterra"
+              sx={{ width: "1.75rem", height: "auto" }}
+            />{" "}
           </MenuItem>
           <MenuItem
             value={"pt"}
@@ -158,7 +169,11 @@ const NavBar = () => {
             }}
           >
             {" "}
-            PT <Avatar src={portugalFlag} alt="Bandeira Portugal" />{" "}
+            <Avatar
+              src={portugalFlag}
+              alt="Bandeira Portugal"
+              sx={{ width: "1.75rem", height: "auto" }}
+            />{" "}
           </MenuItem>
           <MenuItem
             value={"fr"}
@@ -168,7 +183,11 @@ const NavBar = () => {
             }}
           >
             {" "}
-            FR <Avatar src={franceFlag} alt="Bandeira França" />{" "}
+            <Avatar
+              src={franceFlag}
+              alt="Bandeira França"
+              sx={{ width: "1.75rem", height: "auto" }}
+            />{" "}
           </MenuItem>
         </Select>
 
