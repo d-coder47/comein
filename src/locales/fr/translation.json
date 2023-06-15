@@ -70,7 +70,10 @@
       "termosUso": "Conditions d’utilisation",
       "politicasPrivacidade": "Politique de confidentialité",
       "removerContaDetails": "La suppression du compte supprimera tout le contenu et les données associés au compte et vous perdrez immédiatement l’accès au compte.",
-      "inserirEmail": "Entrez votre adresse e-mail pour votre compte"
+      "inserirEmail": "Entrez votre adresse e-mail pour votre compte",
+      "confirmarRemoverConta": "Voulez-vous vraiment supprimer votre compte ?",
+      "sim": "Oui",
+      "nao": "Non"
     }
   },
   "editProfilePage": {

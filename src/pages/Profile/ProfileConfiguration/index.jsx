@@ -477,7 +477,7 @@ const ProfileConfiguration = () => {
                         variant="h6"
                         component="h2"
                       >
-                        Tem certeza de que deseja remover a sua conta?
+                        {t("userProfile.configPage.confirmarRemoverConta")}
                       </Typography>
                       <Grid
                         container
@@ -498,7 +498,7 @@ const ProfileConfiguration = () => {
                             }}
                             onClick={handleRemoveAccount}
                           >
-                            Sim
+                            {t("userProfile.configPage.sim")}
                           </Button>
                         </Grid>
                         <Grid item xs={6} md={4}>
@@ -512,7 +512,7 @@ const ProfileConfiguration = () => {
                             }}
                             onClick={handleCloseRemoveModal}
                           >
-                            Não
+                            {t("userProfile.configPage.nao")}
                           </Button>
                         </Grid>
                       </Grid>
