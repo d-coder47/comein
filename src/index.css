@@ -11,3 +11,7 @@ body > #root > div {
 :root {
   --swiper-theme-color: #33b3cc;
 }
+
+:root {
+  --swiper-navigation-size: 1.5rem;
+}

@@ -90,6 +90,7 @@ const NavBar = () => {
         alt="Come In"
         onClick={() => navigate("/")}
         sx={{
+          marginLeft: "1rem",
           width: "8rem",
           height: "auto",
           objectFit: "cover",
@@ -332,10 +333,9 @@ const NavBar = () => {
             </Button>
             <Button
               sx={{
-                marginRight: "2.5rem",
+                marginRight: "1rem",
                 height: "2rem",
                 textTransform: "capitalize",
-                // fontWeight: "bold",
               }}
               onClick={handleCadastrarClick}
               variant="outlined"

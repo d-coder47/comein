@@ -45,31 +45,26 @@ const SearchBar = () => {
     <Grid
       container
       spacing={1}
-      // display="flex"
-      // gap=".5rem"
-      // flexDirection="row"
-      alignItems="center"
-      // maxWidth="md"
+      alignItems="flex-start"
+      direction="row"
       sx={{
         ml: "2rem",
         mr: "2rem",
         border: "1px solid rgba(0, 0, 0, 0.23)",
-        borderRadius: "10rem",
+        borderRadius: ".5rem",
         marginTop: "1rem",
         width: "auto",
         height: "3rem",
       }}
     >
       <Grid
-        xs={5}
-        md={3.75}
-        lg={4.75}
+        xs={12}
         item
         id="searchbar"
         spacing={1}
-        maxWidth="md"
         sx={{
           maxHeight: "3rem",
+          width: "100%",
           paddingLeft: "0 !important",
           paddingTop: "0 !important",
         }}
@@ -81,21 +76,20 @@ const SearchBar = () => {
           value={searchTerm}
           onChange={handleChange}
           sx={{
+            width: "100%",
+            "&:focus": {
+              borderColor: "red",
+              opacity: 1,
+            },
+            ".MuiFormControl-root-MuiTextField-root-focused": {
+              borderColor: "red",
+              opacity: 1,
+            },
             ".MuiInputBase-root": {
               height: "3rem",
-              width: "30rem",
+              width: "100%",
               padding: "1.5rem",
-              borderTopLeftRadius: "10rem",
-              borderBottomLeftRadius: "10rem",
-              [theme.breakpoints.down("xs")]: {
-                width: "30rem",
-              },
-              [theme.breakpoints.up("md")]: {
-                width: "16rem",
-              },
-              [theme.breakpoints.up("lg")]: {
-                width: "45rem",
-              },
+              borderRadius: ".5rem",
             },
           }}
           InputProps={{
@@ -107,93 +101,95 @@ const SearchBar = () => {
           }}
         />
       </Grid>
-      <Grid xs={1.3} md={1.5} lg={1.25} m={"0 .5rem"}>
-        <Typography
-          sx={{
-            fontWeight: filterSelected === "highlights" ? "bold" : "normal",
-            cursor: "pointer",
-            backgroundColor:
-              filterSelected === "highlights" ? "black" : "transparent",
-            border:
-              filterSelected === "highlights" ? "1px solid black" : "none",
-            borderRadius: filterSelected === "highlights" ? "10rem" : "none",
-            padding: filterSelected === "highlights" ? "0.25rem" : "0",
-            color: filterSelected === "highlights" ? "white" : "black",
-            textAlign: "center",
-          }}
-          onClick={() => handleChangeFilterSelected("highlights")}
-        >
-          Destaques
-        </Typography>
-      </Grid>
-      <Grid xs={1.7} md={1.5} lg={1.25}>
-        <TextField
-          id="date-start"
-          type="date"
-          sx={{
-            height: "2rem",
-            ".MuiInputBase-root": { height: "2rem", borderRadius: "10rem" },
-          }}
-        />
-      </Grid>
-      <Grid xs={1.7} md={1.5} lg={1.25}>
-        <TextField
-          id="date-end"
-          type="date"
-          sx={{
-            height: "2rem",
-            ".MuiInputBase-root": { height: "2rem", borderRadius: "10rem" },
-          }}
-        />
-      </Grid>
-      <Grid xs={1.7} md={1.5} lg={1.25}>
-        <Autocomplete
-          id="address-select"
-          options={addresses}
-          autoHighlight
-          sx={{ width: "10rem" }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              // label={"Local"}
-              variant="standard"
-              placeholder="Local"
-              name="residence"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                ...params.inputProps,
-                autoComplete: "new-password", // disable autocomplete and autofill
-              }}
-            />
-          )}
-          onInputChange={async (event, value) => {
-            // formData.residence = value;
-            if (value.length >= 2 && value.length <= 4) {
-              const res = await getAddresses(value);
-              const newAddresses = [];
-              // const newGeoIds = [];
-              for (let key in res.dados) {
-                if (res.dados.hasOwnProperty(key)) {
-                  const value = res.dados[key];
-                  newAddresses.push(value.nome);
-                  // newGeoIds.push({
-                  // 	id: value.id,
-                  // 	nome: value.nome,
-                  // });
+      {/* <Grid item direction="row" xs={12} display="flex">
+        <Grid xs={2} m={"0 .5rem"}>
+          <Typography
+            sx={{
+              fontWeight: filterSelected === "highlights" ? "bold" : "normal",
+              cursor: "pointer",
+              backgroundColor:
+                filterSelected === "highlights" ? "black" : "transparent",
+              border:
+                filterSelected === "highlights" ? "1px solid black" : "none",
+              borderRadius: filterSelected === "highlights" ? "10rem" : "none",
+              padding: filterSelected === "highlights" ? "0.25rem" : "0",
+              color: filterSelected === "highlights" ? "white" : "black",
+              textAlign: "center",
+            }}
+            onClick={() => handleChangeFilterSelected("highlights")}
+          >
+            Destaques
+          </Typography>
+        </Grid>
+        <Grid xs={2}>
+          <TextField
+            id="date-start"
+            type="date"
+            sx={{
+              height: "2rem",
+              ".MuiInputBase-root": { height: "2rem", borderRadius: "10rem" },
+            }}
+          />
+        </Grid>
+        <Grid xs={2}>
+          <TextField
+            id="date-end"
+            type="date"
+            sx={{
+              height: "2rem",
+              ".MuiInputBase-root": { height: "2rem", borderRadius: "10rem" },
+            }}
+          />
+        </Grid>
+        <Grid xs={2}>
+          <Autocomplete
+            id="address-select"
+            options={addresses}
+            autoHighlight
+            sx={{ width: "10rem" }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                // label={"Local"}
+                variant="standard"
+                placeholder="Local"
+                name="residence"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: "new-password", // disable autocomplete and autofill
+                }}
+              />
+            )}
+            onInputChange={async (event, value) => {
+              // formData.residence = value;
+              if (value.length >= 2 && value.length <= 4) {
+                const res = await getAddresses(value);
+                const newAddresses = [];
+                // const newGeoIds = [];
+                for (let key in res.dados) {
+                  if (res.dados.hasOwnProperty(key)) {
+                    const value = res.dados[key];
+                    newAddresses.push(value.nome);
+                    // newGeoIds.push({
+                    // 	id: value.id,
+                    // 	nome: value.nome,
+                    // });
+                  }
                 }
+                setAddresses(newAddresses);
+                // setGeoIds(newGeoIds);
               }
-              setAddresses(newAddresses);
-              // setGeoIds(newGeoIds);
-            }
-          }}
-          onChange={(event, value) => {
-            console.log(value);
-          }}
-        />
-      </Grid>
+            }}
+            onChange={(event, value) => {
+              console.log(value);
+            }}
+          />
+        </Grid>
+      </Grid> */}
     </Grid>
   );
 };
