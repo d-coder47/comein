@@ -90,7 +90,9 @@
     "confirmPass": "Confirmar palavra-passe",
     "novoPass": "Novo palavra-passe",
     "perfilAtualizadoSucesso": "Perfil atualizado com sucesso",
-    "erroAtualizarPerfil": "Erro ao atualizar perfil"
+    "erroAtualizarPerfil": "Erro ao atualizar perfil",
+    "palavraPassAtualizadoSucesso": "Palavra-passe atualizado com sucesso",
+    "erroAtualizarPalavraPasse": "Erro ao atualizar palavra-passe"
   },
   "loginPage": {
     "fazerLogin": "Fazer login",

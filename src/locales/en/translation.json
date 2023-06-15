@@ -89,7 +89,9 @@
     "confirmPass": "Confirm password",
     "novoPass": "New password",
     "perfilAtualizadoSucesso": "Profile successfully updated",
-    "erroAtualizarPerfil": "Error updating profile"
+    "erroAtualizarPerfil": "Error updating profile",
+    "palavraPassAtualizadoSucesso": "Password updated successfully",
+    "erroAtualizarPalavraPasse": "Error updating password"
   },
   "loginPage": {
     "fazerLogin": "Log in",

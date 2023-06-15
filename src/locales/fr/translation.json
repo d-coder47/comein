@@ -89,7 +89,9 @@
     "confirmPass": "Confirmer le mot de passe",
     "novoPass": "Nouveau mot de passe",
     "perfilAtualizadoSucesso": "Mise à jour du profil réussie",
-    "erroAtualizarPerfil": "Erreur lors de la mise à jour du profil"
+    "erroAtualizarPerfil": "Erreur lors de la mise à jour du profil",
+    "palavraPassAtualizadoSucesso": "Mot de passe mis à jour avec succès",
+    "erroAtualizarPalavraPasse": "Erreur lors de la mise à jour du mot de passe"
   },
   "loginPage": {
     "fazerLogin": "S'identifier",
