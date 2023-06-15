@@ -130,6 +130,7 @@ export default function Login() {
         } else {
           localStorage.setItem("userInfo", JSON.stringify(user.dados));
           localStorage.setItem("authenticated", true);
+
           navigate("/");
         }
       } else {

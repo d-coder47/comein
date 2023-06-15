@@ -29,10 +29,15 @@ import { useTranslation } from "react-i18next";
 import { MuiTelInput } from "mui-tel-input";
 
 import useRegisterUser from "../../../hooks/useRegisterUser";
+import useUserProfile from "../../../hooks/useUserProfile";
 
 const EditProfile = () => {
   const navigate = useNavigate();
   const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
+  const { changePassword } = useUserProfile();
+
+  const [openChangePassError, setOpenChangePassError] = React.useState(false);
+  const [openChangePassSucc, setOpenChangePassSucc] = React.useState(false);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
@@ -193,11 +198,18 @@ const EditProfile = () => {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      console.log(
+      const res = await changePassword(
+        userInfo.id,
         formData.password,
-        formData.newPassword,
-        formData.confPassword
+        formData.newPassword
       );
+      if (res.token) {
+        setOpenChangePassSucc(true);
+
+        localStorage.setItem("token", res.token);
+      } else {
+        setOpenChangePassError(true);
+      }
     }
   };
 
@@ -908,6 +920,60 @@ const EditProfile = () => {
                       >
                         {t("editProfilePage.guardar")}
                       </Button>
+                    </Grid>
+                    <Grid>
+                      <Collapse in={openChangePassSucc}>
+                        <Alert
+                          severity="success"
+                          action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpenChangePassSucc(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2 }}
+                        >
+                          <AlertTitle>
+                            <strong>
+                              {t(
+                                "editProfilePage.palavraPassAtualizadoSucesso"
+                              )}
+                            </strong>
+                          </AlertTitle>
+                        </Alert>
+                      </Collapse>
+                    </Grid>
+                    <Grid>
+                      <Collapse in={openChangePassError}>
+                        <Alert
+                          severity="success"
+                          action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpenChangePassError(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2 }}
+                        >
+                          <AlertTitle>
+                            <strong>
+                              {t("editProfilePage.erroAtualizarPalavraPasse")}
+                            </strong>
+                          </AlertTitle>
+                        </Alert>
+                      </Collapse>
                     </Grid>
                   </Box>
                 </Paper>

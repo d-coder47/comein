@@ -107,6 +107,7 @@ const useUserProfile = () => {
     updateUserProfileBanner,
     updateUserProfilePhoto,
     deleteUserProfile,
+    changePassword,
   };
 };
 

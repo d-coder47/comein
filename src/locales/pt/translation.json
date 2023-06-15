@@ -71,7 +71,10 @@
       "termosUso": "Termos de uso",
       "politicasPrivacidade": "Políticas de privacidade",
       "removerContaDetails": "A exclusão da conta removerá todo o conteúdo e dados associados a ela e você perderá acesso à conta imediatamente.",
-      "inserirEmail": "Insira o seu email para a sua conta"
+      "inserirEmail": "Insira o seu email para a sua conta",
+      "confirmarRemoverConta": "Tem certeza de que deseja remover a sua conta?",
+      "sim": "Sim",
+      "nao": "Não"
     }
   },
   "editProfilePage": {
@@ -87,7 +90,9 @@
     "confirmPass": "Confirmar palavra-passe",
     "novoPass": "Novo palavra-passe",
     "perfilAtualizadoSucesso": "Perfil atualizado com sucesso",
-    "erroAtualizarPerfil": "Erro ao atualizar perfil"
+    "erroAtualizarPerfil": "Erro ao atualizar perfil",
+    "palavraPassAtualizadoSucesso": "Palavra-passe atualizado com sucesso",
+    "erroAtualizarPalavraPasse": "Erro ao atualizar palavra-passe"
   },
   "loginPage": {
     "fazerLogin": "Fazer login",
