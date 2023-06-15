@@ -91,7 +91,9 @@
     "perfilAtualizadoSucesso": "Profile successfully updated",
     "erroAtualizarPerfil": "Error updating profile",
     "palavraPassAtualizadoSucesso": "Password updated successfully",
-    "erroAtualizarPalavraPasse": "Error updating password"
+    "erroAtualizarPalavraPasse": "Error updating password",
+    "erroAtualizarBio": "Error updating biography",
+    "sucessoAtualizarBio": "Biography successfully updated"
   },
   "loginPage": {
     "fazerLogin": "Log in",

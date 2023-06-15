@@ -91,7 +91,9 @@
     "perfilAtualizadoSucesso": "Mise à jour du profil réussie",
     "erroAtualizarPerfil": "Erreur lors de la mise à jour du profil",
     "palavraPassAtualizadoSucesso": "Mot de passe mis à jour avec succès",
-    "erroAtualizarPalavraPasse": "Erreur lors de la mise à jour du mot de passe"
+    "erroAtualizarPalavraPasse": "Erreur lors de la mise à jour du mot de passe",
+    "erroAtualizarBio": "Erreur de mise à jour de la biographie",
+    "sucessoAtualizarBio": "Biographie mise à jour avec succès"
   },
   "loginPage": {
     "fazerLogin": "S'identifier",

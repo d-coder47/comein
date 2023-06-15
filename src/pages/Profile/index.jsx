@@ -79,24 +79,32 @@ const UserProfile = () => {
   const handleBannerPhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    const res = await updateUserProfilePhotos(
-      userInfo.id,
-      "PUT",
-      null,
-      URL.createObjectURL(file)
-    );
+    // const res = await updateUserProfilePhotos(
+    //   userInfo.id,
+    //   "PUT",
+    //   null,
+    //   URL.createObjectURL(file)
+    // );
 
-    const user = await getUser(userInfo.id);
+    // const user = await getUser(userInfo.id);
 
-    localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    // localStorage.setItem("userInfo", JSON.stringify(user.dados));
     setProfileBannerPhoto(URL.createObjectURL(file));
   };
 
   React.useEffect(() => {
+    async function fetchData() {
+      const user = await getUser(userInfo.id);
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      console.log(user.dados);
+    }
     if (!authenticated) {
       navigate("/");
+    } else {
+      fetchData();
     }
   }, []);
+
   return (
     <>
       <NavBar />
@@ -141,7 +149,7 @@ const UserProfile = () => {
               xs={12}
               md={4}
               className="profile_second_grid"
-              sx={{ position: "absolute", top: "15%", left: "2%" }}
+              sx={{ position: "absolute", top: "20%", left: "3%" }}
             >
               <Paper
                 elevation={3}
@@ -334,7 +342,7 @@ const UserProfile = () => {
                       {t("userProfile.sobre")}
                     </Typography>
                   }
-                  value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed gravida feugiat neque, nec viverra ante volutpat id."
+                  value={userInfo.bio}
                   disabled
                   multiline
                   rows={4}
@@ -350,7 +358,7 @@ const UserProfile = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "left",
                   alignItems: "center",
                 }}
               >
