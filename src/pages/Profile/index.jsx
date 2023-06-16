@@ -140,7 +140,8 @@ const UserProfile = () => {
         <Box
           sx={{
             padding: "2rem",
-            height: "100%",
+            height: "100vh",
+            background: "#f8f8f8",
           }}
         >
           <Grid className="profile_main_grid" container spacing={2}>
@@ -363,9 +364,18 @@ const UserProfile = () => {
                 }}
               >
                 <Tabs value={selectedTab} onChange={handleTabChange}>
-                  <Tab label={t("userProfile.eventos")} />
-                  <Tab label={t("userProfile.projetos")} />
-                  <Tab label={t("userProfile.favoritos")} />
+                  <Tab
+                    label={t("userProfile.eventos")}
+                    sx={{ textTransform: "none" }}
+                  />
+                  <Tab
+                    label={t("userProfile.projetos")}
+                    sx={{ textTransform: "none" }}
+                  />
+                  <Tab
+                    label={t("userProfile.favoritos")}
+                    sx={{ textTransform: "none" }}
+                  />
                 </Tabs>
               </Box>
 
