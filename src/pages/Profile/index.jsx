@@ -251,7 +251,7 @@ const UserProfile = () => {
                     variant="h6"
                     sx={{
                       marginTop: "1rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                     }}
                   >
                     {t("userProfile.seguidores")}
@@ -261,7 +261,7 @@ const UserProfile = () => {
                     variant="h6"
                     sx={{
                       marginTop: "1rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                       fontWeight: "bold",
                     }}
                   >
@@ -281,7 +281,7 @@ const UserProfile = () => {
                   <Typography
                     variant="h6"
                     sx={{
-                      fontSize: 18,
+                      fontSize: "16px",
                     }}
                   >
                     {t("userProfile.seguindo")}
@@ -290,7 +290,7 @@ const UserProfile = () => {
                   <Typography
                     variant="h6"
                     sx={{
-                      fontSize: 18,
+                      fontSize: "16px",
                       fontWeight: "bold",
                     }}
                   >
@@ -312,7 +312,7 @@ const UserProfile = () => {
                     sx={{
                       // marginTop: "1rem",
                       marginBottom: "2rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                     }}
                   >
                     {t("userProfile.visitantes")}
@@ -323,7 +323,7 @@ const UserProfile = () => {
                     sx={{
                       // marginTop: "1rem",
                       marginBottom: "2rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                       fontWeight: "bold",
                     }}
                   >
@@ -335,7 +335,7 @@ const UserProfile = () => {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontSize: 18,
+                        fontSize: "16px",
                         fontWeight: "bold",
                         color: "#000",
                       }}
