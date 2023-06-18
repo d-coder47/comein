@@ -29,15 +29,6 @@ import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
-  // const user = {
-  //   name: "John Doe",
-  //   email: "johndoe@example.com",
-  //   location: "New York",
-  //   bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed fermentum hendrerit justo, et efficitur ligula tincidunt eu.",
-  //   avatar: "/static/images/avatar.jpg",
-  //   coverPhoto: "/static/images/cover-photo.jpg",
-  // };
-
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
 
@@ -61,19 +52,26 @@ const UserProfile = () => {
 
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = async function (e) {
-      const update_res = await updateUserProfilePhoto(userInfo.id, {
-        uri: e.target.result,
-        name: file.name,
-        type: file.type,
-      });
-      const user = await getUser(userInfo.id);
-      setProfilePhoto(e.target.result);
 
-      localStorage.setItem("userInfo", JSON.stringify(user.dados));
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    const update_res = await updateUserProfilePhoto(userInfo.id, file);
+    const user = await getUser(userInfo.id);
+    setProfilePhoto(URL.createObjectURL(file));
+
+    localStorage.setItem("userInfo", JSON.stringify(user.dados));
+
+    // var reader = new FileReader();
+    // reader.onload = async function (e) {
+    //   const update_res = await updateUserProfilePhoto(userInfo.id, {
+    //     uri: e.target.result,
+    //     name: file.name,
+    //     type: file.type,
+    //   });
+    //   const user = await getUser(userInfo.id);
+    //   setProfilePhoto(e.target.result);
+
+    //   localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    // };
+    // reader.readAsDataURL(event.target.files[0]);
   };
 
   const handleBannerPhotoUpload = async (event) => {
@@ -95,6 +93,7 @@ const UserProfile = () => {
   React.useEffect(() => {
     async function fetchData() {
       const user = await getUser(userInfo.id);
+      console.log(user);
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
     }
     if (!authenticated) {
