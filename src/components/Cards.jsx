@@ -61,6 +61,8 @@ const Cards = ({ culturalAreaId }) => {
                   key={index}
                   id={card.id}
                   name={card.nome}
+                  likes={card.gostos}
+                  visits={card.visitas}
                   picture={`https://comein.cv/comeincv_api_test/img/${
                     card.distincao === "E" ? "eventos" : "projetos"
                   }Img/${card.imagem}`}

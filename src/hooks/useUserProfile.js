@@ -31,10 +31,11 @@ const useUserProfile = () => {
       //   photoPerfil,
       // }).toString();
 
-      const body = new FormData();
+      let body = new FormData();
       body.append("idUser", idUser);
       body.append("photoPerfil", photoPerfil);
 
+<<<<<<< HEAD
       const response = await axiosInstance.post(
         "/utilizadores/fotoPerfil",
         body,
@@ -46,6 +47,32 @@ const useUserProfile = () => {
           },
         }
       );
+=======
+      console.log(photoPerfil);
+
+      const options = { method: "POST", body };
+
+      fetch(
+        "https://comein.cv/comeincv_api_test/utilizadores/fotoPerfil",
+        options
+      ).then((response) => {
+        response.json().then((data) => {
+          console.log(data.dados);
+        });
+      });
+
+      // const response = await axiosInstance.post(
+      //   "/utilizadores/fotoPerfil",
+      //   body,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/x-www-form-urlencoded",
+      //       // Authorization:
+      //       //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+      //     },
+      //   }
+      // );
+>>>>>>> b352ce0c6888a5a0f3bf9d731cd0e1b9f62cee84
 
       return response.data;
     } catch (error) {

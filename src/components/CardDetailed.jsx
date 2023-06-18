@@ -25,6 +25,8 @@ const CardDetailed = ({
   publisherPhoto,
   publishers,
   title,
+  liked = true,
+  favorite = true,
   type,
   onCloseModal,
   picture,
@@ -131,7 +133,7 @@ const CardDetailed = ({
               borderRadius: "50%",
               height: "3rem",
               width: "3rem",
-              backgroundColor: "white",
+              backgroundColor: favorite ? "#3c3c3c" : "white",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -139,26 +141,47 @@ const CardDetailed = ({
             }}
             onClick={() => console.log("Favorito")}
           >
-            <Star color="black" sx={{ width: "1.25rem", height: "1.25rem" }} />
+            <Star
+              color="white"
+              sx={{
+                width: "1.25rem",
+                height: "1.25rem",
+                color: favorite ? "white" : "#3c3c3c",
+              }}
+            />
           </Box>
         </Tooltip>
 
-        <Tooltip title="Curtir" placement="left" arrow>
+        <Tooltip
+          title={liked ? "Retirar gosto" : "Gosto"}
+          placement="left"
+          arrow
+        >
           <Box
             id="like"
             sx={{
               borderRadius: "50%",
               height: "3rem",
               width: "3rem",
-              backgroundColor: (theme) => theme.palette.primary.main,
+              backgroundColor: (theme) =>
+                liked ? "#3c3c3c" : theme.palette.primary.main,
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
+              "&:hover": {
+                opacity: 0.8,
+              },
             }}
             onClick={() => console.log("Gosto")}
           >
             <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
+            {liked ? (
+              <Typography color="white" fontSize=".8rem">
+                {"61"}
+              </Typography>
+            ) : null}
           </Box>
         </Tooltip>
         {/* <Avatar
