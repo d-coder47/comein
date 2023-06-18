@@ -37,9 +37,7 @@ const UserProfile = () => {
 
   const [selectedTab, setSelectedTab] = React.useState(0);
 
-  const [profilePhoto, setProfilePhoto] = React.useState(
-    userInfo ? userInfo.img_perfil : null
-  );
+  const [profilePhoto, setProfilePhoto] = React.useState(userInfo.img_perfil);
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(null);
 
   const { updateUserProfileBanner, updateUserProfilePhoto } = useUserProfile();
@@ -53,47 +51,35 @@ const UserProfile = () => {
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    const update_res = await updateUserProfilePhoto(userInfo.id, file);
-    const user = await getUser(userInfo.id);
-    setProfilePhoto(URL.createObjectURL(file));
+    var reader = new FileReader();
+    reader.onload = async function (e) {
+      const update_res = await updateUserProfilePhoto(userInfo.id, file);
+      const user = await getUser(userInfo.id);
+      console.log(user.dados.img_perfil);
+      setProfilePhoto(user.dados.img_perfil);
 
-    localStorage.setItem("userInfo", JSON.stringify(user.dados));
-
-    // var reader = new FileReader();
-    // reader.onload = async function (e) {
-    //   const update_res = await updateUserProfilePhoto(userInfo.id, {
-    //     uri: e.target.result,
-    //     name: file.name,
-    //     type: file.type,
-    //   });
-    //   const user = await getUser(userInfo.id);
-    //   setProfilePhoto(e.target.result);
-
-    //   localStorage.setItem("userInfo", JSON.stringify(user.dados));
-    // };
-    // reader.readAsDataURL(event.target.files[0]);
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    };
+    reader.readAsDataURL(event.target.files[0]);
   };
 
   const handleBannerPhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    // const res = await updateUserProfilePhotos(
-    //   userInfo.id,
-    //   "PUT",
-    //   null,
-    //   URL.createObjectURL(file)
-    // );
+    var reader = new FileReader();
+    reader.onload = async function (e) {
+      const update_res = await updateUserProfileBanner(userInfo.id, file);
+      const user = await getUser(userInfo.id);
+      setProfileBannerPhoto(user.dados.img_capa);
 
-    // const user = await getUser(userInfo.id);
-
-    // localStorage.setItem("userInfo", JSON.stringify(user.dados));
-    setProfileBannerPhoto(URL.createObjectURL(file));
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    };
+    reader.readAsDataURL(event.target.files[0]);
   };
 
   React.useEffect(() => {
     async function fetchData() {
       const user = await getUser(userInfo.id);
-      console.log(user);
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
     }
     if (!authenticated) {
@@ -127,7 +113,7 @@ const UserProfile = () => {
                 <Avatar
                   alt="User Profile Banner Photo"
                   sx={{ width: "100%", height: 310, borderRadius: 0 }}
-                  src={profileBannerPhoto}
+                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
                 </Avatar>
@@ -175,7 +161,7 @@ const UserProfile = () => {
                       <Avatar
                         alt="User Profile Photo"
                         sx={{ width: 150, height: 150 }}
-                        src={profilePhoto}
+                        src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
                       >
                         <PhotoCamera />
                       </Avatar>
