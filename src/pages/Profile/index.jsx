@@ -96,7 +96,6 @@ const UserProfile = () => {
     async function fetchData() {
       const user = await getUser(userInfo.id);
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
-      console.log(user.dados);
     }
     if (!authenticated) {
       navigate("/");

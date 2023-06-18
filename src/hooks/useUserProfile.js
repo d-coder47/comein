@@ -35,8 +35,6 @@ const useUserProfile = () => {
       body.append("idUser", idUser);
       body.append("photoPerfil", photoPerfil);
 
-      console.log(photoPerfil);
-
       const response = await axiosInstance.post(
         "/utilizadores/fotoPerfil",
         body,
@@ -124,12 +122,38 @@ const useUserProfile = () => {
       console.error(error);
     }
   };
+
+  const reportProblem = async (id_utilizador, msg, type) => {
+    try {
+      const params = new URLSearchParams({
+        id_utilizador,
+        msg,
+        type,
+      }).toString();
+      const response = await axiosInstance.post(
+        "/utilizadores/comunicarProblema",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
     deleteUserProfile,
     changePassword,
     addUserbio,
+    reportProblem,
   };
 };
 
