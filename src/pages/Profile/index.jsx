@@ -113,7 +113,7 @@ const UserProfile = () => {
                 <Avatar
                   alt="User Profile Banner Photo"
                   sx={{ width: "100%", height: 310, borderRadius: 0 }}
-                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profileBannerPhoto}`}
+                  src={`https://comein.cv/comeincv_api_test/img/perfilCapa/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
                 </Avatar>

@@ -212,7 +212,7 @@ const NavBar = () => {
                 >
                   <Avatar
                     sx={{ width: 32, height: 32 }}
-                    src={userData.img_perfil ? userData.img_perfil : ""}
+                    src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
                   />
                 </IconButton>
               </Tooltip>
@@ -254,7 +254,7 @@ const NavBar = () => {
             >
               <MenuItem className="userInfo" onClick={handleProfileClick}>
                 <Avatar
-                  src={userData.img_perfil ? userData.img_perfil : ""}
+                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
                   sx={{
                     width: "80px !important",
                     height: "80px !important",
@@ -283,7 +283,9 @@ const NavBar = () => {
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleProfileClick}>
-                <Avatar src={userData.img_perfil ? userData.img_perfil : ""} />{" "}
+                <Avatar
+                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
+                />{" "}
                 {t("navBar.perfil")}
               </MenuItem>
               <Divider />
