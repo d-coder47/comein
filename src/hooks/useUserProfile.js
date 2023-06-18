@@ -1,20 +1,19 @@
 import axiosInstance from "../api/axiosInstance";
 
 const useUserProfile = () => {
-  const updateUserProfileBanner = async (idUser, token, photoCapa) => {
+  const updateUserProfileBanner = async (idUser, photoCapa) => {
     try {
-      const params = new URLSearchParams({
-        idUser,
-        photoCapa,
-      }).toString();
+      let body = new FormData();
+      body.append("idUser", idUser);
+      body.append("photoCapa", photoCapa);
 
       const response = await axiosInstance.post(
         "/utilizadores/fotoCapa",
-        params,
+        body,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -26,11 +25,6 @@ const useUserProfile = () => {
   };
   const updateUserProfilePhoto = async (idUser, photoPerfil) => {
     try {
-      // const params = new URLSearchParams({
-      //   idUser,
-      //   photoPerfil,
-      // }).toString();
-
       let body = new FormData();
       body.append("idUser", idUser);
       body.append("photoPerfil", photoPerfil);
