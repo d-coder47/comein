@@ -38,7 +38,9 @@ const UserProfile = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const [profilePhoto, setProfilePhoto] = React.useState(userInfo.img_perfil);
-  const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(null);
+  const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(
+    userInfo.img_capa
+  );
 
   const { updateUserProfileBanner, updateUserProfilePhoto } = useUserProfile();
 
