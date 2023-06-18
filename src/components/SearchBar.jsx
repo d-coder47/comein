@@ -131,6 +131,9 @@ const SearchBar = () => {
             select
             size="small"
             value="location"
+            onChange={(e) => {
+              e.preventDefault();
+            }}
           >
             <MenuItem
               style={{ display: "none" }}
@@ -157,7 +160,7 @@ const SearchBar = () => {
                 Location
               </Box>
             </MenuItem>
-            <MenuItem value={"test"}>
+            <MenuItem value={"dateandtime"}>
               <Box display="flex" flexDirection="column">
                 <Box
                   id="filter-group"

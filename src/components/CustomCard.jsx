@@ -18,6 +18,8 @@ import {
   Reply,
 } from "@mui/icons-material";
 
+import { Visibility } from "@mui/icons-material";
+
 import CardDetailed from "./CardDetailed";
 import CustomBadge from "./CustomBadge";
 
@@ -29,6 +31,8 @@ import axiosInstance from "../api/axiosInstance";
 const CustomCard = ({
   id = null,
   name,
+  likes,
+  visits,
   picture,
   publisherName,
   publisherPhoto,
@@ -173,7 +177,7 @@ const CustomCard = ({
     <>
       <Box
         sx={{
-          height: "19rem",
+          height: "20rem",
         }}
         onMouseEnter={() => setshowTitle(true)}
         onMouseLeave={() => setshowTitle(false)}
@@ -182,27 +186,27 @@ const CustomCard = ({
           sx={{
             display: "flex",
             flexDirection: "column",
-            marginBottom: "1rem",
+            marginBottom: ".25rem",
             position: "relative",
           }}
         >
-          <Tooltip title={name}>
-            <Avatar
-              variant="square"
-              src={picture || null}
-              alt={`Foto de ${name}`}
-              onClick={handleOpen}
-              sx={{
-                width: "100%",
-                height: "17rem",
-                objectFit: "cover",
-                "&:hover": {
-                  cursor: "pointer",
-                  borderRadius: "0.25rem",
-                },
-              }}
-            />
-          </Tooltip>
+          {/* <Tooltip title={name}> */}
+          <Avatar
+            variant="square"
+            src={picture || null}
+            alt={`Foto de ${name}`}
+            onClick={handleOpen}
+            sx={{
+              width: "100%",
+              height: "17rem",
+              objectFit: "cover",
+              "&:hover": {
+                cursor: "pointer",
+                borderRadius: "0.25rem",
+              },
+            }}
+          />
+          {/* </Tooltip> */}
           {/* <Typography
             sx={{
               color: showTitle ? "#fff" : "transparent",
@@ -224,35 +228,76 @@ const CustomCard = ({
           >
             {name}
           </Typography> */}
-          {showTitle ? (
+          {/* {showTitle ? (
             <Box
               sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}
             >
               <CustomBadge isEvent={type === "E"} />
             </Box>
-          ) : null}
+          ) : null} */}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-          {/* <Avatar
-          alt="avatar"
-          src={publisherPhoto || null}
-          sx={{ width: 18, height: "auto" }}
-          loading="lazy"
-        >
-          {publisherName[0] || "A"}
-        </Avatar> */}
-          <LazyLoad>
-            <img
-              alt="avatar"
-              src={publisherPhoto || null}
-              style={{ width: "18px", height: "auto" }}
-              loading="lazy"
-            />
-          </LazyLoad>
           <Typography
             fontWeight="bold"
-            fontSize="0.9rem"
+            fontSize="0.8rem"
             sx={{
+              "&:hover": {
+                textDecoration: "underline",
+                cursor: "pointer",
+              },
+            }}
+          >
+            {name}
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: ".5rem",
+              marginLeft: "auto",
+              fontSize: ".9rem",
+            }}
+          >
+            <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
+              <ThumbUp
+                onClick={() => handleLike(false)}
+                sx={{ width: 15, height: 15, color: "gray" }}
+              />
+              <Typography
+                sx={{ fontWeight: "bold", color: "gray", fontSize: ".8rem" }}
+                variant="p"
+              >
+                {likes}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
+              <Visibility
+                onClick={() => handleFavorite(false)}
+                sx={{ width: 15, height: 15, color: "gray" }}
+              />
+              <Typography
+                sx={{ fontWeight: "bold", color: "gray", fontSize: ".8rem" }}
+                variant="p"
+              >
+                {visits}
+              </Typography>
+            </Box>
+            <Reply
+              sx={{
+                width: 14,
+                height: 14,
+                cursor: "pointer",
+                transform: "scaleX(-1)",
+              }}
+            />
+          </Box>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+          <Typography
+            fontWeight="bold"
+            fontSize="0.7rem"
+            sx={{
+              color: "gray",
               "&:hover": {
                 textDecoration: "underline",
                 cursor: "pointer",
@@ -261,39 +306,6 @@ const CustomCard = ({
           >
             {publisherName}
           </Typography>
-
-          <Box sx={{ display: "flex", marginLeft: "auto" }}>
-            {isLiked ? (
-              <ThumbUp
-                onClick={() => handleLike(false)}
-                sx={{ width: 18, height: 18, cursor: "pointer" }}
-              />
-            ) : (
-              <ThumbUpOffAlt
-                onClick={() => handleLike(true)}
-                sx={{ width: 18, height: 18, cursor: "pointer" }}
-              />
-            )}
-            {isFavorite ? (
-              <Star
-                onClick={() => handleFavorite(false)}
-                sx={{ width: 18, height: 18, cursor: "pointer" }}
-              />
-            ) : (
-              <StarOutline
-                onClick={() => handleFavorite(true)}
-                sx={{ width: 18, height: 18, cursor: "pointer" }}
-              />
-            )}
-            <Reply
-              sx={{
-                width: 18,
-                height: 18,
-                cursor: "pointer",
-                transform: "scaleX(-1)",
-              }}
-            />
-          </Box>
         </Box>
         <Modal
           id="card-details-modal"
