@@ -54,7 +54,7 @@
     "sobre": "A propos de",
     "configPage": {
       "ajudaSuporte": "Aide et support",
-      "reportarErro": "Signaler un bug",
+      "reportarErro": "Signaler un problème",
       "termosdeUsoPoliticas": "Conditions d’utilisation et politiques de confidentialité",
       "removerConta": "Supprimer un compte",
       "comoAddPub": "Comment ajouter une publication ?",
@@ -73,7 +73,9 @@
       "inserirEmail": "Entrez votre adresse e-mail pour votre compte",
       "confirmarRemoverConta": "Voulez-vous vraiment supprimer votre compte ?",
       "sim": "Oui",
-      "nao": "Non"
+      "nao": "Non",
+      "enviarErro": "Envoyer une erreur",
+      "enviarSugestao": "Envoyer une suggestion"
     }
   },
   "editProfilePage": {

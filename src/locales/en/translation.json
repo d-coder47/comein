@@ -54,7 +54,7 @@
     "sobre": "About",
     "configPage": {
       "ajudaSuporte": "Help & Support",
-      "reportarErro": "Report bug",
+      "reportarErro": "Report problem",
       "termosdeUsoPoliticas": "Terms of use and privacy policies",
       "removerConta": "Remove account",
       "comoAddPub": "How do I add a post?",
@@ -73,7 +73,9 @@
       "inserirEmail": "Enter your email address for your account",
       "confirmarRemoverConta": "Are you sure you want to remove your account?",
       "sim": "Yes",
-      "nao": "No"
+      "nao": "No",
+      "enviarErro": "Submit Error",
+      "enviarSugestao": "Send suggestion"
     }
   },
   "editProfilePage": {

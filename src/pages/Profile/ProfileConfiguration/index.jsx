@@ -11,12 +11,17 @@ import {
   ListItemButton,
   ListItemText,
   TextField,
-  InputAdornment,
   Modal,
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Tabs,
+  Tab,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
+
+import { Add } from "@mui/icons-material";
 
 import useRegisterUser from "../../../hooks/useRegisterUser";
 
@@ -40,7 +45,7 @@ const ProfileConfiguration = () => {
   const authenticated = localStorage.getItem("authenticated");
 
   const { t } = useTranslation();
-  const { deleteUserProfile } = useUserProfile();
+  const { deleteUserProfile, reportProblem } = useUserProfile();
 
   const { getTermsPolicy } = useRegisterUser();
 
@@ -50,21 +55,40 @@ const ProfileConfiguration = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [sugestionMessage, setSugestionMessage] = React.useState("");
+
+  const [reportTabvalue, setReportTabValue] = React.useState(0);
+
+  const handleReportTabChange = (event, newValue) => {
+    setReportTabValue(newValue);
+  };
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
 
-  const handleErrorSubmit = (event) => {
+  const handleErrorSubmit = async (event) => {
     event.preventDefault();
-    // Here you can perform the error reporting logic
-    console.log("Error message:", errorMessage);
-    // Reset the form
+
+    await reportProblem(userInfo.id, errorMessage, "error");
+
     setErrorMessage("");
+  };
+
+  const handleSugestionSubmit = async (event) => {
+    event.preventDefault();
+
+    await reportProblem(userInfo.id, sugestionMessage, "sugestion");
+
+    setSugestionMessage("");
   };
 
   const handleErrorChange = (event) => {
     setErrorMessage(event.target.value);
+  };
+
+  const handleSugestionChange = (event) => {
+    setSugestionMessage(event.target.value);
   };
 
   const handleRemoveAccount = async () => {
@@ -298,39 +322,109 @@ const ProfileConfiguration = () => {
                   >
                     {t("userProfile.configPage.reportarErro")}
                   </Typography>
-                  <Box
-                    component="form"
-                    onSubmit={handleErrorSubmit}
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "60%",
-                    }}
-                  >
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={4}
-                      value={errorMessage}
-                      onChange={handleErrorChange}
-                      margin="normal"
-                    />
+                  <Box sx={{ width: "100%" }}>
+                    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                      <Tabs
+                        value={reportTabvalue}
+                        onChange={handleReportTabChange}
+                        aria-label="basic tabs example"
+                      >
+                        <Tab
+                          label="Erro"
+                          sx={{
+                            textTransform: "none",
+                          }}
+                        />
+                        <Tab
+                          label="Sugestão"
+                          sx={{
+                            textTransform: "none",
+                          }}
+                        />
+                      </Tabs>
+                    </Box>
+                    {reportTabvalue === 0 && (
+                      <Typography variant="h6">
+                        <Box
+                          component="form"
+                          onSubmit={handleErrorSubmit}
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <TextField
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            sx={{
+                              width: "60%",
+                            }}
+                            rows={4}
+                            value={errorMessage}
+                            onChange={handleErrorChange}
+                            margin="normal"
+                          />
 
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-                      sx={{
-                        width: "30%",
-                        borderRadius: "20px",
-                        textTransform: "none",
-                      }}
-                    >
-                      {t("userProfile.configPage.reportarErro")}
-                    </Button>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            sx={{
+                              width: "30%",
+                              borderRadius: "20px",
+                              textTransform: "none",
+                            }}
+                          >
+                            {t("userProfile.configPage.enviarErro")}
+                          </Button>
+                        </Box>
+                      </Typography>
+                    )}
+                    {reportTabvalue === 1 && (
+                      <Typography variant="h6">
+                        <Box
+                          component="form"
+                          onSubmit={handleSugestionSubmit}
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <TextField
+                            variant="outlined"
+                            fullWidth
+                            sx={{
+                              width: "60%",
+                            }}
+                            multiline
+                            rows={4}
+                            value={sugestionMessage}
+                            onChange={handleSugestionChange}
+                            margin="normal"
+                          />
+
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            sx={{
+                              width: "30%",
+                              borderRadius: "20px",
+                              textTransform: "none",
+                            }}
+                          >
+                            {t("userProfile.configPage.enviarSugestao")}
+                          </Button>
+                        </Box>
+                      </Typography>
+                    )}
                   </Box>
                 </Paper>
               )}
