@@ -141,6 +141,42 @@ const useUserProfile = () => {
       console.error(error);
     }
   };
+
+  const getUserProfileFollowers = async (idUser) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/followers/${idUser}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getUserProfileVisits = async (idUser) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/visits/${idUser}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -148,6 +184,8 @@ const useUserProfile = () => {
     changePassword,
     addUserbio,
     reportProblem,
+    getUserProfileFollowers,
+    getUserProfileVisits,
   };
 };
 

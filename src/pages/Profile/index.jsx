@@ -2,6 +2,7 @@ import React from "react";
 import "./profile.css";
 import NavBar from "../../components/NavBar";
 import ProfileCards from "../../components/ProfileCards";
+import useUserProfile from "../../hooks/useUserProfile";
 import {
   Typography,
   Avatar,
@@ -24,13 +25,15 @@ import {
   Add,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import useUserProfile from "../../hooks/useUserProfile";
 import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
+
+  const [followers, setFollowers] = React.useState();
+  const [visits, setVisits] = React.useState();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -42,7 +45,12 @@ const UserProfile = () => {
     userInfo.img_capa
   );
 
-  const { updateUserProfileBanner, updateUserProfilePhoto } = useUserProfile();
+  const {
+    updateUserProfileBanner,
+    updateUserProfilePhoto,
+    getUserProfileFollowers,
+    getUserProfileVisits,
+  } = useUserProfile();
 
   const { getUser } = useRegisterUser();
 
@@ -83,6 +91,10 @@ const UserProfile = () => {
     async function fetchData() {
       const user = await getUser(userInfo.id);
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      const followers_res = await getUserProfileFollowers(user.dados.id);
+      const visits_res = await getUserProfileVisits(user.dados.id);
+      setFollowers(followers_res.dados);
+      setVisits(visits_res.dados);
     }
     if (!authenticated) {
       navigate("/");
@@ -251,7 +263,7 @@ const UserProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    44545{" "}
+                    {followers}
                   </Typography>
                 </Box>
                 <Box
@@ -313,7 +325,7 @@ const UserProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    44545{" "}
+                    {visits}
                   </Typography>
                 </Box>
                 <TextField
