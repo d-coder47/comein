@@ -117,18 +117,32 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
           </Menu>
         </Box>
       ) : (
-        <Typography
-          fontWeight="bold"
-          fontSize="0.9rem"
-          sx={{
-            "&:hover": {
-              textDecoration: "underline",
-              cursor: "pointer",
-            },
-          }}
-        >
-          {publishers?.nome}
-        </Typography>
+        <>
+          <Typography
+            fontWeight="bold"
+            fontSize="0.9rem"
+            sx={{
+              "&:hover": {
+                textDecoration: "underline",
+                cursor: "pointer",
+              },
+            }}
+          >
+            {publishers?.nome}
+          </Typography>
+          <Box
+            sx={{
+              position: "absolute",
+              zIndex: "9",
+              width: "22rem",
+              height: "20rem",
+              backgroundColor: "white",
+              borderRadius: "0.25rem",
+            }}
+          >
+            Teste
+          </Box>
+        </>
       )}
     </Box>
   );

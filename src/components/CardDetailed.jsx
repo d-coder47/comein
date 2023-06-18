@@ -91,7 +91,7 @@ const CardDetailed = ({
           />
           <DetailedProgram programs={details?.programa} />
           <DetailedOther others={details?.outros} />
-          <DetailedImages images={details?.imagens} />
+          <DetailedImages images={details?.imagens} type={type} />
         </Box>
       </Box>
       <Box
@@ -354,13 +354,15 @@ const DetailedOther = ({ others }) => {
   );
 };
 
-const DetailedImages = ({ images }) => {
+const DetailedImages = ({ images, type }) => {
   return (
     <Stack>
       {images?.map((img, index) => (
         <Avatar
           key={img.id}
-          src={`https://comein.cv/comeincv_api_test/programa_eventosImg/${img.imagem}`}
+          src={`https://comein.cv/comeincv_api_test/${
+            type === "E" ? "eventosImg" : "projetosImg"
+          }/${img.imagem}`}
           alt={`Imagem _${index}`}
           variant="square"
           sx={{ width: "100%", height: "auto" }}
