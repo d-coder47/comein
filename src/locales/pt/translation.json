@@ -92,7 +92,9 @@
     "perfilAtualizadoSucesso": "Perfil atualizado com sucesso",
     "erroAtualizarPerfil": "Erro ao atualizar perfil",
     "palavraPassAtualizadoSucesso": "Palavra-passe atualizado com sucesso",
-    "erroAtualizarPalavraPasse": "Erro ao atualizar palavra-passe"
+    "erroAtualizarPalavraPasse": "Erro ao atualizar palavra-passe",
+    "erroAtualizarBio": "Erro ao atualizar biografia",
+    "sucessoAtualizarBio": "Biografia atualizado com sucesso"
   },
   "loginPage": {
     "fazerLogin": "Fazer login",

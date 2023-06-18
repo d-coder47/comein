@@ -9,10 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  Bookmark,
   FiberManualRecord as Dot,
   Star,
-  RecommendRounded,
   ThumbUp,
   Close,
 } from "@mui/icons-material";
@@ -23,10 +21,11 @@ import Publisher from "./Publisher";
 const CardDetailed = ({
   id,
   publisherPhoto,
-  publishers,
   title,
-  liked = true,
-  favorite = true,
+  isLiked,
+  isFavorite,
+  onLikePost,
+  onFavoritePost,
   type,
   onCloseModal,
   picture,
@@ -126,34 +125,40 @@ const CardDetailed = ({
           alt="Foto do Publicador"
           sx={{ width: "3rem", height: "3rem" }}
         /> */}
-        <Tooltip title="Adicionar aos favoritos" placement="left" arrow>
+        <Tooltip
+          title={
+            isFavorite ? "Retirar dos favoritos" : "Adicionar aos favoritos"
+          }
+          placement="left"
+          arrow
+        >
           <Box
             id="favorite"
             sx={{
               borderRadius: "50%",
               height: "3rem",
               width: "3rem",
-              backgroundColor: favorite ? "#3c3c3c" : "white",
+              backgroundColor: isFavorite ? "#3c3c3c" : "white",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               cursor: "pointer",
             }}
-            onClick={() => console.log("Favorito")}
+            onClick={() => onFavoritePost(isFavorite)}
           >
             <Star
               color="white"
               sx={{
                 width: "1.25rem",
                 height: "1.25rem",
-                color: favorite ? "white" : "#3c3c3c",
+                color: isFavorite ? "white" : "#3c3c3c",
               }}
             />
           </Box>
         </Tooltip>
 
         <Tooltip
-          title={liked ? "Retirar gosto" : "Gosto"}
+          title={isLiked ? "Retirar gosto" : "Gosto"}
           placement="left"
           arrow
         >
@@ -164,7 +169,7 @@ const CardDetailed = ({
               height: "3rem",
               width: "3rem",
               backgroundColor: (theme) =>
-                liked ? "#3c3c3c" : theme.palette.primary.main,
+                isLiked ? "#3c3c3c" : theme.palette.primary.main,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -174,10 +179,10 @@ const CardDetailed = ({
                 opacity: 0.8,
               },
             }}
-            onClick={() => console.log("Gosto")}
+            onClick={() => onLikePost(isLiked)}
           >
             <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
-            {liked ? (
+            {isLiked ? (
               <Typography color="white" fontSize=".8rem">
                 {"61"}
               </Typography>
@@ -226,9 +231,9 @@ const DetailedHeader = ({
           <Typography>Seguir</Typography>
         </Box>
       </Box>
-      <Box sx={{ marginLeft: "auto" }}>
+      {/* <Box sx={{ marginLeft: "auto" }}>
         <CustomBadge isEvent={type === "E"} />
-      </Box>
+      </Box> */}
       <Box onClick={onCloseModal}>
         <Close
           sx={{

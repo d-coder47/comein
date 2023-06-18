@@ -127,7 +127,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
             },
           }}
         >
-          {publishers[0]?.nome}
+          {publishers?.nome}
         </Typography>
       )}
     </Box>

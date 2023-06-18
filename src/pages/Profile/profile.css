@@ -13,6 +13,7 @@
 .user_photo_container {
   min-width: 350px !important;
   min-height: 600px;
+  margin-bottom: 20px;
 }
 
 .profile_main_grid {
@@ -21,7 +22,8 @@
 
 .cards_grid_container {
   /* margin-top: 120px !important; */
-  margin-top: 10% !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 @media screen and (max-width: 480px) {

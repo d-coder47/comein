@@ -102,7 +102,7 @@ const ProfileConfiguration = () => {
             backgroundColor: "#f8f8f8",
 
             padding: "2rem",
-            height: "100%",
+            height: "100vh",
           }}
         >
           <Grid container spacing={2}>

@@ -79,24 +79,32 @@ const UserProfile = () => {
   const handleBannerPhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    const res = await updateUserProfilePhotos(
-      userInfo.id,
-      "PUT",
-      null,
-      URL.createObjectURL(file)
-    );
+    // const res = await updateUserProfilePhotos(
+    //   userInfo.id,
+    //   "PUT",
+    //   null,
+    //   URL.createObjectURL(file)
+    // );
 
-    const user = await getUser(userInfo.id);
+    // const user = await getUser(userInfo.id);
 
-    localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    // localStorage.setItem("userInfo", JSON.stringify(user.dados));
     setProfileBannerPhoto(URL.createObjectURL(file));
   };
 
   React.useEffect(() => {
+    async function fetchData() {
+      const user = await getUser(userInfo.id);
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      console.log(user.dados);
+    }
     if (!authenticated) {
       navigate("/");
+    } else {
+      fetchData();
     }
   }, []);
+
   return (
     <>
       <NavBar />
@@ -132,7 +140,8 @@ const UserProfile = () => {
         <Box
           sx={{
             padding: "2rem",
-            height: "100%",
+            height: "100vh",
+            background: "#f8f8f8",
           }}
         >
           <Grid className="profile_main_grid" container spacing={2}>
@@ -141,7 +150,7 @@ const UserProfile = () => {
               xs={12}
               md={4}
               className="profile_second_grid"
-              sx={{ position: "absolute", top: "15%", left: "2%" }}
+              sx={{ position: "absolute", top: "20%", left: "3%" }}
             >
               <Paper
                 elevation={3}
@@ -242,7 +251,7 @@ const UserProfile = () => {
                     variant="h6"
                     sx={{
                       marginTop: "1rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                     }}
                   >
                     {t("userProfile.seguidores")}
@@ -252,7 +261,7 @@ const UserProfile = () => {
                     variant="h6"
                     sx={{
                       marginTop: "1rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                       fontWeight: "bold",
                     }}
                   >
@@ -272,7 +281,7 @@ const UserProfile = () => {
                   <Typography
                     variant="h6"
                     sx={{
-                      fontSize: 18,
+                      fontSize: "16px",
                     }}
                   >
                     {t("userProfile.seguindo")}
@@ -281,7 +290,7 @@ const UserProfile = () => {
                   <Typography
                     variant="h6"
                     sx={{
-                      fontSize: 18,
+                      fontSize: "16px",
                       fontWeight: "bold",
                     }}
                   >
@@ -303,7 +312,7 @@ const UserProfile = () => {
                     sx={{
                       // marginTop: "1rem",
                       marginBottom: "2rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                     }}
                   >
                     {t("userProfile.visitantes")}
@@ -314,7 +323,7 @@ const UserProfile = () => {
                     sx={{
                       // marginTop: "1rem",
                       marginBottom: "2rem",
-                      fontSize: 18,
+                      fontSize: "16px",
                       fontWeight: "bold",
                     }}
                   >
@@ -326,7 +335,7 @@ const UserProfile = () => {
                     <Typography
                       variant="h6"
                       sx={{
-                        fontSize: 18,
+                        fontSize: "16px",
                         fontWeight: "bold",
                         color: "#000",
                       }}
@@ -334,7 +343,7 @@ const UserProfile = () => {
                       {t("userProfile.sobre")}
                     </Typography>
                   }
-                  value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed gravida feugiat neque, nec viverra ante volutpat id."
+                  value={userInfo.bio}
                   disabled
                   multiline
                   rows={4}
@@ -350,14 +359,23 @@ const UserProfile = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "left",
                   alignItems: "center",
                 }}
               >
                 <Tabs value={selectedTab} onChange={handleTabChange}>
-                  <Tab label={t("userProfile.eventos")} />
-                  <Tab label={t("userProfile.projetos")} />
-                  <Tab label={t("userProfile.favoritos")} />
+                  <Tab
+                    label={t("userProfile.eventos")}
+                    sx={{ textTransform: "none" }}
+                  />
+                  <Tab
+                    label={t("userProfile.projetos")}
+                    sx={{ textTransform: "none" }}
+                  />
+                  <Tab
+                    label={t("userProfile.favoritos")}
+                    sx={{ textTransform: "none" }}
+                  />
                 </Tabs>
               </Box>
 

@@ -38,9 +38,8 @@ const CustomCard = ({
   publisherPhoto,
   type,
 }) => {
-  const [showTitle, setshowTitle] = useState(false);
   const [isLiked, setIsLiked] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
 
@@ -52,7 +51,6 @@ const CustomCard = ({
     removeLikeFromEvent,
     favoriteEvent,
     removeFavoriteFromEvent,
-    getEventFavorites,
   } = useEvents();
   const { likeProject, removeLikeFromProject } = useProjects();
 
@@ -61,12 +59,12 @@ const CustomCard = ({
   }, []);
 
   useEffect(() => {
-    if (!id && isLiked === null) return;
+    if (!id && isLiked !== null && isFavorite !== null) return;
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) return;
 
-    const getEventLikes = async (userId, eventId) => {
+    const hasLikedEvent = async (userId, eventId) => {
       try {
         const response = await axiosInstance.get(
           `/gostosEventos/gostos/${userId},${eventId}`,
@@ -86,7 +84,7 @@ const CustomCard = ({
       }
     };
 
-    const getProjectLikes = async (userId, projectId) => {
+    const hasLikedProject = async (userId, projectId) => {
       try {
         const response = await axiosInstance.get(
           `/gostosProjetos/gostos/${userId},${projectId}`,
@@ -105,11 +103,33 @@ const CustomCard = ({
       }
     };
 
+    const hasFavoritePost = async (userId, postId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/favoritos/getFavoritos/${userId},${eventId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        const ids = response?.data?.dados?.map((post) => post.id);
+        setIsFavorite(ids.includes(postId));
+      } catch (error) {
+        console.error(error);
+        return 0;
+      }
+    };
+
     if (type === "E") {
-      getEventLikes(user.id, id);
+      hasLikedEvent(user.id, id);
     } else {
-      getProjectLikes(user.id, id);
+      hasLikedProject(user.id, id);
     }
+
+    hasFavoritePost(user.id, id);
   }, [id]);
 
   const handleLike = (like) => {
@@ -132,7 +152,7 @@ const CustomCard = ({
     return removeLikeFromProject(id);
   };
 
-  const handleFavorite = (like) => {
+  const handleFavorite = (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
       return (window.location.href = `http://${window.location.host}/user-registration`);
@@ -140,13 +160,13 @@ const CustomCard = ({
     const userId = user?.id;
 
     if (type === "E") {
-      if (like) {
+      if (favorite) {
         return favoriteEvent(id, userId);
       }
       return removeFavoriteFromEvent(id);
     }
 
-    if (like) {
+    if (favorite) {
       return likeProject(id, userId);
     }
     return removeLikeFromProject(id);
@@ -179,8 +199,6 @@ const CustomCard = ({
         sx={{
           height: "20rem",
         }}
-        onMouseEnter={() => setshowTitle(true)}
-        onMouseLeave={() => setshowTitle(false)}
       >
         <Box
           sx={{
@@ -326,6 +344,10 @@ const CustomCard = ({
             publishers={[publisherName]}
             title={name}
             type={type}
+            isLiked={isLiked}
+            isFavorite={isFavorite}
+            onLikePost={handleLike}
+            onFavoritePost={handleFavorite}
             onCloseModal={handleClose}
             picture={picture}
           />

@@ -34,7 +34,7 @@ import useUserProfile from "../../../hooks/useUserProfile";
 const EditProfile = () => {
   const navigate = useNavigate();
   const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
-  const { changePassword } = useUserProfile();
+  const { changePassword, addUserbio } = useUserProfile();
 
   const [openChangePassError, setOpenChangePassError] = React.useState(false);
   const [openChangePassSucc, setOpenChangePassSucc] = React.useState(false);
@@ -47,6 +47,9 @@ const EditProfile = () => {
 
   const [openUpdateError, setOpenUpdateError] = React.useState(false);
   const [openUpdateSuccess, setOpenUpdateSuccess] = React.useState(false);
+
+  const [openUpdateBioSuccess, setOpenUpdateBioSuccess] = React.useState(false);
+  const [openUpdateBioError, setOpenUpdateBioError] = React.useState(false);
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
@@ -80,7 +83,7 @@ const EditProfile = () => {
     gender: "",
   });
 
-  const [aboutMeValue, setAboutMeValue] = React.useState();
+  const [aboutMeValue, setAboutMeValue] = React.useState(userInfo.bio);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfPassword, setShowConfPassword] = React.useState(false);
@@ -126,12 +129,18 @@ const EditProfile = () => {
     });
   };
 
-  const handleAboutMeSubmit = (event) => {
+  const handleAboutMeSubmit = async (event) => {
     event.preventDefault();
-    // Here you can perform the error reporting logic
-    console.log("About me:", aboutMeValue);
-    // Reset the form
-    setAboutMeValue("");
+    const res = await addUserbio(userInfo.id, aboutMeValue);
+
+    if (res.dados === "Guardado com sucesso") {
+      setOpenUpdateBioSuccess(true);
+      setAboutMeValue(aboutMeValue);
+      const user = await getUser(userId);
+      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    } else {
+      setOpenUpdateBioError(true);
+    }
   };
 
   React.useEffect(() => {
@@ -328,7 +337,7 @@ const EditProfile = () => {
             backgroundColor: "#f8f8f8",
 
             padding: "2rem",
-            height: "100%",
+            height: "100vh",
           }}
         >
           <Grid container spacing={2}>
@@ -672,14 +681,7 @@ const EditProfile = () => {
                         Guardar
                       </Button>
                     </Grid>
-                    <Grid
-                      sx={{
-                        position: "fixed",
-                        top: "20px", // Adjust the top position as needed
-                        left: "20px", // Adjust the left position as needed
-                        zIndex: 9999, // Ensure the alert is above other elements
-                      }}
-                    >
+                    <Grid>
                       <Collapse in={openUpdateError}>
                         <Alert
                           severity="error"
@@ -1033,6 +1035,58 @@ const EditProfile = () => {
                     >
                       {t("editProfilePage.guardar")}
                     </Button>
+                    <Grid>
+                      <Collapse in={openUpdateBioSuccess}>
+                        <Alert
+                          severity="success"
+                          action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpenUpdateBioSuccess(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2 }}
+                        >
+                          <AlertTitle>
+                            <strong>
+                              {t("editProfilePage.erroAtualizarBio")}
+                            </strong>
+                          </AlertTitle>
+                        </Alert>
+                      </Collapse>
+                    </Grid>
+                    <Grid>
+                      <Collapse in={openUpdateBioError}>
+                        <Alert
+                          severity="success"
+                          action={
+                            <IconButton
+                              aria-label="close"
+                              color="inherit"
+                              size="small"
+                              onClick={() => {
+                                setOpenUpdateBioError(false);
+                              }}
+                            >
+                              <CloseIcon fontSize="inherit" />
+                            </IconButton>
+                          }
+                          sx={{ mb: 2 }}
+                        >
+                          <AlertTitle>
+                            <strong>
+                              {t("editProfilePage.sucessoAtualizarBio")}
+                            </strong>
+                          </AlertTitle>
+                        </Alert>
+                      </Collapse>
+                    </Grid>
                   </Box>
                 </Paper>
               )}
