@@ -14,7 +14,6 @@ import {
   ThumbUp,
   Close,
 } from "@mui/icons-material";
-import CustomBadge from "./CustomBadge";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
 
@@ -179,7 +178,7 @@ const CardDetailed = ({
                 opacity: 0.8,
               },
             }}
-            onClick={() => onLikePost(isLiked)}
+            onClick={() => onLikePost()}
           >
             <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
             {isLiked ? (

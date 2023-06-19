@@ -27,6 +27,7 @@ import LazyLoad from "react-lazy-load";
 import useEvents from "../hooks/useEvents";
 import useProjects from "../hooks/useProjects";
 import axiosInstance from "../api/axiosInstance";
+import usePosts from "../hooks/usePosts";
 
 const CustomCard = ({
   id = null,
@@ -53,6 +54,8 @@ const CustomCard = ({
     removeFavoriteFromEvent,
   } = useEvents();
   const { likeProject, removeLikeFromProject } = useProjects();
+
+  const { likePost } = usePosts();
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500);
@@ -106,7 +109,7 @@ const CustomCard = ({
     const hasFavoritePost = async (userId, postId) => {
       try {
         const response = await axiosInstance.get(
-          `/favoritos/getFavoritos/${userId},${eventId}`,
+          `/favoritos/getFavoritos/${userId},${postId}`,
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
@@ -132,24 +135,19 @@ const CustomCard = ({
     hasFavoritePost(user.id, id);
   }, [id]);
 
-  const handleLike = (like) => {
+  const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
       return (window.location.href = `http://${window.location.host}/user-registration`);
 
     const userId = user?.id;
 
-    if (type === "E") {
-      if (like) {
-        return likeEvent(id, userId);
-      }
-      return removeLikeFromEvent(id);
-    }
+    const result = await likePost(userId, id, type);
+    console.log("result", result);
+    if (result === null) return null;
 
-    if (like) {
-      return likeProject(id, userId);
-    }
-    return removeLikeFromProject(id);
+    if (result) setIsLiked(true);
+    else setIsLiked(false);
   };
 
   const handleFavorite = (favorite) => {
@@ -278,7 +276,7 @@ const CustomCard = ({
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
               <ThumbUp
-                onClick={() => handleLike(false)}
+                // onClick={() => handleLike(false)}
                 sx={{ width: 15, height: 15, color: "gray" }}
               />
               <Typography
@@ -290,7 +288,7 @@ const CustomCard = ({
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
               <Visibility
-                onClick={() => handleFavorite(false)}
+                // onClick={() => handleFavorite(false)}
                 sx={{ width: 15, height: 15, color: "gray" }}
               />
               <Typography
