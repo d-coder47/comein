@@ -103,7 +103,7 @@ const SearchBar = () => {
         />
       </Grid>
       <Grid item direction="row" xs={12} display="flex">
-        <Grid xs={2} m={"0 .5rem"}>
+        <Grid xs={1} m={"0 .5rem"}>
           <Box
             sx={{
               cursor: "pointer",
@@ -125,7 +125,7 @@ const SearchBar = () => {
             </Button>
           </Box>
         </Grid>
-        <Grid xs={2}>
+        <Grid xs={1}>
           <TextField
             id="outlined-select-currency"
             select

@@ -172,18 +172,6 @@ const CustomCard = ({
 
     if (!result) return;
     return setIsFavorite(false);
-
-    // if (type === "E") {
-    //   if (favorite) {
-    //     return favoriteEvent(id, userId);
-    //   }
-    //   return removeFavoriteFromEvent(id);
-    // }
-
-    // if (favorite) {
-    //   return likeProject(id, userId);
-    // }
-    // return removeLikeFromProject(id);
   };
 
   if (isLoading) {

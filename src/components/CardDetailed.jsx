@@ -183,7 +183,7 @@ const CardDetailed = ({
             <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
             {isLiked ? (
               <Typography color="white" fontSize=".8rem">
-                {"61"}
+                {parseInt(details?.dados?.gostos) + 1}
               </Typography>
             ) : null}
           </Box>

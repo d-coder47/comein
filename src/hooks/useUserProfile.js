@@ -177,6 +177,48 @@ const useUserProfile = () => {
       console.error(error);
     }
   };
+
+  const isFollowing = async (userId, followedId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/seguidor/${(followedId, userId)}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response?.data?.dados === "Não seguir") return false;
+      if (response?.data?.dados === "Está a seguir") return true;
+      return null;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const followUser = async (userId, followedId) => {
+    try {
+      const body = new FormData();
+      body.append("id_utilizador", followedId);
+      body.append("id_seguidor", userId);
+
+      const response = await axiosInstance.post(`/utilizadores/seguir`, body, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          // Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response?.data?.dados === "Ok") return true;
+      if (response?.data?.dados === "Não seguir") return true;
+      return null;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -186,6 +228,8 @@ const useUserProfile = () => {
     reportProblem,
     getUserProfileFollowers,
     getUserProfileVisits,
+    isFollowing,
+    followUser,
   };
 };
 
