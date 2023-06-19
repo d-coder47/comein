@@ -34,6 +34,7 @@ const UserProfile = () => {
 
   const [followers, setFollowers] = React.useState();
   const [visits, setVisits] = React.useState();
+  const [following, setFollowing] = React.useState();
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ const UserProfile = () => {
     updateUserProfilePhoto,
     getUserProfileFollowers,
     getUserProfileVisits,
+    getUserProfileFollowing,
   } = useUserProfile();
 
   const { getUser } = useRegisterUser();
@@ -93,8 +95,10 @@ const UserProfile = () => {
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
       const followers_res = await getUserProfileFollowers(user.dados.id);
       const visits_res = await getUserProfileVisits(user.dados.id);
+      const following_res = await getUserProfileFollowing(user.dados.id);
       setFollowers(followers_res.dados);
       setVisits(visits_res.dados);
+      setFollowing(following_res.dados.seguidores);
     }
     if (!authenticated) {
       navigate("/");
@@ -292,7 +296,7 @@ const UserProfile = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    44545{" "}
+                    {following}
                   </Typography>
                 </Box>
                 <Box

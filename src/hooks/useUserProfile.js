@@ -219,6 +219,24 @@ const useUserProfile = () => {
     }
   };
 
+  const getUserProfileFollowing = async (idUser) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/obterNrSeguidoresPorUtilizador/${idUser}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -230,6 +248,7 @@ const useUserProfile = () => {
     getUserProfileVisits,
     isFollowing,
     followUser,
+    getUserProfileFollowing,
   };
 };
 

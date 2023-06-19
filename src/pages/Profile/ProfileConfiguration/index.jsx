@@ -19,6 +19,7 @@ import {
   Tab,
   Tooltip,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 
 import { Add } from "@mui/icons-material";
@@ -36,6 +37,7 @@ import useUserProfile from "../../../hooks/useUserProfile";
 
 const ProfileConfiguration = () => {
   const navigate = useNavigate();
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
   const handleOpenRemoveModal = () => setOpenRemoveModal(true);
@@ -129,17 +131,36 @@ const ProfileConfiguration = () => {
             height: "100vh",
           }}
         >
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              ...(isSmallScreen
+                ? {
+                    flexDirection: "column",
+                    display: "flex",
+                    justifyContent: "center",
+                  }
+                : {}),
+            }}
+          >
             <Grid item xs={6} md={4}>
               <Paper
                 elevation={3}
                 className=""
                 sx={{
-                  padding: "1rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "350px",
+                  // Styles for larger displays
+                  ...(isSmallScreen
+                    ? {}
+                    : {
+                        padding: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "350px",
+                      }),
+                  // Styles for small displays
+                  ...(isSmallScreen ? { width: "330px" } : {}),
                 }}
               >
                 <List
@@ -191,10 +212,24 @@ const ProfileConfiguration = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "330px",
+                          paddingTop: "10px",
+                          paddingLeft: "10px",
+                          height: "370px",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
@@ -306,10 +341,26 @@ const ProfileConfiguration = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "330px",
+                          height: "350px",
+                          paddingTop: "10px",
+                          paddingLeft: "10px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
@@ -374,9 +425,22 @@ const ProfileConfiguration = () => {
                             color="primary"
                             type="submit"
                             sx={{
-                              width: "30%",
-                              borderRadius: "20px",
-                              textTransform: "none",
+                              // Styles for larger displays
+                              ...(isSmallScreen
+                                ? {}
+                                : {
+                                    width: "30%",
+                                    borderRadius: "20px",
+                                    textTransform: "none",
+                                  }),
+                              // Styles for small displays
+                              ...(isSmallScreen
+                                ? {
+                                    width: "40%",
+                                    borderRadius: "15px",
+                                    textTransform: "none",
+                                  }
+                                : {}),
                             }}
                           >
                             {t("userProfile.configPage.enviarErro")}
@@ -434,10 +498,24 @@ const ProfileConfiguration = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "330px",
+                          height: "350px",
+                          paddingTop: "10px",
+                          paddingLeft: "10px",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
@@ -491,11 +569,25 @@ const ProfileConfiguration = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    height: "300px",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          height: "300px",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "330px",
+                          height: "350px",
+                          paddingLeft: "10px",
+                          paddingTop: "10px",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
