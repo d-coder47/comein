@@ -19,6 +19,7 @@ import {
   Alert,
   AlertTitle,
   Autocomplete,
+  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Visibility from "@mui/icons-material/Visibility";
@@ -32,6 +33,7 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 import useUserProfile from "../../../hooks/useUserProfile";
 
 const EditProfile = () => {
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
   const { changePassword, addUserbio } = useUserProfile();
@@ -340,17 +342,36 @@ const EditProfile = () => {
             height: "100vh",
           }}
         >
-          <Grid container spacing={2}>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              ...(isSmallScreen
+                ? {
+                    flexDirection: "column",
+                    display: "flex",
+                    justifyContent: "center",
+                  }
+                : {}),
+            }}
+          >
             <Grid item xs={6} md={4}>
               <Paper
                 elevation={3}
                 className=""
                 sx={{
-                  padding: "1rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "350px",
+                  // Styles for larger displays
+                  ...(isSmallScreen
+                    ? {}
+                    : {
+                        padding: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "350px",
+                      }),
+                  // Styles for small displays
+                  ...(isSmallScreen ? { width: "350px" } : {}),
                 }}
               >
                 <List
@@ -391,10 +412,23 @@ const EditProfile = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "350px",
+                          paddingTop: "10px",
+                          paddingLeft: "10px",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
@@ -410,12 +444,28 @@ const EditProfile = () => {
                   <Box
                     component="form"
                     sx={{
-                      "& .MuiTextField-root": {
-                        m: 1,
-                        width: "42ch",
-                      },
-                      display: "flex",
-                      flexDirection: "column",
+                      // Styles for larger displays
+                      ...(isSmallScreen
+                        ? {}
+                        : {
+                            "& .MuiTextField-root": {
+                              m: 1,
+                              width: "42ch",
+                            },
+                            display: "flex",
+                            flexDirection: "column",
+                          }),
+                      // Styles for small displays
+                      ...(isSmallScreen
+                        ? {
+                            "& .MuiTextField-root": {
+                              m: 1,
+                              width: "25ch",
+                              display: "flex",
+                              flexDirection: "row",
+                            },
+                          }
+                        : {}),
                     }}
                     noValidate
                     autoComplete="off"
@@ -741,10 +791,23 @@ const EditProfile = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "350px",
+                          paddingTop: "10px",
+                          paddingLeft: "10px",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
@@ -985,10 +1048,25 @@ const EditProfile = () => {
                   elevation={3}
                   className=""
                   sx={{
-                    padding: "1rem",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    // Styles for larger displays
+                    ...(isSmallScreen
+                      ? {}
+                      : {
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }),
+                    // Styles for small displays
+                    ...(isSmallScreen
+                      ? {
+                          width: "350px",
+                          height: "350px",
+                          paddingTop: "10px",
+                          paddingLeft: "10px",
+                          display: "flex",
+                        }
+                      : {}),
                   }}
                 >
                   <Typography
@@ -1028,9 +1106,22 @@ const EditProfile = () => {
                       color="primary"
                       type="submit"
                       sx={{
-                        width: "30%",
-                        borderRadius: "20px",
-                        textTransform: "none",
+                        // Styles for larger displays
+                        ...(isSmallScreen
+                          ? {}
+                          : {
+                              width: "30%",
+                              borderRadius: "20px",
+                              textTransform: "none",
+                            }),
+                        // Styles for small displays
+                        ...(isSmallScreen
+                          ? {
+                              width: "40%",
+                              borderRadius: "15px",
+                              textTransform: "none",
+                            }
+                          : {}),
                       }}
                     >
                       {t("editProfilePage.guardar")}
