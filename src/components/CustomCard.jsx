@@ -55,7 +55,7 @@ const CustomCard = ({
   } = useEvents();
   const { likeProject, removeLikeFromProject } = useProjects();
 
-  const { likePost } = usePosts();
+  const { likePost, favoritePost } = usePosts();
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500);
@@ -150,24 +150,40 @@ const CustomCard = ({
     else setIsLiked(false);
   };
 
-  const handleFavorite = (favorite) => {
+  const handleFavorite = async (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
       return (window.location.href = `http://${window.location.host}/user-registration`);
 
     const userId = user?.id;
 
-    if (type === "E") {
-      if (favorite) {
-        return favoriteEvent(id, userId);
-      }
-      return removeFavoriteFromEvent(id);
+    if (!favorite) {
+      const result = await favoritePost(userId, id, type);
+      if (!result) return;
+      return setIsFavorite(true);
     }
 
-    if (favorite) {
-      return likeProject(id, userId);
+    let result;
+    if (type === "E") {
+      result = await removeFavoriteFromEvent(id, userId);
+    } else {
+      result = await removeFavoriteFromProject(id, userId);
     }
-    return removeLikeFromProject(id);
+
+    if (!result) return;
+    return setIsFavorite(false);
+
+    // if (type === "E") {
+    //   if (favorite) {
+    //     return favoriteEvent(id, userId);
+    //   }
+    //   return removeFavoriteFromEvent(id);
+    // }
+
+    // if (favorite) {
+    //   return likeProject(id, userId);
+    // }
+    // return removeLikeFromProject(id);
   };
 
   if (isLoading) {

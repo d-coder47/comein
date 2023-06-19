@@ -198,13 +198,13 @@ const useEvents = () => {
     }
   };
 
-  const removeFavoriteFromEvent = async (eventId) => {
+  const removeFavoriteFromEvent = async (eventId, userId) => {
     try {
       const params = new URLSearchParams({
         _method: "DELETE",
       }).toString();
       const response = await axiosInstance.post(
-        `/favoritos/removerEventoFavoritos/${eventId}`,
+        `/favoritos/removerEventoFavoritos/${eventId},${userId}`,
         params,
         {
           headers: {
@@ -214,7 +214,8 @@ const useEvents = () => {
           },
         }
       );
-      return response.data;
+      if (response?.data?.dados.toLowerCase().includes("sucesso")) return true;
+      return false;
     } catch (error) {
       console.error(error);
     }

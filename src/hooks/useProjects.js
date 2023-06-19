@@ -176,6 +176,29 @@ const useProjects = () => {
     }
   };
 
+  const removeFavoriteFromProject = async (projectId, userId) => {
+    try {
+      const params = new URLSearchParams({
+        _method: "DELETE",
+      }).toString();
+      const response = await axiosInstance.post(
+        `/favoritos/removerProjetoFavoritos/${projectId},${userId}`,
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      if (response?.data?.dados.toLowerCase().includes("sucesso")) return true;
+      return false;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     createProject,
     updateProject,
@@ -186,6 +209,7 @@ const useProjects = () => {
     likeProject,
     removeLikeFromProject,
     getProjectLikes,
+    removeFavoriteFromProject,
   };
 };
 
