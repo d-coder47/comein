@@ -178,6 +178,24 @@ const useUserProfile = () => {
     }
   };
 
+  const getUserProfileFollowing = async (idUser) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/obterNrSeguidoresPorUtilizador/${idUser}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const isFollowing = async (userId, followedId) => {
     try {
       const response = await axiosInstance.get(
@@ -212,26 +230,8 @@ const useUserProfile = () => {
       });
 
       if (response?.data?.dados === "Ok") return true;
-      if (response?.data?.dados === "Não seguir") return true;
+      if (response?.data?.dados === "Não seguir") return false;
       return null;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getUserProfileFollowing = async (idUser) => {
-    try {
-      const response = await axiosInstance.get(
-        `/utilizadores/obterNrSeguidoresPorUtilizador/${idUser}`,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      return response.data;
     } catch (error) {
       console.error(error);
     }

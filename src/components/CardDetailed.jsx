@@ -16,6 +16,8 @@ import {
 } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
+import usePosts from "../hooks/usePosts";
+import useUserProfile from "../hooks/useUserProfile";
 
 const CardDetailed = ({
   id,
@@ -67,6 +69,7 @@ const CardDetailed = ({
     >
       <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
         <DetailedHeader
+          id={details?.utilizador[0]?.id}
           publisherPhoto={publisherPhoto}
           publishers={details?.utilizador}
           title={details?.dados?.nome}
@@ -199,12 +202,53 @@ const CardDetailed = ({
 };
 
 const DetailedHeader = ({
+  id,
   publisherPhoto,
   publishers,
   title = "",
   onCloseModal,
   type,
 }) => {
+  const [isFollowing, setIsFollowing] = useState(null);
+
+  const { followUser } = useUserProfile();
+
+  useEffect(() => {
+    const isFollowingUser = async (followedId, followerId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/utilizadores/seguidor/${followedId},${followerId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.data?.dados === "Não está a seguir")
+          setIsFollowing(false);
+        if (response?.data?.dados === "Está a seguir") setIsFollowing(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (!id && id !== undefined && isFollowing !== null) return;
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!user) return;
+    isFollowingUser(id, parseInt(user.id));
+  }, [id]);
+
+  const handleFollowUser = async () => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!user) return;
+    const result = await followUser(user.id, id);
+    if (result !== null) setIsFollowing(result);
+  };
+
   return (
     <Box
       sx={{
@@ -227,7 +271,14 @@ const DetailedHeader = ({
         <Box sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
           <Publisher publishers={publishers} />
           <Dot sx={{ fontSize: ".5rem" }} />
-          <Typography>Seguir</Typography>
+          <Typography
+            sx={{
+              "&:hover": { cursor: "pointer", textDecoration: "underline" },
+            }}
+            onClick={handleFollowUser}
+          >
+            {isFollowing ? "Seguindo" : "Seguir"}
+          </Typography>
         </Box>
       </Box>
       {/* <Box sx={{ marginLeft: "auto" }}>

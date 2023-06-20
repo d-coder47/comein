@@ -62,7 +62,7 @@ const PublisherCard = ({ publisher }) => {
 
 const Publisher = ({ publishers = [{ nome: "" }] }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [showUserCard, setShowUserCard] = useState(FormatListNumbered);
+  const [showUserCard, setShowUserCard] = useState(false);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -74,7 +74,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
 
   return (
     <Box>
-      {publishers?.length > 0 ? (
+      {publishers?.length > 1 ? (
         <Box>
           <Box
             display="flex"
@@ -138,7 +138,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
               },
             }}
           >
-            {publishers?.nome}
+            {publishers[0]?.nome}
           </Typography>
           {showUserCard ? (
             <Box
@@ -157,8 +157,8 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
               {/* <Avatar src={`https://comein.cv/comeincv_api_test/capaImg/${publisher.capa}`} alt={""} sx={{}} /> */}
               <Avatar
                 variant="square"
-                src={wallpaper}
-                alt={`Foto de capa de ${publishers?.nome}`}
+                src={`https://comein.cv/comeincv_api_test/img/capaImg/${publishers[0].img_capa}`}
+                alt={`Foto de capa de ${publishers[0]?.nome}`}
                 sx={{
                   width: "100%",
                   height: "7rem",
@@ -166,8 +166,8 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
                 }}
               />
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${publishers.img_perfil}`}
-                alt={`Foto de perfil de ${publishers?.nome}`}
+                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${publishers[0].img_perfil}`}
+                alt={`Foto de perfil de ${publishers[0]?.nome}`}
                 sx={{
                   width: "4.25rem",
                   height: "4.25rem",
@@ -182,7 +182,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
                   fontSize: "1rem",
                 }}
               >
-                {publishers?.nome}
+                {publishers[0]?.nome}
               </Typography>
               <Typography
                 sx={{
@@ -196,7 +196,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
               >
                 {" "}
                 <LocationOn sx={{ color: "gray" }} fontSize="1.25rem" />
-                {`Barcelona, Espanha`}
+                {`${publishers[0]?.residencia}, ${publishers[0]?.pais}`}
               </Typography>
               <List
                 id="info-group"
@@ -217,7 +217,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
                       fontSize: "1rem",
                     }}
                   >
-                    47
+                    {publishers[0]?.gostos}
                   </Typography>
                   <Typography
                     sx={{
@@ -245,7 +245,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
                       fontSize: "1rem",
                     }}
                   >
-                    147
+                    {publishers[0]?.seguidores}
                   </Typography>
                   <Typography
                     sx={{
@@ -273,7 +273,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
                       fontSize: "1rem",
                     }}
                   >
-                    4.7K
+                    {publishers[0]?.visitas}
                   </Typography>
                   <Typography
                     sx={{
@@ -290,7 +290,7 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
                 variant="contained"
                 color="primary"
                 size="small"
-                width="80%"
+                sx={{ width: "80%" }}
               >
                 Seguir
               </Button>
