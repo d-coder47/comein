@@ -1146,7 +1146,7 @@ const EditProfile = () => {
                         >
                           <AlertTitle>
                             <strong>
-                              {t("editProfilePage.erroAtualizarBio")}
+                              {t("editProfilePage.sucessoAtualizarBio")}
                             </strong>
                           </AlertTitle>
                         </Alert>
