@@ -4,7 +4,7 @@ import CustomCard from "./CustomCard";
 import usePosts from "../hooks/usePosts";
 import axiosInstance from "../api/axiosInstance";
 
-const Cards = ({ culturalAreaId }) => {
+const Cards = ({ culturalAreaId, displayHighlights }) => {
   const { posts: allPosts } = usePosts();
   const [posts, setPosts] = useState([]);
 
@@ -13,7 +13,10 @@ const Cards = ({ culturalAreaId }) => {
   }, [allPosts]);
 
   useEffect(() => {
-    if (culturalAreaId === undefined || culturalAreaId === "")
+    if (
+      (culturalAreaId === undefined || culturalAreaId === "") &&
+      !displayHighlights
+    )
       return setPosts(allPosts);
     const getPostsByArea = async () => {
       try {
@@ -35,6 +38,30 @@ const Cards = ({ culturalAreaId }) => {
     };
     getPostsByArea();
   }, [culturalAreaId]);
+
+  useEffect(() => {
+    if (
+      (culturalAreaId === undefined || culturalAreaId === "") &&
+      !displayHighlights
+    )
+      return setPosts(allPosts);
+
+    const getHighlightPosts = async () => {
+      try {
+        const response = await axiosInstance.get(`/publicacoes/destaques`, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        });
+        setPosts(response.data.dados);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getHighlightPosts();
+  }, [displayHighlights]);
 
   return (
     <Box sx={{ margin: "2rem", flexGrow: 1 }}>

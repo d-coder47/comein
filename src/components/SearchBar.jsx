@@ -19,7 +19,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import useRegisterUser from "../hooks/useRegisterUser";
 
-const SearchBar = () => {
+const SearchBar = ({ onHighlightsClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState(false);
   const [filterSelected, setFilterSelected] = useState("");
@@ -40,8 +40,12 @@ const SearchBar = () => {
   };
 
   const handleChangeFilterSelected = (newSelected) => {
-    if (filterSelected === newSelected) return setFilterSelected("");
+    if (filterSelected === newSelected) {
+      if (newSelected === "highlights") onHighlightsClick(false);
+      return setFilterSelected("");
+    }
     setFilterSelected(newSelected);
+    if (newSelected === "highlights") onHighlightsClick(true);
   };
 
   return (
