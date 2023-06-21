@@ -32,6 +32,9 @@ const CardDetailed = ({
   picture,
 }) => {
   const [details, setDetails] = useState(null);
+  const [isFollowing, setIsFollowing] = useState(null);
+
+  const { followUser } = useUserProfile();
 
   useEffect(() => {
     if (!id) return;
@@ -54,6 +57,45 @@ const CardDetailed = ({
     getDetails();
   }, [id]);
 
+  useEffect(() => {
+    const isFollowingUser = async (followedId, followerId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/utilizadores/seguidor/${followedId},${followerId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response?.data?.dados === "Não está a seguir")
+          setIsFollowing(false);
+        if (response?.data?.dados === "Está a seguir") setIsFollowing(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const publisherId = details?.utilizador[0]?.id;
+
+    if (!publisherId && publisherId !== undefined && isFollowing !== null)
+      return;
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!user) return;
+    isFollowingUser(publisherId, parseInt(user.id));
+  }, [details]);
+
+  const handleFollowUser = async () => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (!user) return;
+    const result = await followUser(user.id, id);
+    if (result !== null) setIsFollowing(result);
+  };
+
   return (
     <Box
       sx={{
@@ -69,7 +111,8 @@ const CardDetailed = ({
     >
       <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
         <DetailedHeader
-          id={details?.utilizador[0]?.id}
+          onFollowUser={handleFollowUser}
+          isFollowingUser={isFollowing}
           publisherPhoto={publisherPhoto}
           publishers={details?.utilizador}
           title={details?.dados?.nome}
@@ -111,9 +154,17 @@ const CardDetailed = ({
         >
           <Badge
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent="+"
+            badgeContent={isFollowing ? "✓" : "+"}
             overlap="circular"
-            color="info"
+            // color="info"
+            sx={{
+              "& .MuiBadge-badge": {
+                color: isFollowing ? "black" : "white",
+                backgroundColor: (theme) =>
+                  isFollowing ? "white" : theme.palette.primary.main,
+                fontWeight: "bold",
+              },
+            }}
           >
             <Avatar
               src={publisherPhoto}
@@ -202,53 +253,13 @@ const CardDetailed = ({
 };
 
 const DetailedHeader = ({
-  id,
   publisherPhoto,
   publishers,
   title = "",
   onCloseModal,
-  type,
+  onFollowUser,
+  isFollowingUser,
 }) => {
-  const [isFollowing, setIsFollowing] = useState(null);
-
-  const { followUser } = useUserProfile();
-
-  useEffect(() => {
-    const isFollowingUser = async (followedId, followerId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/utilizadores/seguidor/${followedId},${followerId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response?.data?.dados === "Não está a seguir")
-          setIsFollowing(false);
-        if (response?.data?.dados === "Está a seguir") setIsFollowing(true);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (!id && id !== undefined && isFollowing !== null) return;
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-
-    if (!user) return;
-    isFollowingUser(id, parseInt(user.id));
-  }, [id]);
-
-  const handleFollowUser = async () => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-
-    if (!user) return;
-    const result = await followUser(user.id, id);
-    if (result !== null) setIsFollowing(result);
-  };
-
   return (
     <Box
       sx={{
@@ -275,9 +286,9 @@ const DetailedHeader = ({
             sx={{
               "&:hover": { cursor: "pointer", textDecoration: "underline" },
             }}
-            onClick={handleFollowUser}
+            onClick={onFollowUser}
           >
-            {isFollowing ? "Seguindo" : "Seguir"}
+            {isFollowingUser ? "Seguindo" : "Seguir"}
           </Typography>
         </Box>
       </Box>

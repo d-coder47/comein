@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -64,6 +64,9 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showUserCard, setShowUserCard] = useState(false);
 
+  const userCardRef = useRef(null);
+  const userCardParentRef = useRef(null);
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -71,6 +74,47 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  console.log("userCardRef.current", userCardRef.current);
+  useEffect(() => {
+    if (!userCardRef.current) return;
+    const mouseMoveHandler = (e) => {
+      const mousePosition = {
+        x: e.clientX,
+        y: e.clientY,
+      };
+
+      // Check if the mouse position is within the div's boundaries.
+      const userCardBounds = userCardRef.current.getBoundingClientRect();
+      const isInsideUserCard =
+        mousePosition.x >= userCardBounds.left &&
+        mousePosition.x <= userCardBounds.right &&
+        mousePosition.y >= userCardBounds.top &&
+        mousePosition.y <= userCardBounds.bottom;
+
+      const userCardParentBounds =
+        userCardParentRef.current.getBoundingClientRect();
+      const isInsideUserCardParent =
+        mousePosition.x >= userCardParentBounds.left &&
+        mousePosition.x <= userCardParentBounds.right &&
+        mousePosition.y >= userCardParentBounds.top &&
+        mousePosition.y <= userCardParentBounds.bottom;
+
+      if (isInsideUserCard || isInsideUserCardParent) {
+        setShowUserCard(true);
+        console.log("mouse over", true);
+      } else {
+        setShowUserCard(false);
+        console.log("mouse over", false);
+      }
+    };
+
+    window.addEventListener("mousemove", mouseMoveHandler);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMoveHandler);
+    };
+  }, []);
 
   return (
     <Box>
@@ -129,8 +173,11 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
       ) : (
         <>
           <Typography
+            ref={userCardParentRef}
             fontWeight="bold"
             fontSize="0.9rem"
+            onMouseEnter={() => setShowUserCard(true)}
+            // onMouseLeave={() => setShowUserCard(false)}
             sx={{
               "&:hover": {
                 textDecoration: "underline",
@@ -140,162 +187,164 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
           >
             {publishers[0]?.nome}
           </Typography>
-          {showUserCard ? (
-            <Box
+          <Box
+            ref={userCardRef}
+            sx={{
+              position: "absolute",
+              zIndex: "9",
+              width: "22rem",
+              paddingBottom: "1.25rem",
+              backgroundColor: "white",
+              borderRadius: "0.25rem",
+              display: showUserCard ? "flex" : "none",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {/* <Avatar src={`https://comein.cv/comeincv_api_test/capaImg/${publisher.capa}`} alt={""} sx={{}} /> */}
+            <Avatar
+              variant="square"
+              src={
+                `https://comein.cv/comeincv_api_test/img/capaImg/${publishers[0].img_capa}` ||
+                wallpaper
+              }
+              alt={`Foto de capa de ${publishers[0]?.nome}`}
               sx={{
-                position: "absolute",
-                zIndex: "9",
-                width: "22rem",
-                paddingBottom: "1.25rem",
-                backgroundColor: "white",
-                borderRadius: "0.25rem",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                width: "100%",
+                height: "7rem",
+                objectFit: "fill",
+              }}
+            />
+            <Avatar
+              src={`https://comein.cv/comeincv_api_test/img/perfilImg/${publishers[0].img_perfil}`}
+              alt={`Foto de perfil de ${publishers[0]?.nome}`}
+              sx={{
+                width: "4.25rem",
+                height: "4.25rem",
+                transform: "translateY(-50%)",
+                border: "2px solid white",
+              }}
+            />
+            <Typography
+              sx={{
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "1rem",
               }}
             >
-              {/* <Avatar src={`https://comein.cv/comeincv_api_test/capaImg/${publisher.capa}`} alt={""} sx={{}} /> */}
-              <Avatar
-                variant="square"
-                src={`https://comein.cv/comeincv_api_test/img/capaImg/${publishers[0].img_capa}`}
-                alt={`Foto de capa de ${publishers[0]?.nome}`}
+              {publishers[0]?.nome}
+            </Typography>
+            <Typography
+              sx={{
+                color: "gray",
+                fontWeight: "bold",
+                fontSize: ".8rem",
+                display: "flex",
+                alignItems: "center",
+                gap: ".125rem",
+              }}
+            >
+              {" "}
+              <LocationOn sx={{ color: "gray" }} fontSize="1.25rem" />
+              {`${publishers[0]?.residencia}, ${publishers[0]?.pais}`}
+            </Typography>
+            <List
+              id="info-group"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <ListItem
+                id="likes"
                 sx={{
-                  width: "100%",
-                  height: "7rem",
-                  objectFit: "fill",
-                }}
-              />
-              <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${publishers[0].img_perfil}`}
-                alt={`Foto de perfil de ${publishers[0]?.nome}`}
-                sx={{
-                  width: "4.25rem",
-                  height: "4.25rem",
-                  transform: "translateY(-50%)",
-                  border: "2px solid white",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                }}
-              >
-                {publishers[0]?.nome}
-              </Typography>
-              <Typography
-                sx={{
-                  color: "gray",
-                  fontWeight: "bold",
-                  fontSize: ".8rem",
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  gap: ".125rem",
                 }}
               >
-                {" "}
-                <LocationOn sx={{ color: "gray" }} fontSize="1.25rem" />
-                {`${publishers[0]?.residencia}, ${publishers[0]?.pais}`}
-              </Typography>
-              <List
-                id="info-group"
-                sx={{ display: "flex", alignItems: "center" }}
+                <Typography
+                  sx={{
+                    color: "black",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                  }}
+                >
+                  {publishers[0]?.gostos}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "gray",
+                    fontWeight: "bold",
+                    fontSize: ".8rem",
+                  }}
+                >
+                  Gostos
+                </Typography>
+              </ListItem>
+              <Divider orientation="vertical" />
+              <ListItem
+                id="followers"
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
               >
-                <ListItem
-                  id="likes"
+                <Typography
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    color: "black",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      color: "black",
-                      fontWeight: "bold",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    {publishers[0]?.gostos}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "gray",
-                      fontWeight: "bold",
-                      fontSize: ".8rem",
-                    }}
-                  >
-                    Gostos
-                  </Typography>
-                </ListItem>
-                <Divider orientation="vertical" />
-                <ListItem
-                  id="followers"
+                  {publishers[0]?.seguidores}
+                </Typography>
+                <Typography
                   sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
+                    color: "gray",
+                    fontWeight: "bold",
+                    fontSize: ".8rem",
                   }}
                 >
-                  <Typography
-                    sx={{
-                      color: "black",
-                      fontWeight: "bold",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    {publishers[0]?.seguidores}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "gray",
-                      fontWeight: "bold",
-                      fontSize: ".8rem",
-                    }}
-                  >
-                    Seguidores
-                  </Typography>
-                </ListItem>
-                <Divider orientation="vertical" />
-                <ListItem
-                  id="visits"
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      color: "black",
-                      fontWeight: "bold",
-                      fontSize: "1rem",
-                    }}
-                  >
-                    {publishers[0]?.visitas}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "gray",
-                      fontWeight: "bold",
-                      fontSize: ".8rem",
-                    }}
-                  >
-                    Visitas
-                  </Typography>
-                </ListItem>
-              </List>
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                sx={{ width: "80%" }}
+                  Seguidores
+                </Typography>
+              </ListItem>
+              <Divider orientation="vertical" />
+              <ListItem
+                id="visits"
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
               >
-                Seguir
-              </Button>
-            </Box>
-          ) : null}
+                <Typography
+                  sx={{
+                    color: "black",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                  }}
+                >
+                  {publishers[0]?.visitas}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: "gray",
+                    fontWeight: "bold",
+                    fontSize: ".8rem",
+                  }}
+                >
+                  Visitas
+                </Typography>
+              </ListItem>
+            </List>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              sx={{ width: "80%" }}
+            >
+              Seguir
+            </Button>
+          </Box>
         </>
       )}
     </Box>
