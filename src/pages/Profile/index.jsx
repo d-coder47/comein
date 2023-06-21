@@ -1,8 +1,9 @@
 import React from "react";
 import "./profile.css";
 import NavBar from "../../components/NavBar";
-import ProfileCards from "../../components/ProfileCards";
+import Cards from "../../components/Cards";
 import useUserProfile from "../../hooks/useUserProfile";
+import AddEvent from "../../components/AddEvent";
 import {
   Typography,
   Avatar,
@@ -16,6 +17,7 @@ import {
   Tooltip,
   Tab,
   TextField,
+  Modal,
 } from "@mui/material";
 import {
   Edit,
@@ -45,6 +47,10 @@ const UserProfile = () => {
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState(
     userInfo.img_capa
   );
+
+  const [openAddEventsModal, setOpenAddEventsModal] = React.useState(false);
+  const handleOpenAddEventsModal = () => setOpenAddEventsModal(true);
+  const handleCloseAddEventsModal = () => setOpenAddEventsModal(false);
 
   const {
     updateUserProfileBanner,
@@ -389,15 +395,29 @@ const UserProfile = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        flexDirection: "column",
                       }}
                     >
                       <Tooltip title="Adicionar evento">
-                        <IconButton color="primary">
+                        <IconButton
+                          color="primary"
+                          onClick={handleOpenAddEventsModal}
+                        >
                           <Add />
                         </IconButton>
                       </Tooltip>
+                      <Cards culturalAreaId={""} />
                     </Box>
-                    {t("userProfile.eventos")}
+                    <Modal
+                      open={openAddEventsModal}
+                      onClose={handleCloseAddEventsModal}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <Box>
+                        <AddEvent />
+                      </Box>
+                    </Modal>
                   </>
                 </Typography>
               )}
