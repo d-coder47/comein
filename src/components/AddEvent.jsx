@@ -8,15 +8,15 @@ import {
   Step,
   StepLabel,
   Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Grid,
 } from "@mui/material";
 
-const steps = [
-  "Select campaign settings",
-  "Create an ad group",
-  "Create an ad",
-];
-
 const AddEvent = () => {
+  const steps = ["Etapa 1", "Etapa 2", "Etapa 3"];
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -123,7 +123,216 @@ const AddEvent = () => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            {activeStep === 0 && (
+              <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>Etapa 1</Typography>
+
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="título"
+                      name="título"
+                      label="Título"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="tipoEvento"
+                      name="tipoEvento"
+                      label="Tipo Evento"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="dataInicio"
+                      name="dataInicio"
+                      label="Data de início"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="horaInicio"
+                      name="horaInicio"
+                      label="Hora de início"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="dataFim"
+                      name="dataFim"
+                      label="Data de fim"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="horaFim"
+                      name="horaFim"
+                      label="Hora de fim"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                </Grid>
+              </React.Fragment>
+            )}
+
+            {activeStep === 1 && (
+              <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>Etapa 2</Typography>
+
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="cidade"
+                      name="cidade"
+                      label="Cidade do Evento"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="local"
+                      name="local"
+                      label="Local do evento"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="areaCultural"
+                      name="areaCultural"
+                      label="Associar área cultural"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="associarProjeto"
+                      name="associarProjeto"
+                      label="Associar a um projeto"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="decricao"
+                      name="decricao"
+                      label="Descrição"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="associarProprietario"
+                      name="associarProprietario"
+                      label="Associar Proprietários"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                </Grid>
+              </React.Fragment>
+            )}
+            {activeStep === 2 && (
+              <React.Fragment>
+                <Typography sx={{ mt: 2, mb: 1 }}>Etapa 3</Typography>
+
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="firstName"
+                      name="firstName"
+                      label="First name"
+                      fullWidth
+                      autoComplete="given-name"
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="bilhete"
+                      name="bilhete"
+                      label="Bilhete"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="contatoReserva"
+                      name="contatoReserva"
+                      label="Contato para reserva de bilhete"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="linkYT"
+                      name="linkYT"
+                      label="Link para o youtube"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="linkSite"
+                      name="linkSite"
+                      label="Link para o seu site"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="agendarPub"
+                      name="agendarPub"
+                      label="Agendar a publicaçao do evento"
+                      fullWidth
+                      variant="standard"
+                    />
+                  </Grid>
+                </Grid>
+              </React.Fragment>
+            )}
+
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
