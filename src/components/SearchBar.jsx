@@ -4,6 +4,8 @@ import {
   Box,
   Button,
   Divider,
+  FormControl,
+  FormGroup,
   Grid,
   InputAdornment,
   MenuItem,
@@ -14,24 +16,31 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+
+import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import useRegisterUser from "../hooks/useRegisterUser";
 
-const SearchBar = ({ onHighlightsClick }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   const [filterType, setFilterType] = useState(false);
   const [filterSelected, setFilterSelected] = useState("");
-
+  const [showLocalDate, setShowLocalDate] = useState(false);
   const [addresses, setAddresses] = useState([]);
+  const [formValues, setFormValues] = useState({
+    startDate: "",
+    endDate: "",
+    address: "",
+  });
 
   const { getAddresses } = useRegisterUser();
 
   const theme = useTheme();
 
   const handleChange = (event) => {
-    setSearchTerm(event.target.value);
+    const search = event.target.value;
+    if (search.length > 2 || search.length === 0) {
+      onSearch(search);
+    }
   };
 
   const handleChangeFilterType = (newFilterType) => {
@@ -46,6 +55,18 @@ const SearchBar = ({ onHighlightsClick }) => {
     }
     setFilterSelected(newSelected);
     if (newSelected === "highlights") onHighlightsClick(true);
+  };
+
+  const handleDateLocalChange = (name, value) => {
+    setFormValues((prevFormValues) => ({
+      ...prevFormValues,
+      [name]: value,
+    }));
+  };
+
+  const onSubmitLocalDateForm = () => {
+    if (formValues.startDate !== "") onLocalDateChange(formValues);
+    setShowLocalDate(false);
   };
 
   return (
@@ -78,7 +99,6 @@ const SearchBar = ({ onHighlightsClick }) => {
           id="search"
           type="search"
           placeholder="Pesquise publicações"
-          value={searchTerm}
           onChange={handleChange}
           sx={{
             width: "100%",
@@ -130,139 +150,174 @@ const SearchBar = ({ onHighlightsClick }) => {
           </Box>
         </Grid>
         <Grid xs={1}>
-          <TextField
-            id="outlined-select-currency"
-            select
-            size="small"
-            value="location"
-            onChange={(e) => {
-              e.preventDefault();
+          <Button
+            variant="outlined"
+            sx={{
+              textTransform: "capitalize",
+              fontWeight: "normal",
+              border: "1px solid",
+              "&:hover": {
+                opacity: "0.8",
+              },
             }}
+            onClick={() => setShowLocalDate(!showLocalDate)}
           >
-            <MenuItem
-              style={{ display: "none" }}
-              value={"location"}
+            <LocationOnIcon
               sx={{
-                ".Mui-selected": {
-                  display: "none",
-                },
+                color: (theme) => theme.palette.primary.main,
+                fontSize: "1.25rem",
               }}
-            >
-              <Box
+            />
+            <Typography>Location</Typography>
+            {showLocalDate ? (
+              <ArrowDropUp
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
+                  color: (theme) => theme.palette.primary.main,
+                  fontSize: "1.25rem",
                 }}
-              >
-                <LocationOnIcon
-                  sx={{
-                    // color: (theme) => theme.palette.primary.main,
-                    color: "black",
-                    fontSize: "1.25rem",
-                  }}
-                />
-                Location
-              </Box>
-            </MenuItem>
-            <MenuItem value={"dateandtime"}>
-              <Box display="flex" flexDirection="column">
+              />
+            ) : (
+              <ArrowDropDown
+                sx={{
+                  color: (theme) => theme.palette.primary.main,
+                  fontSize: "1.25rem",
+                  marginLeft: "auto",
+                }}
+              />
+            )}
+          </Button>
+          {showLocalDate ? (
+            <Box value={"dateandtime"}>
+              <form>
                 <Box
-                  id="filter-group"
                   display="flex"
                   flexDirection="column"
-                  gap="1rem"
-                  m=".5rem"
+                  sx={{
+                    width: "23rem",
+                    padding: "1rem",
+                    borderRadius: ".25rem",
+                    boxShadow: "1px 1px 1px 1px #00000045",
+                    marginTop: "4px",
+                    backgroundColor: "white",
+                    position: "absolute",
+                    zIndex: 99,
+                  }}
                 >
-                  <Box display="flex" gap="1rem">
-                    <TextField
-                      id="date-start"
-                      type="date"
-                      label="Data Início"
-                      sx={{
-                        height: "2rem",
-                        ".MuiInputBase-root": {
+                  <Box
+                    id="filter-group"
+                    display="flex"
+                    flexDirection="column"
+                    gap="1rem"
+                    m=".5rem"
+                  >
+                    <Box
+                      display="flex"
+                      gap="1rem"
+                      justifyContent="space-between"
+                    >
+                      <TextField
+                        id="date-start"
+                        name="startDate"
+                        type="date"
+                        label="Data Início"
+                        sx={{
                           height: "2rem",
-                          borderRadius: ".25rem",
-                        },
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField
-                      id="date-end"
-                      type="date"
-                      label="Data Fim"
-                      sx={{
-                        height: "2rem",
-                        ".MuiInputBase-root": {
-                          height: "2rem",
-                          borderRadius: ".25rem",
-                        },
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                  </Box>
-                  <Box>
-                    <Autocomplete
-                      id="address-select"
-                      options={addresses}
-                      autoHighlight
-                      sx={{ width: "100%" }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          size="small"
-                          placeholder="Local"
-                          name="residence"
-                          fullWidth
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          inputProps={{
-                            ...params.inputProps,
-                          }}
-                        />
-                      )}
-                      onInputChange={async (event, value) => {
-                        if (value.length >= 2 && value.length <= 4) {
-                          const res = await getAddresses(value);
-                          const newAddresses = [];
-                          for (let key in res.dados) {
-                            if (res.dados.hasOwnProperty(key)) {
-                              const value = res.dados[key];
-                              newAddresses.push(value.nome);
-                            }
-                          }
-                          setAddresses(newAddresses);
+                          ".MuiInputBase-root": {
+                            height: "2rem",
+                            borderRadius: ".25rem",
+                          },
+                        }}
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) =>
+                          handleDateLocalChange(e.target.name, e.target.value)
                         }
+                      />
+                      <TextField
+                        id="date-end"
+                        name="endDate"
+                        type="date"
+                        label="Data Fim"
+                        sx={{
+                          height: "2rem",
+                          ".MuiInputBase-root": {
+                            height: "2rem",
+                            borderRadius: ".25rem",
+                          },
+                        }}
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) =>
+                          handleDateLocalChange(e.target.name, e.target.value)
+                        }
+                      />
+                    </Box>
+                    <Box>
+                      <Autocomplete
+                        id="address-select"
+                        name="address"
+                        options={addresses}
+                        autoHighlight
+                        sx={{ width: "100%" }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            size="small"
+                            placeholder="Local"
+                            name="residence"
+                            fullWidth
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            inputProps={{
+                              ...params.inputProps,
+                            }}
+                          />
+                        )}
+                        onInputChange={async (event, value) => {
+                          if (value.length >= 2 && value.length <= 4) {
+                            const res = await getAddresses(value);
+                            const newAddresses = [];
+                            for (let key in res.dados) {
+                              if (res.dados.hasOwnProperty(key)) {
+                                const value = res.dados[key];
+                                newAddresses.push(value.nome);
+                              }
+                            }
+                            setAddresses(newAddresses);
+                          }
+                        }}
+                        onChange={(e) =>
+                          handleDateLocalChange("address", e.target.textContent)
+                        }
+                      />
+                    </Box>
+                  </Box>
+                  <Box id="button-group" display="flex" gap="1rem" mt="1rem">
+                    <Button
+                      size="small"
+                      sx={{
+                        textTransform: "capitalize",
+                        "&:hover": { textDecoration: "underline" },
                       }}
-                      onChange={(event, value) => {
-                        console.log(value);
-                      }}
-                    />
+                      onClick={() => setShowLocalDate(false)}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{ textTransform: "capitalize" }}
+                      onClick={onSubmitLocalDateForm}
+                    >
+                      Aplicar
+                    </Button>
                   </Box>
                 </Box>
-                <Box id="button-group" display="flex" gap="1rem" mt="1rem">
-                  <Button
-                    size="small"
-                    sx={{
-                      textTransform: "capitalize",
-                      "&:hover": { textDecoration: "underline" },
-                    }}
-                  >
-                    Cancelar
-                  </Button>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    Aplicar
-                  </Button>
-                </Box>
-              </Box>
-            </MenuItem>
-          </TextField>
+              </form>
+            </Box>
+          ) : (
+            <div></div>
+          )}
         </Grid>
       </Grid>
     </Grid>
