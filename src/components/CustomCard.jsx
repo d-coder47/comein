@@ -9,14 +9,36 @@ import {
   Tooltip,
   Skeleton,
   Stack,
+  Button,
 } from "@mui/material";
 import {
   ThumbUpOffAlt,
   ThumbUp,
   Star,
   StarOutline,
-  Reply,
+  Share,
+  Close,
+  Link,
 } from "@mui/icons-material";
+
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  PinterestShareButton,
+  PinterestIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon,
+  LinkedinIcon,
+  LinkedinShareButton,
+  WhatsappShareButton,
+  WhatsappIcon,
+  ViberShareButton,
+  ViberIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  EmailShareButton,
+  EmailIcon,
+} from "react-share";
 
 import { Visibility } from "@mui/icons-material";
 
@@ -43,9 +65,13 @@ const CustomCard = ({
   const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [openShareModal, setOpenShareModal] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleOpenShareModal = () => setOpenShareModal(true);
+  const handleCloseShareModal = () => setOpenShareModal(false);
 
   const {
     likeEvent,
@@ -226,35 +252,6 @@ const CustomCard = ({
               },
             }}
           />
-          {/* </Tooltip> */}
-          {/* <Typography
-            sx={{
-              color: showTitle ? "#fff" : "transparent",
-              marginLeft: "1rem",
-              marginTop: "-2rem",
-              fontWeight: "bold",
-              // width: "fit-content",
-              zIndex: 99,
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              width: "65%",
-              "&:hover": {
-                textDecoration: "underline",
-                cursor: "pointer",
-              },
-            }}
-            onClick={handleOpen}
-          >
-            {name}
-          </Typography> */}
-          {/* {showTitle ? (
-            <Box
-              sx={{ position: "absolute", top: "-0.25rem", right: "-0.125rem" }}
-            >
-              <CustomBadge isEvent={type === "E"} />
-            </Box>
-          ) : null} */}
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
           <Typography
@@ -281,10 +278,10 @@ const CustomCard = ({
             <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
               <ThumbUp
                 // onClick={() => handleLike(false)}
-                sx={{ width: 15, height: 15, color: "gray" }}
+                sx={{ width: 15, height: 15, color: "black" }}
               />
               <Typography
-                sx={{ fontWeight: "bold", color: "gray", fontSize: ".8rem" }}
+                sx={{ fontWeight: "bold", color: "black", fontSize: ".8rem" }}
                 variant="p"
               >
                 {likes}
@@ -293,22 +290,22 @@ const CustomCard = ({
             <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
               <Visibility
                 // onClick={() => handleFavorite(false)}
-                sx={{ width: 15, height: 15, color: "gray" }}
+                sx={{ width: 15, height: 15, color: "black" }}
               />
               <Typography
-                sx={{ fontWeight: "bold", color: "gray", fontSize: ".8rem" }}
+                sx={{ fontWeight: "bold", color: "black", fontSize: ".8rem" }}
                 variant="p"
               >
                 {visits}
               </Typography>
             </Box>
-            <Reply
+            <Share
               sx={{
                 width: 14,
                 height: 14,
                 cursor: "pointer",
-                transform: "scaleX(-1)",
               }}
+              onClick={handleOpenShareModal}
             />
           </Box>
         </Box>
@@ -356,6 +353,128 @@ const CustomCard = ({
           {/* ) : (
             <div></div>
           )} */}
+        </Modal>
+        <Modal
+          id="share-modal"
+          open={openShareModal}
+          onClose={handleCloseShareModal}
+          aria-labelledby="share-modal-title"
+          aria-describedby="share-modal-description"
+          sx={{
+            ".MuiModal-backdrop": {
+              backgroundColor: "rgba(0,0,0,.5)",
+            },
+          }}
+        >
+          <Box
+            id="wrapper"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100vh",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="column"
+              sx={{
+                width: "25rem",
+                height: "14rem",
+                backgroundColor: "white",
+                borderRadius: ".25rem",
+              }}
+            >
+              <Box id="header" display="flex" justifyContent="flex-end">
+                <Close
+                  sx={{
+                    color: "black",
+                    cursor: "pointer",
+                    margin: ".25rem",
+                    "&:hover": {
+                      opacity: ".9",
+                    },
+                  }}
+                  onClick={handleCloseShareModal}
+                />
+              </Box>
+              <Box
+                id="body"
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                mt="1rem"
+              >
+                <Typography fontWeight="bold">
+                  Partilhe nas suas redes sociais
+                </Typography>
+                <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
+                  <FacebookShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    quote={"Post it with your friends"}
+                    hashtag="comeincv"
+                    media="https://img.freepik.com/vetores-gratis/paisagem-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
+                  >
+                    <FacebookIcon size={40} round />
+                  </FacebookShareButton>
+                  <FacebookMessengerShareButton
+                    appId="976472220466365"
+                    url={"https://comein-cv.vercel.app/"}
+                  >
+                    <FacebookMessengerIcon size={40} round />
+                  </FacebookMessengerShareButton>
+                  <PinterestShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    description={"Testing description"}
+                    media={picture}
+                  >
+                    <PinterestIcon size={40} round />
+                  </PinterestShareButton>
+                  <LinkedinShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    title={name}
+                    summary={"minha descricao"}
+                    source={"Comein CV"}
+                  >
+                    <LinkedinIcon size={40} round />
+                  </LinkedinShareButton>
+                  <WhatsappShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    title={name}
+                  >
+                    <WhatsappIcon size={40} round />
+                  </WhatsappShareButton>
+                  <ViberShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    title={name}
+                  >
+                    <ViberIcon size={40} round />
+                  </ViberShareButton>
+                  <TwitterShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    title={name}
+                    via="Comein-CV"
+                  >
+                    <TwitterIcon size={40} round />
+                  </TwitterShareButton>
+                  <EmailShareButton
+                    url={"https://comein-cv.vercel.app/"}
+                    subject={`${name}: de Comein CV`}
+                    body={`Venha ver o post de ${publisherName}`}
+                  >
+                    <EmailIcon size={40} round />
+                  </EmailShareButton>
+                </Box>
+                <Button
+                  sx={{ marginTop: "1rem" }}
+                  variant="contained"
+                  endIcon={<Link />}
+                >
+                  Copiar Ligação
+                </Button>
+              </Box>
+            </Box>
+          </Box>
         </Modal>
       </Box>
     </>

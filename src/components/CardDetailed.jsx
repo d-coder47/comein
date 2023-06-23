@@ -99,7 +99,7 @@ const CardDetailed = ({
   return (
     <Box
       sx={{
-        margin: "0",
+        margin: "0 0 0 4rem",
         backgroundColor: "transparent",
         outline: "none",
         height: "100vh",
