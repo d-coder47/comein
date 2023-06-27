@@ -292,6 +292,7 @@ export default function UserRegistration() {
         let nome = `${formData.name} ${formData.surname}`;
         let _method = "PUT";
 
+        console.log(userID);
         const res = await updateUser(
           sexo,
           data_nasc,

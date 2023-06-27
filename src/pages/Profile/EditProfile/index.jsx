@@ -728,7 +728,7 @@ const EditProfile = () => {
                           textTransform: "none",
                         }}
                       >
-                        Guardar
+                        {t("editProfilePage.guardar")}
                       </Button>
                     </Grid>
                     <Grid>

@@ -102,7 +102,8 @@
     "novoUsuario": "Nouvel utilisateur ?",
     "crieConta": "Créer un compte",
     "login": "connectez-vous",
-    "erroLogin": "Erreur lors de la connexion"
+    "erroLogin": "Erreur lors de la connexion",
+    "esqueceuPassword": "Vous avez oublié votre mot de passe ?"
   },
   "navBar": {
     "perfil": "Profil",

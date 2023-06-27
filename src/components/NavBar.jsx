@@ -63,6 +63,11 @@ const NavBar = () => {
     navigate("/user-registration");
   };
 
+  const handleConfiguration = () => {
+    handleClose();
+    navigate("/user-profile-configuration");
+  };
+
   const handleProfileClick = () => {
     handleClose();
     navigate("/user-profile");
@@ -295,7 +300,7 @@ const NavBar = () => {
                 </ListItemIcon>
                 {t("navBar.adicionarConta")}
               </MenuItem>
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={handleConfiguration}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>

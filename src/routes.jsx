@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/Profile/EditProfile";
 import ProfileConfiguration from "./pages/Profile/ProfileConfiguration";
+import ResetPassword from "./pages/ResetPassword";
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/user-registration" element={<UserRegistration />} />
+        <Route path="/user-reset-password" element={<ResetPassword />} />
         <Route path="/user-login" element={<Login />} />
         <Route path="/user-profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />

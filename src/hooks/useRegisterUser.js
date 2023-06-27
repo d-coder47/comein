@@ -116,6 +116,28 @@ const useRegisterUser = () => {
     }
   };
 
+  const sendForgotPassEmail = async (email) => {
+    try {
+      const params = new URLSearchParams({
+        email,
+      }).toString();
+
+      const response = await axiosInstance.post(
+        "/forgotPassword/sendMail",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const updateUser = async (
     sexo,
     data_nasc,
@@ -141,20 +163,6 @@ const useRegisterUser = () => {
         img_perfil,
         img_capa,
       }).toString();
-
-      console.log(
-        sexo,
-        data_nasc,
-        contatos,
-        residencia,
-        nacionalidade,
-        userId,
-        token,
-        nome,
-        _method,
-        img_perfil,
-        img_capa
-      );
 
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,
@@ -182,6 +190,7 @@ const useRegisterUser = () => {
     login,
     getUserByMail,
     getCountries,
+    sendForgotPassEmail,
   };
 };
 

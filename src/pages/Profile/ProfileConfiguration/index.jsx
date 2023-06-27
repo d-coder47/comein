@@ -613,18 +613,6 @@ const ProfileConfiguration = () => {
                       width: "60%",
                     }}
                   >
-                    {/* <Typography
-                      variant="h6"
-                      sx={{
-                        marginTop: "1rem",
-                        marginBottom: "1rem",
-                        fontSize: 15,
-                      }}
-                    >
-                      {t("userProfile.configPage.inserirEmail")}
-                    </Typography>
-
-                    <TextField variant="outlined" fullWidth /> */}
                     <Button
                       variant="contained"
                       className="remove-account-button"

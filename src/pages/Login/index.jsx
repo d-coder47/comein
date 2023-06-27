@@ -14,6 +14,7 @@ import {
   Alert,
   Collapse,
   AlertTitle,
+  Modal,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
@@ -29,9 +30,14 @@ import { useTranslation } from "react-i18next";
 import validator from "validator";
 
 import useRegisterUser from "../../hooks/useRegisterUser";
+import useUserProfile from "../../hooks/useUserProfile";
 
 export default function Login() {
   const navigate = useNavigate();
+
+  const [openForgotPassForm, setOpenForgotPassForm] = React.useState(false);
+  const handleOpenForgotPassForm = () => setOpenForgotPassForm(true);
+  const handleCloseForgotPassForm = () => setOpenForgotPassForm(false);
 
   const { t, i18n } = useTranslation();
 
@@ -44,8 +50,10 @@ export default function Login() {
 
   const [openLoginError, setOpenLoginError] = React.useState(false);
 
-  const { login, getUser, getUserByMail } = useRegisterUser();
+  const { login, getUser, getUserByMail, sendForgotPassEmail } =
+    useRegisterUser();
 
+  const [forgotPassEmail, setForgotPassEmail] = React.useState("");
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -56,6 +64,11 @@ export default function Login() {
     password: "",
   });
 
+  const [showForgotPassEmailError, setShowForgotPassEmailError] =
+    React.useState();
+
+  const [formForgotPassEmailError, setFormForgotPassEmailError] =
+    React.useState();
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -71,6 +84,33 @@ export default function Login() {
       navigate("/");
     } else {
       setOpenLoginError(true);
+    }
+  };
+
+  const handleForgotPassMailChange = (event) => {
+    setForgotPassEmail(event.target.value);
+  };
+
+  const handleForgotPasswordEmailSubmit = async (event) => {
+    event.preventDefault();
+
+    // Validate email field
+    if (forgotPassEmail.trim() === "") {
+      setFormForgotPassEmailError(t("registerpage.emailObrigatorio"));
+      setShowForgotPassEmailError(true);
+    } else if (!validator.isEmail(forgotPassEmail)) {
+      setFormForgotPassEmailError(t("registerpage.emailInvalido"));
+      setShowForgotPassEmailError(true);
+    } else {
+      setShowForgotPassEmailError(false);
+      setFormForgotPassEmailError(t(""));
+    }
+
+    if (!showForgotPassEmailError) {
+      console.log(forgotPassEmail);
+      const send_email_res = await sendForgotPassEmail(forgotPassEmail);
+      console.log(send_email_res);
+      setForgotPassEmail("");
     }
   };
 
@@ -262,9 +302,91 @@ export default function Login() {
                   fontSize: 13,
                   textTransform: "none",
                 }}
+                onClick={handleOpenForgotPassForm}
               >
-                Esqueceu-se da palavra-passe?
+                {t("loginPage.esqueceuPassword")}
               </Button>
+
+              <Modal
+                open={openForgotPassForm}
+                onClose={handleCloseForgotPassForm}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 400,
+                    bgcolor: "background.paper",
+                    border: "2px solid #000",
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Box
+                    id="forgot-pass-form"
+                    sx={{
+                      // "& > :not(style)": { m: 1, width: "25ch" },
+
+                      display: "flex",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                      fontWeight="bold"
+                      fontSize="18px"
+                      textAlign="center"
+                    >
+                      Forgot Password
+                    </Typography>
+
+                    <Typography
+                      id="modal-paragraph"
+                      variant="h6"
+                      component="h2"
+                      fontSize="16px"
+                      textAlign="center"
+                    >
+                      Enter yout email and we´ll send you alink to reset your
+                      password.
+                    </Typography>
+                    <TextField
+                      id="forgot_pass_email"
+                      variant="outlined"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      value={forgotPassEmail}
+                      onChange={handleForgotPassMailChange}
+                      margin="normal"
+                      error={showForgotPassEmailError}
+                      helperText={formForgotPassEmailError}
+                    />
+                    <Button
+                      variant="contained"
+                      className="forgot_pass_submit"
+                      color="primary"
+                      onClick={handleForgotPasswordEmailSubmit}
+                      sx={{
+                        width: "30%",
+                        borderRadius: "20px",
+                        textTransform: "none",
+                      }}
+                    >
+                      Submit
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
             </Grid>
 
             <Grid container justifyContent="center">

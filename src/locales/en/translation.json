@@ -102,7 +102,8 @@
     "novoUsuario": "New user?",
     "crieConta": "Create an account",
     "login": "login",
-    "erroLogin": "Error logging in"
+    "erroLogin": "Error logging in",
+    "esqueceuPassword": "Forgotten your password?"
   },
   "navBar": {
     "perfil": "Profile",
