@@ -103,7 +103,10 @@
     "crieConta": "Create an account",
     "login": "login",
     "erroLogin": "Error logging in",
-    "esqueceuPassword": "Forgotten your password?"
+    "esqueceuPassword": "Forgotten your password?",
+    "forgotPassword": "Forgot Password",
+    "forgotPassEnterMail": "Enter yout email and we´ll send you alink to reset your password.",
+    "submit": "Submit"
   },
   "navBar": {
     "perfil": "Profile",

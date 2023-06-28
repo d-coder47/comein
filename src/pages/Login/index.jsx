@@ -346,7 +346,7 @@ export default function Login() {
                       fontSize="18px"
                       textAlign="center"
                     >
-                      Forgot Password
+                      {t("loginPage.forgotPassword")}
                     </Typography>
 
                     <Typography
@@ -356,8 +356,7 @@ export default function Login() {
                       fontSize="16px"
                       textAlign="center"
                     >
-                      Enter yout email and we´ll send you alink to reset your
-                      password.
+                      {t("loginPage.forgotPassEnterMail")}
                     </Typography>
                     <TextField
                       id="forgot_pass_email"
@@ -382,7 +381,7 @@ export default function Login() {
                         textTransform: "none",
                       }}
                     >
-                      Submit
+                      {t("loginPage.submit")}
                     </Button>
                   </Box>
                 </Box>

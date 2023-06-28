@@ -103,7 +103,10 @@
     "crieConta": "Créer un compte",
     "login": "connectez-vous",
     "erroLogin": "Erreur lors de la connexion",
-    "esqueceuPassword": "Vous avez oublié votre mot de passe ?"
+    "esqueceuPassword": "Vous avez oublié votre mot de passe ?",
+    "forgotPassword": "Mot de passe oublié",
+    "forgotPassEnterMail": "Saisissez votre adresse électronique et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "submit": "Soumettre"
   },
   "navBar": {
     "perfil": "Profil",

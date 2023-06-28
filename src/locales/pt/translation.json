@@ -104,7 +104,10 @@
     "crieConta": "Crie uma conta",
     "login": "login",
     "erroLogin": "Erro ao efetuar login",
-    "esqueceuPassword": "Esqueceu-se da palavra-passe?"
+    "esqueceuPassword": "Esqueceu-se da palavra-passe?",
+    "forgotPassword": "Esqueci-me da palavra-passe",
+    "forgotPassEnterMail": "Enter yout email and we´ll send you alink to reset your password.",
+    "submit": "Enviar"
   },
   "navBar": {
     "perfil": "Perfil",
