@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -18,11 +18,13 @@ import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
 import usePosts from "../hooks/usePosts";
 import useUserProfile from "../hooks/useUserProfile";
+import UserCard from "./UserCard";
 
 const CardDetailed = ({
   id,
   publisherPhoto,
   title,
+  publisher,
   isLiked,
   isFavorite,
   onLikePost,
@@ -33,6 +35,10 @@ const CardDetailed = ({
 }) => {
   const [details, setDetails] = useState(null);
   const [isFollowing, setIsFollowing] = useState(null);
+  const [showUserCard, setShowUserCard] = useState(false);
+
+  const userCardRef = useRef(null);
+  const userCardParentRef = useRef(null);
 
   const { followUser } = useUserProfile();
 
@@ -87,6 +93,46 @@ const CardDetailed = ({
     if (!user) return;
     isFollowingUser(publisherId, parseInt(user.id));
   }, [details]);
+
+  // useEffect(() => {
+  //   if (!userCardRef.current) return;
+  //   const mouseMoveHandler = (e) => {
+  //     const mousePosition = {
+  //       x: e.clientX,
+  //       y: e.clientY,
+  //     };
+
+  //     // Check if the mouse position is within the div's boundaries.
+  //     const userCardBounds = userCardRef.current.getBoundingClientRect();
+  //     const isInsideUserCard =
+  //       mousePosition.x >= userCardBounds.left &&
+  //       mousePosition.x <= userCardBounds.right &&
+  //       mousePosition.y >= userCardBounds.top &&
+  //       mousePosition.y <= userCardBounds.bottom;
+
+  //     const userCardParentBounds =
+  //       userCardParentRef.current.getBoundingClientRect();
+  //     const isInsideUserCardParent =
+  //       mousePosition.x >= userCardParentBounds.left &&
+  //       mousePosition.x <= userCardParentBounds.right &&
+  //       mousePosition.y >= userCardParentBounds.top &&
+  //       mousePosition.y <= userCardParentBounds.bottom;
+
+  //     if (isInsideUserCard || isInsideUserCardParent) {
+  //       setShowUserCard(true);
+  //       console.log("mouse over", true);
+  //     } else {
+  //       setShowUserCard(false);
+  //       console.log("mouse over", false);
+  //     }
+  //   };
+
+  //   window.addEventListener("mousemove", mouseMoveHandler);
+
+  //   return () => {
+  //     window.removeEventListener("mousemove", mouseMoveHandler);
+  //   };
+  // }, []);
 
   const handleFollowUser = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -150,13 +196,13 @@ const CardDetailed = ({
         <IconButton
           id="follow"
           sx={{ padding: "0" }}
-          onClick={() => console.log("Seguir")}
+          ref={userCardParentRef}
+          onClick={() => handleFollowUser()}
         >
           <Badge
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             badgeContent={isFollowing ? "✓" : "+"}
             overlap="circular"
-            // color="info"
             sx={{
               "& .MuiBadge-badge": {
                 color: isFollowing ? "black" : "white",
@@ -173,11 +219,20 @@ const CardDetailed = ({
             />
           </Badge>
         </IconButton>
-        {/* <Avatar
-          src={publisherPhoto}
-          alt="Foto do Publicador"
-          sx={{ width: "3rem", height: "3rem" }}
-        /> */}
+        {/* <Box
+          ref={userCardRef}
+          sx={{
+            position: "absolute",
+            zIndex: "9",
+            width: "22rem",
+            paddingBottom: "1.25rem",
+            backgroundColor: "white",
+            borderRadius: "0.25rem",
+            display: showUserCard ? "flex" : "none",
+          }}
+        >
+          <UserCard publisher={details?.utilizador[0]} />
+        </Box> */}
         <Tooltip
           title={
             isFavorite ? "Retirar dos favoritos" : "Adicionar aos favoritos"
@@ -430,6 +485,25 @@ const DetailedImages = ({ images, type }) => {
         />
       ))}
     </Stack>
+  );
+};
+
+const DetailedRelated = ({ related, type }) => {
+  const calculateSpace = () => {
+    // if(related.length % 2 === 0)
+  };
+  return (
+    <Box display="flex" alignItems="center">
+      {related?.map((post) => (
+        <Box sm={6}>
+          <Avatar
+            src={`https://comein.cv/comeincv_api_test/img/${
+              type === "E" ? "eventos" : "projetos"
+            }Img/${post.imagem}`}
+          />
+        </Box>
+      ))}
+    </Box>
   );
 };
 
