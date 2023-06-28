@@ -138,6 +138,52 @@ const useRegisterUser = () => {
     }
   };
 
+  const verifyForgotPassEmailLink = async (email, key) => {
+    try {
+      const params = new URLSearchParams({
+        email,
+        key,
+      }).toString();
+
+      const response = await axiosInstance.post(
+        "/forgotPassword/verifyLink",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const changeForgotPass = async (email, new_password) => {
+    try {
+      const params = new URLSearchParams({
+        email,
+        new_password,
+      }).toString();
+
+      const response = await axiosInstance.post(
+        "/forgotPassword/changePassword",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const updateUser = async (
     sexo,
     data_nasc,
@@ -191,6 +237,8 @@ const useRegisterUser = () => {
     getUserByMail,
     getCountries,
     sendForgotPassEmail,
+    verifyForgotPassEmailLink,
+    changeForgotPass,
   };
 };
 
