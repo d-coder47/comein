@@ -107,7 +107,6 @@ export default function Login() {
     }
 
     if (!showForgotPassEmailError) {
-      console.log(forgotPassEmail);
       const send_email_res = await sendForgotPassEmail(forgotPassEmail);
       console.log(send_email_res);
       setForgotPassEmail("");
@@ -329,8 +328,7 @@ export default function Login() {
                   <Box
                     id="forgot-pass-form"
                     sx={{
-                      // "& > :not(style)": { m: 1, width: "25ch" },
-
+                      alignItems: "center",
                       display: "flex",
                       justifyContent: "center",
                       flexDirection: "column",
