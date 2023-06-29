@@ -108,6 +108,10 @@
     "forgotPassEnterMail": "Enter yout email and we´ll send you alink to reset your password.",
     "submit": "Submit"
   },
+  "forgotPassword": {
+    "resetPassword": "Reset password",
+    "voltarHome": "back to home page"
+  },
   "navBar": {
     "perfil": "Profile",
     "adicionarConta": "Add another account",

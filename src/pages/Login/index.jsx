@@ -344,7 +344,7 @@ export default function Login() {
                       fontSize="18px"
                       textAlign="center"
                     >
-                      {t("loginPage.forgotPassword")}
+                      {t("forgotPassword.resetPassword")}
                     </Typography>
 
                     <Typography

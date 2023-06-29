@@ -108,6 +108,10 @@
     "forgotPassEnterMail": "Saisissez votre adresse électronique et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
     "submit": "Soumettre"
   },
+  "forgotPassword": {
+    "resetPassword": "Réinitialiser le mot de passe",
+    "voltarHome": "retour à la page d'accueil"
+  },
   "navBar": {
     "perfil": "Profil",
     "adicionarConta": "Ajouter un autre compte",

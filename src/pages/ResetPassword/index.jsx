@@ -75,9 +75,9 @@ export default function ResetPassword() {
   useEffect(() => {
     async function fetchData() {
       const verfify_res = await verifyForgotPassEmailLink(email, key);
-      if (!verfify_res.dados) {
-        navigate("/");
-      }
+      // if (!verfify_res.dados) {
+      //   navigate("/");
+      // }
     }
     fetchData();
   }, []);
@@ -138,8 +138,11 @@ export default function ResetPassword() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexDirection: "column",
       }}
     >
+      <Button href="/">{t("forgotPassword.voltarHome")}</Button>
+
       <Box
         component="form"
         className="reset_pass_form"
@@ -155,11 +158,25 @@ export default function ResetPassword() {
           alignItems: "center",
           justifyContent: "center",
           background: "#fff",
+          marginTop: "10px",
         }}
         noValidate
         autoComplete="off"
         onSubmit={handleChangePassSubmit}
       >
+        <Typography
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+          fontWeight="bold"
+          fontSize="18px"
+          textAlign="center"
+          sx={{
+            marginBottom: "10px",
+          }}
+        >
+          {t("forgotPassword.resetPassword")}
+        </Typography>
         <Grid
           container
           spacing={2}
@@ -284,7 +301,9 @@ export default function ResetPassword() {
             >
               <AlertTitle>
                 <strong>
-                  <strong>Password atualizado com sucesso</strong>
+                  <strong>
+                    {t("editProfilePage.palavraPassAtualizadoSucesso")}
+                  </strong>
                 </strong>
               </AlertTitle>
             </Alert>
@@ -310,7 +329,7 @@ export default function ResetPassword() {
             >
               <AlertTitle>
                 <strong>
-                  Erro! Não foi possivel atualizar a palavras-passe
+                  {t("editProfilePage.erroAtualizarPalavraPasse")}
                 </strong>
               </AlertTitle>
             </Alert>
