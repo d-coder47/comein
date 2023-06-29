@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/Profile/EditProfile";
 import ProfileConfiguration from "./pages/Profile/ProfileConfiguration";
 import ResetPassword from "./pages/ResetPassword";
+import Map from './pages/Map';
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/user-login" element={<Login />} />
         <Route path="/user-profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/map" element={<Map />} />
         <Route
           path="/user-profile-configuration"
           element={<ProfileConfiguration />}
