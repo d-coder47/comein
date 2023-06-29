@@ -106,8 +106,11 @@
     "erroLogin": "Erro ao efetuar login",
     "esqueceuPassword": "Esqueceu-se da palavra-passe?",
     "forgotPassword": "Esqueci-me da palavra-passe",
-    "forgotPassEnterMail": "Introduza o seu e-mail e enviar-lhe-emos uma ligação para redefinir a sua palavra-passe.",
-    "submit": "Enviar"
+    "forgotPassEnterMail": "Introduza o seu e-mail e vamos lhe enviar uma ligação para redefinir a sua palavra-passe.",
+    "submit": "Enviar",
+    "erroEnviarMail": "Erro ao enviar email",
+    "sucessoEnviarMail": "Foi-lhe enviado um email com as instruções de como redefenir a sua palavra-passe."
+
   },
   "forgotPassword": {
     "resetPassword": "Repor a palavra-passe",

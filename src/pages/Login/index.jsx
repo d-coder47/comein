@@ -30,7 +30,6 @@ import { useTranslation } from "react-i18next";
 import validator from "validator";
 
 import useRegisterUser from "../../hooks/useRegisterUser";
-import useUserProfile from "../../hooks/useUserProfile";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,9 +45,10 @@ export default function Login() {
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showPasswordError, setShowPasswordError] = React.useState(false);
 
-  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
-
   const [openLoginError, setOpenLoginError] = React.useState(false);
+
+  const [openSendMailError, setOpenSendMailError] = React.useState(false);
+  const [openSendMailSuccess, setOpenSendMailSuccess] = React.useState(false);
 
   const { login, getUser, getUserByMail, sendForgotPassEmail } =
     useRegisterUser();
@@ -108,8 +108,14 @@ export default function Login() {
 
     if (!showForgotPassEmailError) {
       const send_email_res = await sendForgotPassEmail(forgotPassEmail);
-      console.log(send_email_res);
-      setForgotPassEmail("");
+
+      if(send_email_res === 200) {
+        setOpenSendMailSuccess(true);
+        setForgotPassEmail("");
+      }else{
+        setOpenSendMailError(true);
+      }
+     
     }
   };
 
@@ -144,7 +150,7 @@ export default function Login() {
     if (formData.password.trim() === "") {
       errors.password = t("registerpage.passwordObrigatorio");
       setShowPasswordError(true);
-    } else if (password.length < 6) {
+    } else if (formData.password.length < 6) {
       errors.password = t("registerpage.passwordTamanho");
       setShowPasswordError(true);
     } else {
@@ -205,7 +211,7 @@ export default function Login() {
             height: "auto",
             cursor: "pointer",
             "&:hover": {
-              opacity: 0.8, // Adjust the opacity or add more styles as desired
+              opacity: 0.8, 
             },
           }}
         />
@@ -244,7 +250,7 @@ export default function Login() {
             sx={{
               "& .MuiTextField-root": {
                 m: 1,
-                width: showRegisterForm ? "20ch" : "40ch",
+                width: "40ch"
               },
               display: "flex",
               flexDirection: "column",
@@ -343,6 +349,9 @@ export default function Login() {
                       fontWeight="bold"
                       fontSize="18px"
                       textAlign="center"
+                      sx={{
+                        marginBottom: "10px"
+                      }}
                     >
                       {t("forgotPassword.resetPassword")}
                     </Typography>
@@ -367,6 +376,10 @@ export default function Login() {
                       margin="normal"
                       error={showForgotPassEmailError}
                       helperText={formForgotPassEmailError}
+                      size="small"
+                      sx={{
+                        width: "40ch"
+                      }}
                     />
                     <Button
                       variant="contained"
@@ -374,6 +387,7 @@ export default function Login() {
                       color="primary"
                       onClick={handleForgotPasswordEmailSubmit}
                       sx={{
+                        marginTop:"10px",
                         width: "30%",
                         borderRadius: "20px",
                         textTransform: "none",
@@ -381,6 +395,9 @@ export default function Login() {
                     >
                       {t("loginPage.submit")}
                     </Button>
+                    
+
+                   
                   </Box>
                 </Box>
               </Modal>
@@ -429,6 +446,69 @@ export default function Login() {
                 >
                   <AlertTitle>
                     <strong>{t("loginPage.erroLogin")}</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
+            </Grid>
+            <Grid
+              sx={{
+                position: "fixed",
+                top: "20px", 
+                left: "20px", 
+                zIndex: 9999, 
+              }}
+            >
+              <Collapse in={openSendMailError}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpenSendMailError(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>[{t("loginPage.erroEnviarMail")}]</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
+            </Grid>
+
+            <Grid
+              sx={{
+                position: "fixed",
+                top: "20px", 
+                left: "20px", 
+                zIndex: 9999, 
+              }}
+            >
+              <Collapse in={openSendMailSuccess}>
+                <Alert
+                  severity="success"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpenSendMailSuccess(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>{t("loginPage.sucessoEnviarMail")}</strong>
                   </AlertTitle>
                 </Alert>
               </Collapse>

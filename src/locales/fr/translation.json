@@ -106,7 +106,9 @@
     "esqueceuPassword": "Vous avez oublié votre mot de passe ?",
     "forgotPassword": "Mot de passe oublié",
     "forgotPassEnterMail": "Saisissez votre adresse électronique et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
-    "submit": "Soumettre"
+    "submit": "Soumettre",
+    "erroEnviarMail": "Erreur lors de l'envoi d'un courrier électronique",
+    "sucessoEnviarMail": "Un courriel vous a été envoyé avec des instructions sur la manière de réinitialiser votre mot de passe."
   },
   "forgotPassword": {
     "resetPassword": "Réinitialiser le mot de passe",

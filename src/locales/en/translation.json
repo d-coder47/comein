@@ -106,7 +106,9 @@
     "esqueceuPassword": "Forgotten your password?",
     "forgotPassword": "Forgot Password",
     "forgotPassEnterMail": "Enter yout email and we´ll send you alink to reset your password.",
-    "submit": "Submit"
+    "submit": "Submit",
+    "erroEnviarMail": "Error when sending email",
+    "sucessoEnviarMail": "An e-mail has been sent to you with instructions on how to reset your password."
   },
   "forgotPassword": {
     "resetPassword": "Reset password",

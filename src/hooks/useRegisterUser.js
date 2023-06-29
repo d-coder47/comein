@@ -132,7 +132,7 @@ const useRegisterUser = () => {
         }
       );
 
-      return response.data;
+      return response.status;
     } catch (error) {
       console.error(error);
     }
