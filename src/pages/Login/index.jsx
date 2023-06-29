@@ -1,6 +1,6 @@
-import * as React from "react";
-import logo from "../../assets/img/logo_cicv3.png";
-import "./loginPage.css";
+import * as React from 'react';
+import logo from '../../assets/img/logo_cicv3.png';
+import './loginPage.css';
 import {
   Typography,
   Box,
@@ -15,22 +15,21 @@ import {
   Collapse,
   AlertTitle,
   Modal,
-} from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import CloseIcon from "@mui/icons-material/Close";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import CloseIcon from '@mui/icons-material/Close';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
-import validator from "validator";
+import validator from 'validator';
 
-import useRegisterUser from "../../hooks/useRegisterUser";
-import useUserProfile from "../../hooks/useUserProfile";
+import useRegisterUser from '../../hooks/useRegisterUser';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,22 +45,23 @@ export default function Login() {
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showPasswordError, setShowPasswordError] = React.useState(false);
 
-  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
-
   const [openLoginError, setOpenLoginError] = React.useState(false);
+
+  const [openSendMailError, setOpenSendMailError] = React.useState(false);
+  const [openSendMailSuccess, setOpenSendMailSuccess] = React.useState(false);
 
   const { login, getUser, getUserByMail, sendForgotPassEmail } =
     useRegisterUser();
 
-  const [forgotPassEmail, setForgotPassEmail] = React.useState("");
+  const [forgotPassEmail, setForgotPassEmail] = React.useState('');
   const [formData, setFormData] = React.useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [formErrors, setFormErrors] = React.useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [showForgotPassEmailError, setShowForgotPassEmailError] =
@@ -79,9 +79,9 @@ export default function Login() {
   const googleAccountLogin = async (token, decode) => {
     const user = await getUserByMail(decode.email);
     if (user) {
-      localStorage.setItem("userInfo", JSON.stringify(user.dados));
-      localStorage.setItem("authenticated", true);
-      navigate("/");
+      localStorage.setItem('userInfo', JSON.stringify(user.dados));
+      localStorage.setItem('authenticated', true);
+      navigate('/');
     } else {
       setOpenLoginError(true);
     }
@@ -95,22 +95,26 @@ export default function Login() {
     event.preventDefault();
 
     // Validate email field
-    if (forgotPassEmail.trim() === "") {
-      setFormForgotPassEmailError(t("registerpage.emailObrigatorio"));
+    if (forgotPassEmail.trim() === '') {
+      setFormForgotPassEmailError(t('registerpage.emailObrigatorio'));
       setShowForgotPassEmailError(true);
     } else if (!validator.isEmail(forgotPassEmail)) {
-      setFormForgotPassEmailError(t("registerpage.emailInvalido"));
+      setFormForgotPassEmailError(t('registerpage.emailInvalido'));
       setShowForgotPassEmailError(true);
     } else {
       setShowForgotPassEmailError(false);
-      setFormForgotPassEmailError(t(""));
+      setFormForgotPassEmailError(t(''));
     }
 
     if (!showForgotPassEmailError) {
-      console.log(forgotPassEmail);
       const send_email_res = await sendForgotPassEmail(forgotPassEmail);
-      console.log(send_email_res);
-      setForgotPassEmail("");
+
+      if (send_email_res === 200) {
+        setOpenSendMailSuccess(true);
+        setForgotPassEmail('');
+      } else {
+        setOpenSendMailError(true);
+      }
     }
   };
 
@@ -120,39 +124,39 @@ export default function Login() {
     let errors = {};
 
     // Validate name field
-    if (formData.email.trim() === "") {
-      errors.email = t("registerpage.emailObrigatorio");
+    if (formData.email.trim() === '') {
+      errors.email = t('registerpage.emailObrigatorio');
       setShowEmailError(true);
     } else {
       setShowEmailError(false);
     }
 
     // Validate email field
-    if (formData.email.trim() === "") {
-      errors.email = t("registerpage.emailObrigatorio");
+    if (formData.email.trim() === '') {
+      errors.email = t('registerpage.emailObrigatorio');
       setShowEmailError(true);
     } else if (!validator.isEmail(formData.email)) {
-      errors.email = t("registerpage.emailInvalido");
+      errors.email = t('registerpage.emailInvalido');
       setShowEmailError(true);
     } else {
       setShowEmailError(false);
       setFormErrors({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       });
     }
 
-    if (formData.password.trim() === "") {
-      errors.password = t("registerpage.passwordObrigatorio");
+    if (formData.password.trim() === '') {
+      errors.password = t('registerpage.passwordObrigatorio');
       setShowPasswordError(true);
-    } else if (password.length < 6) {
-      errors.password = t("registerpage.passwordTamanho");
+    } else if (formData.password.length < 6) {
+      errors.password = t('registerpage.passwordTamanho');
       setShowPasswordError(true);
     } else {
       setShowPasswordError(false);
       setFormErrors({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       });
     }
 
@@ -162,16 +166,16 @@ export default function Login() {
       const loginRes = await login(formData.email, formData.password);
 
       if (loginRes.token) {
-        localStorage.setItem("userId", loginRes.data.id);
-        localStorage.setItem("token", loginRes.token);
+        localStorage.setItem('userId', loginRes.data.id);
+        localStorage.setItem('token', loginRes.token);
         const user = await getUser(loginRes.data.id);
-        if (user.dados === "Não existem dados para retornar") {
+        if (user.dados === 'Não existem dados para retornar') {
           setOpenLoginError(true);
         } else {
-          localStorage.setItem("userInfo", JSON.stringify(user.dados));
-          localStorage.setItem("authenticated", true);
+          localStorage.setItem('userInfo', JSON.stringify(user.dados));
+          localStorage.setItem('authenticated', true);
 
-          navigate("/");
+          navigate('/');
         }
       } else {
         setOpenLoginError(true);
@@ -193,86 +197,86 @@ export default function Login() {
     localStorage.clear();
   }, []);
   return (
-    <div className="container">
-      <div className="logoSection">
+    <div className='container'>
+      <div className='logoSection'>
         <Avatar
-          variant="square"
-          className="logo"
+          variant='square'
+          className='logo'
           src={logo}
-          alt="logo"
-          onClick={() => navigate("/")}
+          alt='logo'
+          onClick={() => navigate('/')}
           sx={{
-            width: "232px",
-            height: "auto",
-            cursor: "pointer",
-            "&:hover": {
-              opacity: 0.8, // Adjust the opacity or add more styles as desired
+            width: '232px',
+            height: 'auto',
+            cursor: 'pointer',
+            '&:hover': {
+              opacity: 0.8,
             },
           }}
         />
       </div>
-      <div className="panel">
-        <div className="formContainer">
+      <div className='panel'>
+        <div className='formContainer'>
           <Typography
-            variant="h5"
+            variant='h5'
             sx={{
-              marginTop: "1rem",
-              marginBottom: "1rem",
-              fontWeight: "bold",
+              marginTop: '1rem',
+              marginBottom: '1rem',
+              fontWeight: 'bold',
             }}
           >
-            {t("loginPage.fazerLogin")}
+            {t('loginPage.fazerLogin')}
           </Typography>
 
-          <Grid container justifyContent="center">
+          <Grid container justifyContent='center'>
             <Typography
-              variant="h6"
+              variant='h6'
               sx={{
-                marginTop: "1rem",
-                marginBottom: "2rem",
+                marginTop: '1rem',
+                marginBottom: '2rem',
                 fontSize: 13,
               }}
             >
-              {t("loginPage.novoUsuario")}{" "}
-              <Link href="/user-registration" underline="none">
-                {t("loginPage.crieConta")}
+              {t('loginPage.novoUsuario')}{' '}
+              <Link href='/user-registration' underline='none'>
+                {t('loginPage.crieConta')}
               </Link>
             </Typography>
           </Grid>
 
           <Box
-            component="form"
+            component='form'
             sx={{
-              "& .MuiTextField-root": {
+              '& .MuiTextField-root': {
                 m: 1,
-                width: showRegisterForm ? "20ch" : "40ch",
+                width: '40ch',
               },
-              display: "flex",
-              flexDirection: "column",
+              display: 'flex',
+              flexDirection: 'column',
             }}
             noValidate
-            autoComplete="off"
+            autoComplete='off'
             onSubmit={handleSubmit}
           >
             <TextField
-              id="emailField"
-              name="email"
+              id='emailField'
+              name='email'
               value={formData.email}
               error={showEmailError}
               helperText={formErrors.email}
-              label={t("registerpage.email")}
-              variant="standard"
+              label={t('registerpage.email')}
+              variant='standard'
               InputLabelProps={{
                 shrink: true,
               }}
               onChange={handleInputChange}
             />
             <TextField
-              id="password"
-              label={t("registerpage.password")}
-              name="password"
-              variant="standard"
-              type={showPassword ? "text" : "password"}
+              id='password'
+              label={t('registerpage.password')}
+              name='password'
+              variant='standard'
+              type={showPassword ? 'text' : 'password'}
               value={formData.password}
               onChange={handleInputChange}
               error={showPasswordError}
@@ -282,12 +286,12 @@ export default function Login() {
               }}
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">
+                  <InputAdornment position='end'>
                     <IconButton
-                      aria-label="toggle password visibility"
+                      aria-label='toggle password visibility'
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
-                      edge="end"
+                      edge='end'
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
@@ -296,156 +300,238 @@ export default function Login() {
               }}
             />
 
-            <Grid container justifyContent="right">
+            <Grid container justifyContent='right'>
               <Button
                 sx={{
                   fontSize: 13,
-                  textTransform: "none",
+                  textTransform: 'none',
                 }}
                 onClick={handleOpenForgotPassForm}
               >
-                {t("loginPage.esqueceuPassword")}
+                {t('loginPage.esqueceuPassword')}
               </Button>
 
               <Modal
                 open={openForgotPassForm}
                 onClose={handleCloseForgotPassForm}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby='modal-modal-title'
+                aria-describedby='modal-modal-description'
               >
                 <Box
                   sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
                     width: 400,
-                    bgcolor: "background.paper",
-                    border: "2px solid #000",
+                    bgcolor: 'background.paper',
+                    border: '2px solid #000',
                     boxShadow: 24,
                     p: 4,
                   }}
                 >
-                  <Box
-                    id="forgot-pass-form"
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={handleCloseForgotPassForm}
                     sx={{
-                      // "& > :not(style)": { m: 1, width: "25ch" },
-
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
+                      position: 'absolute',
+                      top: 8,
+                      right: 8,
+                    }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <Box
+                    id='forgot-pass-form'
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
                     }}
                     noValidate
-                    autoComplete="off"
+                    autoComplete='off'
                   >
                     <Typography
-                      id="modal-modal-title"
-                      variant="h6"
-                      component="h2"
-                      fontWeight="bold"
-                      fontSize="18px"
-                      textAlign="center"
+                      id='modal-modal-title'
+                      variant='h6'
+                      component='h2'
+                      fontWeight='bold'
+                      fontSize='18px'
+                      textAlign='center'
+                      sx={{
+                        marginBottom: '10px',
+                      }}
                     >
-                      Forgot Password
+                      {t('forgotPassword.resetPassword')}
                     </Typography>
 
                     <Typography
-                      id="modal-paragraph"
-                      variant="h6"
-                      component="h2"
-                      fontSize="16px"
-                      textAlign="center"
+                      id='modal-paragraph'
+                      variant='h6'
+                      component='h2'
+                      fontSize='16px'
+                      textAlign='center'
                     >
-                      Enter yout email and we´ll send you alink to reset your
-                      password.
+                      {t('loginPage.forgotPassEnterMail')}
                     </Typography>
                     <TextField
-                      id="forgot_pass_email"
-                      variant="outlined"
+                      id='forgot_pass_email'
+                      variant='outlined'
                       InputLabelProps={{
                         shrink: true,
                       }}
                       value={forgotPassEmail}
                       onChange={handleForgotPassMailChange}
-                      margin="normal"
+                      margin='normal'
                       error={showForgotPassEmailError}
                       helperText={formForgotPassEmailError}
+                      size='small'
+                      sx={{
+                        width: '40ch',
+                      }}
                     />
                     <Button
-                      variant="contained"
-                      className="forgot_pass_submit"
-                      color="primary"
+                      variant='contained'
+                      className='forgot_pass_submit'
+                      color='primary'
                       onClick={handleForgotPasswordEmailSubmit}
                       sx={{
-                        width: "30%",
-                        borderRadius: "20px",
-                        textTransform: "none",
+                        marginTop: '10px',
+                        width: '30%',
+                        borderRadius: '20px',
+                        textTransform: 'none',
                       }}
                     >
-                      Submit
+                      {t('loginPage.submit')}
                     </Button>
                   </Box>
                 </Box>
               </Modal>
             </Grid>
 
-            <Grid container justifyContent="center">
+            <Grid container justifyContent='center'>
               <Button
-                type="submit"
-                variant="contained"
-                color="primary"
+                type='submit'
+                variant='contained'
+                color='primary'
                 sx={{
                   m: 3,
-                  color: "#ffffff",
-                  width: "20ch",
-                  borderRadius: "16px",
-                  textTransform: "none",
+                  color: '#ffffff',
+                  width: '20ch',
+                  borderRadius: '16px',
+                  textTransform: 'none',
                 }}
               >
-                {t("loginPage.login")}
+                {t('loginPage.login')}
               </Button>
             </Grid>
             <Grid
               sx={{
-                position: "fixed",
-                top: "20px", // Adjust the top position as needed
-                left: "20px", // Adjust the left position as needed
+                position: 'fixed',
+                top: '20px', // Adjust the top position as needed
+                left: '20px', // Adjust the left position as needed
                 zIndex: 9999, // Ensure the alert is above other elements
               }}
             >
               <Collapse in={openLoginError}>
                 <Alert
-                  severity="error"
+                  severity='error'
                   action={
                     <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
                       onClick={() => {
                         setOpenLoginError(false);
                       }}
                     >
-                      <CloseIcon fontSize="inherit" />
+                      <CloseIcon fontSize='inherit' />
                     </IconButton>
                   }
                   sx={{ mb: 2 }}
                 >
                   <AlertTitle>
-                    <strong>{t("loginPage.erroLogin")}</strong>
+                    <strong>{t('loginPage.erroLogin')}</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
+            </Grid>
+            <Grid
+              sx={{
+                position: 'fixed',
+                top: '20px',
+                left: '20px',
+                zIndex: 9999,
+              }}
+            >
+              <Collapse in={openSendMailError}>
+                <Alert
+                  severity='error'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpenSendMailError(false);
+                      }}
+                    >
+                      <CloseIcon fontSize='inherit' />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>[{t('loginPage.erroEnviarMail')}]</strong>
+                  </AlertTitle>
+                </Alert>
+              </Collapse>
+            </Grid>
+
+            <Grid
+              sx={{
+                position: 'fixed',
+                top: '20px',
+                left: '20px',
+                zIndex: 9999,
+              }}
+            >
+              <Collapse in={openSendMailSuccess}>
+                <Alert
+                  severity='success'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpenSendMailSuccess(false);
+                      }}
+                    >
+                      <CloseIcon fontSize='inherit' />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  <AlertTitle>
+                    <strong>{t('loginPage.sucessoEnviarMail')}</strong>
                   </AlertTitle>
                 </Alert>
               </Collapse>
             </Grid>
           </Box>
-          <Divider style={{ width: "80%" }}>
+          <Divider style={{ width: '80%' }}>
             <Typography
-              variant="h5"
+              variant='h5'
               sx={{
-                marginTop: "2rem",
-                marginBottom: "2rem",
+                marginTop: '2rem',
+                marginBottom: '2rem',
               }}
             >
-              {t("registerpage.ou")}
+              {t('registerpage.ou')}
             </Typography>
           </Divider>
           <GoogleLogin
@@ -454,7 +540,7 @@ export default function Login() {
               googleAccountLogin(credentialResponse.credential, decoded);
             }}
             onError={() => {
-              console.log("Login Failed");
+              console.log('Login Failed');
               setOpenLoginError(true);
             }}
           />
