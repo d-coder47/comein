@@ -103,7 +103,16 @@
     "crieConta": "Create an account",
     "login": "login",
     "erroLogin": "Error logging in",
-    "esqueceuPassword": "Forgotten your password?"
+    "esqueceuPassword": "Forgotten your password?",
+    "forgotPassword": "Forgot Password",
+    "forgotPassEnterMail": "Enter yout email and we´ll send you alink to reset your password.",
+    "submit": "Submit",
+    "erroEnviarMail": "Error when sending email",
+    "sucessoEnviarMail": "An e-mail has been sent to you with instructions on how to reset your password."
+  },
+  "forgotPassword": {
+    "resetPassword": "Reset password",
+    "voltarHome": "back to home page"
   },
   "navBar": {
     "perfil": "Profile",

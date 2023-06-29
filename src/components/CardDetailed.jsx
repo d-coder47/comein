@@ -266,7 +266,7 @@ const CardDetailed = () => {
       <Helmet>
         <meta
           property="og:image"
-          content={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
+          content="https://comein.cv/comeincv_api_test/img/eventosImg/received_5666658060123575-63f7cc01ad437.jpeg"
         />
         {/* Other meta tags */}
       </Helmet>

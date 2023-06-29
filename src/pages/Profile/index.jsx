@@ -1,9 +1,9 @@
-import React from "react";
-import "./profile.css";
-import NavBar from "../../components/NavBar";
-import Cards from "../../components/Cards";
-import useUserProfile from "../../hooks/useUserProfile";
-import AddEvent from "../../components/AddEvent";
+import React from 'react';
+import './profile.css';
+import NavBar from '../../components/NavBar';
+import Cards from '../../components/Cards';
+import useUserProfile from '../../hooks/useUserProfile';
+import AddEvent from '../../components/AddEvent';
 import {
   Typography,
   Avatar,
@@ -18,21 +18,22 @@ import {
   Tab,
   TextField,
   Modal,
-} from "@mui/material";
+} from '@mui/material';
 import {
   Edit,
   Settings,
   LocationOn,
   PhotoCamera,
   Add,
-} from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import useRegisterUser from "../../hooks/useRegisterUser";
-import { useTranslation } from "react-i18next";
+  Close,
+} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import useRegisterUser from '../../hooks/useRegisterUser';
+import { useTranslation } from 'react-i18next';
 
 const UserProfile = () => {
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-  const authenticated = localStorage.getItem("authenticated");
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const authenticated = localStorage.getItem('authenticated');
 
   const [followers, setFollowers] = React.useState();
   const [visits, setVisits] = React.useState();
@@ -76,7 +77,7 @@ const UserProfile = () => {
       console.log(user.dados.img_perfil);
       setProfilePhoto(user.dados.img_perfil);
 
-      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      localStorage.setItem('userInfo', JSON.stringify(user.dados));
     };
     reader.readAsDataURL(event.target.files[0]);
   };
@@ -90,7 +91,7 @@ const UserProfile = () => {
       const user = await getUser(userInfo.id);
       setProfileBannerPhoto(user.dados.img_capa);
 
-      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      localStorage.setItem('userInfo', JSON.stringify(user.dados));
     };
     reader.readAsDataURL(event.target.files[0]);
   };
@@ -98,7 +99,7 @@ const UserProfile = () => {
   React.useEffect(() => {
     async function fetchData() {
       const user = await getUser(userInfo.id);
-      localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      localStorage.setItem('userInfo', JSON.stringify(user.dados));
       const followers_res = await getUserProfileFollowers(user.dados.id);
       const visits_res = await getUserProfileVisits(user.dados.id);
       const following_res = await getUserProfileFollowing(user.dados.id);
@@ -107,7 +108,7 @@ const UserProfile = () => {
       setFollowing(following_res.dados.seguidores);
     }
     if (!authenticated) {
-      navigate("/");
+      navigate('/');
     } else {
       fetchData();
     }
@@ -116,27 +117,27 @@ const UserProfile = () => {
   return (
     <>
       <NavBar />
-      <div className="profile_container">
-        <div className="banner_container">
+      <div className='profile_container'>
+        <div className='banner_container'>
           <div>
-            <label htmlFor="upload-banner-photo">
+            <label htmlFor='upload-banner-photo'>
               <Input
-                style={{ display: "none" }}
-                id="upload-banner-photo"
-                name="upload-photo"
-                type="file"
-                accept="image/*"
+                style={{ display: 'none' }}
+                id='upload-banner-photo'
+                name='upload-photo'
+                type='file'
+                accept='image/*'
                 onChange={handleBannerPhotoUpload}
               />
 
               <IconButton
-                color="primary"
-                sx={{ width: "100%", height: "100%", padding: 0 }}
-                component="span"
+                color='primary'
+                sx={{ width: '100%', height: '100%', padding: 0 }}
+                component='span'
               >
                 <Avatar
-                  alt="User Profile Banner Photo"
-                  sx={{ width: "100%", height: 310, borderRadius: 0 }}
+                  alt='User Profile Banner Photo'
+                  sx={{ width: '100%', height: 310, borderRadius: 0 }}
                   src={`https://comein.cv/comeincv_api_test/img/capaImg/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
@@ -147,43 +148,43 @@ const UserProfile = () => {
         </div>
         <Box
           sx={{
-            padding: "2rem",
-            height: "100vh",
-            background: "#f8f8f8",
+            padding: '2rem',
+            height: '100vh',
+            background: '#f8f8f8',
           }}
         >
-          <Grid className="profile_main_grid" container spacing={2}>
+          <Grid className='profile_main_grid' container spacing={2}>
             <Grid
               item
               xs={12}
               md={4}
-              className="profile_second_grid"
-              sx={{ position: "absolute", top: "20%", left: "3%" }}
+              className='profile_second_grid'
+              sx={{ position: 'absolute', top: '20%', left: '3%' }}
             >
               <Paper
                 elevation={3}
-                className="user_photo_container"
+                className='user_photo_container'
                 sx={{
-                  padding: "1rem",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  padding: '1rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
               >
                 <div>
-                  <label htmlFor="upload-photo">
+                  <label htmlFor='upload-photo'>
                     <Input
-                      style={{ display: "none" }}
-                      id="upload-photo"
-                      name="upload-photo"
-                      type="file"
-                      accept="image/*"
+                      style={{ display: 'none' }}
+                      id='upload-photo'
+                      name='upload-photo'
+                      type='file'
+                      accept='image/*'
                       onChange={handlePhotoUpload}
                     />
 
-                    <IconButton color="primary" component="span">
+                    <IconButton color='primary' component='span'>
                       <Avatar
-                        alt="User Profile Photo"
+                        alt='User Profile Photo'
                         sx={{ width: 150, height: 150 }}
                         src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
                       >
@@ -192,85 +193,85 @@ const UserProfile = () => {
                     </IconButton>
                   </label>
                 </div>
-                <Typography variant="h5" sx={{ marginTop: "1rem" }}>
+                <Typography variant='h5' sx={{ marginTop: '1rem' }}>
                   {userInfo.nome}
                 </Typography>
-                <Typography variant="body1" color="textSecondary">
+                <Typography variant='body1' color='textSecondary'>
                   {userInfo.email}
                 </Typography>
                 <Box
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "1rem",
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginTop: '1rem',
                   }}
                 >
-                  <LocationOn fontSize="small" sx={{ marginRight: "0.5rem" }} />
-                  <Typography variant="body2">{userInfo.residencia}</Typography>
+                  <LocationOn fontSize='small' sx={{ marginRight: '0.5rem' }} />
+                  <Typography variant='body2'>{userInfo.residencia}</Typography>
                 </Box>
                 <Box
                   sx={{
-                    display: "flex",
-                    marginTop: "2rem",
-                    textAlign: "center",
+                    display: 'flex',
+                    marginTop: '2rem',
+                    textAlign: 'center',
                   }}
                 >
                   <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate("/edit-profile")}
+                    variant='contained'
+                    color='primary'
+                    onClick={() => navigate('/edit-profile')}
                     sx={{
                       m: 3,
-                      color: "#ffffff",
-                      width: "40ch",
-                      borderRadius: "20px",
-                      textTransform: "none",
+                      color: '#ffffff',
+                      width: '40ch',
+                      borderRadius: '20px',
+                      textTransform: 'none',
                     }}
                   >
                     <IconButton
                       sx={{
-                        color: "#ffffff",
-                        fontSize: "16px",
+                        color: '#ffffff',
+                        fontSize: '16px',
                       }}
                     >
-                      <Edit /> {t("userProfile.editarPerfil")}
+                      <Edit /> {t('userProfile.editarPerfil')}
                     </IconButton>
                   </Button>
                 </Box>
-                <Tooltip title={t("userProfile.configuracoes")}>
+                <Tooltip title={t('userProfile.configuracoes')}>
                   <IconButton
-                    color="primary"
-                    onClick={() => navigate("/user-profile-configuration")}
+                    color='primary'
+                    onClick={() => navigate('/user-profile-configuration')}
                   >
                     <Settings />
                   </IconButton>
                 </Tooltip>
                 <Box
                   sx={{
-                    display: "flex",
-                    marginTop: "2rem",
-                    textAlign: "center",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "80%",
+                    display: 'flex',
+                    marginTop: '2rem',
+                    textAlign: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '80%',
                   }}
                 >
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     sx={{
-                      marginTop: "1rem",
-                      fontSize: "16px",
+                      marginTop: '1rem',
+                      fontSize: '16px',
                     }}
                   >
-                    {t("userProfile.seguidores")}
+                    {t('userProfile.seguidores')}
                   </Typography>
 
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     sx={{
-                      marginTop: "1rem",
-                      fontSize: "16px",
-                      fontWeight: "bold",
+                      marginTop: '1rem',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {followers}
@@ -278,28 +279,28 @@ const UserProfile = () => {
                 </Box>
                 <Box
                   sx={{
-                    display: "flex",
-                    marginTop: "0.2rem",
-                    textAlign: "center",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "80%",
+                    display: 'flex',
+                    marginTop: '0.2rem',
+                    textAlign: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '80%',
                   }}
                 >
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     sx={{
-                      fontSize: "16px",
+                      fontSize: '16px',
                     }}
                   >
-                    {t("userProfile.seguindo")}
+                    {t('userProfile.seguindo')}
                   </Typography>
 
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     sx={{
-                      fontSize: "16px",
-                      fontWeight: "bold",
+                      fontSize: '16px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {following}
@@ -307,32 +308,32 @@ const UserProfile = () => {
                 </Box>
                 <Box
                   sx={{
-                    display: "flex",
-                    marginTop: "0.2rem",
-                    textAlign: "center",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "80%",
+                    display: 'flex',
+                    marginTop: '0.2rem',
+                    textAlign: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '80%',
                   }}
                 >
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     sx={{
                       // marginTop: "1rem",
-                      marginBottom: "2rem",
-                      fontSize: "16px",
+                      marginBottom: '2rem',
+                      fontSize: '16px',
                     }}
                   >
-                    {t("userProfile.visitantes")}
+                    {t('userProfile.visitantes')}
                   </Typography>
 
                   <Typography
-                    variant="h6"
+                    variant='h6'
                     sx={{
                       // marginTop: "1rem",
-                      marginBottom: "2rem",
-                      fontSize: "16px",
-                      fontWeight: "bold",
+                      marginBottom: '2rem',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {visits}
@@ -341,14 +342,14 @@ const UserProfile = () => {
                 <TextField
                   label={
                     <Typography
-                      variant="h6"
+                      variant='h6'
                       sx={{
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        color: "#000",
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        color: '#000',
                       }}
                     >
-                      {t("userProfile.sobre")}
+                      {t('userProfile.sobre')}
                     </Typography>
                   }
                   value={userInfo.bio}
@@ -356,65 +357,78 @@ const UserProfile = () => {
                   multiline
                   rows={4}
                   fullWidth
-                  variant="standard"
+                  variant='standard'
                   InputProps={{
                     disableUnderline: true,
                   }}
                 />
               </Paper>
             </Grid>
-            <Grid item xs={5} md={8} className="cards_grid_container">
+            <Grid item xs={5} md={8} className='cards_grid_container'>
               <Box
                 sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'left',
+                  alignItems: 'center',
                 }}
               >
                 <Tabs value={selectedTab} onChange={handleTabChange}>
                   <Tab
-                    label={t("userProfile.eventos")}
-                    sx={{ textTransform: "none" }}
+                    label={t('userProfile.eventos')}
+                    sx={{ textTransform: 'none' }}
                   />
                   <Tab
-                    label={t("userProfile.projetos")}
-                    sx={{ textTransform: "none" }}
+                    label={t('userProfile.projetos')}
+                    sx={{ textTransform: 'none' }}
                   />
                   <Tab
-                    label={t("userProfile.favoritos")}
-                    sx={{ textTransform: "none" }}
+                    label={t('userProfile.favoritos')}
+                    sx={{ textTransform: 'none' }}
                   />
                 </Tabs>
               </Box>
 
               {selectedTab === 0 && (
-                <Typography variant="h6">
+                <Typography variant='h6'>
                   <>
                     <Box
                       sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: 'column',
                       }}
                     >
-                      <Tooltip title="Adicionar evento">
+                      <Tooltip title='Adicionar evento'>
                         <IconButton
-                          color="primary"
+                          color='primary'
                           onClick={handleOpenAddEventsModal}
                         >
                           <Add />
                         </IconButton>
                       </Tooltip>
-                      <Cards culturalAreaId={""} />
+                      <Cards culturalAreaId={''} />
                     </Box>
                     <Modal
                       open={openAddEventsModal}
                       onClose={handleCloseAddEventsModal}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
+                      aria-labelledby='modal-modal-title'
+                      aria-describedby='modal-modal-description'
                     >
                       <Box>
+                        <IconButton
+                          aria-label='close'
+                          color='inherit'
+                          size='small'
+                          onClick={handleCloseAddEventsModal}
+                          sx={{
+                            position: 'absolute',
+                            top: 8,
+                            right: 8,
+                          }}
+                        >
+                          <Close />
+                        </IconButton>
                         <AddEvent />
                       </Box>
                     </Modal>
@@ -422,28 +436,28 @@ const UserProfile = () => {
                 </Typography>
               )}
               {selectedTab === 1 && (
-                <Typography variant="h6">
+                <Typography variant='h6'>
                   <>
                     <Box
                       sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                       }}
                     >
-                      <Tooltip title="Adicionar evento">
-                        <IconButton color="primary">
+                      <Tooltip title='Adicionar evento'>
+                        <IconButton color='primary'>
                           <Add />
                         </IconButton>
                       </Tooltip>
                     </Box>
-                    {t("userProfile.projetos")}
+                    {t('userProfile.projetos')}
                   </>
                 </Typography>
               )}
               {selectedTab === 2 && (
-                <Typography variant="h6">
-                  {t("userProfile.favoritos")}
+                <Typography variant='h6'>
+                  {t('userProfile.favoritos')}
                 </Typography>
               )}
             </Grid>
