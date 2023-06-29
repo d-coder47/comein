@@ -38,6 +38,7 @@ import useEvents from "../hooks/useEvents";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router-dom";
 
 const CustomCard = ({
   id = null,
@@ -61,7 +62,18 @@ const CustomCard = ({
   const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
 
-  const handleOpen = () => setOpen(true);
+  const navigate = useNavigate();
+
+  const getPostPath = () => {
+    const postType = type === "E" ? "eventos" : "projetos";
+    const postName = name.toLowerCase().trim().replaceAll(" ", "_");
+    return `${postType}/${id}/${postName}`;
+  };
+
+  const handleOpen = () => {
+    navigate(getPostPath());
+    // setOpen(true);
+  };
   const handleClose = () => setOpen(false);
 
   const handleOpenShareModal = () => setOpenShareModal(true);
@@ -476,9 +488,7 @@ const CustomCard = ({
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
-                    url={
-                      "https://comein.cv/comeincv_api_test/img/eventosImg/received_5666658060123575-63f7cc01ad437.jpeg"
-                    }
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     quote={"Post it with your friends"}
                     hashtag="comeincv"
                     media="https://img.freepik.com/vetores-gratis/paisagem-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
@@ -492,14 +502,14 @@ const CustomCard = ({
                     <FacebookMessengerIcon size={40} round />
                   </FacebookMessengerShareButton>
                   <PinterestShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     description={"Testing description"}
                     media={picture}
                   >
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
@@ -507,26 +517,26 @@ const CustomCard = ({
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
                   <WhatsappShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                   >
                     <WhatsappIcon size={40} round />
                   </WhatsappShareButton>
                   <ViberShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                   >
                     <ViberIcon size={40} round />
                   </ViberShareButton>
                   <TwitterShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                     via="Comein-CV"
                   >
                     <TwitterIcon size={40} round />
                   </TwitterShareButton>
                   <EmailShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     subject={`${name}: de Comein CV`}
                     body={`Venha ver o post de ${publisherName}`}
                   >
