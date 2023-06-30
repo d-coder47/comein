@@ -1,32 +1,37 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import UserRegistration from './pages/UserRegistration';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import EditProfile from './pages/Profile/EditProfile';
-import ProfileConfiguration from './pages/Profile/ProfileConfiguration';
-import ResetPassword from './pages/ResetPassword';
-import CardDetailed from './components/CardDetailed';
+import UserRegistration from "./pages/UserRegistration";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import EditProfile from "./pages/Profile/EditProfile";
+import ProfileConfiguration from "./pages/Profile/ProfileConfiguration";
+import ResetPassword from "./pages/ResetPassword";
+import CardDetailed from "./components/CardDetailed";
+import AdicionarEvento from "./pages/Eventos/Adicionar";
+import NavBar from "./components/NavBar";
 
 const AppRoutes = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/user-registration' element={<UserRegistration />} />
-        <Route path='/user-reset-password' element={<ResetPassword />} />
-        <Route path='/user-login' element={<Login />} />
-        <Route path='/user-profile/:userId/:userName' element={<Profile />} />
-        <Route path='/edit-profile' element={<EditProfile />} />
-        <Route path='/:type/:id/:name' element={<CardDetailed />} />
-        <Route
-          path='/user-profile-configuration'
-          element={<ProfileConfiguration />}
-        />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/user-registration" element={<UserRegistration />} />
+          <Route path="/user-reset-password" element={<ResetPassword />} />
+          <Route path="/user-login" element={<Login />} />
+          <Route path="/user-profile/:userId/:userName" element={<Profile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+          <Route path="/:type/:id/:name" element={<CardDetailed />} />
+          <Route path="/eventos/adicionar" element={<AdicionarEvento />} />
+          <Route
+            path="/user-profile-configuration"
+            element={<ProfileConfiguration />}
+          />
+        </Routes>
+      </Router>
+    </>
   );
 };
 
