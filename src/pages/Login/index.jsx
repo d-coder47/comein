@@ -194,8 +194,13 @@ export default function Login() {
   }, [i18n]);
 
   React.useEffect(() => {
-    localStorage.clear();
+    if (localStorage.getItem('authenticated')) {
+      navigate('/');
+    } else {
+      localStorage.clear();
+    }
   }, []);
+
   return (
     <div className='container'>
       <div className='logoSection'>

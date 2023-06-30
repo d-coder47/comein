@@ -264,9 +264,10 @@ const CardDetailed = () => {
       sx={{ width: "100%", height: "100%", backgroundColor: "rgba(0,0,0,.9)" }}
     >
       <Helmet>
+        <meta property="og:title" content={details?.dados?.nome} />
         <meta
           property="og:image"
-          content="https://comein.cv/comeincv_api_test/img/eventosImg/received_5666658060123575-63f7cc01ad437.jpeg"
+          content={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
         />
         {/* Other meta tags */}
       </Helmet>
