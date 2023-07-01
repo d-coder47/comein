@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Typography,
   Grid,
@@ -20,13 +20,18 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
+
 import { useTranslation } from "react-i18next";
 import CloseIcon from "@mui/icons-material/Close";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
+import useRegisterUser from "../../hooks/useRegisterUser";
+
 export default function ResetPassword() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfPassword, setShowConfPassword] = useState(false);
 
@@ -37,6 +42,12 @@ export default function ResetPassword() {
 
   const [openChangePassError, setOpenChangePassError] = useState(false);
   const [openChangePassSucc, setOpenChangePassSucc] = useState(false);
+
+  const queryParameters = new URLSearchParams(window.location.search);
+  const key = queryParameters.get("key");
+  const email = queryParameters.get("email");
+
+  const { verifyForgotPassEmailLink, changeForgotPass } = useRegisterUser();
 
   const [formData, setFormData] = useState({
     newPassword: "",
@@ -60,6 +71,16 @@ export default function ResetPassword() {
   };
   const handleClickShowConfPassword = () =>
     setShowConfPassword((show) => !show);
+
+  useEffect(() => {
+    async function fetchData() {
+      const verfify_res = await verifyForgotPassEmailLink(email, key);
+      if (!verfify_res.dados) {
+        navigate("/");
+      }
+    }
+    fetchData();
+  }, []);
 
   const handleChangePassSubmit = async (e) => {
     e.preventDefault();
@@ -99,6 +120,12 @@ export default function ResetPassword() {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
+      const res = await changeForgotPass(email, formData.newPassword);
+      if (res.dados) {
+        setOpenChangePassSucc(true);
+      } else {
+        setOpenChangePassError(true);
+      }
     }
   };
   return (
@@ -106,7 +133,11 @@ export default function ResetPassword() {
       sx={{
         width: "100vw",
         height: "100vh",
-        background: "#f8f8f8",
+        background: "#f3f3f3",
+
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Box
@@ -119,9 +150,11 @@ export default function ResetPassword() {
           },
           display: "flex",
           flexDirection: "column",
-          width: "100%",
+          width: "500px",
+          height: "400px",
+          alignItems: "center",
           justifyContent: "center",
-          background: "blue",
+          background: "#fff",
         }}
         noValidate
         autoComplete="off"
@@ -130,13 +163,13 @@ export default function ResetPassword() {
         <Grid
           container
           spacing={2}
-          flexDirection="column"
           sx={{
-            background: "red",
-            width: "400px",
             display: "flex",
-            marginTop: "10%",
+            marginLeft: "0px",
+            width: "100%",
+            flexDirection: "column",
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Grid item xs={6} textAlign="left">
@@ -251,7 +284,7 @@ export default function ResetPassword() {
             >
               <AlertTitle>
                 <strong>
-                  {t("editProfilePage.palavraPassAtualizadoSucesso")}
+                  <strong>Password atualizado com sucesso</strong>
                 </strong>
               </AlertTitle>
             </Alert>
@@ -260,7 +293,7 @@ export default function ResetPassword() {
         <Grid>
           <Collapse in={openChangePassError}>
             <Alert
-              severity="success"
+              severity="error"
               action={
                 <IconButton
                   aria-label="close"
@@ -277,7 +310,7 @@ export default function ResetPassword() {
             >
               <AlertTitle>
                 <strong>
-                  {t("editProfilePage.erroAtualizarPalavraPasse")}
+                  Erro! Não foi possivel atualizar a palavras-passe
                 </strong>
               </AlertTitle>
             </Alert>
