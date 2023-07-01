@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Badge,
@@ -18,27 +18,36 @@ import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
 import usePosts from "../hooks/usePosts";
 import useUserProfile from "../hooks/useUserProfile";
+import UserCard from "./UserCard";
+import { useNavigate, useParams } from "react-router-dom";
+import useEvents from "../hooks/useEvents";
+import useProjects from "../hooks/useProjects";
+import { Helmet } from "react-helmet";
 
-const CardDetailed = ({
-  id,
-  publisherPhoto,
-  title,
-  isLiked,
-  isFavorite,
-  onLikePost,
-  onFavoritePost,
-  type,
-  onCloseModal,
-  picture,
-}) => {
+const CardDetailed = () => {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const { type, id } = params;
+
   const [details, setDetails] = useState(null);
   const [isFollowing, setIsFollowing] = useState(null);
+  const [isLiked, setIsLiked] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(null);
+
+  const [showUserCard, setShowUserCard] = useState(false);
+
+  const userCardRef = useRef(null);
+  const userCardParentRef = useRef(null);
 
   const { followUser } = useUserProfile();
+  const { likePost, favoritePost } = usePosts();
+  const { removeFavoriteFromEvent } = useEvents();
+  const { removeFavoriteFromProject } = useProjects();
 
   useEffect(() => {
     if (!id) return;
-    const url = `/${type === "E" ? "eventos" : "projetos"}/listar/${id}`;
+    const url = `/${type}/listar/${id}`;
     const getDetails = async () => {
       try {
         const response = await axiosInstance.get(url, {
@@ -78,6 +87,65 @@ const CardDetailed = ({
       }
     };
 
+    const hasLikedEvent = async (userId, eventId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/gostosEventos/gostos/${userId},${eventId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        const liked = response?.data?.dados || 0;
+        setIsLiked(liked);
+      } catch (error) {
+        console.error(error);
+        return 0;
+      }
+    };
+
+    const hasLikedProject = async (userId, projectId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/gostosProjetos/gostos/${userId},${projectId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        const liked = response?.data?.dados || 0;
+        setIsLiked(liked);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const hasFavoritePost = async (userId, postId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/favoritos/getFavoritos/${userId},${postId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        const ids = response?.data?.dados?.map((post) => post.id);
+        setIsFavorite(ids.includes(postId));
+      } catch (error) {
+        console.error(error);
+        return 0;
+      }
+    };
+
     const publisherId = details?.utilizador[0]?.id;
 
     if (!publisherId && publisherId !== undefined && isFollowing !== null)
@@ -85,8 +153,57 @@ const CardDetailed = ({
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) return;
+
+    if (type === "eventos") {
+      hasLikedEvent(user.id, id);
+    } else {
+      hasLikedProject(user.id, id);
+    }
+
+    hasFavoritePost(user.id, id);
+
     isFollowingUser(publisherId, parseInt(user.id));
   }, [details]);
+
+  // useEffect(() => {
+  //   if (!userCardRef.current) return;
+  //   const mouseMoveHandler = (e) => {
+  //     const mousePosition = {
+  //       x: e.clientX,
+  //       y: e.clientY,
+  //     };
+
+  //     // Check if the mouse position is within the div's boundaries.
+  //     const userCardBounds = userCardRef.current.getBoundingClientRect();
+  //     const isInsideUserCard =
+  //       mousePosition.x >= userCardBounds.left &&
+  //       mousePosition.x <= userCardBounds.right &&
+  //       mousePosition.y >= userCardBounds.top &&
+  //       mousePosition.y <= userCardBounds.bottom;
+
+  //     const userCardParentBounds =
+  //       userCardParentRef.current.getBoundingClientRect();
+  //     const isInsideUserCardParent =
+  //       mousePosition.x >= userCardParentBounds.left &&
+  //       mousePosition.x <= userCardParentBounds.right &&
+  //       mousePosition.y >= userCardParentBounds.top &&
+  //       mousePosition.y <= userCardParentBounds.bottom;
+
+  //     if (isInsideUserCard || isInsideUserCardParent) {
+  //       setShowUserCard(true);
+  //       console.log("mouse over", true);
+  //     } else {
+  //       setShowUserCard(false);
+  //       console.log("mouse over", false);
+  //     }
+  //   };
+
+  //   window.addEventListener("mousemove", mouseMoveHandler);
+
+  //   return () => {
+  //     window.removeEventListener("mousemove", mouseMoveHandler);
+  //   };
+  // }, []);
 
   const handleFollowUser = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -96,157 +213,223 @@ const CardDetailed = ({
     if (result !== null) setIsFollowing(result);
   };
 
+  const handleLike = async () => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (!user)
+      return (window.location.href = `http://${window.location.host}/user-registration`);
+
+    const userId = user?.id;
+
+    const result = await likePost(userId, id, details?.dados?.tipo);
+    if (result === null) return null;
+
+    if (result) setIsLiked(true);
+    else setIsLiked(false);
+  };
+
+  const handleFavorite = async (favorite) => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (!user)
+      return (window.location.href = `http://${window.location.host}/user-registration`);
+
+    const userId = user?.id;
+
+    if (!favorite) {
+      const result = await favoritePost(userId, id, details?.dados?.tipo);
+      if (!result) return;
+      return setIsFavorite(true);
+    }
+
+    let result;
+    if (type === "E") {
+      result = await removeFavoriteFromEvent(id, userId);
+    } else {
+      result = await removeFavoriteFromProject(id, userId);
+    }
+
+    if (!result) return;
+    return setIsFavorite(false);
+  };
+
+  const onCloseModal = () => {
+    navigate("/");
+  };
+
+  if (!details) {
+    <div>Loading</div>;
+  }
+
   return (
     <Box
-      sx={{
-        margin: "0 0 0 4rem",
-        backgroundColor: "transparent",
-        outline: "none",
-        height: "100vh",
-        overflowY: "auto",
-        display: "flex",
-        justifyContent: "center",
-        gap: "1.5rem",
-      }}
+      sx={{ width: "100%", height: "100%", backgroundColor: "rgba(0,0,0,.9)" }}
     >
-      <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
-        <DetailedHeader
-          onFollowUser={handleFollowUser}
-          isFollowingUser={isFollowing}
-          publisherPhoto={publisherPhoto}
-          publishers={details?.utilizador}
-          title={details?.dados?.nome}
-          onCloseModal={onCloseModal}
-          type={type}
+      <Helmet>
+        <meta property="og:title" content={details?.dados?.nome} />
+        <meta
+          property="og:image"
+          content={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
         />
-        <Box sx={{ backgroundColor: "white" }}>
-          {picture ? (
+        {/* Other meta tags */}
+      </Helmet>
+      <Box
+        sx={{
+          margin: "0 0 0 4rem",
+          backgroundColor: "transparent",
+          outline: "none",
+          height: "100vh",
+          overflowY: "auto",
+          display: "flex",
+          justifyContent: "center",
+          gap: "1.5rem",
+        }}
+      >
+        <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
+          <DetailedHeader
+            onFollowUser={handleFollowUser}
+            isFollowingUser={isFollowing}
+            publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
+            publishers={details?.utilizador}
+            title={details?.dados?.nome}
+            onCloseModal={onCloseModal}
+            type={type}
+          />
+          <Box sx={{ backgroundColor: "white" }}>
             <Avatar
-              src={picture}
-              alt={`Foto de ${title}`}
+              src={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
+              alt={`Foto de ${details?.dados?.nome}`}
               variant="square"
               sx={{ width: "100%", height: "auto" }}
             />
-          ) : null}
-          <DetailedInfo
-            location={details?.dados?.local}
-            description={details?.dados?.descricao}
-            dateStart={details?.dados?.data_inicio}
-            dateEnd={details?.dados?.data_fim}
-          />
-          <DetailedProgram programs={details?.programa} />
-          <DetailedOther others={details?.outros} />
-          <DetailedImages images={details?.imagens} type={type} />
-        </Box>
-      </Box>
-      <Box
-        id="interactions"
-        display="flex"
-        flexDirection="column"
-        gap="1.5rem"
-        marginTop="14%"
-        mr={".5rem"}
-      >
-        <IconButton
-          id="follow"
-          sx={{ padding: "0" }}
-          onClick={() => console.log("Seguir")}
-        >
-          <Badge
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent={isFollowing ? "✓" : "+"}
-            overlap="circular"
-            // color="info"
-            sx={{
-              "& .MuiBadge-badge": {
-                color: isFollowing ? "black" : "white",
-                backgroundColor: (theme) =>
-                  isFollowing ? "white" : theme.palette.primary.main,
-                fontWeight: "bold",
-              },
-            }}
-          >
-            <Avatar
-              src={publisherPhoto}
-              alt="Foto do Publicador"
-              sx={{ width: "3rem", height: "3rem" }}
-            />
-          </Badge>
-        </IconButton>
-        {/* <Avatar
-          src={publisherPhoto}
-          alt="Foto do Publicador"
-          sx={{ width: "3rem", height: "3rem" }}
-        /> */}
-        <Tooltip
-          title={
-            isFavorite ? "Retirar dos favoritos" : "Adicionar aos favoritos"
-          }
-          placement="left"
-          arrow
-        >
-          <Box
-            id="favorite"
-            sx={{
-              borderRadius: "50%",
-              height: "3rem",
-              width: "3rem",
-              backgroundColor: isFavorite ? "#3c3c3c" : "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-            onClick={() => onFavoritePost(isFavorite)}
-          >
-            <Star
-              color="white"
-              sx={{
-                width: "1.25rem",
-                height: "1.25rem",
-                color: isFavorite ? "white" : "#3c3c3c",
-              }}
-            />
-          </Box>
-        </Tooltip>
 
-        <Tooltip
-          title={isLiked ? "Retirar gosto" : "Gosto"}
-          placement="left"
-          arrow
-        >
-          <Box
-            id="like"
-            sx={{
-              borderRadius: "50%",
-              height: "3rem",
-              width: "3rem",
-              backgroundColor: (theme) =>
-                isLiked ? "#3c3c3c" : theme.palette.primary.main,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              "&:hover": {
-                opacity: 0.8,
-              },
-            }}
-            onClick={() => onLikePost()}
-          >
-            <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
-            {isLiked ? (
-              <Typography color="white" fontSize=".8rem">
-                {parseInt(details?.dados?.gostos) + 1}
-              </Typography>
-            ) : null}
+            <DetailedInfo
+              location={details?.dados?.local}
+              description={details?.dados?.descricao}
+              dateStart={details?.dados?.data_inicio}
+              dateEnd={details?.dados?.data_fim}
+            />
+            <DetailedProgram programs={details?.programa} />
+            <DetailedOther others={details?.outros} />
+            <DetailedImages images={details?.imagens} type={type} />
           </Box>
-        </Tooltip>
-        {/* <Avatar
-          src={publisherPhoto}
+        </Box>
+        <Box
+          id="interactions"
+          display="flex"
+          flexDirection="column"
+          gap="1.5rem"
+          marginTop="14%"
+          mr={".5rem"}
+        >
+          <IconButton
+            id="follow"
+            sx={{ padding: "0" }}
+            ref={userCardParentRef}
+            onClick={() => handleFollowUser()}
+          >
+            <Badge
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={isFollowing ? "✓" : "+"}
+              overlap="circular"
+              sx={{
+                "& .MuiBadge-badge": {
+                  color: isFollowing ? "black" : "white",
+                  backgroundColor: (theme) =>
+                    isFollowing ? "white" : theme.palette.primary.main,
+                  fontWeight: "bold",
+                },
+              }}
+            >
+              <Avatar
+                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
+                alt="Foto do Publicador"
+                sx={{ width: "3rem", height: "3rem" }}
+              />
+            </Badge>
+          </IconButton>
+          {/* <Box
+          ref={userCardRef}
+          sx={{
+            position: "absolute",
+            zIndex: "9",
+            width: "22rem",
+            paddingBottom: "1.25rem",
+            backgroundColor: "white",
+            borderRadius: "0.25rem",
+            display: showUserCard ? "flex" : "none",
+          }}
+        >
+          <UserCard publisher={details?.utilizador[0]} />
+        </Box> */}
+          <Tooltip
+            title={
+              isFavorite ? "Retirar dos favoritos" : "Adicionar aos favoritos"
+            }
+            placement="left"
+            arrow
+          >
+            <Box
+              id="favorite"
+              sx={{
+                borderRadius: "50%",
+                height: "3rem",
+                width: "3rem",
+                backgroundColor: isFavorite ? "#3c3c3c" : "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => handleFavorite(isFavorite)}
+            >
+              <Star
+                color="white"
+                sx={{
+                  width: "1.25rem",
+                  height: "1.25rem",
+                  color: isFavorite ? "white" : "#3c3c3c",
+                }}
+              />
+            </Box>
+          </Tooltip>
+
+          <Tooltip
+            title={isLiked ? "Retirar gosto" : "Gosto"}
+            placement="left"
+            arrow
+          >
+            <Box
+              id="like"
+              sx={{
+                borderRadius: "50%",
+                height: "3rem",
+                width: "3rem",
+                backgroundColor: (theme) =>
+                  isLiked ? "#3c3c3c" : theme.palette.primary.main,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                "&:hover": {
+                  opacity: 0.8,
+                },
+              }}
+              onClick={handleLike}
+            >
+              <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
+              {isLiked ? (
+                <Typography color="white" fontSize=".8rem">
+                  {parseInt(details?.dados?.gostos) + 1}
+                </Typography>
+              ) : null}
+            </Box>
+          </Tooltip>
+          {/* <Avatar
+          src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0]}`}
           alt="Foto do Publicador"
           sx={{ width: "3rem", height: "3rem" }}
         /> */}
+        </Box>
       </Box>
     </Box>
   );
@@ -430,6 +613,25 @@ const DetailedImages = ({ images, type }) => {
         />
       ))}
     </Stack>
+  );
+};
+
+const DetailedRelated = ({ related, type }) => {
+  const calculateSpace = () => {
+    // if(related.length % 2 === 0)
+  };
+  return (
+    <Box display="flex" alignItems="center">
+      {related?.map((post) => (
+        <Box sm={6}>
+          <Avatar
+            src={`https://comein.cv/comeincv_api_test/img/${
+              type === "E" ? "eventos" : "projetos"
+            }Img/${post.imagem}`}
+          />
+        </Box>
+      ))}
+    </Box>
   );
 };
 

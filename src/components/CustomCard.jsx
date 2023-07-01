@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
   Typography,
-  Icon,
-  Badge,
   Modal,
-  Tooltip,
   Skeleton,
   Stack,
   Button,
 } from "@mui/material";
-import {
-  ThumbUpOffAlt,
-  ThumbUp,
-  Star,
-  StarOutline,
-  Share,
-  Close,
-  Link,
-} from "@mui/icons-material";
+import { ThumbUp, Share, Close, Link } from "@mui/icons-material";
 
 import {
   FacebookShareButton,
@@ -43,13 +32,13 @@ import {
 import { Visibility } from "@mui/icons-material";
 
 import CardDetailed from "./CardDetailed";
-import CustomBadge from "./CustomBadge";
 
 import LazyLoad from "react-lazy-load";
 import useEvents from "../hooks/useEvents";
-import useProjects from "../hooks/useProjects";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
+import UserCard from "./UserCard";
+import { useNavigate } from "react-router-dom";
 
 const CustomCard = ({
   id = null,
@@ -57,6 +46,7 @@ const CustomCard = ({
   likes,
   visits,
   picture,
+  publisherId,
   publisherName,
   publisherPhoto,
   type,
@@ -66,20 +56,30 @@ const CustomCard = ({
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
+  const [publisherInfo, setPublisherInfo] = useState(null);
+  const [showUserCard, setShowUserCard] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const userCardRef = useRef(null);
+  const userCardParentRef = useRef(null);
+
+  const navigate = useNavigate();
+
+  const getPostPath = () => {
+    const postType = type === "E" ? "eventos" : "projetos";
+    const postName = name.toLowerCase().trim().replaceAll(" ", "_");
+    return `${postType}/${id}/${postName}`;
+  };
+
+  const handleOpen = () => {
+    navigate(getPostPath());
+    // setOpen(true);
+  };
   const handleClose = () => setOpen(false);
 
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
 
-  const {
-    likeEvent,
-    removeLikeFromEvent,
-    favoriteEvent,
-    removeFavoriteFromEvent,
-  } = useEvents();
-  const { likeProject, removeLikeFromProject } = useProjects();
+  const { removeFavoriteFromEvent } = useEvents();
 
   const { likePost, favoritePost } = usePosts();
 
@@ -160,6 +160,68 @@ const CustomCard = ({
 
     hasFavoritePost(user.id, id);
   }, [id]);
+
+  useEffect(() => {
+    if (!publisherId || publisherId === undefined) return;
+    const getPublisherInfo = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/utilizadores/obterUtilizador/${publisherId}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        const publisherData = response?.data?.dados || 0;
+        setPublisherInfo(publisherData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getPublisherInfo();
+  }, [publisherId]);
+
+  useEffect(() => {
+    const mouseMoveHandler = (e) => {
+      if (!userCardRef.current) return;
+      const mousePosition = {
+        x: e.clientX,
+        y: e.clientY,
+      };
+
+      // Check if the mouse position is within the div's boundaries.
+      const userCardBounds = userCardRef.current.getBoundingClientRect();
+      const isInsideUserCard =
+        mousePosition.x >= userCardBounds.left &&
+        mousePosition.x <= userCardBounds.right &&
+        mousePosition.y >= userCardBounds.top &&
+        mousePosition.y <= userCardBounds.bottom;
+
+      const userCardParentBounds =
+        userCardParentRef.current.getBoundingClientRect();
+      const isInsideUserCardParent =
+        mousePosition.x >= userCardParentBounds.left &&
+        mousePosition.x <= userCardParentBounds.right &&
+        mousePosition.y >= userCardParentBounds.top &&
+        mousePosition.y <= userCardParentBounds.bottom;
+
+      if (isInsideUserCard || isInsideUserCardParent) {
+        setShowUserCard(true);
+      } else {
+        setShowUserCard(false);
+      }
+    };
+
+    window.addEventListener("mousemove", mouseMoveHandler);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMoveHandler);
+    };
+  }, []);
 
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -311,8 +373,14 @@ const CustomCard = ({
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
           <Typography
+            ref={userCardParentRef}
             fontWeight="bold"
             fontSize="0.7rem"
+            onMouseEnter={() => {
+              setShowUserCard(true);
+              const userCardBounds =
+                userCardRef.current.getBoundingClientRect();
+            }}
             sx={{
               color: "gray",
               "&:hover": {
@@ -323,6 +391,20 @@ const CustomCard = ({
           >
             {publisherName}
           </Typography>
+          <Box
+            ref={userCardRef}
+            sx={{
+              position: "absolute",
+              zIndex: "9",
+              width: "22rem",
+              paddingBottom: "1.25rem",
+              backgroundColor: "white",
+              borderRadius: "0.25rem",
+              display: showUserCard && publisherInfo ? "flex" : "none",
+            }}
+          >
+            <UserCard publisher={publisherInfo} />
+          </Box>
         </Box>
         <Modal
           id="card-details-modal"
@@ -336,7 +418,6 @@ const CustomCard = ({
             },
           }}
         >
-          {/* {open ? ( */}
           <CardDetailed
             id={id}
             publisherPhoto={publisherPhoto}
@@ -350,9 +431,6 @@ const CustomCard = ({
             onCloseModal={handleClose}
             picture={picture}
           />
-          {/* ) : (
-            <div></div>
-          )} */}
         </Modal>
         <Modal
           id="share-modal"
@@ -410,7 +488,7 @@ const CustomCard = ({
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     quote={"Post it with your friends"}
                     hashtag="comeincv"
                     media="https://img.freepik.com/vetores-gratis/paisagem-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
@@ -424,14 +502,14 @@ const CustomCard = ({
                     <FacebookMessengerIcon size={40} round />
                   </FacebookMessengerShareButton>
                   <PinterestShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     description={"Testing description"}
                     media={picture}
                   >
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
@@ -439,26 +517,26 @@ const CustomCard = ({
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
                   <WhatsappShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                   >
                     <WhatsappIcon size={40} round />
                   </WhatsappShareButton>
                   <ViberShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                   >
                     <ViberIcon size={40} round />
                   </ViberShareButton>
                   <TwitterShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                     via="Comein-CV"
                   >
                     <TwitterIcon size={40} round />
                   </TwitterShareButton>
                   <EmailShareButton
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     subject={`${name}: de Comein CV`}
                     body={`Venha ver o post de ${publisherName}`}
                   >
