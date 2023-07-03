@@ -101,7 +101,11 @@ const UserProfile = () => {
       const pageOwner = await getUser(userId);
       setPageUserInfo(pageOwner.dados);
       setProfilePhoto(pageOwner.dados.img_perfil);
-      setProfileBannerPhoto(pageOwner.dados.img_capa);
+      if (!pageOwner.dados.img_capa) {
+        setProfileBannerPhoto("");
+      } else {
+        setProfileBannerPhoto(pageOwner.dados.img_capa);
+      }
       const loggedUser = await getUser(loggedUserInfo.id);
       localStorage.setItem("userInfo", JSON.stringify(loggedUser.dados));
       const followers_res = await getUserProfileFollowers(loggedUser.dados.id);
@@ -123,34 +127,32 @@ const UserProfile = () => {
       <NavBar />
       <div className="profile_container">
         <div className="banner_container">
-          {profileBannerPhoto && (
-            <div>
-              <label htmlFor="upload-banner-photo">
-                <Input
-                  style={{ display: "none" }}
-                  id="upload-banner-photo"
-                  name="upload-photo"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleBannerPhotoUpload}
-                />
+          <div>
+            <label htmlFor="upload-banner-photo">
+              <Input
+                style={{ display: "none" }}
+                id="upload-banner-photo"
+                name="upload-photo"
+                type="file"
+                accept="image/*"
+                onChange={handleBannerPhotoUpload}
+              />
 
-                <IconButton
-                  color="primary"
-                  sx={{ width: "100%", height: "100%", padding: 0 }}
-                  component="span"
+              <IconButton
+                color="primary"
+                sx={{ width: "100%", height: "100%", padding: 0 }}
+                component="span"
+              >
+                <Avatar
+                  alt="User Profile Banner Photo"
+                  sx={{ width: "100%", height: 310, borderRadius: 0 }}
+                  src={`https://comein.cv/comeincv_api_test/img/capaImg/${profileBannerPhoto}`}
                 >
-                  <Avatar
-                    alt="User Profile Banner Photo"
-                    sx={{ width: "100%", height: 310, borderRadius: 0 }}
-                    src={`https://comein.cv/comeincv_api_test/img/capaImg/${profileBannerPhoto}`}
-                  >
-                    <PhotoCamera />
-                  </Avatar>
-                </IconButton>
-              </label>
-            </div>
-          )}
+                  <PhotoCamera />
+                </Avatar>
+              </IconButton>
+            </label>
+          </div>
         </div>
         {pageUserInfo && (
           <Box
