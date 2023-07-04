@@ -3,6 +3,8 @@ import Categories from "../../components/Categories";
 import Cards from "../../components/Cards";
 import SearchBar from "../../components/SearchBar";
 import { useState } from "react";
+import MapButton from "../../components/Map/MapButton";
+
 
 export default function Home() {
   const [category, setCategory] = useState("");
@@ -57,6 +59,7 @@ export default function Home() {
         localDateValues={localDateValues}
         displayHighlights={displayHighlights}
       />
+     <MapButton /> 
     </>
   );
 }
