@@ -25,6 +25,7 @@ const AppRoutes = () => {
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/:type/:id/:name" element={<CardDetailed />} />
           <Route path="/eventos/adicionar" element={<AdicionarEvento />} />
+          <Route path="/map" element={<Map />} />
           <Route
             path="/user-profile-configuration"
             element={<ProfileConfiguration />}
@@ -34,5 +35,4 @@ const AppRoutes = () => {
     </>
   );
 };
-
 export default AppRoutes;
