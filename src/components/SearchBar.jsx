@@ -70,105 +70,98 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   };
 
   return (
-    <Grid
-      container
-      spacing={1}
-      alignItems="flex-start"
-      direction="row"
-      sx={{
-        margin: "1rem 2rem",
-        border: "1px solid rgba(0, 0, 0, 0.23)",
-        borderRadius: ".5rem",
-        width: "auto",
-        height: "3rem",
-      }}
-    >
+    <>
       <Grid
-        xs={12}
-        item
-        id="searchbar"
+        container
         spacing={1}
+        alignItems="flex-start"
+        direction="row"
+        mt="1rem"
+        mx="2rem"
         sx={{
-          maxHeight: "3rem",
-          width: "100%",
-          paddingLeft: "0 !important",
-          paddingTop: "0 !important",
+          borderRadius: ".25rem",
+          width: "auto",
+          height: "2.5rem",
         }}
       >
-        <TextField
-          id="search"
-          type="search"
-          placeholder="Pesquise publicações"
-          onChange={handleChange}
+        <Grid
+          xs={12}
+          item
+          id="searchbar"
+          spacing={1}
           sx={{
+            maxHeight: "3rem",
             width: "100%",
-            "&:focus": {
-              borderColor: "red",
-              opacity: 1,
-            },
-            ".MuiFormControl-root-MuiTextField-root-focused": {
-              borderColor: "red",
-              opacity: 1,
-            },
-            ".MuiInputBase-root": {
-              height: "3rem",
-              width: "100%",
-              padding: "1.5rem",
-              borderRadius: ".5rem",
-            },
+            paddingLeft: "0 !important",
+            paddingTop: "0 !important",
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Grid>
-      <Grid item direction="row" xs={12} display="flex">
-        <Grid xs={1} m={"0 .5rem"}>
-          <Box
+        >
+          <TextField
+            id="search"
+            type="search"
+            placeholder="Pesquise publicações"
+            onChange={handleChange}
             sx={{
-              cursor: "pointer",
+              width: "100%",
+              ".MuiInputBase-root": {
+                height: "2.5rem",
+                width: "100%",
+                borderRadius: ".25rem",
+                border: "1px solid rgb(229, 231, 235)",
+                paddingLeft: ".25rem",
+                paddingRight: ".25rem",
+              },
+              ".MuiOutlinedInput-input": {
+                padding: 0,
+                paddingLeft: ".125rem",
+              },
+              "& input::placeholder": {
+                fontSize: "1rem",
+              },
             }}
-          >
-            <Button
-              variant="outlined"
-              sx={{
-                textTransform: "capitalize",
-                fontWeight: filterSelected ? "bold" : "normal",
-                border: filterSelected ? "2px solid" : "1px solid",
-                "&:hover": {
-                  opacity: "0.8",
-                },
-              }}
-              onClick={() => handleChangeFilterSelected("highlights")}
-            >
-              Destaques
-            </Button>
-          </Box>
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon sx={{ fontSize: "1.5rem" }} />
+                </InputAdornment>
+              ),
+            }}
+          />
         </Grid>
-        <Grid xs={1}>
+      </Grid>
+      <Grid container xs={12} mt="1rem" mx="2rem">
+        <Grid md={1.25} lg={1.125} xl={0.75}>
+          <Button
+            variant="outlined"
+            sx={{
+              textTransform: "capitalize",
+              fontWeight: filterSelected ? "bold" : "normal",
+              border: filterSelected ? "2px solid" : "1px solid",
+              "&:hover": {
+                opacity: "0.8",
+                cursor: "pointer",
+              },
+            }}
+            onClick={() => handleChangeFilterSelected("highlights")}
+          >
+            Destaques
+          </Button>
+        </Grid>
+        <Grid md={1.25} lg={1.125} xl={0.75}>
           <Button
             variant="outlined"
             sx={{
               textTransform: "capitalize",
               fontWeight: "normal",
               border: "1px solid",
+              height: "100%",
               "&:hover": {
                 opacity: "0.8",
               },
             }}
             onClick={() => setShowLocalDate(!showLocalDate)}
           >
-            <LocationOnIcon
-              sx={{
-                color: (theme) => theme.palette.primary.main,
-                fontSize: "1.25rem",
-              }}
-            />
-            <Typography>Location</Typography>
+            <Typography fontSize="0.875rem">Filtrar</Typography>
             {showLocalDate ? (
               <ArrowDropUp
                 sx={{
@@ -256,7 +249,10 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         name="address"
                         options={addresses}
                         autoHighlight
-                        sx={{ width: "100%" }}
+                        sx={{
+                          width: "100%",
+                          ".MuiInputBase-root": { maxHeight: "2rem" },
+                        }}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -320,7 +316,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
           )}
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

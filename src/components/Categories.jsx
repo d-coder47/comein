@@ -63,13 +63,7 @@ const Categories = ({ onCategoryChange }) => {
   };
 
   return (
-    <Box
-      sx={{
-        margin: "1rem 2rem",
-        paddingBottom: "1rem",
-        gap: "3rem",
-      }}
-    >
+    <Box gap="3rem" mt="1rem" mx="2rem">
       <Swiper
         modules={[Navigation, A11y]}
         spaceBetween={0}
