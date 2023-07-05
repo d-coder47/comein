@@ -43,6 +43,7 @@ const UserProfile = () => {
   const [following, setFollowing] = React.useState();
 
   const [visitor, setVisitor] = React.useState(false);
+  const [isVistorFollowing, setIsVisitorFollowing] = React.useState(false);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -62,6 +63,8 @@ const UserProfile = () => {
     getUserProfileFollowers,
     getUserProfileVisits,
     getUserProfileFollowing,
+    followUser,
+    isFollowing,
   } = useUserProfile();
 
   const { getUser } = useRegisterUser();
@@ -96,6 +99,11 @@ const UserProfile = () => {
       localStorage.setItem('userInfo', JSON.stringify(user.dados));
     };
     reader.readAsDataURL(event.target.files[0]);
+  };
+
+  const checkIsFollowing = async () => {
+    const isFollowingUser = await isFollowing(loggedUserInfo.id, userId);
+    console.log(isFollowingUser);
   };
 
   React.useEffect(() => {
@@ -242,7 +250,11 @@ const UserProfile = () => {
                     <Button
                       variant='contained'
                       color='primary'
-                      onClick={() => navigate('/edit-profile')}
+                      onClick={
+                        visitor
+                          ? checkIsFollowing
+                          : () => navigate('/edit-profile')
+                      }
                       sx={{
                         m: 3,
                         color: '#ffffff',

@@ -10,6 +10,7 @@ import ProfileConfiguration from './pages/Profile/ProfileConfiguration';
 import ResetPassword from './pages/ResetPassword';
 import CardDetailed from './components/CardDetailed';
 import AdicionarEvento from './pages/Eventos/Adicionar';
+import Map from './pages/Map/index';
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
           <Route path='/edit-profile' element={<EditProfile />} />
           <Route path='/:type/:id/:name' element={<CardDetailed />} />
           <Route path='/eventos/adicionar' element={<AdicionarEvento />} />
+          <Route path='/map' element={<Map />} />
           <Route
             path='/user-profile-configuration'
             element={<ProfileConfiguration />}
@@ -33,5 +35,4 @@ const AppRoutes = () => {
     </>
   );
 };
-
 export default AppRoutes;

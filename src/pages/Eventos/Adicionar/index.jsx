@@ -24,6 +24,15 @@ const Adicionar = () => {
             <ListItem>
               <Button variant="contained">Dados básicos</Button>
             </ListItem>
+            <ListItem>
+              <Button variant="contained">Programa</Button>
+            </ListItem>
+            <ListItem>
+              <Button variant="contained">Imagens</Button>
+            </ListItem>
+            <ListItem>
+              <Button variant="contained">Dados básicos</Button>
+            </ListItem>
           </List>
         </Grid>
         <Divider orientation="vertical" />
