@@ -72,8 +72,8 @@ const Categories = ({ onCategoryChange }) => {
     >
       <Swiper
         modules={[Navigation, A11y]}
-        spaceBetween={2}
-        slidesPerView={10}
+        spaceBetween={0}
+        slidesPerView={13}
         navigation
         scrollbar={{ draggable: false }}
       >

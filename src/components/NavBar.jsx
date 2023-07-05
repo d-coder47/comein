@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import './navBar.css';
-import Typography from '@mui/material/Typography';
+import React, { useState, useEffect } from "react";
+import "./navBar.css";
+import Typography from "@mui/material/Typography";
 import {
   Avatar,
   Box,
@@ -12,38 +12,38 @@ import {
   Menu,
   Divider,
   ListItemIcon,
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
-import siteLogo from '../assets/img/logo_cicv3.png';
-import { useTranslation } from 'react-i18next';
+import siteLogo from "../assets/img/logo_cicv3.png";
+import { useTranslation } from "react-i18next";
 
-import englandFlag from '../assets/img/inglaterra.png';
-import franceFlag from '../assets/img/franca.png';
-import portugalFlag from '../assets/img/portugal.png';
+import englandFlag from "../assets/img/inglaterra.png";
+import franceFlag from "../assets/img/franca.png";
+import portugalFlag from "../assets/img/portugal.png";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [userData, setUserData] = useState(
-    JSON.parse(localStorage.getItem('userInfo'))
+    JSON.parse(localStorage.getItem("userInfo"))
   );
 
-  const authenticated = localStorage.getItem('authenticated');
+  const authenticated = localStorage.getItem("authenticated");
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleCadastrarClick = () => {
-    navigate('/user-registration');
+    navigate("/user-registration");
   };
 
   const handleLoginClick = () => {
-    navigate('/user-login');
+    navigate("/user-login");
   };
 
   const handleTranslationChange = (e) => {
@@ -60,12 +60,12 @@ const NavBar = () => {
 
   const handleRegistration = () => {
     handleClose();
-    navigate('/user-registration');
+    navigate("/user-registration");
   };
 
   const handleConfiguration = () => {
     handleClose();
-    navigate('/user-profile-configuration');
+    navigate("/user-profile-configuration");
   };
 
   const handleProfileClick = () => {
@@ -75,125 +75,109 @@ const NavBar = () => {
 
   useEffect(() => {
     if (authenticated) {
-      const data = JSON.parse(localStorage.getItem('userInfo'));
+      const data = JSON.parse(localStorage.getItem("userInfo"));
       setUserData(data);
     }
   }, [authenticated]);
   return (
     <Box
-      padding='0.5rem'
+      padding="0.5rem"
       sx={{
-        borderBottom: '2px solid rgb(229 231 235)',
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        borderBottom: "2px solid rgb(229 231 235)",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
       }}
     >
       <Avatar
-        variant='square'
+        variant="square"
         src={siteLogo}
-        alt='Come In'
-        onClick={() => navigate('/')}
+        alt="Come In"
+        onClick={() => navigate("/")}
         sx={{
-          marginLeft: '1rem',
-          width: '8rem',
-          height: 'auto',
-          objectFit: 'cover',
-          cursor: 'pointer',
-          '&:hover': {
+          marginLeft: "1rem",
+          width: "8rem",
+          height: "auto",
+          objectFit: "cover",
+          cursor: "pointer",
+          "&:hover": {
             opacity: 0.8, // Adjust the opacity or add more styles as desired
           },
         }}
       />
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          gap: '0.125rem',
-          marginLeft: 'auto',
-          '&:hover': {
-            cursor: 'pointer',
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: "0.75rem",
+          marginLeft: "auto",
+          "&:hover": {
+            cursor: "pointer",
           },
         }}
       >
-        <Box>
-          <NotificationsIcon color='primary' sx={{ fontSize: '1.25rem' }} />
+        <Box display="flex">
+          <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
         </Box>
         <Select
-          labelId='internationalization-label'
-          id='internationalization'
+          labelId="internationalization-label"
+          id="internationalization"
+          variant="standard"
+          disableUnderline
           defaultValue={i18n.language}
           onChange={handleTranslationChange}
           sx={{
-            height: '2rem',
-            marginRight: '0.5rem',
+            height: "2rem",
             color: (theme) => theme.palette.primary.main,
-            '.MuiOutlinedInput-input': {
-              display: 'flex',
-              alignItems: 'center',
-              gap: '.5rem',
-            },
-            '.MuiOutlinedInput-input::active': {
-              borderColor: 'red !important',
-            },
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: 'white',
-              outline: 'none',
-              '&:hover': {
-                borderColor: 'white',
-              },
-              '.Mui-focused': {
-                borderColor: 'white',
-                outline: 'none',
-              },
-            },
-            '.MuiSvgIcon-root-MuiSelect-icon': {
-              color: (theme) => theme.palette.primary.main,
+            ".MuiOutlinedInput-input": {
+              display: "flex",
+              alignItems: "center",
+              gap: ".5rem",
             },
           }}
         >
           <MenuItem
-            value={'en'}
+            value={"en"}
             sx={{
-              display: 'flex',
-              gap: '.5rem',
+              display: "flex",
+              gap: ".5rem",
             }}
           >
-            {' '}
+            {" "}
             <Avatar
               src={englandFlag}
-              alt='Bandeira Inglaterra'
-              sx={{ width: '1.75rem', height: 'auto' }}
-            />{' '}
+              alt="Bandeira Inglaterra"
+              sx={{ width: "1.6rem", height: "auto" }}
+            />{" "}
           </MenuItem>
           <MenuItem
-            value={'pt'}
+            value={"pt"}
             sx={{
-              display: 'flex',
-              gap: '.5rem',
+              display: "flex",
+              gap: ".5rem",
             }}
           >
-            {' '}
+            {" "}
             <Avatar
               src={portugalFlag}
-              alt='Bandeira Portugal'
-              sx={{ width: '1.75rem', height: 'auto' }}
-            />{' '}
+              alt="Bandeira Portugal"
+              sx={{ width: "1.6rem", height: "auto" }}
+            />{" "}
           </MenuItem>
           <MenuItem
-            value={'fr'}
+            value={"fr"}
             sx={{
-              display: 'flex',
-              gap: '.5rem',
+              display: "flex",
+              gap: ".5rem",
             }}
           >
-            {' '}
+            {" "}
             <Avatar
               src={franceFlag}
-              alt='Bandeira França'
-              sx={{ width: '1.75rem', height: 'auto' }}
-            />{' '}
+              alt="Bandeira França"
+              sx={{ width: "1.6rem", height: "auto" }}
+            />{" "}
           </MenuItem>
         </Select>
 
@@ -201,19 +185,18 @@ const NavBar = () => {
           <div>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
               }}
             >
-              <Tooltip title={t('homepage.definicoesConta')}>
+              <Tooltip title={t("homepage.definicoesConta")}>
                 <IconButton
                   onClick={handleClick}
-                  size='small'
-                  sx={{ ml: 2 }}
-                  aria-controls={open ? 'account-menu' : undefined}
-                  aria-haspopup='true'
-                  aria-expanded={open ? 'true' : undefined}
+                  size="small"
+                  aria-controls={open ? "account-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
                 >
                   <Avatar
                     sx={{ width: 32, height: 32 }}
@@ -224,63 +207,63 @@ const NavBar = () => {
             </Box>
             <Menu
               anchorEl={anchorEl}
-              id='account-menu'
+              id="account-menu"
               open={open}
               onClose={handleClose}
               onClick={handleClose}
               PaperProps={{
                 elevation: 0,
                 sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                   mt: 1.5,
-                  '& .MuiAvatar-root': {
+                  "& .MuiAvatar-root": {
                     width: 32,
                     height: 32,
                     ml: -0.5,
                     mr: 1,
                   },
-                  '&:before': {
+                  "&:before": {
                     content: '""',
-                    display: 'block',
-                    position: 'absolute',
+                    display: "block",
+                    position: "absolute",
                     top: 0,
                     right: 14,
                     width: 10,
                     height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
+                    bgcolor: "background.paper",
+                    transform: "translateY(-50%) rotate(45deg)",
                     zIndex: 0,
                   },
                 },
               }}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem className='userInfo' onClick={handleProfileClick}>
+              <MenuItem className="userInfo" onClick={handleProfileClick}>
                 <Avatar
                   src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
                   sx={{
-                    width: '80px !important',
-                    height: '80px !important',
+                    width: "80px !important",
+                    height: "80px !important",
                   }}
                 />
                 <Typography
-                  variant='h6'
+                  variant="h6"
                   sx={{
-                    marginTop: '0.5rem',
-                    marginBottom: '0.5rem',
-                    fontWeight: 'bold',
+                    marginTop: "0.5rem",
+                    marginBottom: "0.5rem",
+                    fontWeight: "bold",
                   }}
                 >
                   {userData.nome}
                 </Typography>
 
                 <Typography
-                  variant='h6'
+                  variant="h6"
                   fontSize={12}
                   sx={{
-                    marginBottom: '1rem',
+                    marginBottom: "1rem",
                   }}
                 >
                   {userData.email}
@@ -290,33 +273,33 @@ const NavBar = () => {
               <MenuItem onClick={handleProfileClick}>
                 <Avatar
                   src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
-                />{' '}
-                {t('navBar.perfil')}
+                />{" "}
+                {t("navBar.perfil")}
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleRegistration}>
                 <ListItemIcon>
-                  <PersonAdd fontSize='small' />
+                  <PersonAdd fontSize="small" />
                 </ListItemIcon>
-                {t('navBar.adicionarConta')}
+                {t("navBar.adicionarConta")}
               </MenuItem>
               <MenuItem onClick={handleConfiguration}>
                 <ListItemIcon>
-                  <Settings fontSize='small' />
+                  <Settings fontSize="small" />
                 </ListItemIcon>
-                {t('navBar.definicoes')}
+                {t("navBar.definicoes")}
               </MenuItem>
               <MenuItem
                 onClick={() => {
                   handleClose();
                   localStorage.clear();
-                  navigate('/');
+                  navigate("/");
                 }}
               >
                 <ListItemIcon>
-                  <Logout fontSize='small' />
+                  <Logout fontSize="small" />
                 </ListItemIcon>
-                {t('navBar.terminarSessao')}
+                {t("navBar.terminarSessao")}
               </MenuItem>
             </Menu>
           </div>
@@ -326,29 +309,29 @@ const NavBar = () => {
           <>
             <Button
               sx={{
-                marginRight: '0.5rem',
-                height: '2rem',
-                textTransform: 'capitalize',
+                marginRight: "0.5rem",
+                height: "2rem",
+                textTransform: "capitalize",
                 // fontWeight: "bold",
                 color: (theme) => theme.palette.primary.contrastText,
               }}
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               onClick={handleLoginClick}
             >
-              {t('homepage.login')}
+              {t("homepage.login")}
             </Button>
             <Button
               sx={{
-                marginRight: '1rem',
-                height: '2rem',
-                textTransform: 'capitalize',
+                marginRight: "1rem",
+                height: "2rem",
+                textTransform: "capitalize",
               }}
               onClick={handleCadastrarClick}
-              variant='outlined'
-              color='primary'
+              variant="outlined"
+              color="primary"
             >
-              {t('homepage.signUp')}
+              {t("homepage.signUp")}
             </Button>
           </>
         )}

@@ -110,7 +110,6 @@
     "submit": "Enviar",
     "erroEnviarMail": "Erro ao enviar email",
     "sucessoEnviarMail": "Foi-lhe enviado um email com as instruções de como redefenir a sua palavra-passe."
-
   },
   "forgotPassword": {
     "resetPassword": "Repor a palavra-passe",
@@ -130,7 +129,7 @@
     "standUp": "Stand Up",
     "visualArts": "Artes Plásticas",
     "sculpture": "Escultura",
-    "craftsmanship": "Artesenato",
+    "craftsmanship": "Artesanato",
     "design": "Design",
     "photography": "Fotografia",
     "urbanArt": "Arte Urbana",

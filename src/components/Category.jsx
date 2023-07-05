@@ -26,7 +26,7 @@ const Category = ({ id, name, icon, onCategoryClick, isSelected }) => {
       />
       <Tooltip title={name}>
         <Typography
-          fontSize={14}
+          fontSize={11}
           sx={{
             fontWeight: isSelected ? "bold" : "normal",
             overflow: "hidden",
