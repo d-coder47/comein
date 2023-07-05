@@ -52,6 +52,7 @@
     "seguidores": "Seguidores",
     "seguindo": "Seguindo",
     "visitantes": "Visitantes",
+    "seguir": "Seguir",
     "sobre": "Sobre",
     "configPage": {
       "ajudaSuporte": "Ajuda e suporte",
@@ -110,7 +111,6 @@
     "submit": "Enviar",
     "erroEnviarMail": "Erro ao enviar email",
     "sucessoEnviarMail": "Foi-lhe enviado um email com as instruções de como redefenir a sua palavra-passe."
-
   },
   "forgotPassword": {
     "resetPassword": "Repor a palavra-passe",
