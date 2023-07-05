@@ -1,18 +1,18 @@
-import axiosInstance from '../api/axiosInstance';
+import axiosInstance from "../api/axiosInstance";
 
 const useUserProfile = () => {
   const updateUserProfileBanner = async (idUser, photoCapa) => {
     try {
       let body = new FormData();
-      body.append('idUser', idUser);
-      body.append('photoCapa', photoCapa);
+      body.append("idUser", idUser);
+      body.append("photoCapa", photoCapa);
 
       const response = await axiosInstance.post(
-        '/utilizadores/fotoCapa',
+        "/utilizadores/fotoCapa",
         body,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization: `Bearer ${token}`,
           },
         }
@@ -26,15 +26,15 @@ const useUserProfile = () => {
   const updateUserProfilePhoto = async (idUser, photoPerfil) => {
     try {
       let body = new FormData();
-      body.append('idUser', idUser);
-      body.append('photoPerfil', photoPerfil);
+      body.append("idUser", idUser);
+      body.append("photoPerfil", photoPerfil);
 
       const response = await axiosInstance.post(
-        '/utilizadores/fotoPerfil',
+        "/utilizadores/fotoPerfil",
         body,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization:
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
@@ -50,14 +50,14 @@ const useUserProfile = () => {
   const deleteUserProfile = async (idUser) => {
     try {
       const params = new URLSearchParams({
-        _method: 'PUT',
+        _method: "PUT",
       }).toString();
       const response = await axiosInstance.post(
         `/utilizadores/remover/${idUser}`,
         params,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization:
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
@@ -73,13 +73,13 @@ const useUserProfile = () => {
   const addUserbio = async (id_utilizador, bio) => {
     try {
       const params = new URLSearchParams({
-        _method: 'PUT',
+        _method: "PUT",
         id_utilizador,
         bio,
       }).toString();
-      const response = await axiosInstance.post('/utilizadores/bio', params, {
+      const response = await axiosInstance.post("/utilizadores/bio", params, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
           // Authorization:
           //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
@@ -94,17 +94,17 @@ const useUserProfile = () => {
   const changePassword = async (idUser, password, new_password) => {
     try {
       const params = new URLSearchParams({
-        _method: 'PUT',
+        _method: "PUT",
         idUser,
         password,
         new_password,
       }).toString();
       const response = await axiosInstance.post(
-        '/utilizadores/mudarPalavraPasse',
+        "/utilizadores/mudarPalavraPasse",
         params,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization:
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
@@ -125,11 +125,11 @@ const useUserProfile = () => {
         type,
       }).toString();
       const response = await axiosInstance.post(
-        '/utilizadores/comunicarProblema',
+        "/utilizadores/comunicarProblema",
         params,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization:
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
@@ -148,7 +148,7 @@ const useUserProfile = () => {
         `/utilizadores/followers/${idUser}`,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization: `Bearer ${token}`,
           },
         }
@@ -166,7 +166,7 @@ const useUserProfile = () => {
         `/utilizadores/visits/${idUser}`,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization: `Bearer ${token}`,
           },
         }
@@ -184,7 +184,7 @@ const useUserProfile = () => {
         `/utilizadores/obterNrSeguidoresPorUtilizador/${idUser}`,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization: `Bearer ${token}`,
           },
         }
@@ -202,16 +202,14 @@ const useUserProfile = () => {
         `/utilizadores/seguidor/${followedId},${followerId}`,
         {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            "Content-Type": "application/x-www-form-urlencoded",
             // Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      console.log(response.data.dados === );
-
-      if (response?.data?.dados === 'Não seguir') return false;
-      if (response?.data?.dados === 'Está a seguir') return true;
+      if (response?.data?.dados === "Não está a seguir") return false;
+      if (response?.data?.dados === "Está a seguir") return true;
       return null;
     } catch (error) {
       console.error(error);
@@ -221,18 +219,18 @@ const useUserProfile = () => {
   const followUser = async (userId, followedId) => {
     try {
       const body = new FormData();
-      body.append('id_utilizador', followedId);
-      body.append('id_seguidor', userId);
+      body.append("id_utilizador", followedId);
+      body.append("id_seguidor", userId);
 
       const response = await axiosInstance.post(`/utilizadores/seguir`, body, {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          "Content-Type": "application/x-www-form-urlencoded",
           // Authorization: `Bearer ${token}`,
         },
       });
 
-      if (response?.data?.dados === 'Ok') return true;
-      if (response?.data?.dados === 'Não seguir') return false;
+      if (response?.data?.dados === "Ok") return true;
+      if (response?.data?.dados === "Não seguir") return false;
       return null;
     } catch (error) {
       console.error(error);
