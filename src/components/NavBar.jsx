@@ -26,12 +26,16 @@ import englandFlag from "../assets/img/inglaterra.png";
 import franceFlag from "../assets/img/franca.png";
 import portugalFlag from "../assets/img/portugal.png";
 
+import { useLocation } from "react-router-dom";
+
 const NavBar = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
   );
+
+  const location = useLocation();
 
   const authenticated = localStorage.getItem("authenticated");
 
@@ -71,6 +75,9 @@ const NavBar = () => {
   const handleProfileClick = () => {
     handleClose();
     navigate(`/user-profile/${userData.id}/${userData.nome}`);
+    if (location.pathname.includes("user-profile")) {
+      window.location.reload(false);
+    }
   };
 
   useEffect(() => {

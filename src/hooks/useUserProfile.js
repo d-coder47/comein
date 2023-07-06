@@ -196,10 +196,10 @@ const useUserProfile = () => {
     }
   };
 
-  const isFollowing = async (userId, followedId) => {
+  const isFollowing = async (followerId, followedId) => {
     try {
       const response = await axiosInstance.get(
-        `/utilizadores/seguidor/${(followedId, userId)}`,
+        `/utilizadores/seguidor/${followedId},${followerId}`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -208,7 +208,7 @@ const useUserProfile = () => {
         }
       );
 
-      if (response?.data?.dados === "Não seguir") return false;
+      if (response?.data?.dados === "Não está a seguir") return false;
       if (response?.data?.dados === "Está a seguir") return true;
       return null;
     } catch (error) {

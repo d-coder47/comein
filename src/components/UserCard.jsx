@@ -9,8 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserCard = ({ publisher }) => {
+  const navigate = useNavigate();
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
       ? ""
@@ -50,10 +52,17 @@ const UserCard = ({ publisher }) => {
         }}
       />
       <Typography
+        onClick={() =>
+          navigate(`/user-profile/${publisher.id}/${publisher.nome}`)
+        }
         sx={{
           color: "black",
           fontWeight: "bold",
           fontSize: "1rem",
+          cursor: "pointer",
+          "&:hover": {
+            opacity: 0.8,
+          },
         }}
       >
         {publisher?.nome}

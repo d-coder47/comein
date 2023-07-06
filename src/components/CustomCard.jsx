@@ -388,7 +388,6 @@ const CustomCard = ({
           width="fit-content"
           alignItems="center"
           gap=".25rem"
-          onClick={handleClick}
           onMouseEnter={handleClick}
         >
           <Typography
