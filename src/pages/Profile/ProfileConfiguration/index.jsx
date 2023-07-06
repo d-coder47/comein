@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../../../components/NavBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   Grid,
@@ -36,6 +36,8 @@ import { useTranslation } from "react-i18next";
 import useUserProfile from "../../../hooks/useUserProfile";
 
 const ProfileConfiguration = () => {
+  const params = useParams();
+  const { userId } = params;
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
@@ -112,7 +114,7 @@ const ProfileConfiguration = () => {
       }
     };
 
-    if (!authenticated) {
+    if (!authenticated || userId !== userInfo.id) {
       navigate("/");
     }
 

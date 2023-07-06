@@ -276,7 +276,10 @@ const UserProfile = () => {
                         onClick={
                           visitor
                             ? handleFollowingUser
-                            : () => navigate("/edit-profile")
+                            : () =>
+                                navigate(
+                                  `/edit-profile/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                                )
                         }
                         sx={{
                           m: 3,
@@ -310,7 +313,11 @@ const UserProfile = () => {
                     <Tooltip title={t("userProfile.configuracoes")}>
                       <IconButton
                         color="primary"
-                        onClick={() => navigate("/user-profile-configuration")}
+                        onClick={() =>
+                          navigate(
+                            `/user-profile-configuration/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                          )
+                        }
                       >
                         <Settings />
                       </IconButton>
