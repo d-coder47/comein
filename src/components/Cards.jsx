@@ -146,7 +146,7 @@ const Cards = ({
   }, [searchQuery]);
 
   return (
-    <Box sx={{ margin: "2rem", flexGrow: 1 }}>
+    <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid container gap={3.8}>
         {posts.length > 0
           ? posts?.map((card, index) => (

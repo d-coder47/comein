@@ -7,6 +7,8 @@ import {
   Skeleton,
   Stack,
   Button,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { ThumbUp, Share, Close, Link } from "@mui/icons-material";
 
@@ -58,9 +60,12 @@ const CustomCard = ({
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);
   const [showUserCard, setShowUserCard] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
+
+  const openMenu = Boolean(anchorEl);
 
   const navigate = useNavigate();
 
@@ -68,6 +73,14 @@ const CustomCard = ({
     const postType = type === "E" ? "eventos" : "projetos";
     const postName = name.toLowerCase().trim().replaceAll(" ", "_");
     return `${postType}/${id}/${postName}`;
+  };
+
+  const handleMenuClose = (shouldClose) => {
+    if (shouldClose) setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleOpen = () => {
@@ -185,43 +198,43 @@ const CustomCard = ({
     getPublisherInfo();
   }, [publisherId]);
 
-  useEffect(() => {
-    const mouseMoveHandler = (e) => {
-      if (!userCardRef.current) return;
-      const mousePosition = {
-        x: e.clientX,
-        y: e.clientY,
-      };
+  // useEffect(() => {
+  //   const mouseMoveHandler = (e) => {
+  //     if (!userCardRef.current) return;
+  //     const mousePosition = {
+  //       x: e.clientX,
+  //       y: e.clientY,
+  //     };
 
-      // Check if the mouse position is within the div's boundaries.
-      const userCardBounds = userCardRef.current.getBoundingClientRect();
-      const isInsideUserCard =
-        mousePosition.x >= userCardBounds.left &&
-        mousePosition.x <= userCardBounds.right &&
-        mousePosition.y >= userCardBounds.top &&
-        mousePosition.y <= userCardBounds.bottom;
+  //     // Check if the mouse position is within the div's boundaries.
+  //     const userCardBounds = userCardRef.current.getBoundingClientRect();
+  //     const isInsideUserCard =
+  //       mousePosition.x >= userCardBounds.left &&
+  //       mousePosition.x <= userCardBounds.right &&
+  //       mousePosition.y >= userCardBounds.top &&
+  //       mousePosition.y <= userCardBounds.bottom;
 
-      const userCardParentBounds =
-        userCardParentRef.current.getBoundingClientRect();
-      const isInsideUserCardParent =
-        mousePosition.x >= userCardParentBounds.left &&
-        mousePosition.x <= userCardParentBounds.right &&
-        mousePosition.y >= userCardParentBounds.top &&
-        mousePosition.y <= userCardParentBounds.bottom;
+  //     const userCardParentBounds =
+  //       userCardParentRef.current.getBoundingClientRect();
+  //     const isInsideUserCardParent =
+  //       mousePosition.x >= userCardParentBounds.left &&
+  //       mousePosition.x <= userCardParentBounds.right &&
+  //       mousePosition.y >= userCardParentBounds.top &&
+  //       mousePosition.y <= userCardParentBounds.bottom;
 
-      if (isInsideUserCard || isInsideUserCardParent) {
-        setShowUserCard(true);
-      } else {
-        setShowUserCard(false);
-      }
-    };
+  //     if (isInsideUserCard || isInsideUserCardParent) {
+  //       setShowUserCard(true);
+  //     } else {
+  //       setShowUserCard(false);
+  //     }
+  //   };
 
-    window.addEventListener("mousemove", mouseMoveHandler);
+  //   window.addEventListener("mousemove", mouseMoveHandler);
 
-    return () => {
-      window.removeEventListener("mousemove", mouseMoveHandler);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("mousemove", mouseMoveHandler);
+  //   };
+  // }, []);
 
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -371,16 +384,15 @@ const CustomCard = ({
             />
           </Box>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+        <Box
+          width="fit-content"
+          alignItems="center"
+          gap=".25rem"
+          onMouseEnter={handleClick}
+        >
           <Typography
-            ref={userCardParentRef}
             fontWeight="bold"
             fontSize="0.7rem"
-            onMouseEnter={() => {
-              setShowUserCard(true);
-              const userCardBounds =
-                userCardRef.current.getBoundingClientRect();
-            }}
             sx={{
               color: "gray",
               "&:hover": {
@@ -391,21 +403,37 @@ const CustomCard = ({
           >
             {publisherName}
           </Typography>
-          <Box
-            ref={userCardRef}
+        </Box>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={openMenu}
+          onClose={() => handleMenuClose(true)}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+            },
+          }}
+          transformOrigin={{ horizontal: "center", vertical: "top" }}
+          anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+          sx={{
+            ".MuiList-root": { padding: "0 0 1rem 0" },
+          }}
+        >
+          <MenuItem
+            id="user-card"
             sx={{
-              position: "absolute",
-              zIndex: "9",
-              width: "22rem",
-              paddingBottom: "1.25rem",
-              backgroundColor: "white",
-              borderRadius: "0.25rem",
-              display: showUserCard && publisherInfo ? "flex" : "none",
+              padding: "0",
             }}
+            onClick={() => handleMenuClose(false)}
+            disableRipple
           >
             <UserCard publisher={publisherInfo} />
-          </Box>
-        </Box>
+          </MenuItem>
+        </Menu>
         <Modal
           id="card-details-modal"
           open={open}

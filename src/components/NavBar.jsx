@@ -117,46 +117,30 @@ const NavBar = () => {
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
-          gap: "0.125rem",
+          gap: "0.75rem",
           marginLeft: "auto",
           "&:hover": {
             cursor: "pointer",
           },
         }}
       >
-        <Box>
+        <Box display="flex">
           <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
         </Box>
         <Select
           labelId="internationalization-label"
           id="internationalization"
+          variant="standard"
+          disableUnderline
           defaultValue={i18n.language}
           onChange={handleTranslationChange}
           sx={{
             height: "2rem",
-            marginRight: "0.5rem",
             color: (theme) => theme.palette.primary.main,
             ".MuiOutlinedInput-input": {
               display: "flex",
               alignItems: "center",
               gap: ".5rem",
-            },
-            ".MuiOutlinedInput-input::active": {
-              borderColor: "red !important",
-            },
-            ".MuiOutlinedInput-notchedOutline": {
-              borderColor: "white",
-              outline: "none",
-              "&:hover": {
-                borderColor: "white",
-              },
-              ".Mui-focused": {
-                borderColor: "white",
-                outline: "none",
-              },
-            },
-            ".MuiSvgIcon-root-MuiSelect-icon": {
-              color: (theme) => theme.palette.primary.main,
             },
           }}
         >
@@ -171,7 +155,7 @@ const NavBar = () => {
             <Avatar
               src={englandFlag}
               alt="Bandeira Inglaterra"
-              sx={{ width: "1.75rem", height: "auto" }}
+              sx={{ width: "1.6rem", height: "auto" }}
             />{" "}
           </MenuItem>
           <MenuItem
@@ -185,7 +169,7 @@ const NavBar = () => {
             <Avatar
               src={portugalFlag}
               alt="Bandeira Portugal"
-              sx={{ width: "1.75rem", height: "auto" }}
+              sx={{ width: "1.6rem", height: "auto" }}
             />{" "}
           </MenuItem>
           <MenuItem
@@ -199,7 +183,7 @@ const NavBar = () => {
             <Avatar
               src={franceFlag}
               alt="Bandeira França"
-              sx={{ width: "1.75rem", height: "auto" }}
+              sx={{ width: "1.6rem", height: "auto" }}
             />{" "}
           </MenuItem>
         </Select>
@@ -217,7 +201,6 @@ const NavBar = () => {
                 <IconButton
                   onClick={handleClick}
                   size="small"
-                  sx={{ ml: 2 }}
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
