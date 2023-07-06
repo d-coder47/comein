@@ -103,6 +103,9 @@ const UserProfile = () => {
 
   const handleFollowingUser = async () => {
     const follow_res = await followUser(loggedUserInfo.id, userId);
+    const followers_res = await getUserProfileFollowers(userId);
+    setFollowers(followers_res.dados);
+
     if (follow_res) {
       setIsVisitorFollowing(true);
     } else {
@@ -122,9 +125,9 @@ const UserProfile = () => {
       }
       const loggedUser = await getUser(loggedUserInfo.id);
       localStorage.setItem("userInfo", JSON.stringify(loggedUser.dados));
-      const followers_res = await getUserProfileFollowers(loggedUser.dados.id);
-      const visits_res = await getUserProfileVisits(loggedUser.dados.id);
-      const following_res = await getUserProfileFollowing(loggedUser.dados.id);
+      const followers_res = await getUserProfileFollowers(userId);
+      const visits_res = await getUserProfileVisits(userId);
+      const following_res = await getUserProfileFollowing(userId);
       setFollowers(followers_res.dados);
       setVisits(visits_res.dados);
       setFollowing(following_res.dados.seguidores);
@@ -260,40 +263,48 @@ const UserProfile = () => {
                       textAlign: "center",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={
-                        visitor
-                          ? handleFollowingUser
-                          : () => navigate("/edit-profile")
+                    <Tooltip
+                      title={
+                        visitor && isVisitorFollowing
+                          ? t("userProfile.deixarSeguir")
+                          : ""
                       }
-                      sx={{
-                        m: 3,
-                        color: "#ffffff",
-                        width: "40ch",
-                        borderRadius: "20px",
-                        textTransform: "none",
-                      }}
                     >
-                      <IconButton
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={
+                          visitor
+                            ? handleFollowingUser
+                            : () => navigate("/edit-profile")
+                        }
                         sx={{
+                          m: 3,
                           color: "#ffffff",
-                          fontSize: "16px",
+                          width: "40ch",
+                          borderRadius: "20px",
+                          textTransform: "none",
                         }}
                       >
-                        {visitor && isVisitorFollowing ? (
-                          t("userProfile.seguindo")
-                        ) : visitor && !isVisitorFollowing ? (
-                          t("userProfile.seguir")
-                        ) : (
-                          <>
-                            <Edit sx={{ marginRight: "5px" }} />
-                            {t("userProfile.editarPerfil")}
-                          </>
-                        )}
-                      </IconButton>
-                    </Button>
+                        <IconButton
+                          sx={{
+                            color: "#ffffff",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {visitor && isVisitorFollowing ? (
+                            t("userProfile.seguindo")
+                          ) : visitor && !isVisitorFollowing ? (
+                            t("userProfile.seguir")
+                          ) : (
+                            <>
+                              <Edit sx={{ marginRight: "5px" }} />
+                              {t("userProfile.editarPerfil")}
+                            </>
+                          )}
+                        </IconButton>
+                      </Button>
+                    </Tooltip>
                   </Box>
                   {!visitor && (
                     <Tooltip title={t("userProfile.configuracoes")}>
@@ -460,14 +471,16 @@ const UserProfile = () => {
                           flexDirection: "column",
                         }}
                       >
-                        <Tooltip title="Adicionar evento">
-                          <IconButton
-                            color="primary"
-                            onClick={handleOpenAddEventsModal}
-                          >
-                            <Add />
-                          </IconButton>
-                        </Tooltip>
+                        {!visitor && (
+                          <Tooltip title="Adicionar evento">
+                            <IconButton
+                              color="primary"
+                              onClick={handleOpenAddEventsModal}
+                            >
+                              <Add />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                         {/* <Cards culturalAreaId={''} /> */}
                       </Box>
                       <Modal
@@ -506,11 +519,13 @@ const UserProfile = () => {
                           alignItems: "center",
                         }}
                       >
-                        <Tooltip title="Adicionar evento">
-                          <IconButton color="primary">
-                            <Add />
-                          </IconButton>
-                        </Tooltip>
+                        {!visitor && (
+                          <Tooltip title="Adicionar evento">
+                            <IconButton color="primary">
+                              <Add />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                       </Box>
                       {t("userProfile.projetos")}
                     </>
