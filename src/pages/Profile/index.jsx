@@ -175,7 +175,26 @@ const UserProfile = () => {
               >
                 <Avatar
                   alt="User Profile Banner Photo"
-                  sx={{ width: "100%", height: 310, borderRadius: 0 }}
+                  sx={{
+                    width: "100%",
+                    height: 310,
+                    borderRadius: 0,
+                    "&:hover": {
+                      position: "relative",
+                      "&::after": {
+                        content: "' '",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      },
+                    },
+                  }}
                   src={`https://comein.cv/comeincv_api_test/img/capaImg/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
@@ -226,7 +245,25 @@ const UserProfile = () => {
                         <IconButton color="primary" component="span">
                           <Avatar
                             alt="User Profile Photo"
-                            sx={{ width: 150, height: 150 }}
+                            sx={{
+                              width: 150,
+                              height: 150,
+                              "&:hover": {
+                                position: "relative",
+                                "&::after": {
+                                  content: "' '",
+                                  position: "absolute",
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  backgroundColor: "rgba(0, 0, 0, 0.6)",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                },
+                              },
+                            }}
                             src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
                           >
                             <PhotoCamera />
