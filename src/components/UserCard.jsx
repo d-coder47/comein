@@ -23,10 +23,9 @@ const UserCard = ({ publisher }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "100%",
+        width: "22rem",
       }}
     >
-      {/* <Avatar src={`https://comein.cv/comeincv_api_test/capaImg/${publisher.capa}`} alt={""} sx={{}} /> */}
       <Avatar
         variant="square"
         src={
@@ -164,6 +163,7 @@ const UserCard = ({ publisher }) => {
         color="primary"
         size="small"
         sx={{ width: "80%" }}
+        onClick={() => console.log("Seguir")}
       >
         Seguir
       </Button>
