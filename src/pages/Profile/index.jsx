@@ -16,7 +16,6 @@ import {
   Tabs,
   Tooltip,
   Tab,
-  TextField,
   Modal,
 } from "@mui/material";
 import {
@@ -453,29 +452,6 @@ const UserProfile = () => {
                       {visits}
                     </Typography>
                   </Box>
-                  <TextField
-                    label={
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: "16px",
-                          fontWeight: "bold",
-                          color: "#000",
-                        }}
-                      >
-                        {t("userProfile.sobre")}
-                      </Typography>
-                    }
-                    value={pageUserInfo.bio}
-                    disabled
-                    multiline
-                    rows={4}
-                    fullWidth
-                    variant="standard"
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                  />
                 </Paper>
               </Grid>
               <Grid item xs={5} md={8} className="cards_grid_container">
@@ -501,6 +477,10 @@ const UserProfile = () => {
                         sx={{ textTransform: "none" }}
                       />
                     )}
+                    <Tab
+                      label={t("userProfile.sobre")}
+                      sx={{ textTransform: "none" }}
+                    />
                   </Tabs>
                 </Box>
 
@@ -578,6 +558,22 @@ const UserProfile = () => {
                 {selectedTab === 2 && (
                   <Typography variant="h6">
                     {t("userProfile.favoritos")}
+                  </Typography>
+                )}
+
+                {selectedTab === 3 && (
+                  <Typography variant="h6">
+                    <>
+                      <Typography
+                        sx={{
+                          marginTop: "20px",
+                          marginLeft: "20px",
+                        }}
+                        variant="h6"
+                      >
+                        {pageUserInfo.bio}
+                      </Typography>
+                    </>
                   </Typography>
                 )}
               </Grid>
