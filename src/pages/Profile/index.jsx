@@ -17,6 +17,7 @@ import {
   Tooltip,
   Tab,
   Modal,
+  useMediaQuery,
 } from "@mui/material";
 import {
   Edit,
@@ -43,6 +44,8 @@ const UserProfile = () => {
 
   const [visitor, setVisitor] = React.useState(false);
   const [isVisitorFollowing, setIsVisitorFollowing] = React.useState(false);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -460,6 +463,7 @@ const UserProfile = () => {
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center",
+                    marginLeft: { md: "3rem", lg: "3rem" },
                   }}
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
@@ -567,7 +571,7 @@ const UserProfile = () => {
                       <Typography
                         sx={{
                           marginTop: "20px",
-                          marginLeft: "20px",
+                          marginLeft: { md: "3rem", lg: "4rem" },
                         }}
                         variant="h6"
                       >
