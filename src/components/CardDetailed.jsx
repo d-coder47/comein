@@ -235,13 +235,15 @@ const CardDetailed = () => {
     const userId = user?.id;
 
     if (!favorite) {
-      const result = await favoritePost(userId, id, details?.dados?.tipo);
+      const postType = type === "eventos" ? "E" : "P";
+      const result = await favoritePost(userId, id, postType);
       if (!result) return;
       return setIsFavorite(true);
     }
 
     let result;
-    if (type === "E") {
+
+    if (type === "eventos") {
       result = await removeFavoriteFromEvent(id, userId);
     } else {
       result = await removeFavoriteFromProject(id, userId);

@@ -98,7 +98,7 @@ const UserCard = ({ publisher }) => {
               fontSize: "1rem",
             }}
           >
-            {publisher?.gostos}
+            {publisher?.gostos || 0}
           </Typography>
           <Typography
             sx={{
@@ -126,7 +126,7 @@ const UserCard = ({ publisher }) => {
               fontSize: "1rem",
             }}
           >
-            {publisher?.seguidores}
+            {publisher?.seguidores || 0}
           </Typography>
           <Typography
             sx={{
@@ -154,7 +154,7 @@ const UserCard = ({ publisher }) => {
               fontSize: "1rem",
             }}
           >
-            {publisher?.visitas}
+            {publisher?.visitas || 0}
           </Typography>
           <Typography
             sx={{

@@ -93,6 +93,7 @@ const useRegisterUser = () => {
       console.error(error);
     }
   };
+
   const addUser = async (email, password) => {
     try {
       const params = new URLSearchParams({
