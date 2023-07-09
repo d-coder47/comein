@@ -49,7 +49,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = React.useState("event");
 
   const [profilePhoto, setProfilePhoto] = React.useState();
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
@@ -514,20 +514,24 @@ const UserProfile = () => {
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
                     <Tab
+                      value="event"
                       label={t("userProfile.eventos")}
                       sx={{ textTransform: "none" }}
                     />
                     <Tab
+                      value="project"
                       label={t("userProfile.projetos")}
                       sx={{ textTransform: "none" }}
                     />
                     {!visitor && (
                       <Tab
+                        value="favs"
                         label={t("userProfile.favoritos")}
                         sx={{ textTransform: "none" }}
                       />
                     )}
                     <Tab
+                      value="about"
                       label={t("userProfile.sobre")}
                       sx={{ textTransform: "none" }}
                     />
@@ -548,7 +552,7 @@ const UserProfile = () => {
                   </Tabs>
                 </Box>
 
-                {selectedTab === 0 && (
+                {selectedTab === "event" && (
                   <Box
                     sx={{
                       display: "flex",
@@ -564,7 +568,7 @@ const UserProfile = () => {
                     />
                   </Box>
                 )}
-                {selectedTab === 1 && (
+                {selectedTab === "project" && (
                   <Box
                     sx={{
                       display: "flex",
@@ -579,7 +583,7 @@ const UserProfile = () => {
                     />
                   </Box>
                 )}
-                {selectedTab === 2 && (
+                {selectedTab === "favs" && (
                   <Box
                     sx={{
                       display: "flex",
@@ -595,7 +599,7 @@ const UserProfile = () => {
                   </Box>
                 )}
 
-                {selectedTab === 3 && (
+                {selectedTab === "about" && (
                   <Typography variant="h6">
                     <>
                       <Typography
