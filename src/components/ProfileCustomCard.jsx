@@ -54,6 +54,7 @@ const ProfileCustomCard = ({
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
+  const [displayInteractions, setDisplayInteraction] = useState("none");
 
   const navigate = useNavigate();
 
@@ -252,6 +253,8 @@ const ProfileCustomCard = ({
         sx={{
           height: "20rem",
         }}
+        onMouseEnter={() => setDisplayInteraction("block")}
+        onMouseLeave={() => setDisplayInteraction("none")}
       >
         <Box
           sx={{
@@ -278,88 +281,109 @@ const ProfileCustomCard = ({
             }}
           />
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.25rem",
-            top: "-25rem",
-          }}
-        >
-          <Typography
-            fontWeight="bold"
-            fontSize="0.8rem"
-            sx={{
-              "&:hover": {
-                textDecoration: "underline",
-                cursor: "pointer",
-              },
-            }}
-          >
-            {name}
-          </Typography>
 
+        <Box
+          sx={
+            {
+              // display: `${displayInteractions}`,
+            }
+          }
+        >
           <Box
             sx={{
               display: "flex",
-              gap: ".5rem",
-              marginLeft: "auto",
-              fontSize: ".9rem",
+              alignItems: "center",
+              gap: "0.25rem",
+              top: "-25rem",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
-              <ThumbUp
-                // onClick={() => handleLike(false)}
-                sx={{ width: 15, height: 15, color: "black" }}
-              />
-              <Typography
-                sx={{ fontWeight: "bold", color: "black", fontSize: ".8rem" }}
-                variant="p"
-              >
-                {likes}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}>
-              <Visibility
-                // onClick={() => handleFavorite(false)}
-                sx={{ width: 15, height: 15, color: "black" }}
-              />
-              <Typography
-                sx={{ fontWeight: "bold", color: "black", fontSize: ".8rem" }}
-                variant="p"
-              >
-                {visits}
-              </Typography>
-            </Box>
-            <Share
+            <Typography
+              fontWeight="bold"
+              fontSize="0.8rem"
               sx={{
-                width: 14,
-                height: 14,
-                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                },
               }}
-              onClick={handleOpenShareModal}
-            />
+            >
+              {name}
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                gap: ".5rem",
+                marginLeft: "auto",
+                fontSize: ".9rem",
+              }}
+            >
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}
+              >
+                <ThumbUp
+                  // onClick={() => handleLike(false)}
+                  sx={{ width: 15, height: 15, color: "black" }}
+                />
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    color: "black",
+                    fontSize: ".8rem",
+                  }}
+                  variant="p"
+                >
+                  {likes}
+                </Typography>
+              </Box>
+              <Box
+                sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}
+              >
+                <Visibility
+                  // onClick={() => handleFavorite(false)}
+                  sx={{ width: 15, height: 15, color: "black" }}
+                />
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    color: "black",
+                    fontSize: ".8rem",
+                  }}
+                  variant="p"
+                >
+                  {visits}
+                </Typography>
+              </Box>
+              <Share
+                sx={{
+                  width: 14,
+                  height: 14,
+                  cursor: "pointer",
+                }}
+                onClick={handleOpenShareModal}
+              />
+            </Box>
           </Box>
-        </Box>
-        <Box
-          width="fit-content"
-          alignItems="center"
-          gap=".25rem"
-          onMouseEnter={handleClick}
-        >
-          <Typography
-            fontWeight="bold"
-            fontSize="0.7rem"
-            sx={{
-              color: "gray",
-              "&:hover": {
-                textDecoration: "underline",
-                cursor: "pointer",
-              },
-            }}
+          <Box
+            width="fit-content"
+            alignItems="center"
+            gap=".25rem"
+            onMouseEnter={handleClick}
           >
-            {publisherName}
-          </Typography>
+            <Typography
+              fontWeight="bold"
+              fontSize="0.7rem"
+              sx={{
+                color: "gray",
+                "&:hover": {
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                },
+              }}
+            >
+              {publisherName}
+            </Typography>
+          </Box>
         </Box>
 
         <Modal
