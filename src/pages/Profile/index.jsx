@@ -1,9 +1,8 @@
 import React from "react";
 import "./profile.css";
 import NavBar from "../../components/NavBar";
-// import Cards from "../../components/Cards";
+import ListPublications from "../../components/ListPublications";
 import useUserProfile from "../../hooks/useUserProfile";
-import AddEvent from "../../components/AddEvent";
 import {
   Typography,
   Avatar,
@@ -16,8 +15,6 @@ import {
   Tabs,
   Tooltip,
   Tab,
-  Modal,
-  useMediaQuery,
   InputBase,
 } from "@mui/material";
 import {
@@ -26,7 +23,6 @@ import {
   LocationOn,
   PhotoCamera,
   Add,
-  Close,
   Search,
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
@@ -48,8 +44,6 @@ const UserProfile = () => {
   const [visitor, setVisitor] = React.useState(false);
   const [isVisitorFollowing, setIsVisitorFollowing] = React.useState(false);
 
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -57,10 +51,6 @@ const UserProfile = () => {
 
   const [profilePhoto, setProfilePhoto] = React.useState();
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
-
-  const [openAddEventsModal, setOpenAddEventsModal] = React.useState(false);
-  const handleOpenAddEventsModal = () => setOpenAddEventsModal(true);
-  const handleCloseAddEventsModal = () => setOpenAddEventsModal(false);
 
   const {
     updateUserProfileBanner,
@@ -545,16 +535,6 @@ const UserProfile = () => {
                       sx={{ textTransform: "none" }}
                     />
                   </Tabs>
-
-                  {/* <SearchElement>
-                    <SearchIconWrapper>
-                      <Search />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="Search…"
-                      inputProps={{ "aria-label": "search" }}
-                    />
-                  </SearchElement> */}
                 </Box>
 
                 {selectedTab === 0 && (
@@ -568,41 +548,12 @@ const UserProfile = () => {
                           flexDirection: "column",
                         }}
                       >
-                        {!visitor && (
-                          <Tooltip title="Adicionar evento">
-                            <IconButton
-                              color="primary"
-                              onClick={handleOpenAddEventsModal}
-                            >
-                              <Add />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                        {/* <Cards culturalAreaId={''} /> */}
+                        <ListPublications
+                          userID={userId}
+                          type={"event"}
+                          isVisitor={visitor}
+                        />
                       </Box>
-                      <Modal
-                        open={openAddEventsModal}
-                        onClose={handleCloseAddEventsModal}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                      >
-                        <Box>
-                          <IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={handleCloseAddEventsModal}
-                            sx={{
-                              position: "absolute",
-                              top: 8,
-                              right: 8,
-                            }}
-                          >
-                            <Close />
-                          </IconButton>
-                          <AddEvent />
-                        </Box>
-                      </Modal>
                     </>
                   </Typography>
                 )}
@@ -616,15 +567,12 @@ const UserProfile = () => {
                           alignItems: "center",
                         }}
                       >
-                        {!visitor && (
-                          <Tooltip title="Adicionar evento">
-                            <IconButton color="primary">
-                              <Add />
-                            </IconButton>
-                          </Tooltip>
-                        )}
+                        <ListPublications
+                          userID={userId}
+                          type={"project"}
+                          isVisitor={visitor}
+                        />
                       </Box>
-                      {t("userProfile.projetos")}
                     </>
                   </Typography>
                 )}

@@ -125,6 +125,42 @@ const usePosts = () => {
     }
   };
 
+  const getEventPostByUser = async (userId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/eventos/obterEventosPorUtilizador/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getProjectPostByUser = async (userId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/projetos/listarPorUtilizador/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getPostsByArea,
     getHighlightPosts,
@@ -132,6 +168,8 @@ const usePosts = () => {
     likePost,
     favoritePost,
     posts,
+    getEventPostByUser,
+    getProjectPostByUser,
   };
 };
 
