@@ -164,7 +164,7 @@ export default function CustomizedAutoComplete({
     setAnchorEl,
   } = useAutocomplete({
     id: "customized-auto-complete",
-    defaultValue: [{ title: userName, year: userId }],
+    defaultValue: [{ id: userId, nome: userName }],
     multiple: true,
     options: data,
     size: "small",
@@ -178,7 +178,7 @@ export default function CustomizedAutoComplete({
       <div {...getRootProps()}>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {value.map((option, index) => (
-            <StyledTag label={option.title} {...getTagProps({ index })} />
+            <StyledTag label={option.nome} {...getTagProps({ index })} />
           ))}
           <input {...getInputProps()} />
         </InputWrapper>
