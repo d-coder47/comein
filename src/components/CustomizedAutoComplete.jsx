@@ -16,7 +16,7 @@ const Root = styled("div")(
 
 const InputWrapper = styled("div")(
   ({ theme }) => `
-  width: 300px;
+  width: 100%;
   border: 1px solid ${theme.palette.mode === "dark" ? "#434343" : "#d9d9d9"};
   background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
   border-radius: 4px;
@@ -146,7 +146,11 @@ const Listbox = styled("ul")(
 `
 );
 
-export default function CustomizedAutoComplete() {
+export default function CustomizedAutoComplete({
+  userName,
+  userId,
+  onAutoCompleteChange,
+}) {
   const {
     getRootProps,
     getInputProps,
@@ -159,12 +163,13 @@ export default function CustomizedAutoComplete() {
     setAnchorEl,
   } = useAutocomplete({
     id: "customized-auto-complete",
-    defaultValue: [{ title: "Danilson", year: 2023 }],
+    defaultValue: [{ title: userName, year: userId }],
     multiple: true,
     options: top100Films,
     size: "small",
     placeholder: "standard",
     getOptionLabel: (option) => option.title,
+    onChange: (_, value) => onAutoCompleteChange(value),
   });
 
   return (

@@ -4,16 +4,23 @@ import {
   Autocomplete,
   Avatar,
   Box,
+  Checkbox,
+  Input,
+  Modal,
+  Popover,
   TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
-import img from "../../../assets/img/event3.jpg";
+import img from "../../../assets/img/upload.png";
 import {
   CalendarMonth,
   LocationOn,
   FiberManualRecord as Dot,
   Save,
+  Add,
+  CheckBoxOutlineBlank,
+  CheckBox,
 } from "@mui/icons-material";
 import Publisher from "../../../components/Publisher";
 
@@ -23,18 +30,94 @@ import Parser from "html-react-parser";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
+import { useNavigate } from "react-router-dom";
 
 const Adicionar = () => {
   const [user, setUser] = useState(null);
-  const [value, setValue] = useState(
-    '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>'
-  );
+  const [anchorLocationEl, setAnchorLocationEl] = useState(null);
+  const [anchorDateEl, setAnchorDateEl] = useState(null);
+  const [anchorCulturalAreaEl, setAnchorCulturalAreaEl] = useState(null);
+  const [anchorAssociateProjectEl, setAnchorAssociateProjectEl] =
+    useState(null);
+  const [fieldValues, setFieldValues] = useState({
+    nome: "",
+    data_inicio: "",
+    data_fim: "",
+    imagem: null,
+    descricao:
+      '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
+    local: "",
+    proprietarios: [],
+    areasCulturais: [],
+    assoc_projeto: [],
+  });
+
+  const navigate = useNavigate();
+
+  const handleLocationClick = (event) => {
+    setAnchorLocationEl(event.currentTarget);
+  };
+
+  const handleDateClick = (event) => {
+    setAnchorDateEl(event.currentTarget);
+  };
+
+  const handleCulturalAreaClick = (event) => {
+    setAnchorCulturalAreaEl(event.currentTarget);
+  };
+
+  const handleAssociateProjectClick = (event) => {
+    setAnchorAssociateProjectEl(event.currentTarget);
+  };
+
+  const handleChangeFieldValues = (key, value) => {
+    setFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+  };
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (!userInfo) return;
+    if (!userInfo) return navigate("/");
     setUser(userInfo);
   }, []);
+
+  const openLocationPopover = Boolean(anchorLocationEl);
+  const locationPopoverId = open ? "location-popover" : undefined;
+
+  const openDatePopover = Boolean(anchorDateEl);
+  const datePopoverId = open ? "date-popover" : undefined;
+
+  const openCulturalAreaPopover = Boolean(anchorCulturalAreaEl);
+  const culturalAreaPopoverId = open ? "culturalArea-popover" : undefined;
+
+  const openAssociateProjectPopover = Boolean(anchorAssociateProjectEl);
+  const associateProjectPopoverId = open
+    ? "associateProject-popover"
+    : undefined;
+
+  const icon = <CheckBoxOutlineBlank fontSize="small" />;
+  const checkedIcon = <CheckBox fontSize="small" />;
+
+  const handlePhotoUpload = async (event) => {
+    const file = event.target.files[0];
+
+    var reader = new FileReader();
+    reader.onload = async function () {
+      console.log("Uploaded");
+      // await updateUserProfilePhoto(loggedUserInfo.id, file);
+      // const user = await getUser(loggedUserInfo.id);
+      // setProfilePhoto(user.dados.img_perfil);
+
+      // localStorage.setItem("userInfo", JSON.stringify(user.dados));
+      handleChangeFieldValues("imagem", URL.createObjectURL(file));
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+
+  const handleChangeImgClick = () => {
+    document.getElementById("upload-photo").click();
+  };
 
   if (!user) return <div>Loading</div>;
 
@@ -92,11 +175,19 @@ const Adicionar = () => {
                   required
                   id="event-name"
                   name="name"
-                  defaultValue="Insira o nome do seu evento aqui"
+                  placeholder="Insira o nome do seu evento aqui"
                   variant="standard"
+                  onChange={(e) =>
+                    handleChangeFieldValues("nome", e.target.value)
+                  }
                 />
                 <Box
-                  sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}
+                  sx={{
+                    display: "flex",
+                    gap: ".25rem",
+                    alignItems: "center",
+                    flexGrow: 1,
+                  }}
                 >
                   <Publisher publishers={[user]} />
                   <Dot sx={{ fontSize: ".5rem" }} />
@@ -110,40 +201,39 @@ const Adicionar = () => {
                   >
                     Adicionar proprietário
                   </Typography> */}
-                  <CustomizedAutoComplete />
-                  {/* <Autocomplete
-                    multiple
-                    id="tags-standard"
-                    options={top100Films}
-                    getOptionLabel={(option) => option.title}
-                    defaultValue={[top100Films[13]]}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="standard"
-                        // label="Multiple values"
-                        placeholder="Favorites"
-                        size="small"
-                      />
-                    )}
-                  /> */}
+                  <CustomizedAutoComplete
+                    userId={user?.id}
+                    userName={user?.nome}
+                    onAutoCompleteChange={(value) =>
+                      handleChangeFieldValues("proprietarios", value)
+                    }
+                  />
                 </Box>
               </Box>
             </Box>
             <Box sx={{ backgroundColor: "white" }}>
+              <Input
+                style={{ display: "none" }}
+                id="upload-photo"
+                name="upload-photo"
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoUpload}
+              />
               <Avatar
-                src={img}
+                src={fieldValues.imagem || img}
                 alt={`Adicionar imagem`}
                 variant="square"
-                sx={{ width: "100%", height: "auto" }}
+                sx={{ width: "45rem", height: "auto" }}
+                onClick={handleChangeImgClick}
               />
             </Box>
             <ReactQuill
               theme="bubble"
               modules={editorModules}
               formats={editorFormats}
-              value={value}
-              onChange={setValue}
+              value={fieldValues.descricao}
+              onChange={(value) => handleChangeFieldValues("descricao", value)}
             />
           </Box>
           <Box
@@ -157,6 +247,7 @@ const Adicionar = () => {
             <Tooltip title={"Adicionar local"} placement="left" arrow>
               <Box
                 id="location"
+                aria-describedby={locationPopoverId}
                 sx={{
                   borderRadius: "50%",
                   height: "3rem",
@@ -167,6 +258,7 @@ const Adicionar = () => {
                   justifyContent: "center",
                   cursor: "pointer",
                 }}
+                onClick={handleLocationClick}
               >
                 <LocationOn
                   color="white"
@@ -178,7 +270,32 @@ const Adicionar = () => {
                 />
               </Box>
             </Tooltip>
-
+            <Popover
+              id={locationPopoverId}
+              open={openLocationPopover}
+              anchorEl={anchorLocationEl}
+              onClose={() => setAnchorLocationEl(null)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <Box display="flex" gap="1rem" justifyContent="space-between">
+                <Autocomplete
+                  id="location-auto-complete"
+                  options={top100Films}
+                  sx={{ width: 300 }}
+                  disableCloseOnSelect
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  getOptionLabel={(option) => option.title}
+                  onChange={(_, value) =>
+                    handleChangeFieldValues("local", value)
+                  }
+                />
+              </Box>
+            </Popover>
             <Tooltip title={"Adicionar data"} placement="left" arrow>
               <Box
                 id="date"
@@ -196,12 +313,195 @@ const Adicionar = () => {
                     opacity: 0.8,
                   },
                 }}
+                onClick={handleDateClick}
               >
                 <CalendarMonth
                   sx={{ color: "white", width: "1rem", height: "1rem" }}
                 />
               </Box>
             </Tooltip>
+            <Popover
+              id={datePopoverId}
+              open={openDatePopover}
+              anchorEl={anchorDateEl}
+              onClose={() => setAnchorDateEl(null)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <Box display="flex" gap="1rem" justifyContent="space-between">
+                <TextField
+                  id="date-start"
+                  name="startDate"
+                  type="date"
+                  label="Data Início"
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                  onChange={
+                    (e) =>
+                      handleChangeFieldValues("data_inicio", e.target.value)
+                    // handleDateLocalChange(e.target.name, e.target.value)
+                  }
+                />
+                <TextField
+                  id="date-end"
+                  name="endDate"
+                  type="date"
+                  label="Data Fim"
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  InputLabelProps={{ shrink: true }}
+                  onChange={
+                    (e) => handleChangeFieldValues("data_fim", e.target.value)
+                    // handleDateLocalChange(e.target.name, e.target.value)
+                  }
+                />
+              </Box>
+            </Popover>
+            <Tooltip title={"Adicionar área cultural"} placement="left" arrow>
+              <Box
+                id="cultural-area"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={handleCulturalAreaClick}
+              >
+                <Add sx={{ color: "white", width: "1rem", height: "1rem" }} />
+              </Box>
+            </Tooltip>
+            <Popover
+              id={culturalAreaPopoverId}
+              open={openCulturalAreaPopover}
+              anchorEl={anchorCulturalAreaEl}
+              onClose={() => setAnchorCulturalAreaEl(null)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <Box display="flex" gap="1rem" justifyContent="space-between">
+                <Autocomplete
+                  multiple
+                  id="checkboxes-tags-demo"
+                  options={top100Films}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) => option.title}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {option.title}
+                    </li>
+                  )}
+                  onChange={(_, value) =>
+                    handleChangeFieldValues("areasCulturais", value)
+                  }
+                  sx={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Áreas Culturais"
+                      size="small"
+                    />
+                  )}
+                />
+              </Box>
+            </Popover>
+            <Tooltip
+              title={"Adicionar Projeto Associado"}
+              placement="left"
+              arrow
+            >
+              <Box
+                id="associated-project"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={handleAssociateProjectClick}
+              >
+                <Add sx={{ color: "white", width: "1rem", height: "1rem" }} />
+              </Box>
+            </Tooltip>
+            <Popover
+              id={associateProjectPopoverId}
+              open={openAssociateProjectPopover}
+              anchorEl={anchorAssociateProjectEl}
+              onClose={() => setAnchorAssociateProjectEl(null)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <Box display="flex" gap="1rem" justifyContent="space-between">
+                <Autocomplete
+                  multiple
+                  id="checkboxes-tags-demo"
+                  options={top100Films}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) => option.title}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {option.title}
+                    </li>
+                  )}
+                  onChange={(_, value) =>
+                    handleChangeFieldValues("assoc_projeto", value)
+                  }
+                  sx={{ width: 300 }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Projeto Associado"
+                      size="small"
+                    />
+                  )}
+                />
+              </Box>
+            </Popover>
             <Tooltip title={"Guardar evento"} placement="left" arrow>
               <Box
                 id="save"
@@ -219,6 +519,7 @@ const Adicionar = () => {
                     opacity: 0.8,
                   },
                 }}
+                onClick={() => console.log("Values ", fieldValues)}
               >
                 <Save sx={{ color: "white", width: "1rem", height: "1rem" }} />
               </Box>
