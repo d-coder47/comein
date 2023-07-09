@@ -538,48 +538,50 @@ const UserProfile = () => {
                 </Box>
 
                 {selectedTab === 0 && (
-                  <Typography variant="h6">
-                    <>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <ListPublications
-                          userID={userId}
-                          type={"event"}
-                          isVisitor={visitor}
-                        />
-                      </Box>
-                    </>
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"event"}
+                      isVisitor={visitor}
+                    />
+                  </Box>
                 )}
                 {selectedTab === 1 && (
-                  <Typography variant="h6">
-                    <>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <ListPublications
-                          userID={userId}
-                          type={"project"}
-                          isVisitor={visitor}
-                        />
-                      </Box>
-                    </>
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"project"}
+                      isVisitor={visitor}
+                    />
+                  </Box>
                 )}
                 {selectedTab === 2 && (
-                  <Typography variant="h6">
-                    {t("userProfile.favoritos")}
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"favs"}
+                      isVisitor={visitor}
+                    />
+                  </Box>
                 )}
 
                 {selectedTab === 3 && (
