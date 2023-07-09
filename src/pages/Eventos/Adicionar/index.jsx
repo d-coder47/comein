@@ -31,6 +31,9 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../api/axiosInstance";
+import useRegisterUser from "../../../hooks/useRegisterUser";
+import { useTranslation } from "react-i18next";
 
 const Adicionar = () => {
   const [user, setUser] = useState(null);
@@ -51,8 +54,37 @@ const Adicionar = () => {
     areasCulturais: [],
     assoc_projeto: [],
   });
+  const [users, setUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [addresses, setAddresses] = useState([]);
 
   const navigate = useNavigate();
+
+  const { getAddresses } = useRegisterUser();
+
+  const { t } = useTranslation();
+
+  const categories = [
+    { id: 1, name: t("categories.music") },
+    { id: 2, name: t("categories.theater") },
+    { id: 3, name: t("categories.dance") },
+    { id: 4, name: t("categories.movieTheater") },
+    { id: 5, name: t("categories.standUp") },
+    { id: 6, name: t("categories.visualArts") },
+    { id: 7, name: t("categories.sculpture") },
+    { id: 8, name: t("categories.craftsmanship") },
+    { id: 9, name: t("categories.design") },
+    { id: 10, name: t("categories.photography") },
+    { id: 11, name: t("categories.urbanArt") },
+    { id: 12, name: t("categories.literature") },
+    { id: 13, name: t("categories.gastronomy") },
+    { id: 14, name: t("categories.fashion") },
+    {
+      id: 15,
+      name: t("categories.traditionalParties"),
+    },
+    { id: 16, name: t("categories.carnaval") },
+  ];
 
   const handleLocationClick = (event) => {
     setAnchorLocationEl(event.currentTarget);
@@ -80,6 +112,43 @@ const Adicionar = () => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) return navigate("/");
     setUser(userInfo);
+
+    const getUsers = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/utilizadores/obterUtilizadores`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setUsers(response.data.dados || []);
+      } catch (error) {
+        console.error(error);
+        setUsers([]);
+      }
+    };
+
+    const getProjects = async () => {
+      try {
+        const response = await axiosInstance.get(`/projetos/listar`, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        });
+        setProjects(response.data.dados);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUsers();
+    getProjects();
   }, []);
 
   const openLocationPopover = Boolean(anchorLocationEl);
@@ -202,6 +271,7 @@ const Adicionar = () => {
                     Adicionar proprietário
                   </Typography> */}
                   <CustomizedAutoComplete
+                    data={users}
                     userId={user?.id}
                     userName={user?.nome}
                     onAutoCompleteChange={(value) =>
@@ -283,16 +353,30 @@ const Adicionar = () => {
               <Box display="flex" gap="1rem" justifyContent="space-between">
                 <Autocomplete
                   id="location-auto-complete"
-                  options={top100Films}
+                  options={addresses}
                   sx={{ width: 300 }}
                   disableCloseOnSelect
                   renderInput={(params) => (
                     <TextField {...params} size="small" />
                   )}
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={(option) => option?.nome}
                   onChange={(_, value) =>
                     handleChangeFieldValues("local", value)
                   }
+                  onInputChange={async (event, value) => {
+                    if (value.length >= 2 && value.length <= 4) {
+                      const res = await getAddresses(value);
+
+                      // const newAddresses = [];
+                      // for (let key in res.dados) {
+                      //   if (res.dados.hasOwnProperty(key)) {
+                      //     const value = res.dados[key];
+                      //     newAddresses.push(value.nome);
+                      //   }
+                      // }
+                      setAddresses(res.dados);
+                    }
+                  }}
                 />
               </Box>
             </Popover>
@@ -406,9 +490,9 @@ const Adicionar = () => {
                 <Autocomplete
                   multiple
                   id="checkboxes-tags-demo"
-                  options={top100Films}
+                  options={categories}
                   disableCloseOnSelect
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={(option) => option.name}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
@@ -417,7 +501,7 @@ const Adicionar = () => {
                         style={{ marginRight: 8 }}
                         checked={selected}
                       />
-                      {option.title}
+                      {option.name}
                     </li>
                   )}
                   onChange={(_, value) =>
@@ -474,9 +558,9 @@ const Adicionar = () => {
                 <Autocomplete
                   multiple
                   id="checkboxes-tags-demo"
-                  options={top100Films}
+                  options={projects}
                   disableCloseOnSelect
-                  getOptionLabel={(option) => option.title}
+                  getOptionLabel={(option) => option.nome}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
@@ -485,7 +569,7 @@ const Adicionar = () => {
                         style={{ marginRight: 8 }}
                         checked={selected}
                       />
-                      {option.title}
+                      {option.nome}
                     </li>
                   )}
                   onChange={(_, value) =>

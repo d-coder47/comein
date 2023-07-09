@@ -237,6 +237,23 @@ const useUserProfile = () => {
     }
   };
 
+  const getAllUsers = async (userId) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/obterUtulizadores`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data.dados || [];
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -249,6 +266,7 @@ const useUserProfile = () => {
     isFollowing,
     followUser,
     getUserProfileFollowing,
+    getAllUsers,
   };
 };
 
