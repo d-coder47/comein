@@ -215,7 +215,7 @@ const ProfileCustomCard = ({
     }
 
     let result;
-    if (type === "E") {
+    if (type === "eventos") {
       result = await removeFavoriteFromEvent(id, userId);
     } else {
       result = await removeFavoriteFromProject(id, userId);
