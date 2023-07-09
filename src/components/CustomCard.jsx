@@ -84,6 +84,7 @@ const CustomCard = ({
   };
 
   const handleOpen = () => {
+    localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
     // setOpen(true);
   };

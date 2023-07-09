@@ -36,7 +36,7 @@ import CardDetailed from "./CardDetailed";
 import useEvents from "../hooks/useEvents";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ProfileCustomCard = ({
   id = null,
@@ -57,10 +57,12 @@ const ProfileCustomCard = ({
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const getPostPath = () => {
     const postType = type === "E" ? "eventos" : "projetos";
     const postName = name.toLowerCase().trim().replaceAll(" ", "_");
-    return `${postType}/${id}/${postName}`;
+    return `/${postType}/${id}/${postName}`;
   };
 
   const handleClick = (event) => {
@@ -68,7 +70,9 @@ const ProfileCustomCard = ({
   };
 
   const handleOpen = () => {
+    localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
+
     // setOpen(true);
   };
   const handleClose = () => setOpen(false);
