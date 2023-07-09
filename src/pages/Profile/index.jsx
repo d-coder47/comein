@@ -16,8 +16,8 @@ import {
   Tabs,
   Tooltip,
   Tab,
-  TextField,
   Modal,
+  useMediaQuery,
 } from "@mui/material";
 import {
   Edit,
@@ -44,6 +44,8 @@ const UserProfile = () => {
 
   const [visitor, setVisitor] = React.useState(false);
   const [isVisitorFollowing, setIsVisitorFollowing] = React.useState(false);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -103,6 +105,9 @@ const UserProfile = () => {
 
   const handleFollowingUser = async () => {
     const follow_res = await followUser(loggedUserInfo.id, userId);
+    const followers_res = await getUserProfileFollowers(userId);
+    setFollowers(followers_res.dados);
+
     if (follow_res) {
       setIsVisitorFollowing(true);
     } else {
@@ -122,9 +127,9 @@ const UserProfile = () => {
       }
       const loggedUser = await getUser(loggedUserInfo.id);
       localStorage.setItem("userInfo", JSON.stringify(loggedUser.dados));
-      const followers_res = await getUserProfileFollowers(loggedUser.dados.id);
-      const visits_res = await getUserProfileVisits(loggedUser.dados.id);
-      const following_res = await getUserProfileFollowing(loggedUser.dados.id);
+      const followers_res = await getUserProfileFollowers(userId);
+      const visits_res = await getUserProfileVisits(userId);
+      const following_res = await getUserProfileFollowing(userId);
       setFollowers(followers_res.dados);
       setVisits(visits_res.dados);
       setFollowing(following_res.dados.seguidores);
@@ -172,7 +177,26 @@ const UserProfile = () => {
               >
                 <Avatar
                   alt="User Profile Banner Photo"
-                  sx={{ width: "100%", height: 310, borderRadius: 0 }}
+                  sx={{
+                    width: "100%",
+                    height: 310,
+                    borderRadius: 0,
+                    "&:hover": {
+                      position: "relative",
+                      "&::after": {
+                        content: "' '",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      },
+                    },
+                  }}
                   src={`https://comein.cv/comeincv_api_test/img/capaImg/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
@@ -223,7 +247,25 @@ const UserProfile = () => {
                         <IconButton color="primary" component="span">
                           <Avatar
                             alt="User Profile Photo"
-                            sx={{ width: 150, height: 150 }}
+                            sx={{
+                              width: 150,
+                              height: 150,
+                              "&:hover": {
+                                position: "relative",
+                                "&::after": {
+                                  content: "' '",
+                                  position: "absolute",
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  backgroundColor: "rgba(0, 0, 0, 0.6)",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                },
+                              },
+                            }}
                             src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
                           >
                             <PhotoCamera />
@@ -260,46 +302,61 @@ const UserProfile = () => {
                       textAlign: "center",
                     }}
                   >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={
-                        visitor
-                          ? handleFollowingUser
-                          : () => navigate("/edit-profile")
+                    <Tooltip
+                      title={
+                        visitor && isVisitorFollowing
+                          ? t("userProfile.deixarSeguir")
+                          : ""
                       }
-                      sx={{
-                        m: 3,
-                        color: "#ffffff",
-                        width: "40ch",
-                        borderRadius: "20px",
-                        textTransform: "none",
-                      }}
                     >
-                      <IconButton
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={
+                          visitor
+                            ? handleFollowingUser
+                            : () =>
+                                navigate(
+                                  `/edit-profile/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                                )
+                        }
                         sx={{
+                          m: 3,
                           color: "#ffffff",
-                          fontSize: "16px",
+                          width: "40ch",
+                          borderRadius: "20px",
+                          textTransform: "none",
                         }}
                       >
-                        {visitor && isVisitorFollowing ? (
-                          t("userProfile.seguindo")
-                        ) : visitor && !isVisitorFollowing ? (
-                          t("userProfile.seguir")
-                        ) : (
-                          <>
-                            <Edit sx={{ marginRight: "5px" }} />
-                            {t("userProfile.editarPerfil")}
-                          </>
-                        )}
-                      </IconButton>
-                    </Button>
+                        <IconButton
+                          sx={{
+                            color: "#ffffff",
+                            fontSize: "16px",
+                          }}
+                        >
+                          {visitor && isVisitorFollowing ? (
+                            t("userProfile.seguindo")
+                          ) : visitor && !isVisitorFollowing ? (
+                            t("userProfile.seguir")
+                          ) : (
+                            <>
+                              <Edit sx={{ marginRight: "5px" }} />
+                              {t("userProfile.editarPerfil")}
+                            </>
+                          )}
+                        </IconButton>
+                      </Button>
+                    </Tooltip>
                   </Box>
                   {!visitor && (
                     <Tooltip title={t("userProfile.configuracoes")}>
                       <IconButton
                         color="primary"
-                        onClick={() => navigate("/user-profile-configuration")}
+                        onClick={() =>
+                          navigate(
+                            `/user-profile-configuration/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                          )
+                        }
                       >
                         <Settings />
                       </IconButton>
@@ -398,29 +455,6 @@ const UserProfile = () => {
                       {visits}
                     </Typography>
                   </Box>
-                  <TextField
-                    label={
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: "16px",
-                          fontWeight: "bold",
-                          color: "#000",
-                        }}
-                      >
-                        {t("userProfile.sobre")}
-                      </Typography>
-                    }
-                    value={pageUserInfo.bio}
-                    disabled
-                    multiline
-                    rows={4}
-                    fullWidth
-                    variant="standard"
-                    InputProps={{
-                      disableUnderline: true,
-                    }}
-                  />
                 </Paper>
               </Grid>
               <Grid item xs={5} md={8} className="cards_grid_container">
@@ -429,6 +463,7 @@ const UserProfile = () => {
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center",
+                    marginLeft: { md: "3rem", lg: "3rem" },
                   }}
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
@@ -446,6 +481,10 @@ const UserProfile = () => {
                         sx={{ textTransform: "none" }}
                       />
                     )}
+                    <Tab
+                      label={t("userProfile.sobre")}
+                      sx={{ textTransform: "none" }}
+                    />
                   </Tabs>
                 </Box>
 
@@ -460,14 +499,16 @@ const UserProfile = () => {
                           flexDirection: "column",
                         }}
                       >
-                        <Tooltip title="Adicionar evento">
-                          <IconButton
-                            color="primary"
-                            onClick={handleOpenAddEventsModal}
-                          >
-                            <Add />
-                          </IconButton>
-                        </Tooltip>
+                        {!visitor && (
+                          <Tooltip title="Adicionar evento">
+                            <IconButton
+                              color="primary"
+                              onClick={handleOpenAddEventsModal}
+                            >
+                              <Add />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                         {/* <Cards culturalAreaId={''} /> */}
                       </Box>
                       <Modal
@@ -506,11 +547,13 @@ const UserProfile = () => {
                           alignItems: "center",
                         }}
                       >
-                        <Tooltip title="Adicionar evento">
-                          <IconButton color="primary">
-                            <Add />
-                          </IconButton>
-                        </Tooltip>
+                        {!visitor && (
+                          <Tooltip title="Adicionar evento">
+                            <IconButton color="primary">
+                              <Add />
+                            </IconButton>
+                          </Tooltip>
+                        )}
                       </Box>
                       {t("userProfile.projetos")}
                     </>
@@ -519,6 +562,22 @@ const UserProfile = () => {
                 {selectedTab === 2 && (
                   <Typography variant="h6">
                     {t("userProfile.favoritos")}
+                  </Typography>
+                )}
+
+                {selectedTab === 3 && (
+                  <Typography variant="h6">
+                    <>
+                      <Typography
+                        sx={{
+                          marginTop: "20px",
+                          marginLeft: { md: "3rem", lg: "4rem" },
+                        }}
+                        variant="h6"
+                      >
+                        {pageUserInfo.bio}
+                      </Typography>
+                    </>
                   </Typography>
                 )}
               </Grid>

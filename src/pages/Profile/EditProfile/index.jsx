@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../../../components/NavBar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   Grid,
@@ -33,6 +33,8 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 import useUserProfile from "../../../hooks/useUserProfile";
 
 const EditProfile = () => {
+  const params = useParams();
+  const { userId } = params;
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
@@ -146,7 +148,7 @@ const EditProfile = () => {
   };
 
   React.useEffect(() => {
-    if (!authenticated) {
+    if (!authenticated || userId !== userInfo.id) {
       navigate("/");
     }
     formData.name = userInfo.nome;
