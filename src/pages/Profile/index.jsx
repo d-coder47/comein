@@ -1,9 +1,8 @@
 import React from "react";
 import "./profile.css";
 import NavBar from "../../components/NavBar";
-// import Cards from "../../components/Cards";
+import ListPublications from "../../components/ListPublications";
 import useUserProfile from "../../hooks/useUserProfile";
-import AddEvent from "../../components/AddEvent";
 import {
   Typography,
   Avatar,
@@ -16,8 +15,9 @@ import {
   Tabs,
   Tooltip,
   Tab,
-  Modal,
-  useMediaQuery,
+  InputBase,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import {
   Edit,
@@ -25,11 +25,12 @@ import {
   LocationOn,
   PhotoCamera,
   Add,
-  Close,
+  Search,
 } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
+import { styled, alpha } from "@mui/material/styles";
 
 const UserProfile = () => {
   const params = useParams();
@@ -45,19 +46,13 @@ const UserProfile = () => {
   const [visitor, setVisitor] = React.useState(false);
   const [isVisitorFollowing, setIsVisitorFollowing] = React.useState(false);
 
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [selectedTab, setSelectedTab] = React.useState(0);
+  const [selectedTab, setSelectedTab] = React.useState("event");
 
   const [profilePhoto, setProfilePhoto] = React.useState();
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
-
-  const [openAddEventsModal, setOpenAddEventsModal] = React.useState(false);
-  const handleOpenAddEventsModal = () => setOpenAddEventsModal(true);
-  const handleCloseAddEventsModal = () => setOpenAddEventsModal(false);
 
   const {
     updateUserProfileBanner,
@@ -70,6 +65,15 @@ const UserProfile = () => {
   } = useUserProfile();
 
   const { getUser } = useRegisterUser();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -152,6 +156,48 @@ const UserProfile = () => {
       }
     }
   }, []);
+
+  const SearchElement = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    // backgroundColor: alpha(theme.palette.common.white, 0.15),
+    // "&:hover": {
+    //   backgroundColor: alpha(theme.palette.common.white, 0.25),
+    // },
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto",
+    },
+  }));
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create("width"),
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        width: "12ch",
+        "&:focus": {
+          width: "20ch",
+        },
+      },
+    },
+  }));
 
   return (
     <>
@@ -468,104 +514,92 @@ const UserProfile = () => {
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
                     <Tab
+                      value="event"
                       label={t("userProfile.eventos")}
                       sx={{ textTransform: "none" }}
                     />
                     <Tab
+                      value="project"
                       label={t("userProfile.projetos")}
                       sx={{ textTransform: "none" }}
                     />
                     {!visitor && (
                       <Tab
+                        value="favs"
                         label={t("userProfile.favoritos")}
                         sx={{ textTransform: "none" }}
                       />
                     )}
                     <Tab
+                      value="about"
                       label={t("userProfile.sobre")}
+                      sx={{ textTransform: "none" }}
+                    />
+                    <Tab
+                      label={
+                        <SearchElement>
+                          <SearchIconWrapper>
+                            <Search />
+                          </SearchIconWrapper>
+                          <StyledInputBase
+                            placeholder="Search…"
+                            inputProps={{ "aria-label": "search" }}
+                          />
+                        </SearchElement>
+                      }
                       sx={{ textTransform: "none" }}
                     />
                   </Tabs>
                 </Box>
 
-                {selectedTab === 0 && (
-                  <Typography variant="h6">
-                    <>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          flexDirection: "column",
-                        }}
-                      >
-                        {!visitor && (
-                          <Tooltip title="Adicionar evento">
-                            <IconButton
-                              color="primary"
-                              onClick={handleOpenAddEventsModal}
-                            >
-                              <Add />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                        {/* <Cards culturalAreaId={''} /> */}
-                      </Box>
-                      <Modal
-                        open={openAddEventsModal}
-                        onClose={handleCloseAddEventsModal}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                      >
-                        <Box>
-                          <IconButton
-                            aria-label="close"
-                            color="inherit"
-                            size="small"
-                            onClick={handleCloseAddEventsModal}
-                            sx={{
-                              position: "absolute",
-                              top: 8,
-                              right: 8,
-                            }}
-                          >
-                            <Close />
-                          </IconButton>
-                          <AddEvent />
-                        </Box>
-                      </Modal>
-                    </>
-                  </Typography>
+                {selectedTab === "event" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"event"}
+                      isVisitor={visitor}
+                    />
+                  </Box>
                 )}
-                {selectedTab === 1 && (
-                  <Typography variant="h6">
-                    <>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {!visitor && (
-                          <Tooltip title="Adicionar evento">
-                            <IconButton color="primary">
-                              <Add />
-                            </IconButton>
-                          </Tooltip>
-                        )}
-                      </Box>
-                      {t("userProfile.projetos")}
-                    </>
-                  </Typography>
+                {selectedTab === "project" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"project"}
+                      isVisitor={visitor}
+                    />
+                  </Box>
                 )}
-                {selectedTab === 2 && (
-                  <Typography variant="h6">
-                    {t("userProfile.favoritos")}
-                  </Typography>
+                {selectedTab === "favs" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"favs"}
+                      isVisitor={visitor}
+                    />
+                  </Box>
                 )}
 
-                {selectedTab === 3 && (
+                {selectedTab === "about" && (
                   <Typography variant="h6">
                     <>
                       <Typography
@@ -580,11 +614,81 @@ const UserProfile = () => {
                     </>
                   </Typography>
                 )}
+                {selectedTab === 4 && (
+                  <Typography variant="h6">Resultados do search</Typography>
+                )}
               </Grid>
             </Grid>
           </Box>
         )}
       </div>
+      <Box
+        sx={{
+          width: "60px",
+          height: "60px",
+          backgroundColor: "#33B3CC",
+          position: "fixed",
+          bottom: "25px",
+          right: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "50%",
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "#743600",
+          },
+        }}
+      >
+        <Tooltip title="Adicionar">
+          <Button onClick={handleClick}>
+            <Add
+              sx={{
+                color: "#fff",
+                fontSize: "3.25rem",
+              }}
+            />
+          </Button>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem onClick={handleClose}>Adicionar Evento</MenuItem>
+        <MenuItem onClick={handleClose}>Adicionar Projeto</MenuItem>
+      </Menu>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -7,8 +7,6 @@ import {
   Skeleton,
   Stack,
   Button,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import { ThumbUp, Share, Close, Link } from "@mui/icons-material";
 
@@ -35,14 +33,12 @@ import { Visibility } from "@mui/icons-material";
 
 import CardDetailed from "./CardDetailed";
 
-import LazyLoad from "react-lazy-load";
 import useEvents from "../hooks/useEvents";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
-import UserCard from "./UserCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const CustomCard = ({
+const ProfileCustomCard = ({
   id = null,
   name,
   likes,
@@ -58,25 +54,15 @@ const CustomCard = ({
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
-  const [publisherInfo, setPublisherInfo] = useState(null);
-  const [showUserCard, setShowUserCard] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const userCardRef = useRef(null);
-  const userCardParentRef = useRef(null);
-
-  const openMenu = Boolean(anchorEl);
 
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const getPostPath = () => {
     const postType = type === "E" ? "eventos" : "projetos";
     const postName = name.toLowerCase().trim().replaceAll(" ", "_");
-    return `${postType}/${id}/${postName}`;
-  };
-
-  const handleMenuClose = (shouldClose) => {
-    if (shouldClose) setAnchorEl(null);
+    return `/${postType}/${id}/${postName}`;
   };
 
   const handleClick = (event) => {
@@ -86,6 +72,7 @@ const CustomCard = ({
   const handleOpen = () => {
     localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
+
     // setOpen(true);
   };
   const handleClose = () => setOpen(false);
@@ -199,44 +186,6 @@ const CustomCard = ({
     getPublisherInfo();
   }, [publisherId]);
 
-  // useEffect(() => {
-  //   const mouseMoveHandler = (e) => {
-  //     if (!userCardRef.current) return;
-  //     const mousePosition = {
-  //       x: e.clientX,
-  //       y: e.clientY,
-  //     };
-
-  //     // Check if the mouse position is within the div's boundaries.
-  //     const userCardBounds = userCardRef.current.getBoundingClientRect();
-  //     const isInsideUserCard =
-  //       mousePosition.x >= userCardBounds.left &&
-  //       mousePosition.x <= userCardBounds.right &&
-  //       mousePosition.y >= userCardBounds.top &&
-  //       mousePosition.y <= userCardBounds.bottom;
-
-  //     const userCardParentBounds =
-  //       userCardParentRef.current.getBoundingClientRect();
-  //     const isInsideUserCardParent =
-  //       mousePosition.x >= userCardParentBounds.left &&
-  //       mousePosition.x <= userCardParentBounds.right &&
-  //       mousePosition.y >= userCardParentBounds.top &&
-  //       mousePosition.y <= userCardParentBounds.bottom;
-
-  //     if (isInsideUserCard || isInsideUserCardParent) {
-  //       setShowUserCard(true);
-  //     } else {
-  //       setShowUserCard(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("mousemove", mouseMoveHandler);
-
-  //   return () => {
-  //     window.removeEventListener("mousemove", mouseMoveHandler);
-  //   };
-  // }, []);
-
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
@@ -329,7 +278,14 @@ const CustomCard = ({
             }}
           />
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+            top: "-25rem",
+          }}
+        >
           <Typography
             fontWeight="bold"
             fontSize="0.8rem"
@@ -405,36 +361,7 @@ const CustomCard = ({
             {publisherName}
           </Typography>
         </Box>
-        <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={openMenu}
-          onClose={() => handleMenuClose(true)}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-              mt: 1.5,
-            },
-          }}
-          transformOrigin={{ horizontal: "center", vertical: "top" }}
-          anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
-          sx={{
-            ".MuiList-root": { padding: "0 0 1rem 0" },
-          }}
-        >
-          <MenuItem
-            id="user-card"
-            sx={{
-              padding: "0",
-            }}
-            onClick={() => handleMenuClose(false)}
-            disableRipple
-          >
-            <UserCard publisher={publisherInfo} />
-          </MenuItem>
-        </Menu>
+
         <Modal
           id="card-details-modal"
           open={open}
@@ -588,4 +515,4 @@ const CustomCard = ({
   );
 };
 
-export default CustomCard;
+export default ProfileCustomCard;
