@@ -530,6 +530,18 @@ const CustomCard = ({
                   >
                     <FacebookMessengerIcon size={40} round />
                   </FacebookMessengerShareButton>
+                  <WhatsappShareButton
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    title={name}
+                  >
+                    <WhatsappIcon size={40} round />
+                  </WhatsappShareButton>
+                  <ViberShareButton
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    title={name}
+                  >
+                    <ViberIcon size={40} round />
+                  </ViberShareButton>
                   <PinterestShareButton
                     url={"https://comein-cv.vercel.app/" + getPostPath()}
                     description={"Testing description"}
@@ -545,18 +557,6 @@ const CustomCard = ({
                   >
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
-                  <WhatsappShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
-                    title={name}
-                  >
-                    <WhatsappIcon size={40} round />
-                  </WhatsappShareButton>
-                  <ViberShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
-                    title={name}
-                  >
-                    <ViberIcon size={40} round />
-                  </ViberShareButton>
                   <TwitterShareButton
                     url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}

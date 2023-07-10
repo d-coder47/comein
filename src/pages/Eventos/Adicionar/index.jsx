@@ -328,7 +328,7 @@ const Adicionar = () => {
               />
             </Box>
             <ReactQuill
-              theme="bubble"
+              theme="snow"
               modules={editorModules}
               formats={editorFormats}
               value={fieldValues.descricao}
