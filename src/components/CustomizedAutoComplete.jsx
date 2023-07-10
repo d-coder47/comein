@@ -187,7 +187,7 @@ export default function CustomizedAutoComplete({
         <Listbox {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
             <li {...getOptionProps({ option, index })}>
-              <span>{option.nome}</span>
+              <span>{option.nome !== null ? option.nome : option.email}</span>
               <CheckIcon fontSize="small" />
             </li>
           ))}

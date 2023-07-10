@@ -251,7 +251,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         autoHighlight
                         sx={{
                           width: "100%",
-                          ".MuiInputBase-root": { maxHeight: "2rem" },
+                          // ".MuiInputBase-root": { maxHeight: "2rem" },
                         }}
                         renderInput={(params) => (
                           <TextField

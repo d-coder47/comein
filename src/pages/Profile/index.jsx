@@ -624,8 +624,8 @@ const UserProfile = () => {
       </div>
       <Box
         sx={{
-          width: "60px",
-          height: "60px",
+          width: "2.5rem",
+          height: "2.5rem",
           backgroundColor: "#33B3CC",
           position: "fixed",
           bottom: "25px",
@@ -645,7 +645,7 @@ const UserProfile = () => {
             <Add
               sx={{
                 color: "#fff",
-                fontSize: "3.25rem",
+                fontSize: "2rem",
               }}
             />
           </Button>
@@ -686,8 +686,22 @@ const UserProfile = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>Adicionar Evento</MenuItem>
-        <MenuItem onClick={handleClose}>Adicionar Projeto</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate("/eventos/adicionar");
+          }}
+        >
+          Adicionar Evento
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate("/projetos/adicionar");
+          }}
+        >
+          Adicionar Projeto
+        </MenuItem>
       </Menu>
     </>
   );

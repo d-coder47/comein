@@ -21,6 +21,8 @@ import {
   Add,
   CheckBoxOutlineBlank,
   CheckBox,
+  Handshake,
+  MoreHoriz,
 } from "@mui/icons-material";
 import Publisher from "../../../components/Publisher";
 
@@ -191,12 +193,24 @@ const Adicionar = () => {
   const handleSave = () => {
     console.log(fieldValues);
     const newEvent = {
-      ...fieldValues,
-      areasCulturais: fieldValues.areasCulturais.map((area) => area.id),
-      assoc_projeto: fieldValues.assoc_projeto.map((proj) => proj.id),
-      local: fieldValues.local.id,
+      nome: fieldValues.nome,
+      data_inicio: "2023-07-10 22:30:00",
+      data_fim: "2023-07-14 14:00:00",
+      imgEvento: fieldValues.imagem,
+      areasCulturais:
+        fieldValues.areasCulturais.length > 0
+          ? fieldValues.areasCulturais.map((area) => area.id)
+          : fieldValues.areasCulturais[0],
+      assoc_projeto:
+        fieldValues.assoc_projeto.length > 0
+          ? fieldValues.assoc_projeto.map((proj) => proj.id)
+          : null,
+      // idGeografia: fieldValues.local.id,
       id_utilizador: user.id,
-      idsProprietario: fieldValues.proprietarios.map((prop) => prop.id),
+      idsProprietarios:
+        fieldValues.proprietarios.length > 0
+          ? fieldValues.proprietarios.map((prop) => prop.id)
+          : null,
     };
 
     createEvent(newEvent);
@@ -447,7 +461,7 @@ const Adicionar = () => {
                 <TextField
                   id="date-start"
                   name="startDate"
-                  type="date"
+                  type="datetime-local"
                   label="Data Início"
                   sx={{
                     height: "2rem",
@@ -466,7 +480,7 @@ const Adicionar = () => {
                 <TextField
                   id="date-end"
                   name="endDate"
-                  type="date"
+                  type="datetime-local"
                   label="Data Fim"
                   sx={{
                     height: "2rem",
@@ -502,7 +516,9 @@ const Adicionar = () => {
                 }}
                 onClick={handleCulturalAreaClick}
               >
-                <Add sx={{ color: "white", width: "1rem", height: "1rem" }} />
+                <MoreHoriz
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
+                />
               </Box>
             </Tooltip>
             <Popover
@@ -570,7 +586,9 @@ const Adicionar = () => {
                 }}
                 onClick={handleAssociateProjectClick}
               >
-                <Add sx={{ color: "white", width: "1rem", height: "1rem" }} />
+                <Handshake
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
+                />
               </Box>
             </Tooltip>
             <Popover
