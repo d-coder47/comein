@@ -123,7 +123,6 @@ const Cards = ({
       !localDateValues
     )
       return setPosts(allPosts);
-
     const searchPosts = async (search) => {
       try {
         const response = await axiosInstance.get(
@@ -136,7 +135,9 @@ const Cards = ({
             },
           }
         );
-        if (!response?.data?.dados) return;
+        if (response.data.dados === "Não existem dados para retornar") {
+          return setPosts([]);
+        }
         setPosts(response.data.dados);
       } catch (error) {
         console.error(error);
@@ -144,7 +145,7 @@ const Cards = ({
     };
     searchPosts(searchQuery);
   }, [searchQuery]);
-
+  console.log({ searchQuery });
   return (
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid container gap={3.8}>

@@ -170,6 +170,14 @@ const Adicionar = () => {
   const icon = <CheckBoxOutlineBlank fontSize="small" />;
   const checkedIcon = <CheckBox fontSize="small" />;
 
+  const arrayToString = (array) => {
+    return array.reduce((total, current, index, arr) => {
+      if (index === 1) return `${total},${current},`;
+      if (index === arr.length - 1) return total + current;
+      return total + current + ",";
+    });
+  };
+
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -182,6 +190,7 @@ const Adicionar = () => {
 
       // localStorage.setItem("userInfo", JSON.stringify(user.dados));
       handleChangeFieldValues("imagem", URL.createObjectURL(file));
+      handleChangeFieldValues("imgEvento", file);
     };
     reader.readAsDataURL(event.target.files[0]);
   };
@@ -192,27 +201,29 @@ const Adicionar = () => {
 
   const handleSave = () => {
     console.log(fieldValues);
-    const newEvent = {
+    const newEvent = new URLSearchParams({
       nome: fieldValues.nome,
-      data_inicio: "2023-07-10 22:30:00",
-      data_fim: "2023-07-14 14:00:00",
-      imgEvento: fieldValues.imagem,
+      data_inicio: fieldValues.data_inicio + ":00",
+      data_fim:
+        fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : "",
+      imgEvento: fieldValues.imgEvento,
       areasCulturais:
         fieldValues.areasCulturais.length > 0
-          ? fieldValues.areasCulturais.map((area) => area.id)
+          ? arrayToString(fieldValues.areasCulturais.map((item) => item.id))
           : fieldValues.areasCulturais[0],
       assoc_projeto:
         fieldValues.assoc_projeto.length > 0
-          ? fieldValues.assoc_projeto.map((proj) => proj.id)
+          ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id))
           : null,
-      // idGeografia: fieldValues.local.id,
+      idGeografia: fieldValues.local.id,
       id_utilizador: user.id,
       idsProprietarios:
         fieldValues.proprietarios.length > 0
-          ? fieldValues.proprietarios.map((prop) => prop.id)
+          ? arrayToString(fieldValues.idsProprietarios.map((item) => item.id))
           : null,
-    };
+    }).toString();
 
+    console.log(newEvent);
     createEvent(newEvent);
   };
 
@@ -227,7 +238,7 @@ const Adicionar = () => {
       });
       console.log(response.data.dados);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
