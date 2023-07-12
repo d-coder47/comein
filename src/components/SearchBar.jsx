@@ -16,36 +16,24 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import LocationOnIcon from "@mui/icons-material/LocationOnOutlined";
 
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
-import useRegisterUser from "../hooks/useRegisterUser";
 
 const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
-  const [filterType, setFilterType] = useState(false);
   const [filterSelected, setFilterSelected] = useState("");
   const [showLocalDate, setShowLocalDate] = useState(false);
-  const [addresses, setAddresses] = useState([]);
   const [formValues, setFormValues] = useState({
     startDate: "",
     endDate: "",
     address: "",
   });
 
-  const { getAddresses } = useRegisterUser();
-
-  const theme = useTheme();
-
   const handleChange = (event) => {
     const search = event.target.value;
     if (search.length > 2 || search.length === 0) {
       onSearch(search);
     }
-  };
-
-  const handleChangeFilterType = (newFilterType) => {
-    if (filterType === newFilterType) return setFilterType("");
-    setFilterType(newFilterType);
   };
 
   const handleChangeFilterSelected = (newSelected) => {
@@ -244,47 +232,23 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                       />
                     </Box>
                     <Box>
-                      <Autocomplete
+                      <TextField
                         id="address-select"
                         name="address"
-                        options={addresses}
-                        autoHighlight
-                        sx={{
-                          width: "100%",
-                          // ".MuiInputBase-root": { maxHeight: "2rem" },
-                        }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant="outlined"
-                            size="small"
-                            placeholder="Local"
-                            name="residence"
-                            fullWidth
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            inputProps={{
-                              ...params.inputProps,
-                            }}
-                          />
-                        )}
-                        onInputChange={async (event, value) => {
-                          if (value.length >= 2 && value.length <= 4) {
-                            const res = await getAddresses(value);
-                            const newAddresses = [];
-                            for (let key in res.dados) {
-                              if (res.dados.hasOwnProperty(key)) {
-                                const value = res.dados[key];
-                                newAddresses.push(value.nome);
-                              }
-                            }
-                            setAddresses(newAddresses);
-                          }
-                        }}
+                        variant="outlined"
+                        size="small"
+                        placeholder="Local"
+                        fullWidth
                         onChange={(e) =>
-                          handleDateLocalChange("address", e.target.textContent)
+                          handleDateLocalChange("address", e.target.value)
                         }
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <LocationOnIcon />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                   </Box>
