@@ -200,7 +200,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    console.log(fieldValues);
     const newEvent = new URLSearchParams({
       nome: fieldValues.nome,
       data_inicio: fieldValues.data_inicio + ":00",
@@ -223,7 +222,6 @@ const Adicionar = () => {
           : null,
     }).toString();
 
-    console.log(newEvent);
     createEvent(newEvent);
   };
 
@@ -312,18 +310,10 @@ const Adicionar = () => {
                     flexGrow: 1,
                   }}
                 >
-                  <Publisher publishers={[user]} />
+                  <Typography fontWeight="bold" fontSize="0.9rem">
+                    Proprietários Associados
+                  </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
-                  {/* <Typography
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      },
-                    }}
-                  >
-                    Adicionar proprietário
-                  </Typography> */}
                   <CustomizedAutoComplete
                     data={users}
                     userId={user?.id}

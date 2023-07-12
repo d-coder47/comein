@@ -4,6 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
+import { Typography } from "@mui/material";
 
 const Root = styled("div")(
   ({ theme }) => `
@@ -164,11 +165,8 @@ export default function CustomizedAutoComplete({
     setAnchorEl,
   } = useAutocomplete({
     id: "customized-auto-complete",
-    defaultValue: [{ id: userId, nome: userName }],
     multiple: true,
     options: data,
-    size: "small",
-    placeholder: "standard",
     getOptionLabel: (option) => option.nome,
     onChange: (_, value) => onAutoCompleteChange(value),
   });
@@ -178,8 +176,16 @@ export default function CustomizedAutoComplete({
       <div {...getRootProps()}>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {value.map((option, index) => (
-            <StyledTag label={option.nome} {...getTagProps({ index })} />
+            <Typography fontWeight="normal" fontSize=".8rem">
+              <StyledTag
+                label={option.nome !== null ? option.nome : option.email}
+                {...getTagProps({ index })}
+              />
+            </Typography>
           ))}
+          {value.length === 0 ? (
+            <Typography>Proprietários Associados</Typography>
+          ) : null}
           <input {...getInputProps()} />
         </InputWrapper>
       </div>
@@ -187,7 +193,9 @@ export default function CustomizedAutoComplete({
         <Listbox {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
             <li {...getOptionProps({ option, index })}>
-              <span>{option.nome !== null ? option.nome : option.email}</span>
+              <Typography fontWeight="normal">
+                {option.nome !== null ? option.nome : option.email}
+              </Typography>
               <CheckIcon fontSize="small" />
             </li>
           ))}
