@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserCard = ({ publisher }) => {
+const UserCard = ({ publisher, isFollowing, onFollowUser }) => {
   const navigate = useNavigate();
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
@@ -172,9 +172,9 @@ const UserCard = ({ publisher }) => {
         color="primary"
         size="small"
         sx={{ width: "80%" }}
-        onClick={() => console.log("Seguir")}
+        onClick={onFollowUser}
       >
-        Seguir
+        {isFollowing ? "Seguindo" : "Seguir"}
       </Button>
     </Box>
   );

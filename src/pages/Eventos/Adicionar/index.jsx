@@ -200,27 +200,37 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    const newEvent = new URLSearchParams({
-      nome: fieldValues.nome,
-      data_inicio: fieldValues.data_inicio + ":00",
-      data_fim:
-        fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : "",
-      imgEvento: fieldValues.imgEvento,
-      areasCulturais:
-        fieldValues.areasCulturais.length > 0
-          ? arrayToString(fieldValues.areasCulturais.map((item) => item.id))
-          : fieldValues.areasCulturais[0],
-      assoc_projeto:
-        fieldValues.assoc_projeto.length > 0
-          ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id))
-          : null,
-      idGeografia: fieldValues.local.id,
-      id_utilizador: user.id,
-      idsProprietarios:
-        fieldValues.proprietarios.length > 0
-          ? arrayToString(fieldValues.idsProprietarios.map((item) => item.id))
-          : null,
-    }).toString();
+    console.log(fieldValues);
+    let newEvent = new FormData();
+    newEvent.append("id_utilizador", user.id);
+    newEvent.append("nome", fieldValues.nome);
+    newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
+    newEvent.append("imgEvento", fieldValues.imgEvento);
+    // newEvent.append(
+    //   "data_fim",
+    //   fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
+    // );
+    // newEvent.append(
+    //   "areasCulturais",
+    //   fieldValues.areasCulturais.length > 0
+    //     ? arrayToString(fieldValues.areasCulturais.map((item) => item.id))
+    //     : fieldValues.areasCulturais[0].id
+    // );
+    // newEvent.append(
+    //   "assoc_projeto",
+    //   fieldValues.assoc_projeto.length > 0
+    //     ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id))
+    //     : null
+    // );
+    // newEvent.append("idGeografia", fieldValues.local.id);
+    // newEvent.append(
+    //   "idsProprietarios",
+    //   fieldValues.proprietarios.length > 0
+    //     ? arrayToString(fieldValues.proprietarios.map((item) => item.id))
+    //     : null
+    // );
+
+    console.log(newEvent);
 
     createEvent(newEvent);
   };

@@ -20,7 +20,11 @@ import {
 import wallpaper from "../assets/img/event3.jpg";
 import UserCard from "./UserCard";
 
-const Publisher = ({ publishers = [{ nome: "" }] }) => {
+const Publisher = ({
+  publishers = [{ nome: "" }],
+  isFollowing = false,
+  onFollowUser,
+}) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showUserCard, setShowUserCard] = useState(false);
 
@@ -158,7 +162,11 @@ const Publisher = ({ publishers = [{ nome: "" }] }) => {
               display: showUserCard ? "flex" : "none",
             }}
           >
-            <UserCard publisher={publishers[0]} />
+            <UserCard
+              publisher={publishers[0]}
+              isFollowing={isFollowing}
+              onFollowUser={onFollowUser}
+            />
           </Box>
         </>
       )}

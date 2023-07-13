@@ -4,6 +4,7 @@ import {
   Badge,
   Box,
   IconButton,
+  Skeleton,
   Stack,
   Tooltip,
   Typography,
@@ -35,9 +36,6 @@ const CardDetailed = () => {
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
 
-  const [showUserCard, setShowUserCard] = useState(false);
-
-  const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
 
   const { followUser } = useUserProfile();
@@ -258,7 +256,173 @@ const CardDetailed = () => {
   };
 
   if (!details) {
-    <div>Loading</div>;
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0,0,0,.9)",
+        }}
+      >
+        <Box
+          sx={{
+            margin: "0 0 0 12rem",
+            outline: "none",
+            height: "100vh",
+            overflowY: "auto",
+            display: "flex",
+            justifyContent: "flex-start",
+            gap: "1.5rem",
+          }}
+        >
+          <Box
+            id="content"
+            display="flex"
+            flexDirection="column"
+            gap="0.5rem"
+            width="80%"
+          >
+            <Box
+              id="header"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                // height: "14%",
+                color: "white",
+                marginTop: ".75rem",
+              }}
+            >
+              <Skeleton
+                variant="circular"
+                animation="wave"
+                width="3rem"
+                height="3rem"
+              />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Skeleton
+                  variant="text"
+                  animation="wave"
+                  width="25.5rem"
+                  height="2rem"
+                />
+                <Box
+                  sx={{ display: "flex", gap: ".5rem", alignItems: "center" }}
+                >
+                  <Skeleton
+                    variant="text"
+                    animation="wave"
+                    width="12rem"
+                    height="2rem"
+                  />
+
+                  <Dot sx={{ fontSize: ".5rem" }} />
+                  <Skeleton
+                    variant="text"
+                    animation="wave"
+                    width="12rem"
+                    height="2rem"
+                  />
+                </Box>
+              </Box>
+              <Box onClick={onCloseModal}>
+                <Close
+                  sx={{
+                    color: "white",
+                    position: "absolute",
+                    right: "1rem",
+                    top: ".5rem",
+                    cursor: "pointer",
+                    "&:hover": {
+                      color: "#EAEAEA",
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box id="image">
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                width="100%"
+                height="80vh"
+              />
+            </Box>
+          </Box>
+          <Box
+            id="interactions"
+            display="flex"
+            flexDirection="column"
+            gap="1.5rem"
+            marginTop="14%"
+            mr={".5rem"}
+          >
+            <Box
+              id="user"
+              sx={{
+                borderRadius: "50%",
+                height: "3rem",
+                width: "3rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Skeleton
+                variant="circular"
+                animation="wave"
+                width="3rem"
+                height="3rem"
+              />
+            </Box>
+            <Box
+              id="favorite"
+              sx={{
+                borderRadius: "50%",
+                height: "3rem",
+                width: "3rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Skeleton
+                variant="circular"
+                animation="wave"
+                width="3rem"
+                height="3rem"
+              />
+            </Box>
+            <Box
+              id="likes"
+              sx={{
+                borderRadius: "50%",
+                height: "3rem",
+                width: "3rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <Skeleton
+                variant="circular"
+                animation="wave"
+                width="3rem"
+                height="3rem"
+              />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    );
   }
 
   return (
@@ -271,7 +435,6 @@ const CardDetailed = () => {
           property="og:image"
           content={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
         />
-        {/* Other meta tags */}
       </Helmet>
       <Box
         sx={{
@@ -465,7 +628,11 @@ const DetailedHeader = ({
       >
         <Typography fontWeight="bold">{title}</Typography>
         <Box sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
-          <Publisher publishers={publishers} />
+          <Publisher
+            publishers={publishers}
+            isFollowing={isFollowingUser}
+            onFollowUser={onFollowUser}
+          />
           <Dot sx={{ fontSize: ".5rem" }} />
           <Typography
             sx={{
@@ -628,7 +795,7 @@ const DetailedRelated = ({ related, type }) => {
         <Box sm={6}>
           <Avatar
             src={`https://comein.cv/comeincv_api_test/img/${
-              type === "E" ? "eventos" : "projetos"
+              type === "eventos" ? "eventos" : "projetos"
             }Img/${post.imagem}`}
           />
         </Box>
