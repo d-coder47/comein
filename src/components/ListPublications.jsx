@@ -139,9 +139,12 @@ const ListPublications = ({ userID, type, isVisitor }) => {
                     key={index}
                     id={card.id}
                     name={card.nome}
+                    likes={card.gostos}
+                    visits={card.visitas}
                     picture={`https://comein.cv/comeincv_api_test/img/${
                       card.distincao === "E" ? "eventos" : "projetos"
                     }Img/${card.imagem}`}
+                    publisherId={card.id_utilizador}
                     publisherName={card.nome_user}
                     publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
                     type={card.distincao}
@@ -223,9 +226,12 @@ const ListPublications = ({ userID, type, isVisitor }) => {
                     key={index}
                     id={card.id}
                     name={card.nome}
+                    likes={card.gostos}
+                    visits={card.visitas}
                     picture={`https://comein.cv/comeincv_api_test/img/${
                       card.distincao === "E" ? "eventos" : "projetos"
                     }Img/${card.imagem}`}
+                    publisherId={card.id_utilizador}
                     publisherName={card.nome_user}
                     publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
                     type={card.distincao}
@@ -272,9 +278,12 @@ const ListPublications = ({ userID, type, isVisitor }) => {
                   key={index}
                   id={card.id}
                   name={card.nome}
+                  likes={card.gostos}
+                  visits={card.visitas}
                   picture={`https://comein.cv/comeincv_api_test/img/${
                     card.distincao === "E" ? "eventos" : "projetos"
                   }Img/${card.imagem}`}
+                  publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
                   publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
                   type={card.distincao}

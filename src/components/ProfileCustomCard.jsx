@@ -351,7 +351,7 @@ const ProfileCustomCard = ({
                   }}
                   variant="p"
                 >
-                  {visits}
+                  {visits !== null ? visits : "0"}
                 </Typography>
               </Box>
               <Share

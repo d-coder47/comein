@@ -372,7 +372,7 @@ const CustomCard = ({
                 sx={{ fontWeight: "bold", color: "black", fontSize: ".8rem" }}
                 variant="p"
               >
-                {visits}
+                {visits !== null ? visits : "0"}
               </Typography>
             </Box>
             <Share
