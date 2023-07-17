@@ -32,12 +32,12 @@ import Parser from "html-react-parser";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 
-const Adicionar = () => {
+const Editar = () => {
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
   const [anchorDateEl, setAnchorDateEl] = useState(null);
@@ -51,7 +51,7 @@ const Adicionar = () => {
     imagem: null,
     descricao:
       '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
-    local: { id: 0, nome: "" },
+    local: "",
     proprietarios: [],
     areasCulturais: [],
     assoc_projeto: [],
@@ -59,6 +59,9 @@ const Adicionar = () => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
+
+  const params = useParams();
+  const { id } = params;
 
   const navigate = useNavigate();
 
@@ -87,28 +90,6 @@ const Adicionar = () => {
     },
     { id: 16, name: t("categories.carnaval") },
   ];
-
-  const handleLocationClick = (event) => {
-    setAnchorLocationEl(event.currentTarget);
-  };
-
-  const handleDateClick = (event) => {
-    setAnchorDateEl(event.currentTarget);
-  };
-
-  const handleCulturalAreaClick = (event) => {
-    setAnchorCulturalAreaEl(event.currentTarget);
-  };
-
-  const handleAssociateProjectClick = (event) => {
-    setAnchorAssociateProjectEl(event.currentTarget);
-  };
-
-  const handleChangeFieldValues = (key, value) => {
-    setFieldValues((prev) => {
-      return { ...prev, [key]: value };
-    });
-  };
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -152,6 +133,52 @@ const Adicionar = () => {
     getUsers();
     getProjects();
   }, []);
+
+  useEffect(() => {
+    if (!id) return;
+    setFieldValues({
+      id: 97,
+      nome: "New test #47",
+      data_inicio: "2023-07-14 20:00:00",
+      data_fim: "2023-07-21 12:00:00",
+      imagem: `https://comein.cv/comeincv_api_test/img/eventosImg/house with pool-64b071f9626c1.jpg`,
+      descricao: "Teste",
+      local: {
+        id: "238103001008004",
+        nome: "CHÃ DE MINDELO",
+        nacionalidade: "CABOVERDIANA",
+      },
+      id_utilizador: 336,
+      proprietarios: [],
+      areasCulturais: [
+        { id: 4, name: t("categories.movieTheater") },
+        { id: 5, name: t("categories.standUp") },
+      ],
+      assoc_projeto: [{ id: 8, nome: "Carnaval de São Vicente" }],
+    });
+  }, [id]);
+
+  const handleLocationClick = (event) => {
+    setAnchorLocationEl(event.currentTarget);
+  };
+
+  const handleDateClick = (event) => {
+    setAnchorDateEl(event.currentTarget);
+  };
+
+  const handleCulturalAreaClick = (event) => {
+    setAnchorCulturalAreaEl(event.currentTarget);
+  };
+
+  const handleAssociateProjectClick = (event) => {
+    setAnchorAssociateProjectEl(event.currentTarget);
+  };
+
+  const handleChangeFieldValues = (key, value) => {
+    setFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+  };
 
   const openLocationPopover = Boolean(anchorLocationEl);
   const locationPopoverId = open ? "location-popover" : undefined;
@@ -232,7 +259,7 @@ const Adicionar = () => {
 
     console.log(newEvent);
 
-    createEvent(newEvent);
+    // createEvent(newEvent);
   };
 
   const createEvent = async (newEvent) => {
@@ -682,7 +709,7 @@ const Adicionar = () => {
   );
 };
 
-export default Adicionar;
+export default Editar;
 
 const editorModules = {
   toolbar: [

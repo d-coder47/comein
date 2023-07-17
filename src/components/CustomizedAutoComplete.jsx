@@ -149,8 +149,7 @@ const Listbox = styled("ul")(
 
 export default function CustomizedAutoComplete({
   data,
-  userName,
-  userId,
+  currentValue,
   onAutoCompleteChange,
 }) {
   const {
@@ -167,6 +166,7 @@ export default function CustomizedAutoComplete({
     id: "customized-auto-complete",
     multiple: true,
     options: data,
+    value: currentValue,
     getOptionLabel: (option) => option.nome,
     onChange: (_, value) => onAutoCompleteChange(value),
   });

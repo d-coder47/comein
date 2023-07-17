@@ -10,6 +10,7 @@ import ProfileConfiguration from "./pages/Profile/ProfileConfiguration";
 import ResetPassword from "./pages/ResetPassword";
 import CardDetailed from "./components/CardDetailed";
 import AdicionarEvento from "./pages/Eventos/Adicionar";
+import EditarEvento from "./pages/Eventos/Editar";
 import AdicionarProjeto from "./pages/Projetos/Adicionar";
 import Map from "./pages/Map/index";
 
@@ -29,6 +30,7 @@ const AppRoutes = () => {
           />
           <Route path="/:type/:id/:name" element={<CardDetailed />} />
           <Route path="/eventos/adicionar" element={<AdicionarEvento />} />
+          <Route path="/eventos/editar/:id" element={<EditarEvento />} />
           <Route path="/projetos/adicionar" element={<AdicionarProjeto />} />
           <Route path="/map" element={<Map />} />
           <Route

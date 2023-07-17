@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mantine/hooks": "^6.0.16",
     "@mui/base": "^5.0.0-alpha.120",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
@@ -26,6 +27,7 @@
     "react-flickity-component": "^4.0.5",
     "react-helmet": "^6.1.0",
     "react-i18next": "^12.3.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load": "^4.0.1",
     "react-leaflet": "^4.2.1",
     "react-quill": "^2.0.0",
