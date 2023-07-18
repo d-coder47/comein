@@ -184,11 +184,6 @@ const Adicionar = () => {
     var reader = new FileReader();
     reader.onload = async function () {
       console.log("Uploaded");
-      // await updateUserProfilePhoto(loggedUserInfo.id, file);
-      // const user = await getUser(loggedUserInfo.id);
-      // setProfilePhoto(user.dados.img_perfil);
-
-      // localStorage.setItem("userInfo", JSON.stringify(user.dados));
       handleChangeFieldValues("imagem", URL.createObjectURL(file));
       handleChangeFieldValues("imgEvento", file);
     };
@@ -421,14 +416,6 @@ const Adicionar = () => {
                   onInputChange={async (event, value) => {
                     if (value.length >= 2 && value.length <= 4) {
                       const res = await getAddresses(value);
-
-                      // const newAddresses = [];
-                      // for (let key in res.dados) {
-                      //   if (res.dados.hasOwnProperty(key)) {
-                      //     const value = res.dados[key];
-                      //     newAddresses.push(value.nome);
-                      //   }
-                      // }
                       setAddresses(res.dados);
                     }
                   }}

@@ -21,6 +21,8 @@ import {
   Add,
   CheckBoxOutlineBlank,
   CheckBox,
+  MoreHoriz,
+  Handshake,
 } from "@mui/icons-material";
 import Publisher from "../../../components/Publisher";
 
@@ -47,8 +49,8 @@ const Adicionar = () => {
     data_fim: "",
     imagem: null,
     descricao:
-      '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
-    local: "",
+      '<p><span class="ql-size-large">Adicione tudo sobre o seu projeto</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
+    local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
     assoc_evento: [],
@@ -171,12 +173,8 @@ const Adicionar = () => {
     var reader = new FileReader();
     reader.onload = async function () {
       console.log("Uploaded");
-      // await updateUserProfilePhoto(loggedUserInfo.id, file);
-      // const user = await getUser(loggedUserInfo.id);
-      // setProfilePhoto(user.dados.img_perfil);
-
-      // localStorage.setItem("userInfo", JSON.stringify(user.dados));
       handleChangeFieldValues("imagem", URL.createObjectURL(file));
+      handleChangeFieldValues("imgProjeto", file);
     };
     reader.readAsDataURL(event.target.files[0]);
   };
@@ -185,23 +183,53 @@ const Adicionar = () => {
     document.getElementById("upload-photo").click();
   };
 
-  const handleSave = () => {
-    console.log(fieldValues);
-    const newEvent = {
-      ...fieldValues,
-      areasCulturais: fieldValues.areasCulturais.map((area) => area.id),
-      assoc_evento: fieldValues.assoc_evento.map((event) => event.id),
-      local: fieldValues.local.id,
-      id_utilizador: user.id,
-      idsProprietario: fieldValues.proprietarios.map((prop) => prop.id),
-    };
-
-    createEvent(newEvent);
+  const arrayToString = (array) => {
+    return array.reduce((total, current, index, arr) => {
+      if (index === 1) return `${total},${current},`;
+      if (index === arr.length - 1) return total + current;
+      return total + current + ",";
+    });
   };
 
-  const createEvent = async (newEvent) => {
+  const handleSave = () => {
+    console.log(fieldValues);
+    let newProject = new FormData();
+    newProject.append("id_utilizador", user.id);
+    newProject.append("nome", fieldValues.nome);
+    newProject.append("data_inicio", fieldValues.data_inicio + ":00");
+    newProject.append("imgProjeto", fieldValues.imgProjeto);
+    newProject.append(
+      "data_fim",
+      fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
+    );
+    newProject.append(
+      "areasCulturais",
+      fieldValues.areasCulturais.length > 0
+        ? arrayToString(fieldValues.areasCulturais.map((item) => item.id))
+        : fieldValues.areasCulturais[0].id
+    );
+    newProject.append(
+      "assoc_evento",
+      fieldValues.assoc_evento.length > 0
+        ? arrayToString(fieldValues.assoc_evento.map((item) => item.id))
+        : null
+    );
+    newProject.append("idGeografia", fieldValues.local.id);
+    newProject.append(
+      "idsProprietarios",
+      fieldValues.proprietarios.length > 0
+        ? arrayToString(fieldValues.proprietarios.map((item) => item.id))
+        : null
+    );
+
+    console.log(newProject);
+
+    createProject(newProject);
+  };
+
+  const createProject = async (newProject) => {
     try {
-      const response = await axiosInstance.post(`/eventos/criar`, newEvent, {
+      const response = await axiosInstance.post(`/projetos/criar`, newProject, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           // Authorization:
@@ -270,8 +298,9 @@ const Adicionar = () => {
                   required
                   id="event-name"
                   name="name"
-                  placeholder="Insira o nome do seu evento aqui"
+                  placeholder="Insira o nome do seu projeto aqui"
                   variant="standard"
+                  value={fieldValues?.nome}
                   onChange={(e) =>
                     handleChangeFieldValues("nome", e.target.value)
                   }
@@ -284,22 +313,14 @@ const Adicionar = () => {
                     flexGrow: 1,
                   }}
                 >
-                  <Publisher publishers={[user]} />
+                  <Typography fontWeight="bold" fontSize="0.9rem">
+                    Proprietários Associados
+                  </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
-                  {/* <Typography
-                    sx={{
-                      "&:hover": {
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      },
-                    }}
-                  >
-                    Adicionar proprietário
-                  </Typography> */}
+
                   <CustomizedAutoComplete
                     data={users}
-                    userId={user?.id}
-                    userName={user?.nome}
+                    currentValue={fieldValues.proprietarios}
                     onAutoCompleteChange={(value) =>
                       handleChangeFieldValues("proprietarios", value)
                     }
@@ -325,7 +346,7 @@ const Adicionar = () => {
               />
             </Box>
             <ReactQuill
-              theme="bubble"
+              theme="snow"
               modules={editorModules}
               formats={editorFormats}
               value={fieldValues.descricao}
@@ -386,20 +407,13 @@ const Adicionar = () => {
                     <TextField {...params} size="small" />
                   )}
                   getOptionLabel={(option) => option?.nome}
+                  value={fieldValues.local}
                   onChange={(_, value) =>
                     handleChangeFieldValues("local", value)
                   }
                   onInputChange={async (event, value) => {
                     if (value.length >= 2 && value.length <= 4) {
                       const res = await getAddresses(value);
-
-                      // const newAddresses = [];
-                      // for (let key in res.dados) {
-                      //   if (res.dados.hasOwnProperty(key)) {
-                      //     const value = res.dados[key];
-                      //     newAddresses.push(value.nome);
-                      //   }
-                      // }
                       setAddresses(res.dados);
                     }
                   }}
@@ -444,8 +458,9 @@ const Adicionar = () => {
                 <TextField
                   id="date-start"
                   name="startDate"
-                  type="date"
+                  type="datetime-local"
                   label="Data Início"
+                  value={fieldValues.data_inicio}
                   sx={{
                     height: "2rem",
                     ".MuiInputBase-root": {
@@ -463,8 +478,9 @@ const Adicionar = () => {
                 <TextField
                   id="date-end"
                   name="endDate"
-                  type="date"
+                  type="datetime-local"
                   label="Data Fim"
+                  value={fieldValues.data_fim}
                   sx={{
                     height: "2rem",
                     ".MuiInputBase-root": {
@@ -499,7 +515,9 @@ const Adicionar = () => {
                 }}
                 onClick={handleCulturalAreaClick}
               >
-                <Add sx={{ color: "white", width: "1rem", height: "1rem" }} />
+                <MoreHoriz
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
+                />
               </Box>
             </Tooltip>
             <Popover
@@ -519,13 +537,16 @@ const Adicionar = () => {
                   options={categories}
                   disableCloseOnSelect
                   getOptionLabel={(option) => option.name}
+                  value={fieldValues.areasCulturais}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
                         icon={icon}
                         checkedIcon={checkedIcon}
                         style={{ marginRight: 8 }}
-                        checked={selected}
+                        checked={fieldValues.areasCulturais
+                          .map((area) => area.id)
+                          .includes(option.id)}
                       />
                       {option.name}
                     </li>
@@ -567,7 +588,9 @@ const Adicionar = () => {
                 }}
                 onClick={handleAssociateEventClick}
               >
-                <Add sx={{ color: "white", width: "1rem", height: "1rem" }} />
+                <Handshake
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
+                />{" "}
               </Box>
             </Tooltip>
             <Popover
@@ -587,13 +610,16 @@ const Adicionar = () => {
                   options={events}
                   disableCloseOnSelect
                   getOptionLabel={(option) => option.nome}
+                  value={fieldValues.assoc_evento}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
                         icon={icon}
                         checkedIcon={checkedIcon}
                         style={{ marginRight: 8 }}
-                        checked={selected}
+                        checked={fieldValues.assoc_evento
+                          .map((proj) => +proj.id)
+                          .includes(+option.id)}
                       />
                       {option.nome}
                     </li>
