@@ -27,7 +27,6 @@ import {
 import Publisher from "../../../components/Publisher";
 
 import ReactQuill from "react-quill";
-import Parser from "html-react-parser";
 
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
