@@ -24,6 +24,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import useEvents from "../hooks/useEvents";
 import useProjects from "../hooks/useProjects";
 import { Helmet } from "react-helmet";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 
 const CardDetailed = () => {
   const params = useParams();
@@ -467,6 +470,7 @@ const CardDetailed = () => {
             />
 
             <DetailedInfo
+              isEvent={type === "eventos"}
               location={details?.dados?.local}
               description={details?.dados?.descricao}
               dateStart={details?.dados?.data_inicio}
@@ -665,26 +669,36 @@ const DetailedHeader = ({
   );
 };
 
-const DetailedInfo = ({ location, description, dateStart, dateEnd }) => {
+const DetailedInfo = ({
+  isEvent,
+  location,
+  description,
+  dateStart,
+  dateEnd,
+}) => {
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-      <Typography sx={{ textAlign: "justify" }}>{description}</Typography>
-      <Box mt="1rem">
-        <Typography display="flex" gap=".5rem" fontWeight="bold">
-          Local: {<Typography fontWeight="normal">{location}</Typography>}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography display="flex" gap=".5rem" fontWeight="bold">
-          Data Início:{" "}
-          {<Typography fontWeight="normal">{dateStart}</Typography>}
-        </Typography>
-      </Box>
-      <Box>
-        <Typography display="flex" gap=".5rem" fontWeight="bold">
-          Data Fim: {<Typography fontWeight="normal">{dateEnd}</Typography>}
-        </Typography>
-      </Box>
+      <ReactQuill theme="bubble" value={description} readOnly />
+      {isEvent ? (
+        <>
+          <Box mt="1rem">
+            <Typography display="flex" gap=".5rem" fontWeight="bold">
+              Local: {<Typography fontWeight="normal">{location}</Typography>}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography display="flex" gap=".5rem" fontWeight="bold">
+              Data Início:{" "}
+              {<Typography fontWeight="normal">{dateStart}</Typography>}
+            </Typography>
+          </Box>
+          <Box>
+            <Typography display="flex" gap=".5rem" fontWeight="bold">
+              Data Fim: {<Typography fontWeight="normal">{dateEnd}</Typography>}
+            </Typography>
+          </Box>
+        </>
+      ) : null}
     </Box>
   );
 };

@@ -136,26 +136,47 @@ const Editar = () => {
 
   useEffect(() => {
     if (!id) return;
-    setFieldValues({
-      id: 97,
-      nome: "New test #47",
-      data_inicio: "2023-07-14 20:00:00",
-      data_fim: "2023-07-21 12:00:00",
-      imagem: `https://comein.cv/comeincv_api_test/img/eventosImg/house with pool-64b071f9626c1.jpg`,
-      descricao: "Teste",
-      local: {
-        id: "238103001008004",
-        nome: "CHÃ DE MINDELO",
-        nacionalidade: "CABOVERDIANA",
-      },
-      id_utilizador: 336,
-      proprietarios: [],
-      areasCulturais: [
-        { id: 4, name: t("categories.movieTheater") },
-        { id: 5, name: t("categories.standUp") },
-      ],
-      assoc_projeto: [{ id: 8, nome: "Carnaval de São Vicente" }],
-    });
+    const getEventDetails = async () => {
+      try {
+        const response = await axiosInstance.get(`/eventos/listar/${id}`, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        });
+        console.log(response.data.dados);
+        if (!response.data.dados) return;
+        const data = response.data.dados;
+        const proprietarios = response.data.utilizador;
+        proprietarios.shift();
+        const assoc_projeto = response.data.projeto_assoc;
+
+        setFieldValues({
+          id,
+          nome: data.nome,
+          data_inicio: data.data_inicio,
+          data_fim: data.data_fim,
+          imagem: `https://comein.cv/comeincv_api_test/img/eventosImg/${data.imagem}`,
+          descricao: data.descricao,
+          local: {
+            id: "238103001008004",
+            nome: "CHÃ DE MINDELO",
+            nacionalidade: "CABOVERDIANA",
+          },
+          id_utilizador: data.id_utilizador,
+          proprietarios,
+          areasCulturais: [
+            { id: 4, name: t("categories.movieTheater") },
+            { id: 5, name: t("categories.standUp") },
+          ],
+          assoc_projeto,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getEventDetails();
   }, [id]);
 
   const handleLocationClick = (event) => {
@@ -233,6 +254,7 @@ const Editar = () => {
     newEvent.append("nome", fieldValues.nome);
     newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
     newEvent.append("imgEvento", fieldValues.imgEvento);
+    // newEvent.append("descricao", fieldValues.descricao);
     newEvent.append(
       "data_fim",
       fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
@@ -240,37 +262,49 @@ const Editar = () => {
     newEvent.append(
       "areasCulturais",
       fieldValues.areasCulturais.length > 0
-        ? arrayToString(fieldValues.areasCulturais.map((item) => item.id))
+        ? arrayToString(
+            fieldValues.areasCulturais.map((item) => item.id)
+          ).slice(0, -1)
         : fieldValues.areasCulturais[0].id
     );
     newEvent.append(
       "assoc_projeto",
       fieldValues.assoc_projeto.length > 0
-        ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id))
+        ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id)).slice(
+            0,
+            -1
+          )
         : null
     );
     newEvent.append("idGeografia", fieldValues.local.id);
     newEvent.append(
       "idsProprietarios",
       fieldValues.proprietarios.length > 0
-        ? arrayToString(fieldValues.proprietarios.map((item) => item.id))
+        ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
+            0,
+            -1
+          )
         : null
     );
 
     console.log(newEvent);
 
-    // createEvent(newEvent);
+    editEvent(newEvent);
   };
 
-  const createEvent = async (newEvent) => {
+  const editEvent = async (newEvent) => {
     try {
-      const response = await axiosInstance.post(`/eventos/criar`, newEvent, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-        },
-      });
+      const response = await axiosInstance.post(
+        `/eventos/atualizar/${id}`,
+        newEvent,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
       console.log(response.data.dados);
     } catch (error) {
       console.log(error);
