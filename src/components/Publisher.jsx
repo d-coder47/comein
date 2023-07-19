@@ -24,6 +24,7 @@ const Publisher = ({
   publishers = [{ nome: "" }],
   isFollowing = false,
   onFollowUser,
+  isOwner,
 }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showUserCard, setShowUserCard] = useState(false);
@@ -128,7 +129,7 @@ const Publisher = ({
                 key={publisher.nome + index}
                 onClick={handleCloseUserMenu}
               >
-                <PublisherCard publisher={publisher} />
+                <PublisherCard publisher={publisher} isOwner={isOwner} />
               </MenuItem>
             ))}
           </Menu>
@@ -166,6 +167,7 @@ const Publisher = ({
               publisher={publishers[0]}
               isFollowing={isFollowing}
               onFollowUser={onFollowUser}
+              isOwner={isOwner}
             />
           </Box>
         </>
@@ -176,7 +178,7 @@ const Publisher = ({
 
 export default Publisher;
 
-const PublisherCard = ({ publisher }) => {
+const PublisherCard = ({ publisher, isOwner }) => {
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
       ? ""
@@ -211,7 +213,7 @@ const PublisherCard = ({ publisher }) => {
           },
         }}
       >
-        Seguir
+        {isOwner ? "Aceder a sua página" : "Seguir"}
       </Box>
     </Box>
   );
