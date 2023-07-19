@@ -11,7 +11,12 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserCard = ({ publisher, isFollowing, onFollowUser, isOwner }) => {
+const UserCard = ({
+  publisher,
+  isFollowing,
+  onFollowUser,
+  isOwner = false,
+}) => {
   const navigate = useNavigate();
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
@@ -49,7 +54,14 @@ const UserCard = ({ publisher, isFollowing, onFollowUser, isOwner }) => {
           height: "4.25rem",
           transform: "translateY(-50%)",
           border: "2px solid white",
+          "&:hover": {
+            opacity: 0.8,
+            cursor: "pointer",
+          },
         }}
+        onClick={() =>
+          navigate(`/user-profile/${publisher.id}/${publisher.nome}`)
+        }
       />
       <Typography
         onClick={() =>

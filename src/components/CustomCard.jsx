@@ -402,6 +402,7 @@ const CustomCard = ({
                 cursor: "pointer",
               },
             }}
+            onClick={() => console.log("squi")}
           >
             {publisherName}
           </Typography>

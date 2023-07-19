@@ -47,6 +47,8 @@ const CardDetailed = () => {
   const { removeFavoriteFromEvent } = useEvents();
   const { removeFavoriteFromProject } = useProjects();
 
+  const isOwner = user?.id == details?.dados?.id_utilizador;
+
   useEffect(() => {
     if (!id) return;
     const url = `/${type}/listar/${id}`;
@@ -391,7 +393,6 @@ const CardDetailed = () => {
       </Box>
     );
   }
-  const isOwner = user.id == details?.dados?.id_utilizador;
 
   return (
     <Box
@@ -465,7 +466,19 @@ const CardDetailed = () => {
               <Avatar
                 src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
                 alt="Foto do Publicador"
-                sx={{ width: "3rem", height: "3rem" }}
+                sx={{
+                  width: "3rem",
+                  height: "3rem",
+                  "&:hover": {
+                    opacity: 0.8,
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={() =>
+                  navigate(
+                    `/user-profile/${details?.utilizador[0]?.id}/${details?.utilizador[0]?.nome}`
+                  )
+                }
               />
             ) : (
               <Badge
@@ -587,6 +600,8 @@ const DetailedHeader = ({
   isFollowingUser,
   isOwner,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -600,7 +615,16 @@ const DetailedHeader = ({
       <Avatar
         src={publisherPhoto}
         alt="Foto de Perfil"
-        sx={{ marginTop: ".75rem" }}
+        sx={{
+          marginTop: ".75rem",
+          "&:hover": {
+            opacity: 0.8,
+            cursor: "pointer",
+          },
+        }}
+        onClick={() =>
+          navigate(`/user-profile/${publishers[0]?.id}/${publishers[0]?.nome}`)
+        }
       />
       <Box
         sx={{ display: "flex", flexDirection: "column", marginTop: ".75rem" }}

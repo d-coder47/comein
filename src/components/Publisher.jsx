@@ -1,24 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Menu,
-  MenuItem,
-  Typography,
-  Stack,
-  Button,
-  Divider,
-  ListItem,
-  List,
-} from "@mui/material";
-import {
-  ArrowDropDown,
-  FormatListNumbered,
-  LocationOn,
-} from "@mui/icons-material";
+import { Avatar, Box, Menu, MenuItem, Typography, Stack } from "@mui/material";
+import { ArrowDropDown, LocationOn } from "@mui/icons-material";
 
-import wallpaper from "../assets/img/event3.jpg";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router-dom";
 
 const Publisher = ({
   publishers = [{ nome: "" }],
@@ -31,6 +16,8 @@ const Publisher = ({
 
   const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -148,6 +135,11 @@ const Publisher = ({
                 cursor: "pointer",
               },
             }}
+            onClick={() =>
+              navigate(
+                `/user-profile/${publishers[0].id}/${publishers[0].nome}`
+              )
+            }
           >
             {publishers[0]?.nome}
           </Typography>
