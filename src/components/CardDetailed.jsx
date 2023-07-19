@@ -678,7 +678,9 @@ const DetailedInfo = ({
 }) => {
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-      <ReactQuill theme="bubble" value={description} readOnly />
+      {description.length > 0 ? (
+        <ReactQuill theme="bubble" value={description} readOnly />
+      ) : null}
       {isEvent ? (
         <>
           <Box mt="1rem">

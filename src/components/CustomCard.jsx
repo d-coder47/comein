@@ -315,16 +315,17 @@ const CustomCard = ({
           {/* <Tooltip title={name}> */}
           <Avatar
             variant="square"
-            src={picture || null}
+            src={picture}
             alt={`Foto de ${name}`}
             onClick={handleOpen}
             sx={{
               width: "100%",
               height: "17rem",
               objectFit: "cover",
+              borderTopLeftRadius: ".25rem",
+              borderTopRightRadius: ".25rem",
               "&:hover": {
                 cursor: "pointer",
-                borderRadius: "0.25rem",
               },
             }}
           />
