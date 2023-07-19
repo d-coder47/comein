@@ -2,7 +2,17 @@
   "homepage": {
     "login": "Entrar",
     "signUp": "Cadastrar",
-    "definicoesConta": "Definições da conta"
+    "definicoesConta": "Definições da conta",
+    "searchPosts": "Pesquise publicações",
+    "highlights": "Destaques",
+    "filter": "Filtrar",
+    "filterCard": {
+      "startDate": "Data Início",
+      "endDate": "Data Fim",
+      "location": "Local",
+      "cancel": "Cancelar",
+      "apply": "Aplicar"
+    }
   },
   "registerpage": {
     "etapa1": "Etapa 1 de 2",

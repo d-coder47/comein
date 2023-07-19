@@ -19,6 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import LocationOnIcon from "@mui/icons-material/LocationOnOutlined";
 
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   const [filterSelected, setFilterSelected] = useState("");
@@ -28,6 +29,8 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
     endDate: "",
     address: "",
   });
+
+  const { t } = useTranslation();
 
   const handleChange = (event) => {
     const search = event.target.value;
@@ -87,7 +90,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
           <TextField
             id="search"
             type="search"
-            placeholder="Pesquise publicações"
+            placeholder={t("homepage.searchPosts")}
             onChange={handleChange}
             sx={{
               width: "100%",
@@ -132,7 +135,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
             }}
             onClick={() => handleChangeFilterSelected("highlights")}
           >
-            Destaques
+            {t("homepage.highlights")}
           </Button>
         </Grid>
         <Grid md={1.25} lg={1.125} xl={0.75}>
@@ -149,7 +152,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
             }}
             onClick={() => setShowLocalDate(!showLocalDate)}
           >
-            <Typography fontSize="0.875rem">Filtrar</Typography>
+            <Typography fontSize="0.875rem">{t("homepage.filter")}</Typography>
             {showLocalDate ? (
               <ArrowDropUp
                 sx={{
@@ -200,7 +203,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         id="date-start"
                         name="startDate"
                         type="date"
-                        label="Data Início"
+                        label={t("homepage.filterCard.startDate")}
                         sx={{
                           height: "2rem",
                           ".MuiInputBase-root": {
@@ -217,7 +220,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         id="date-end"
                         name="endDate"
                         type="date"
-                        label="Data Fim"
+                        label={t("homepage.filterCard.endDate")}
                         sx={{
                           height: "2rem",
                           ".MuiInputBase-root": {
@@ -237,7 +240,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         name="address"
                         variant="outlined"
                         size="small"
-                        placeholder="Local"
+                        placeholder={t("homepage.filterCard.location")}
                         fullWidth
                         onChange={(e) =>
                           handleDateLocalChange("address", e.target.value)
@@ -261,7 +264,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                       }}
                       onClick={() => setShowLocalDate(false)}
                     >
-                      Cancelar
+                      {t("homepage.filterCard.cancel")}
                     </Button>
                     <Button
                       variant="contained"
@@ -269,7 +272,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                       sx={{ textTransform: "capitalize" }}
                       onClick={onSubmitLocalDateForm}
                     >
-                      Aplicar
+                      {t("homepage.filterCard.apply")}
                     </Button>
                   </Box>
                 </Box>

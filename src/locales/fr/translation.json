@@ -2,7 +2,17 @@
   "homepage": {
     "login": "Connexion",
     "signUp": "S'inscrire",
-    "definicoesConta": "Paramètres du compte"
+    "definicoesConta": "Paramètres du compte",
+    "searchPosts": "Rechercher des publications",
+    "highlights": "Points forts",
+    "filter": "Filtre",
+    "filterCard": {
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "location": "Local",
+      "cancel": "Annuler",
+      "apply": "Postuler"
+    }
   },
   "registerpage": {
     "etapa1": "Étape 1 de 2",
