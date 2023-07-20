@@ -12,6 +12,8 @@ import usePosts from "../hooks/usePosts";
 import axiosInstance from "../api/axiosInstance";
 import CloseIcon from "@mui/icons-material/Close";
 
+import defaultImg from "../assets/img/event3.jpg";
+
 const Cards = ({
   searchQuery,
   culturalAreaId,
@@ -145,7 +147,7 @@ const Cards = ({
     };
     searchPosts(searchQuery);
   }, [searchQuery]);
-  console.log({ searchQuery });
+
   return (
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid container gap={3.8}>
@@ -158,9 +160,13 @@ const Cards = ({
                   name={card.nome}
                   likes={card.gostos}
                   visits={card.visitas}
-                  picture={`https://comein.cv/comeincv_api_test/img/${
-                    card.distincao === "E" ? "eventos" : "projetos"
-                  }Img/${card.imagem}`}
+                  picture={
+                    card?.imagem.length > 0
+                      ? `https://comein.cv/comeincv_api_test/img/${
+                          card.distincao === "E" ? "eventos" : "projetos"
+                        }Img/${card.imagem}`
+                      : defaultImg
+                  }
                   publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
                   publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
@@ -176,9 +182,13 @@ const Cards = ({
                   name={card.nome}
                   likes={card.gostos}
                   visits={card.visitas}
-                  picture={`https://comein.cv/comeincv_api_test/img/${
-                    card.distincao === "E" ? "eventos" : "projetos"
-                  }Img/${card.imagem}`}
+                  picture={
+                    card?.imagem.length > 0
+                      ? `https://comein.cv/comeincv_api_test/img/${
+                          card.distincao === "E" ? "eventos" : "projetos"
+                        }Img/${card.imagem}`
+                      : defaultImg
+                  }
                   publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
                   publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}

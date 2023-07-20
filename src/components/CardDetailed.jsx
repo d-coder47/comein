@@ -34,6 +34,7 @@ const CardDetailed = () => {
 
   const { type, id } = params;
 
+  const [user, setUser] = useState(null);
   const [details, setDetails] = useState(null);
   const [isFollowing, setIsFollowing] = useState(null);
   const [isLiked, setIsLiked] = useState(null);
@@ -45,6 +46,8 @@ const CardDetailed = () => {
   const { likePost, favoritePost } = usePosts();
   const { removeFavoriteFromEvent } = useEvents();
   const { removeFavoriteFromProject } = useProjects();
+
+  const isOwner = user?.id == details?.dados?.id_utilizador;
 
   useEffect(() => {
     if (!id) return;
@@ -58,7 +61,10 @@ const CardDetailed = () => {
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         });
+        const user = JSON.parse(localStorage.getItem("userInfo"));
+        if (!response.data || !user) return navigate("/login");
         setDetails(response.data);
+        setUser(user);
       } catch (error) {
         console.error(error);
       }
@@ -165,46 +171,6 @@ const CardDetailed = () => {
 
     isFollowingUser(publisherId, parseInt(user.id));
   }, [details]);
-
-  // useEffect(() => {
-  //   if (!userCardRef.current) return;
-  //   const mouseMoveHandler = (e) => {
-  //     const mousePosition = {
-  //       x: e.clientX,
-  //       y: e.clientY,
-  //     };
-
-  //     // Check if the mouse position is within the div's boundaries.
-  //     const userCardBounds = userCardRef.current.getBoundingClientRect();
-  //     const isInsideUserCard =
-  //       mousePosition.x >= userCardBounds.left &&
-  //       mousePosition.x <= userCardBounds.right &&
-  //       mousePosition.y >= userCardBounds.top &&
-  //       mousePosition.y <= userCardBounds.bottom;
-
-  //     const userCardParentBounds =
-  //       userCardParentRef.current.getBoundingClientRect();
-  //     const isInsideUserCardParent =
-  //       mousePosition.x >= userCardParentBounds.left &&
-  //       mousePosition.x <= userCardParentBounds.right &&
-  //       mousePosition.y >= userCardParentBounds.top &&
-  //       mousePosition.y <= userCardParentBounds.bottom;
-
-  //     if (isInsideUserCard || isInsideUserCardParent) {
-  //       setShowUserCard(true);
-  //       console.log("mouse over", true);
-  //     } else {
-  //       setShowUserCard(false);
-  //       console.log("mouse over", false);
-  //     }
-  //   };
-
-  //   window.addEventListener("mousemove", mouseMoveHandler);
-
-  //   return () => {
-  //     window.removeEventListener("mousemove", mouseMoveHandler);
-  //   };
-  // }, []);
 
   const handleFollowUser = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -460,6 +426,7 @@ const CardDetailed = () => {
             title={details?.dados?.nome}
             onCloseModal={onCloseModal}
             type={type}
+            isOwner={isOwner}
           />
           <Box sx={{ backgroundColor: "white" }}>
             <Avatar
@@ -495,25 +462,45 @@ const CardDetailed = () => {
             ref={userCardParentRef}
             onClick={() => handleFollowUser()}
           >
-            <Badge
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              badgeContent={isFollowing ? "✓" : "+"}
-              overlap="circular"
-              sx={{
-                "& .MuiBadge-badge": {
-                  color: isFollowing ? "black" : "white",
-                  backgroundColor: (theme) =>
-                    isFollowing ? "white" : theme.palette.primary.main,
-                  fontWeight: "bold",
-                },
-              }}
-            >
+            {isOwner ? (
               <Avatar
                 src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
                 alt="Foto do Publicador"
-                sx={{ width: "3rem", height: "3rem" }}
+                sx={{
+                  width: "3rem",
+                  height: "3rem",
+                  "&:hover": {
+                    opacity: 0.8,
+                    cursor: "pointer",
+                  },
+                }}
+                onClick={() =>
+                  navigate(
+                    `/user-profile/${details?.utilizador[0]?.id}/${details?.utilizador[0]?.nome}`
+                  )
+                }
               />
-            </Badge>
+            ) : (
+              <Badge
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                badgeContent={isFollowing ? "✓" : "+"}
+                overlap="circular"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    color: isFollowing ? "black" : "white",
+                    backgroundColor: (theme) =>
+                      isFollowing ? "white" : theme.palette.primary.main,
+                    fontWeight: "bold",
+                  },
+                }}
+              >
+                <Avatar
+                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
+                  alt="Foto do Publicador"
+                  sx={{ width: "3rem", height: "3rem" }}
+                />
+              </Badge>
+            )}
           </IconButton>
           {/* <Box
           ref={userCardRef}
@@ -611,7 +598,10 @@ const DetailedHeader = ({
   onCloseModal,
   onFollowUser,
   isFollowingUser,
+  isOwner,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -625,7 +615,16 @@ const DetailedHeader = ({
       <Avatar
         src={publisherPhoto}
         alt="Foto de Perfil"
-        sx={{ marginTop: ".75rem" }}
+        sx={{
+          marginTop: ".75rem",
+          "&:hover": {
+            opacity: 0.8,
+            cursor: "pointer",
+          },
+        }}
+        onClick={() =>
+          navigate(`/user-profile/${publishers[0]?.id}/${publishers[0]?.nome}`)
+        }
       />
       <Box
         sx={{ display: "flex", flexDirection: "column", marginTop: ".75rem" }}
@@ -636,21 +635,23 @@ const DetailedHeader = ({
             publishers={publishers}
             isFollowing={isFollowingUser}
             onFollowUser={onFollowUser}
+            isOwner={isOwner}
           />
-          <Dot sx={{ fontSize: ".5rem" }} />
-          <Typography
-            sx={{
-              "&:hover": { cursor: "pointer", textDecoration: "underline" },
-            }}
-            onClick={onFollowUser}
-          >
-            {isFollowingUser ? "Seguindo" : "Seguir"}
-          </Typography>
+          {isOwner ? null : (
+            <>
+              <Dot sx={{ fontSize: ".5rem" }} />
+              <Typography
+                sx={{
+                  "&:hover": { cursor: "pointer", textDecoration: "underline" },
+                }}
+                onClick={onFollowUser}
+              >
+                {isFollowingUser ? "Seguindo" : "Seguir"}
+              </Typography>
+            </>
+          )}
         </Box>
       </Box>
-      {/* <Box sx={{ marginLeft: "auto" }}>
-        <CustomBadge isEvent={type === "E"} />
-      </Box> */}
       <Box onClick={onCloseModal}>
         <Close
           sx={{
@@ -678,7 +679,9 @@ const DetailedInfo = ({
 }) => {
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-      <ReactQuill theme="bubble" value={description} readOnly />
+      {description.length > 0 ? (
+        <ReactQuill theme="bubble" value={description} readOnly />
+      ) : null}
       {isEvent ? (
         <>
           <Box mt="1rem">

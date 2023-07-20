@@ -21,9 +21,10 @@ import {
   Add,
   CheckBoxOutlineBlank,
   CheckBox,
-  Handshake,
   MoreHoriz,
+  Handshake,
 } from "@mui/icons-material";
+import Publisher from "../../../components/Publisher";
 
 import ReactQuill from "react-quill";
 
@@ -40,22 +41,21 @@ const Editar = () => {
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
   const [anchorDateEl, setAnchorDateEl] = useState(null);
   const [anchorCulturalAreaEl, setAnchorCulturalAreaEl] = useState(null);
-  const [anchorAssociateProjectEl, setAnchorAssociateProjectEl] =
-    useState(null);
+  const [anchorAssociateEventEl, setAnchorAssociateEventEl] = useState(null);
   const [fieldValues, setFieldValues] = useState({
     nome: "",
     data_inicio: "",
     data_fim: "",
     imagem: null,
     descricao:
-      '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
-    local: "",
+      '<p><span class="ql-size-large">Adicione tudo sobre o seu projeto</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
+    local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
-    assoc_projeto: [],
+    assoc_evento: [],
   });
   const [users, setUsers] = useState([]);
-  const [projects, setProjects] = useState([]);
+  const [events, setEvents] = useState([]);
   const [addresses, setAddresses] = useState([]);
 
   const params = useParams();
@@ -89,6 +89,28 @@ const Editar = () => {
     { id: 16, name: t("categories.carnaval") },
   ];
 
+  const handleLocationClick = (event) => {
+    setAnchorLocationEl(event.currentTarget);
+  };
+
+  const handleDateClick = (event) => {
+    setAnchorDateEl(event.currentTarget);
+  };
+
+  const handleCulturalAreaClick = (event) => {
+    setAnchorCulturalAreaEl(event.currentTarget);
+  };
+
+  const handleAssociateEventClick = (event) => {
+    setAnchorAssociateEventEl(event.currentTarget);
+  };
+
+  const handleChangeFieldValues = (key, value) => {
+    setFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+  };
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) return navigate("/");
@@ -113,30 +135,30 @@ const Editar = () => {
       }
     };
 
-    const getProjects = async () => {
+    const getEvents = async () => {
       try {
-        const response = await axiosInstance.get(`/projetos/listar`, {
+        const response = await axiosInstance.get(`/eventos/listar`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             // Authorization:
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         });
-        setProjects(response.data.dados);
+        setEvents(response.data.dados);
       } catch (error) {
         console.error(error);
       }
     };
 
     getUsers();
-    getProjects();
+    getEvents();
   }, []);
 
   useEffect(() => {
     if (!id) return;
-    const getEventDetails = async () => {
+    const getProjectDetails = async () => {
       try {
-        const response = await axiosInstance.get(`/eventos/listar/${id}`, {
+        const response = await axiosInstance.get(`/projetos/listar/${id}`, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
             // Authorization:
@@ -148,14 +170,14 @@ const Editar = () => {
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
-        const assoc_projeto = response.data.projeto_assoc;
+        const assoc_evento = response.data.evento_assoc;
 
         setFieldValues({
           id,
           nome: data.nome,
           data_inicio: data.data_inicio,
           data_fim: data.data_fim,
-          imagem: `https://comein.cv/comeincv_api_test/img/eventosImg/${data.imagem}`,
+          imagem: `https://comein.cv/comeincv_api_test/img/projetosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
             id: "238103001008004",
@@ -168,36 +190,14 @@ const Editar = () => {
             { id: 4, name: t("categories.movieTheater") },
             { id: 5, name: t("categories.standUp") },
           ],
-          assoc_projeto,
+          assoc_evento,
         });
       } catch (error) {
         console.log(error);
       }
     };
-    getEventDetails();
+    getProjectDetails();
   }, [id]);
-
-  const handleLocationClick = (event) => {
-    setAnchorLocationEl(event.currentTarget);
-  };
-
-  const handleDateClick = (event) => {
-    setAnchorDateEl(event.currentTarget);
-  };
-
-  const handleCulturalAreaClick = (event) => {
-    setAnchorCulturalAreaEl(event.currentTarget);
-  };
-
-  const handleAssociateProjectClick = (event) => {
-    setAnchorAssociateProjectEl(event.currentTarget);
-  };
-
-  const handleChangeFieldValues = (key, value) => {
-    setFieldValues((prev) => {
-      return { ...prev, [key]: value };
-    });
-  };
 
   const openLocationPopover = Boolean(anchorLocationEl);
   const locationPopoverId = open ? "location-popover" : undefined;
@@ -208,13 +208,27 @@ const Editar = () => {
   const openCulturalAreaPopover = Boolean(anchorCulturalAreaEl);
   const culturalAreaPopoverId = open ? "culturalArea-popover" : undefined;
 
-  const openAssociateProjectPopover = Boolean(anchorAssociateProjectEl);
-  const associateProjectPopoverId = open
-    ? "associateProject-popover"
-    : undefined;
+  const openAssociateEventPopover = Boolean(anchorAssociateEventEl);
+  const associateEventPopoverId = open ? "associateEvent-popover" : undefined;
 
   const icon = <CheckBoxOutlineBlank fontSize="small" />;
   const checkedIcon = <CheckBox fontSize="small" />;
+
+  const handlePhotoUpload = async (event) => {
+    const file = event.target.files[0];
+
+    var reader = new FileReader();
+    reader.onload = async function () {
+      console.log("Uploaded");
+      handleChangeFieldValues("imagem", URL.createObjectURL(file));
+      handleChangeFieldValues("imgProjeto", file);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  };
+
+  const handleChangeImgClick = () => {
+    document.getElementById("upload-photo").click();
+  };
 
   const arrayToString = (array) => {
     return array.reduce((total, current, index, arr) => {
@@ -224,77 +238,56 @@ const Editar = () => {
     });
   };
 
-  const handlePhotoUpload = async (event) => {
-    const file = event.target.files[0];
-
-    var reader = new FileReader();
-    reader.onload = async function () {
-      console.log("Uploaded");
-      // await updateUserProfilePhoto(loggedUserInfo.id, file);
-      // const user = await getUser(loggedUserInfo.id);
-      // setProfilePhoto(user.dados.img_perfil);
-
-      // localStorage.setItem("userInfo", JSON.stringify(user.dados));
-      handleChangeFieldValues("imagem", URL.createObjectURL(file));
-      handleChangeFieldValues("imgEvento", file);
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  };
-
-  const handleChangeImgClick = () => {
-    document.getElementById("upload-photo").click();
-  };
-
   const handleSave = () => {
     console.log(fieldValues);
-    let newEvent = new FormData();
-    newEvent.append("id_utilizador", user.id);
-    newEvent.append("nome", fieldValues.nome);
-    newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
-    newEvent.append("imgEvento", fieldValues.imgEvento);
-    // newEvent.append("descricao", fieldValues.descricao);
-    newEvent.append(
-      "data_fim",
-      fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
-    );
-    newEvent.append(
+    let newProject = new FormData();
+    newProject.append("id_utilizador", user.id);
+    newProject.append("nome", fieldValues?.nome);
+    // newProject.append("data_inicio", fieldValues.data_inicio + ":00");
+    newProject.append("data_inicio", "07-17-2023 20:00:00");
+    newProject.append("imgProjeto", fieldValues?.imgProjeto);
+    newProject.append("descricao", fieldValues?.descricao);
+    newProject.append("data_fim", "07-21-2023 08:00:00");
+    // newProject.append(
+    //   "data_fim",
+    //   fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
+    // );
+    newProject.append(
       "areasCulturais",
-      fieldValues.areasCulturais.length > 0
+      fieldValues?.areasCulturais.length > 0
         ? arrayToString(
-            fieldValues.areasCulturais.map((item) => item.id)
+            fieldValues?.areasCulturais.map((item) => item.id)
           ).slice(0, -1)
-        : fieldValues.areasCulturais[0].id
+        : fieldValues?.areasCulturais[0].id
     );
-    newEvent.append(
-      "assoc_projeto",
-      fieldValues.assoc_projeto.length > 0
-        ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id)).slice(
-            0,
-            -1
-          )
-        : null
+    newProject.append(
+      "assoc_evento",
+      fieldValues?.assoc_evento?.length > 0
+        ? arrayToString(
+            fieldValues?.assoc_evento?.map((item) => item.id)
+          ).slice(0, -1)
+        : 0
     );
-    newEvent.append("idGeografia", fieldValues.local.id);
-    newEvent.append(
+    newProject.append("idGeografia", fieldValues?.local.id);
+    newProject.append(
       "idsProprietarios",
-      fieldValues.proprietarios.length > 0
-        ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
-            0,
-            -1
-          )
-        : null
+      fieldValues?.proprietarios.length > 0
+        ? arrayToString(
+            fieldValues?.proprietarios.map((item) => item.id)
+          ).slice(0, -1)
+        : 0
     );
 
-    console.log(newEvent);
+    console.log(newProject);
 
-    editEvent(newEvent);
+    editProject(newProject);
   };
 
-  const editEvent = async (newEvent) => {
+  const editProject = async (newProject) => {
     try {
       const response = await axiosInstance.post(
-        `/eventos/atualizar/${id}`,
-        newEvent,
+        `/projetos/atualizar/${id}`,
+        newProject,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -305,7 +298,7 @@ const Editar = () => {
       );
       console.log(response.data.dados);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -365,7 +358,7 @@ const Editar = () => {
                   required
                   id="event-name"
                   name="name"
-                  placeholder="Insira o nome do seu evento aqui"
+                  placeholder="Insira o nome do seu projeto aqui"
                   variant="standard"
                   value={fieldValues?.nome}
                   onChange={(e) =>
@@ -384,6 +377,7 @@ const Editar = () => {
                     Proprietários Associados
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
+
                   <CustomizedAutoComplete
                     data={users}
                     currentValue={fieldValues.proprietarios}
@@ -480,14 +474,6 @@ const Editar = () => {
                   onInputChange={async (event, value) => {
                     if (value.length >= 2 && value.length <= 4) {
                       const res = await getAddresses(value);
-
-                      // const newAddresses = [];
-                      // for (let key in res.dados) {
-                      //   if (res.dados.hasOwnProperty(key)) {
-                      //     const value = res.dados[key];
-                      //     newAddresses.push(value.nome);
-                      //   }
-                      // }
                       setAddresses(res.dados);
                     }
                   }}
@@ -640,12 +626,12 @@ const Editar = () => {
               </Box>
             </Popover>
             <Tooltip
-              title={"Adicionar Projeto Associado"}
+              title={"Adicionar Evento Associado"}
               placement="left"
               arrow
             >
               <Box
-                id="associated-project"
+                id="associated-event"
                 sx={{
                   borderRadius: "50%",
                   height: "3rem",
@@ -660,18 +646,18 @@ const Editar = () => {
                     opacity: 0.8,
                   },
                 }}
-                onClick={handleAssociateProjectClick}
+                onClick={handleAssociateEventClick}
               >
                 <Handshake
                   sx={{ color: "white", width: "1rem", height: "1rem" }}
-                />
+                />{" "}
               </Box>
             </Tooltip>
             <Popover
-              id={associateProjectPopoverId}
-              open={openAssociateProjectPopover}
-              anchorEl={anchorAssociateProjectEl}
-              onClose={() => setAnchorAssociateProjectEl(null)}
+              id={associateEventPopoverId}
+              open={openAssociateEventPopover}
+              anchorEl={anchorAssociateEventEl}
+              onClose={() => setAnchorAssociateEventEl(null)}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
@@ -681,17 +667,17 @@ const Editar = () => {
                 <Autocomplete
                   multiple
                   id="checkboxes-tags-demo"
-                  options={projects}
+                  options={events}
                   disableCloseOnSelect
                   getOptionLabel={(option) => option.nome}
-                  value={fieldValues.assoc_projeto}
+                  value={fieldValues.assoc_evento}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
                       <Checkbox
                         icon={icon}
                         checkedIcon={checkedIcon}
                         style={{ marginRight: 8 }}
-                        checked={fieldValues.assoc_projeto
+                        checked={fieldValues.assoc_evento
                           .map((proj) => +proj.id)
                           .includes(+option.id)}
                       />
@@ -699,13 +685,13 @@ const Editar = () => {
                     </li>
                   )}
                   onChange={(_, value) =>
-                    handleChangeFieldValues("assoc_projeto", value)
+                    handleChangeFieldValues("assoc_evento", value)
                   }
                   sx={{ width: 300 }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      placeholder="Projeto Associado"
+                      placeholder="Eventos Associado"
                       size="small"
                     />
                   )}

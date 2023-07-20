@@ -1,35 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Menu,
-  MenuItem,
-  Typography,
-  Stack,
-  Button,
-  Divider,
-  ListItem,
-  List,
-} from "@mui/material";
-import {
-  ArrowDropDown,
-  FormatListNumbered,
-  LocationOn,
-} from "@mui/icons-material";
+import { Avatar, Box, Menu, MenuItem, Typography, Stack } from "@mui/material";
+import { ArrowDropDown, LocationOn } from "@mui/icons-material";
 
-import wallpaper from "../assets/img/event3.jpg";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router-dom";
 
 const Publisher = ({
   publishers = [{ nome: "" }],
   isFollowing = false,
   onFollowUser,
+  isOwner,
 }) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [showUserCard, setShowUserCard] = useState(false);
 
   const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
+
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -128,7 +116,7 @@ const Publisher = ({
                 key={publisher.nome + index}
                 onClick={handleCloseUserMenu}
               >
-                <PublisherCard publisher={publisher} />
+                <PublisherCard publisher={publisher} isOwner={isOwner} />
               </MenuItem>
             ))}
           </Menu>
@@ -147,6 +135,11 @@ const Publisher = ({
                 cursor: "pointer",
               },
             }}
+            onClick={() =>
+              navigate(
+                `/user-profile/${publishers[0].id}/${publishers[0].nome}`
+              )
+            }
           >
             {publishers[0]?.nome}
           </Typography>
@@ -166,6 +159,7 @@ const Publisher = ({
               publisher={publishers[0]}
               isFollowing={isFollowing}
               onFollowUser={onFollowUser}
+              isOwner={isOwner}
             />
           </Box>
         </>
@@ -176,7 +170,7 @@ const Publisher = ({
 
 export default Publisher;
 
-const PublisherCard = ({ publisher }) => {
+const PublisherCard = ({ publisher, isOwner }) => {
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
       ? ""
@@ -211,7 +205,7 @@ const PublisherCard = ({ publisher }) => {
           },
         }}
       >
-        Seguir
+        {isOwner ? "Aceder a sua página" : "Seguir"}
       </Box>
     </Box>
   );

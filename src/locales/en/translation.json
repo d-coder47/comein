@@ -2,7 +2,17 @@
   "homepage": {
     "login": "Log In",
     "signUp": "Sign Up",
-    "definicoesConta": "Account settings"
+    "definicoesConta": "Account settings",
+    "searchPosts": "Search posts",
+    "highlights": "Highlights",
+    "filter": "Filter",
+    "filterCard": {
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "location": "Location",
+      "cancel": "Cancel",
+      "apply": "Apply"
+    }
   },
   "registerpage": {
     "etapa1": "Stage 1 of 2",

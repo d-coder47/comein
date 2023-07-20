@@ -6,7 +6,6 @@ import {
   Box,
   Checkbox,
   Input,
-  Modal,
   Popover,
   TextField,
   Tooltip,
@@ -18,19 +17,17 @@ import {
   LocationOn,
   FiberManualRecord as Dot,
   Save,
-  Add,
   CheckBoxOutlineBlank,
   CheckBox,
   Handshake,
   MoreHoriz,
 } from "@mui/icons-material";
-import Publisher from "../../../components/Publisher";
 
 import ReactQuill from "react-quill";
-import Parser from "html-react-parser";
 
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
+
 import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
@@ -198,41 +195,39 @@ const Adicionar = () => {
     console.log(fieldValues);
     let newEvent = new FormData();
     newEvent.append("id_utilizador", user.id);
-    newEvent.append("nome", fieldValues.nome);
-    // newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
+    newEvent.append("nome", fieldValues?.nome);
+    // newEvent.append("data_inicio", fieldValues?.data_inicio + ":00");
     newEvent.append("data_inicio", "07-17-2023 20:00:00");
-    newEvent.append("imgEvento", fieldValues.imgEvento);
-    newEvent.append("descricao", fieldValues.descricao);
+    newEvent.append("imgEvento", fieldValues?.imgEvento);
+    newEvent.append("descricao", fieldValues?.descricao);
     newEvent.append("data_fim", "07-21-2023 08:00:00");
     // newEvent.append(
     //   "data_fim",
-    //   fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
+    //   fieldValues?.data_fim.length > 0 ? fieldValues?.data_fim + ":00" : null
     // );
     newEvent.append(
       "areasCulturais",
-      fieldValues.areasCulturais.length > 0
+      fieldValues?.areasCulturais?.length > 0
         ? arrayToString(
-            fieldValues.areasCulturais.map((item) => item.id)
+            fieldValues?.areasCulturais?.map((item) => item.id)
           ).slice(0, -1)
-        : fieldValues.areasCulturais[0].id
+        : fieldValues?.areasCulturais[0].id
     );
     newEvent.append(
       "assoc_projeto",
-      fieldValues.assoc_projeto.length > 0
-        ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id)).slice(
-            0,
-            -1
-          )
+      fieldValues?.assoc_projeto?.length > 0
+        ? arrayToString(
+            fieldValues?.assoc_projeto?.map((item) => item.id)
+          ).slice(0, -1)
         : 0
     );
-    newEvent.append("idGeografia", fieldValues.local.id);
+    newEvent.append("idGeografia", fieldValues?.local?.id);
     newEvent.append(
       "idsProprietarios",
-      fieldValues.proprietarios.length > 0
-        ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
-            0,
-            -1
-          )
+      fieldValues?.proprietarios?.length > 0
+        ? arrayToString(
+            fieldValues?.proprietarios?.map((item) => item.id)
+          ).slice(0, -1)
         : 0
     );
     createEvent(newEvent);
