@@ -32,6 +32,10 @@ import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 import { styled, alpha } from "@mui/material/styles";
 
+import ReactQuill from "react-quill";
+
+import "react-quill/dist/quill.bubble.css";
+
 const UserProfile = () => {
   const params = useParams();
   const { userId } = params;
@@ -600,19 +604,13 @@ const UserProfile = () => {
                 )}
 
                 {selectedTab === "about" && (
-                  <Typography variant="h6">
-                    <>
-                      <Typography
-                        sx={{
-                          marginTop: "20px",
-                          marginLeft: { md: "3rem", lg: "4rem" },
-                        }}
-                        variant="h6"
-                      >
-                        {pageUserInfo.bio}
-                      </Typography>
-                    </>
-                  </Typography>
+                  <>
+                    <ReactQuill
+                      theme="bubble"
+                      readOnly
+                      value={pageUserInfo.bio}
+                    />
+                  </>
                 )}
                 {selectedTab === 4 && (
                   <Typography variant="h6">Resultados do search</Typography>
