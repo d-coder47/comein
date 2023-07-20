@@ -3,12 +3,22 @@ import {
   Avatar,
   Box,
   Typography,
+  IconButton,
   Modal,
   Skeleton,
   Stack,
+  Menu,
+  MenuItem,
   Button,
 } from "@mui/material";
-import { ThumbUp, Share, Close, Link } from "@mui/icons-material";
+import {
+  ThumbUp,
+  Share,
+  Close,
+  Link,
+  Settings,
+  KeyboardArrowDown,
+} from "@mui/icons-material";
 
 import {
   FacebookShareButton,
@@ -55,6 +65,16 @@ const ProfileCustomCard = ({
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
+
+  const [postActionsMenuAnchorEl, setPostActionsMenuAnchorEl] =
+    React.useState(null);
+  const postActionsMenuOpen = Boolean(postActionsMenuAnchorEl);
+  const handlePostActionsMenuClick = (event) => {
+    setPostActionsMenuAnchorEl(event.currentTarget);
+  };
+  const handlePostActionsMenuClose = () => {
+    setPostActionsMenuAnchorEl(null);
+  };
 
   const navigate = useNavigate();
 
@@ -253,9 +273,97 @@ const ProfileCustomCard = ({
         sx={{
           height: "20rem",
         }}
-        onMouseEnter={() => setDisplayInteraction("block")}
+        onMouseEnter={() => setDisplayInteraction("flex")}
         onMouseLeave={() => setDisplayInteraction("none")}
       >
+        <Box
+          sx={{
+            display: `${displayInteractions}`,
+            position: "absolute",
+            marginTop: "0.5rem",
+            marginLeft: "0.5rem",
+            zIndex: "99999999",
+            background: (theme) => theme.palette.secondary.main,
+            borderRadius: "30px",
+            width: "60px",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <IconButton
+            color="primary"
+            size="small"
+            onClick={handlePostActionsMenuClick}
+          >
+            <Settings fontSize="small" />
+            <KeyboardArrowDown fontSize="small" />
+          </IconButton>
+          <Menu
+            anchorEl={postActionsMenuAnchorEl}
+            id="account-menu"
+            open={postActionsMenuOpen}
+            onClose={handlePostActionsMenuClose}
+            PaperProps={{
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                mt: 1.5,
+                "& .MuiAvatar-root": {
+                  width: 100,
+                  height: 100,
+                  ml: -0.5,
+                  mr: 1,
+                },
+                "&:before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "background.paper",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
+              },
+            }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            sx={{
+              ".MuiList-root": { padding: "0 0 1rem 0" },
+            }}
+          >
+            <MenuItem
+              id="user-card"
+              sx={{
+                padding: "0",
+              }}
+              onClick={handlePostActionsMenuClose}
+              disableRipple
+            >
+              Editar
+            </MenuItem>
+
+            <MenuItem
+              id="user-card"
+              sx={{
+                padding: "0",
+              }}
+              onClick={handlePostActionsMenuClose}
+              disableRipple
+            >
+              Excluir
+            </MenuItem>
+          </Menu>
+        </Box>
         <Box
           sx={{
             display: "flex",

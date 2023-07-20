@@ -683,8 +683,14 @@ const UserProfile = () => {
             },
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
       >
         <MenuItem
           onClick={() => {

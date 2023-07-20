@@ -18,6 +18,7 @@
     "@mui/material": "^5.11.12",
     "@react-oauth/google": "^0.11.0",
     "axios": "^1.4.0",
+    "html-react-parser": "^4.0.0",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.4",
     "mui-tel-input": "^3.1.3",
