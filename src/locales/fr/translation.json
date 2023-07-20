@@ -149,5 +149,56 @@
     "fashion": "Mode",
     "traditionalParties": "Fêtes de Pèlerinage",
     "carnaval": "Carnaval"
+  },
+  "cardDetailed": {
+    "userCard": {
+      "variousOwners": "Plusieurs Propriétaires",
+      "likes": "Aime",
+      "followers": "Suiveurs",
+      "visits": "Visites",
+      "follow": "Suivre",
+      "following": "Suivant",
+      "accessYourPage": "Accéder à votre page"
+    },
+    "addToFavorites": "Ajouter aux Favoris",
+    "removeFromFavorites": "Retirer des favoris",
+    "addLike": "J'aime",
+    "removeLike": "Supprimer le goût",
+    "local": "Local:",
+    "startDate": "Date de début:",
+    "endDate": "Date de fin:",
+    "hour": "Heure:",
+    "freeEntry": "Entrée libre",
+    "program": "Programme"
+  },
+  "eventPage": {
+    "common": {
+      "namePlaceholder": "Entrez le nom de votre événement ici",
+      "associatedOwners": "Propriétaires associés",
+      "location": "Local",
+      "date": "Date",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "culturalArea": "Espaces culturels",
+      "associatedProject": "Projet associé",
+      "save": "Sauvegarder",
+      "defaultDescription": "Ajoutez tout ce qui concerne votre événement",
+      "tutorial": "Double-cliquez pour personnaliser"
+    }
+  },
+  "projectPage": {
+    "common": {
+      "namePlaceholder": "Entrez le nom de votre projet ici",
+      "associatedOwners": "Propriétaires associés",
+      "location": "Local",
+      "date": "Date",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "culturalArea": "Espaces culturels",
+      "associatedEvent": "Événement associé",
+      "save": "Sauvegarder",
+      "defaultDescription": "Ajoutez tout ce qui concerne votre projet",
+      "tutorial": "Double-cliquez pour personnaliser"
+    }
   }
 }

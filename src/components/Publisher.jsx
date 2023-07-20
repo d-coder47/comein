@@ -4,6 +4,7 @@ import { ArrowDropDown, LocationOn } from "@mui/icons-material";
 
 import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Publisher = ({
   publishers = [{ nome: "" }],
@@ -18,6 +19,7 @@ const Publisher = ({
   const userCardParentRef = useRef(null);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -77,8 +79,6 @@ const Publisher = ({
             sx={{
               cursor: "pointer",
             }}
-            // onMouseEnter={handleOpenUserMenu}
-            // onMouseLeave={handleCloseUserMenu}
           >
             <Typography
               onMouseEnter={handleOpenUserMenu}
@@ -86,7 +86,7 @@ const Publisher = ({
                 cursor: "pointer",
               }}
             >
-              Vários proprietários
+              {t("cardDetailed.userCard.variousOwners")}
             </Typography>
             <ArrowDropDown
               onMouseEnter={handleOpenUserMenu}
@@ -116,7 +116,11 @@ const Publisher = ({
                 key={publisher.nome + index}
                 onClick={handleCloseUserMenu}
               >
-                <PublisherCard publisher={publisher} isOwner={isOwner} />
+                <PublisherCard
+                  publisher={publisher}
+                  isFollowing={isFollowing}
+                  isOwner={isOwner}
+                />
               </MenuItem>
             ))}
           </Menu>
@@ -170,12 +174,13 @@ const Publisher = ({
 
 export default Publisher;
 
-const PublisherCard = ({ publisher, isOwner }) => {
+const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
       ? ""
       : `${residencia}, `;
   };
+  const { t } = useTranslation();
   return (
     <Box display="flex" alignItems="center" gap=".5rem">
       <Avatar
@@ -205,7 +210,11 @@ const PublisherCard = ({ publisher, isOwner }) => {
           },
         }}
       >
-        {isOwner ? "Aceder a sua página" : "Seguir"}
+        {isOwner
+          ? t("cardDetailed.userCard.accessYourPage")
+          : isFollowing
+          ? t("cardDetailed.userCard.following")
+          : t("cardDetailed.userCard.follow")}
       </Box>
     </Box>
   );

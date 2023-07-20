@@ -36,6 +36,8 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 
 const Editar = () => {
+  const { t } = useTranslation();
+
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
   const [anchorDateEl, setAnchorDateEl] = useState(null);
@@ -47,8 +49,11 @@ const Editar = () => {
     data_inicio: "",
     data_fim: "",
     imagem: null,
-    descricao:
-      '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>',
+    descricao: `<p><span class="ql-size-large">${t(
+      "eventPage.common.defaultDescription"
+    )}</span></p><p><span class="ql-size-large">${t(
+      "eventPage.common.tutorial"
+    )}</span></p>`,
     local: "",
     proprietarios: [],
     areasCulturais: [],
@@ -64,8 +69,6 @@ const Editar = () => {
   const navigate = useNavigate();
 
   const { getAddresses } = useRegisterUser();
-
-  const { t } = useTranslation();
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -365,7 +368,7 @@ const Editar = () => {
                   required
                   id="event-name"
                   name="name"
-                  placeholder="Insira o nome do seu evento aqui"
+                  placeholder={t("eventPage.common.namePlaceholder")}
                   variant="standard"
                   value={fieldValues?.nome}
                   onChange={(e) =>
@@ -381,7 +384,7 @@ const Editar = () => {
                   }}
                 >
                   <Typography fontWeight="bold" fontSize="0.9rem">
-                    Proprietários Associados
+                    {t("eventPage.common.associatedOwners")}
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
                   <CustomizedAutoComplete
@@ -427,7 +430,11 @@ const Editar = () => {
             marginTop="14%"
             mr={".5rem"}
           >
-            <Tooltip title={"Adicionar local"} placement="left" arrow>
+            <Tooltip
+              title={t("eventPage.common.location")}
+              placement="left"
+              arrow
+            >
               <Box
                 id="location"
                 aria-describedby={locationPopoverId}
@@ -494,7 +501,7 @@ const Editar = () => {
                 />
               </Box>
             </Popover>
-            <Tooltip title={"Adicionar data"} placement="left" arrow>
+            <Tooltip title={t("eventPage.common.date")} placement="left" arrow>
               <Box
                 id="date"
                 sx={{
@@ -533,7 +540,7 @@ const Editar = () => {
                   id="date-start"
                   name="startDate"
                   type="datetime-local"
-                  label="Data Início"
+                  label={t("eventPage.common.startDate")}
                   value={fieldValues.data_inicio}
                   sx={{
                     height: "2rem",
@@ -553,7 +560,7 @@ const Editar = () => {
                   id="date-end"
                   name="endDate"
                   type="datetime-local"
-                  label="Data Fim"
+                  label={t("eventPage.common.endDate")}
                   value={fieldValues.data_fim}
                   sx={{
                     height: "2rem",
@@ -570,7 +577,11 @@ const Editar = () => {
                 />
               </Box>
             </Popover>
-            <Tooltip title={"Adicionar área cultural"} placement="left" arrow>
+            <Tooltip
+              title={t("eventPage.common.culturalArea")}
+              placement="left"
+              arrow
+            >
               <Box
                 id="cultural-area"
                 sx={{
@@ -632,7 +643,7 @@ const Editar = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      placeholder="Áreas Culturais"
+                      placeholder={t("eventPage.common.culturalArea")}
                       size="small"
                     />
                   )}
@@ -640,7 +651,7 @@ const Editar = () => {
               </Box>
             </Popover>
             <Tooltip
-              title={"Adicionar Projeto Associado"}
+              title={t("eventPage.common.associatedProject")}
               placement="left"
               arrow
             >
@@ -705,14 +716,14 @@ const Editar = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      placeholder="Projeto Associado"
+                      placeholder={t("eventPage.common.associatedProject")}
                       size="small"
                     />
                   )}
                 />
               </Box>
             </Popover>
-            <Tooltip title={"Guardar evento"} placement="left" arrow>
+            <Tooltip title={t("eventPage.common.save")} placement="left" arrow>
               <Box
                 id="save"
                 sx={{

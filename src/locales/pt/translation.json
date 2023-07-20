@@ -150,5 +150,56 @@
     "fashion": "Moda",
     "traditionalParties": "Festas de Romaria",
     "carnaval": "Carnaval"
+  },
+  "cardDetailed": {
+    "userCard": {
+      "variousOwners": "Vários proprietários",
+      "likes": "Gostos",
+      "followers": "Seguidores",
+      "visits": "Visitas",
+      "follow": "Seguir",
+      "following": "Seguindo",
+      "accessYourPage": "Aceder a sua página"
+    },
+    "addToFavorites": "Adicionar aos favoritos",
+    "removeFromFavorites": "Retirar dos favoritos",
+    "addLike": "Gosto",
+    "removeLike": "Retirar gosto",
+    "local": "Local:",
+    "startDate": "Data Início:",
+    "endDate": "Data Fim:",
+    "hour": "Hour:",
+    "freeEntry": "Entrada Livre",
+    "program": "Programa"
+  },
+  "eventPage": {
+    "common": {
+      "namePlaceholder": "Insira o nome do seu evento aqui",
+      "associatedOwners": "Associar Proprietários",
+      "location": "Local",
+      "date": "Data",
+      "startDate": "Data Início",
+      "endDate": "Data Fim",
+      "culturalArea": "Áreas Culturais",
+      "associatedProject": "Associar Projeto",
+      "save": "Guardar",
+      "defaultDescription": "Adicione tudo sobre o seu evento",
+      "tutorial": "Faça duplo clique para personalizar"
+    }
+  },
+  "projectPage": {
+    "common": {
+      "namePlaceholder": "Insira o nome do seu projeto aqui",
+      "associatedOwners": "Associar Proprietários",
+      "location": "Local",
+      "date": "Data",
+      "startDate": "Data Início",
+      "endDate": "Data Fim",
+      "culturalArea": "Áreas Culturais",
+      "associatedEvent": "Associar Evento",
+      "save": "Guardar",
+      "defaultDescription": "Adicione tudo sobre o seu projeto",
+      "tutorial": "Faça duplo clique para personalizar"
+    }
   }
 }

@@ -19,7 +19,6 @@ import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
 import usePosts from "../hooks/usePosts";
 import useUserProfile from "../hooks/useUserProfile";
-import UserCard from "./UserCard";
 import { useNavigate, useParams } from "react-router-dom";
 import useEvents from "../hooks/useEvents";
 import useProjects from "../hooks/useProjects";
@@ -27,10 +26,12 @@ import { Helmet } from "react-helmet";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
+import { useTranslation } from "react-i18next";
 
 const CardDetailed = () => {
   const params = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { type, id } = params;
 
@@ -502,23 +503,11 @@ const CardDetailed = () => {
               </Badge>
             )}
           </IconButton>
-          {/* <Box
-          ref={userCardRef}
-          sx={{
-            position: "absolute",
-            zIndex: "9",
-            width: "22rem",
-            paddingBottom: "1.25rem",
-            backgroundColor: "white",
-            borderRadius: "0.25rem",
-            display: showUserCard ? "flex" : "none",
-          }}
-        >
-          <UserCard publisher={details?.utilizador[0]} />
-        </Box> */}
           <Tooltip
             title={
-              isFavorite ? "Retirar dos favoritos" : "Adicionar aos favoritos"
+              isFavorite
+                ? t("cardDetailed.removeFromFavorites")
+                : t("cardDetailed.addToFavorites")
             }
             placement="left"
             arrow
@@ -549,7 +538,9 @@ const CardDetailed = () => {
           </Tooltip>
 
           <Tooltip
-            title={isLiked ? "Retirar gosto" : "Gosto"}
+            title={
+              isLiked ? t("cardDetailed.removeLike") : t("cardDetailed.addLike")
+            }
             placement="left"
             arrow
           >
@@ -580,11 +571,6 @@ const CardDetailed = () => {
               ) : null}
             </Box>
           </Tooltip>
-          {/* <Avatar
-          src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0]}`}
-          alt="Foto do Publicador"
-          sx={{ width: "3rem", height: "3rem" }}
-        /> */}
         </Box>
       </Box>
     </Box>
@@ -601,6 +587,7 @@ const DetailedHeader = ({
   isOwner,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -646,7 +633,9 @@ const DetailedHeader = ({
                 }}
                 onClick={onFollowUser}
               >
-                {isFollowingUser ? "Seguindo" : "Seguir"}
+                {isFollowingUser
+                  ? t("cardDetailed.userCard.following")
+                  : t("cardDetailed.userCard.follow")}
               </Typography>
             </>
           )}
@@ -677,6 +666,7 @@ const DetailedInfo = ({
   dateStart,
   dateEnd,
 }) => {
+  const { t } = useTranslation();
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       {description.length > 0 ? (
@@ -686,18 +676,20 @@ const DetailedInfo = ({
         <>
           <Box mt="1rem">
             <Typography display="flex" gap=".5rem" fontWeight="bold">
-              Local: {<Typography fontWeight="normal">{location}</Typography>}
+              {t("cardDetailed.local")}{" "}
+              {<Typography fontWeight="normal">{location}</Typography>}
             </Typography>
           </Box>
           <Box>
             <Typography display="flex" gap=".5rem" fontWeight="bold">
-              Data Início:{" "}
+              {t("cardDetailed.startDate")}{" "}
               {<Typography fontWeight="normal">{dateStart}</Typography>}
             </Typography>
           </Box>
           <Box>
             <Typography display="flex" gap=".5rem" fontWeight="bold">
-              Data Fim: {<Typography fontWeight="normal">{dateEnd}</Typography>}
+              {t("cardDetailed.endDate")}{" "}
+              {<Typography fontWeight="normal">{dateEnd}</Typography>}
             </Typography>
           </Box>
         </>
@@ -707,13 +699,14 @@ const DetailedInfo = ({
 };
 
 const DetailedProgram = ({ programs = [] }) => {
+  const { t } = useTranslation();
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       {programs.length > 0 ? (
         <>
           {" "}
           <Typography fontWeight="bold" textTransform="uppercase">
-            Programa
+            {t("cardDetailed.program")}
           </Typography>
           {programs?.map((program) => (
             <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
@@ -728,7 +721,7 @@ const DetailedProgram = ({ programs = [] }) => {
                 <Typography fontWeight="bold">{program?.titulo}</Typography>
                 <Box>
                   <Typography display="flex" gap=".5rem" fontWeight="bold">
-                    Local:{" "}
+                    {t("cardDetailed.local")}{" "}
                     {
                       <Typography fontWeight="normal">
                         {program?.local}
@@ -738,7 +731,7 @@ const DetailedProgram = ({ programs = [] }) => {
                 </Box>
                 <Box>
                   <Typography display="flex" gap=".5rem" fontWeight="bold">
-                    Hora:{" "}
+                    {t("cardDetailed.hour")}{" "}
                     {
                       <Typography fontWeight="normal">
                         {program?.hora}
@@ -748,7 +741,7 @@ const DetailedProgram = ({ programs = [] }) => {
                 </Box>
                 <Box>
                   <Typography display="flex" gap=".5rem">
-                    {program?.tipoBilhete ? "Entrada Livre" : ""}
+                    {program?.tipoBilhete ? t("cardDetailed.freeEntry") : ""}
                   </Typography>
                 </Box>
               </Box>

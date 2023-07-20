@@ -149,5 +149,56 @@
     "fashion": "Fashion",
     "traditionalParties": "Traditional Parties",
     "carnaval": "Carnaval"
+  },
+  "cardDetailed": {
+    "userCard": {
+      "variousOwners": "Multiple Owners",
+      "likes": "Likes",
+      "followers": "Followers",
+      "visits": "Visits",
+      "follow": "Follow",
+      "following": "Following",
+      "accessYourPage": "Access your page"
+    },
+    "addToFavorites": "Add to Favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "addLike": "Like",
+    "removeLike": "Remove like",
+    "local": "Location:",
+    "startDate": "Start Date:",
+    "endDate": "End Date:",
+    "hour": "Hour:",
+    "freeEntry": "Free entry",
+    "program": "Program"
+  },
+  "eventPage": {
+    "common": {
+      "namePlaceholder": "Enter your event name here",
+      "associatedOwners": "Associate Owners",
+      "location": "Location",
+      "date": "Date",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "culturalArea": "Cultural Areas",
+      "associatedProject": "Associate Project",
+      "save": "Save",
+      "defaultDescription": "Add everything about your event",
+      "tutorial": "Double click to customize"
+    }
+  },
+  "projectPage": {
+    "common": {
+      "namePlaceholder": "Enter your project name here",
+      "associatedOwners": "Associate Owners",
+      "location": "Location",
+      "date": "Date",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "culturalArea": "Cultural Areas",
+      "associatedEvent": "Associate Event",
+      "save": "Save",
+      "defaultDescription": "Add everything about your project",
+      "tutorial": "Double click to customize"
+    }
   }
 }

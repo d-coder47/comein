@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const UserCard = ({
@@ -18,6 +19,8 @@ const UserCard = ({
   isOwner = false,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const getResidencia = (residencia) => {
     return residencia === "MUNDO" || residencia === null
       ? ""
@@ -119,7 +122,7 @@ const UserCard = ({
               fontSize: ".8rem",
             }}
           >
-            Gostos
+            {t("cardDetailed.userCard.likes")}
           </Typography>
         </ListItem>
         <Divider orientation="vertical" />
@@ -147,7 +150,7 @@ const UserCard = ({
               fontSize: ".8rem",
             }}
           >
-            Seguidores
+            {t("cardDetailed.userCard.followers")}
           </Typography>
         </ListItem>
         <Divider orientation="vertical" />
@@ -175,7 +178,7 @@ const UserCard = ({
               fontSize: ".8rem",
             }}
           >
-            Visitas
+            {t("cardDetailed.userCard.visits")}
           </Typography>
         </ListItem>
       </List>
@@ -186,7 +189,11 @@ const UserCard = ({
         sx={{ width: "80%" }}
         onClick={onFollowUser}
       >
-        {isOwner ? "Aceder a sua página" : isFollowing ? "Seguindo" : "Seguir"}
+        {isOwner
+          ? t("cardDetailed.userCard.accessYourPage")
+          : isFollowing
+          ? t("cardDetailed.userCard.following")
+          : t("cardDetailed.userCard.follow")}
       </Button>
     </Box>
   );
