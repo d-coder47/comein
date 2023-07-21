@@ -68,65 +68,76 @@ const ListPublications = ({ userID, type, isVisitor }) => {
     }
   }, []);
 
+  const getPostType = () => {
+    if (type == "project") return "projetos";
+    if (type == "event") return "eventos";
+  };
+
   if (type === "event") {
     if (events.length === 0) {
-      return (
-        <Card
-          sx={{
-            minWidth: 275,
-            minHeight: 275,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "3rem",
-          }}
-        >
-          <CardContent>
-            <Box
-              sx={{
-                width: "60px",
-                height: "60px",
-                backgroundColor: "#33B3CC",
+      return !isVisitor ? (
+        <>
+          <Card
+            sx={{
+              minWidth: 275,
+              minHeight: 275,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "3rem",
+            }}
+          >
+            <CardContent>
+              <Box
+                sx={{
+                  width: "60px",
+                  height: "60px",
+                  backgroundColor: "#33B3CC",
 
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "50%",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "#743600",
-                },
-              }}
-            >
-              <Tooltip title="Adicionar Evento">
-                <Button>
-                  <Info
-                    sx={{
-                      color: "#fff",
-                      fontSize: "3.25rem",
-                    }}
-                  />
-                </Button>
-              </Tooltip>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{
-                m: 3,
-                color: "#ffffff",
-                borderRadius: "16px",
-                textTransform: "none",
-              }}
-            >
-              Adiciona o seu primeiro evento
-            </Button>
-          </CardActions>
-        </Card>
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "#743600",
+                  },
+                }}
+              >
+                <Tooltip title="Adicionar Evento">
+                  <Button>
+                    <Info
+                      sx={{
+                        color: "#fff",
+                        fontSize: "3.25rem",
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{
+                  m: 3,
+                  color: "#ffffff",
+                  borderRadius: "16px",
+                  textTransform: "none",
+                }}
+              >
+                Adiciona o seu primeiro evento
+              </Button>
+            </CardActions>
+          </Card>
+        </>
+      ) : (
+        <Typography>
+          O utilizador ainda não tem {getPostType()} publicados.
+        </Typography>
       );
     } else {
       return (
@@ -136,6 +147,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
               events?.map((card, index) => (
                 <Grid item key={index} xs={3.8}>
                   <ProfileCustomCard
+                    isVisitor={isVisitor}
                     key={index}
                     id={card.id}
                     name={card.nome}
@@ -157,7 +169,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
     }
   } else if (type === "project") {
     if (projects.length === 0) {
-      return (
+      return !isVisitor ? (
         <Card
           sx={{
             minWidth: 275,
@@ -214,6 +226,11 @@ const ListPublications = ({ userID, type, isVisitor }) => {
             </Button>
           </CardActions>
         </Card>
+      ) : (
+        <Typography>
+          {" "}
+          O utilizador ainda não tem {getPostType()} publicados.{" "}
+        </Typography>
       );
     } else {
       return (
@@ -223,6 +240,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
               projects?.map((card, index) => (
                 <Grid item key={index} xs={3.8}>
                   <ProfileCustomCard
+                    isVisitor={isVisitor}
                     key={index}
                     id={card.id}
                     name={card.nome}
@@ -275,6 +293,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
             favs?.map((card, index) => (
               <Grid item key={index} xs={3.8}>
                 <ProfileCustomCard
+                  isVisitor={isVisitor}
                   key={index}
                   id={card.id}
                   name={card.nome}

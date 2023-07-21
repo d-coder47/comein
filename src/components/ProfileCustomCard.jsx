@@ -106,6 +106,7 @@ const ProfileCustomCard = ({
   publisherName,
   publisherPhoto,
   type,
+  isVisitor,
 }) => {
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
@@ -327,47 +328,49 @@ const ProfileCustomCard = ({
         onMouseEnter={() => setDisplayInteraction("flex")}
         onMouseLeave={() => setDisplayInteraction("none")}
       >
-        <Box
-          sx={{
-            display: `${displayInteractions}`,
-            position: "absolute",
-            marginTop: "0.5rem",
-            marginLeft: "0.5rem",
-            zIndex: "99999999",
-            background: "#808080", //(theme) => theme.palette.secondary.main,
-            borderRadius: "30px",
-            width: "60px",
-            justifyContent: "center",
-            alignContent: "center",
-          }}
-        >
-          <IconButton
-            color="primary"
-            size="small"
-            onClick={handlePostActionsMenuClick}
-          >
-            <Settings fontSize="small" />
-            <KeyboardArrowDown fontSize="small" />
-          </IconButton>
-          <StyledMenu
-            id="demo-customized-menu"
-            MenuListProps={{
-              "aria-labelledby": "demo-customized-button",
+        {isVisitor ? null : (
+          <Box
+            sx={{
+              display: `${displayInteractions}`,
+              position: "absolute",
+              marginTop: "0.5rem",
+              marginLeft: "0.5rem",
+              zIndex: "99999999",
+              background: "#808080", //(theme) => theme.palette.secondary.main,
+              borderRadius: "30px",
+              width: "60px",
+              justifyContent: "center",
+              alignContent: "center",
             }}
-            anchorEl={postActionsMenuAnchorEl}
-            open={postActionsMenuOpen}
-            onClose={handlePostActionsMenuClose}
           >
-            <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
-              <Edit />
-              {t("userProfile.editar")}
-            </MenuItem>
-            <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
-              <Delete />
-              {t("userProfile.remover")}
-            </MenuItem>
-          </StyledMenu>
-        </Box>
+            <IconButton
+              color="primary"
+              size="small"
+              onClick={handlePostActionsMenuClick}
+            >
+              <Settings fontSize="small" />
+              <KeyboardArrowDown fontSize="small" />
+            </IconButton>
+            <StyledMenu
+              id="demo-customized-menu"
+              MenuListProps={{
+                "aria-labelledby": "demo-customized-button",
+              }}
+              anchorEl={postActionsMenuAnchorEl}
+              open={postActionsMenuOpen}
+              onClose={handlePostActionsMenuClose}
+            >
+              <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
+                <Edit />
+                {t("userProfile.editar")}
+              </MenuItem>
+              <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
+                <Delete />
+                {t("userProfile.remover")}
+              </MenuItem>
+            </StyledMenu>
+          </Box>
+        )}
         <Box
           sx={{
             display: "flex",
