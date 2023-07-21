@@ -208,5 +208,9 @@
       "defaultDescription": "Add everything about your project",
       "tutorial": "Double click to customize"
     }
+  },
+  "shareModal": {
+    "partilhePostRedeSociais": "Share on your social networks",
+    "copiarLigacao": "Copy Link"
   }
 }

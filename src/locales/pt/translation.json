@@ -209,5 +209,10 @@
       "defaultDescription": "Adicione tudo sobre o seu projeto",
       "tutorial": "Faça duplo clique para personalizar"
     }
+  },
+
+  "postCard": {
+    "partilhePostRedeSociais": "Partilhe nas suas redes sociais",
+    "copiarLigacao": "Copiar Ligação"
   }
 }

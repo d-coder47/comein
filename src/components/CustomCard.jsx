@@ -37,6 +37,7 @@ import CardDetailed from "./CardDetailed";
 
 import LazyLoad from "react-lazy-load";
 import useEvents from "../hooks/useEvents";
+import useProjects from "../hooks/useProjects";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
 import UserCard from "./UserCard";
@@ -96,6 +97,8 @@ const CustomCard = ({
   const { removeFavoriteFromEvent } = useEvents();
 
   const { likePost, favoritePost } = usePosts();
+
+  const { removeFavoriteFromProject } = useProjects();
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500);
@@ -515,7 +518,7 @@ const CustomCard = ({
                 mt="1rem"
               >
                 <Typography fontWeight="bold">
-                  Partilhe nas suas redes sociais
+                  {t("postCard.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
@@ -579,7 +582,7 @@ const CustomCard = ({
                   variant="contained"
                   endIcon={<Link />}
                 >
-                  Copiar Ligação
+                  {t("postCard.copiarLigacao")}
                 </Button>
               </Box>
             </Box>
