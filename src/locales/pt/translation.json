@@ -67,6 +67,10 @@
     "sobre": "Sobre",
     "editar": "Editar",
     "remover": "Remover",
+    "adicionarPrimeiroEvento": "Adiciona o seu primeiro evento",
+    "adicionePrimeiroProj": "Adiciona o seu primeiro projeto",
+    "nenhumFavorito": "Ainda não possui nenhum favorito",
+    "naoForamEncontradosResultados": "Não foram encontrados resultados pela pesquisa.",
     "configPage": {
       "ajudaSuporte": "Ajuda e suporte",
       "reportarErro": "Comunicar problema",

@@ -223,7 +223,7 @@ const Cards = ({
             >
               <AlertTitle>
                 <strong>
-                  {"Não foram encontrados resultados pela pesquisa."}
+                  {t("userProfile.naoForamEncontradosResultados")}
                 </strong>
               </AlertTitle>
             </Alert>

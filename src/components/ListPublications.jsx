@@ -1,25 +1,20 @@
 import {
-  Alert,
-  AlertTitle,
   Box,
-  Collapse,
   Grid,
-  IconButton,
-  CardActionArea,
   CardActions,
-  CardMedia,
   CardContent,
   Card,
   Typography,
   Button,
   Tooltip,
 } from "@mui/material";
-import { Info, Add } from "@mui/icons-material";
+import { Info } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import usePosts from "../hooks/usePosts";
 import ProfileCustomCard from "./ProfileCustomCard";
 
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ListPublications = ({ userID, type, isVisitor }) => {
   const { getEventPostByUser, getProjectPostByUser, getFavoritsPostByUser } =
@@ -29,6 +24,8 @@ const ListPublications = ({ userID, type, isVisitor }) => {
   const [favs, setFavs] = useState([]);
 
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchEventsData() {
@@ -123,7 +120,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
                 textTransform: "none",
               }}
             >
-              Adiciona o seu primeiro evento
+              {t("userProfile.adicionarPrimeiroEvento")}
             </Button>
           </CardActions>
         </Card>
@@ -210,7 +207,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
                 textTransform: "none",
               }}
             >
-              Adiciona o seu primeiro projeto
+              {t("userProfile.adicionePrimeiroProj")}
             </Button>
           </CardActions>
         </Card>
@@ -262,7 +259,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
               color="text.secondary"
               gutterBottom
             >
-              Ainda não possui nenhum favorito
+              {t("userProfile.nenhumFavorito")}
             </Typography>
           </CardContent>
         </Card>
