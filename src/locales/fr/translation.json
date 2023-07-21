@@ -68,6 +68,8 @@
     "remover": "Retirer",
     "adicionarPrimeiroEvento": "Ajouter votre premier événement",
     "adicionePrimeiroProj": "Ajoutez votre premier projet",
+    "visitorNoEvents": "L'utilisateur n'a pas encore publié d'événements",
+    "visitorNoProjects": " L'utilisateur n'a pas encore de projets publiés",
     "nenhumFavorito": "Aucun favori pour l'instant",
     "naoForamEncontradosResultados": "La recherche n'a donné aucun résultat.",
     "configPage": {

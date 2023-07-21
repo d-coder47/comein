@@ -65,9 +65,9 @@ const ListPublications = ({ userID, type, isVisitor }) => {
     }
   }, []);
 
-  const getPostType = () => {
-    if (type == "project") return "projetos";
-    if (type == "event") return "eventos";
+  const displayNoPostByType = () => {
+    if (type == "project") return t("userProfile.visitorNoProjects");
+    if (type == "event") return t("userProfile.visitorNoEvents");
   };
 
   if (type === "event") {
@@ -132,9 +132,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
           </Card>
         </>
       ) : (
-        <Typography>
-          O utilizador ainda não tem {getPostType()} publicados.{" "}
-        </Typography>
+        <Typography>{displayNoPostByType()}</Typography>
       );
     } else {
       return (
@@ -224,10 +222,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
           </CardActions>
         </Card>
       ) : (
-        <Typography>
-          {" "}
-          O utilizador ainda não tem {getPostType()} publicados.{" "}
-        </Typography>
+        <Typography> {displayNoPostByType()}</Typography>
       );
     } else {
       return (

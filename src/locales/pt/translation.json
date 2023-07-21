@@ -69,6 +69,8 @@
     "remover": "Remover",
     "adicionarPrimeiroEvento": "Adiciona o seu primeiro evento",
     "adicionePrimeiroProj": "Adiciona o seu primeiro projeto",
+    "visitorNoEvents": "O utilizador ainda não tem eventos publicados",
+    "visitorNoProjects": " O utilizador ainda não tem projetos publicados",
     "nenhumFavorito": "Ainda não possui nenhum favorito",
     "naoForamEncontradosResultados": "Não foram encontrados resultados pela pesquisa.",
     "configPage": {
