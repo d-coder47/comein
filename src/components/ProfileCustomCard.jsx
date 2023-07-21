@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { styled, alpha } from "@mui/material/styles";
 import {
   Avatar,
   Box,
@@ -10,6 +11,7 @@ import {
   Menu,
   MenuItem,
   Button,
+  Divider,
 } from "@mui/material";
 import {
   ThumbUp,
@@ -18,6 +20,8 @@ import {
   Link,
   Settings,
   KeyboardArrowDown,
+  Edit,
+  Delete,
 } from "@mui/icons-material";
 
 import {
@@ -47,6 +51,50 @@ import useEvents from "../hooks/useEvents";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+const StyledMenu = styled((props) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "right",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "right",
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  "& .MuiPaper-root": {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color:
+      theme.palette.mode === "light"
+        ? "rgb(55, 65, 81)"
+        : theme.palette.grey[300],
+    boxShadow:
+      "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+    "& .MuiMenu-list": {
+      padding: "4px 0",
+    },
+    "& .MuiMenuItem-root": {
+      "& .MuiSvgIcon-root": {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      "&:active": {
+        backgroundColor: alpha(
+          theme.palette.primary.main,
+          theme.palette.action.selectedOpacity
+        ),
+      },
+    },
+  },
+}));
 
 const ProfileCustomCard = ({
   id = null,
@@ -65,6 +113,8 @@ const ProfileCustomCard = ({
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
+
+  const { t } = useTranslation();
 
   const [postActionsMenuAnchorEl, setPostActionsMenuAnchorEl] =
     React.useState(null);
@@ -267,6 +317,7 @@ const ProfileCustomCard = ({
     );
   }
 
+  // antes de cagada
   return (
     <>
       <Box
@@ -283,7 +334,7 @@ const ProfileCustomCard = ({
             marginTop: "0.5rem",
             marginLeft: "0.5rem",
             zIndex: "99999999",
-            background: (theme) => theme.palette.secondary.main,
+            background: "#808080", //(theme) => theme.palette.secondary.main,
             borderRadius: "30px",
             width: "60px",
             justifyContent: "center",
@@ -298,71 +349,24 @@ const ProfileCustomCard = ({
             <Settings fontSize="small" />
             <KeyboardArrowDown fontSize="small" />
           </IconButton>
-          <Menu
+          <StyledMenu
+            id="demo-customized-menu"
+            MenuListProps={{
+              "aria-labelledby": "demo-customized-button",
+            }}
             anchorEl={postActionsMenuAnchorEl}
-            id="account-menu"
             open={postActionsMenuOpen}
             onClose={handlePostActionsMenuClose}
-            PaperProps={{
-              elevation: 0,
-              sx: {
-                overflow: "visible",
-                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                mt: 1.5,
-                "& .MuiAvatar-root": {
-                  width: 100,
-                  height: 100,
-                  ml: -0.5,
-                  mr: 1,
-                },
-                "&:before": {
-                  content: '""',
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  right: 14,
-                  width: 10,
-                  height: 10,
-                  bgcolor: "background.paper",
-                  transform: "translateY(-50%) rotate(45deg)",
-                  zIndex: 0,
-                },
-              },
-            }}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              ".MuiList-root": { padding: "0 0 1rem 0" },
-            }}
           >
-            <MenuItem
-              id="user-card"
-              sx={{
-                padding: "0",
-              }}
-              onClick={handlePostActionsMenuClose}
-              disableRipple
-            >
-              Editar
+            <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
+              <Edit />
+              {t("userProfile.editar")}
             </MenuItem>
-
-            <MenuItem
-              id="user-card"
-              sx={{
-                padding: "0",
-              }}
-              onClick={handlePostActionsMenuClose}
-              disableRipple
-            >
-              Excluir
+            <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
+              <Delete />
+              {t("userProfile.remover")}
             </MenuItem>
-          </Menu>
+          </StyledMenu>
         </Box>
         <Box
           sx={{

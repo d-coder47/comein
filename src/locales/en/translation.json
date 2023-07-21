@@ -64,6 +64,8 @@
     "deixarSeguir": "Unfollow",
     "seguir": "Follow",
     "sobre": "About",
+    "editar": "Edit",
+    "remover": "Remove",
     "configPage": {
       "ajudaSuporte": "Help & Support",
       "reportarErro": "Report problem",

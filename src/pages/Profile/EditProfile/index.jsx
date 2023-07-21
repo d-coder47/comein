@@ -26,11 +26,49 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import validator from "validator";
 
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 import { useTranslation } from "react-i18next";
 import { MuiTelInput } from "mui-tel-input";
 
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import useUserProfile from "../../../hooks/useUserProfile";
+
+const editorModules = {
+  toolbar: [
+    [{ size: [] }],
+    [{ align: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+};
+
+const editorFormats = [
+  "font",
+  "size",
+  "align",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
 
 const EditProfile = () => {
   const params = useParams();
@@ -87,7 +125,10 @@ const EditProfile = () => {
     gender: "",
   });
 
-  const [aboutMeValue, setAboutMeValue] = React.useState(userInfo.bio);
+  const [aboutMeValue, setAboutMeValue] = React.useState(
+    userInfo.bio ||
+      '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>'
+  );
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfPassword, setShowConfPassword] = React.useState(false);
@@ -162,8 +203,8 @@ const EditProfile = () => {
     }
   }, []);
 
-  const handleAboutMeChange = (event) => {
-    setAboutMeValue(event.target.value);
+  const handleAboutMeChange = (value) => {
+    setAboutMeValue(value);
   };
 
   const handleChangePassSubmit = async (e) => {
@@ -1091,9 +1132,10 @@ const EditProfile = () => {
                       justifyContent: "center",
                       alignItems: "center",
                       width: "60%",
+                      minHeight: "30vh",
                     }}
                   >
-                    <TextField
+                    {/* <TextField
                       variant="outlined"
                       fullWidth
                       multiline
@@ -1101,6 +1143,19 @@ const EditProfile = () => {
                       value={aboutMeValue}
                       onChange={handleAboutMeChange}
                       margin="normal"
+                    /> */}
+                    <ReactQuill
+                      theme="snow"
+                      modules={editorModules}
+                      formats={editorFormats}
+                      value={aboutMeValue}
+                      onChange={
+                        (value) => {
+                          console.log(value);
+                          handleAboutMeChange(value);
+                        }
+                        // handleChangeFieldValues("descricao", value)
+                      }
                     />
 
                     <Button
