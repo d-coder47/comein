@@ -66,6 +66,10 @@
     "sobre": "A propos de",
     "editar": "Editer",
     "remover": "Retirer",
+    "adicionarPrimeiroEvento": "Ajouter votre premier événement",
+    "adicionePrimeiroProj": "Ajoutez votre premier projet",
+    "nenhumFavorito": "Aucun favori pour l'instant",
+    "naoForamEncontradosResultados": "La recherche n'a donné aucun résultat.",
     "configPage": {
       "ajudaSuporte": "Aide et support",
       "reportarErro": "Signaler un problème",
@@ -204,5 +208,9 @@
       "defaultDescription": "Ajoutez tout ce qui concerne votre projet",
       "tutorial": "Double-cliquez pour personnaliser"
     }
+  },
+  "shareModal": {
+    "partilhePostRedeSociais": "Partagez sur vos réseaux sociaux",
+    "copiarLigacao": "Copier le lien"
   }
 }

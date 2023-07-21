@@ -50,6 +50,7 @@ import CardDetailed from "./CardDetailed";
 import useEvents from "../hooks/useEvents";
 import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
+import useProjects from "../hooks/useProjects";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -114,6 +115,7 @@ const ProfileCustomCard = ({
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
+  const { removeFavoriteFromProject } = useProjects();
 
   const { t } = useTranslation();
 
@@ -135,10 +137,6 @@ const ProfileCustomCard = ({
     const postType = type === "E" ? "eventos" : "projetos";
     const postName = name.toLowerCase().trim().replaceAll(" ", "_");
     return `/${postType}/${id}/${postName}`;
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
   };
 
   const handleOpen = () => {
@@ -479,12 +477,7 @@ const ProfileCustomCard = ({
               />
             </Box>
           </Box>
-          <Box
-            width="fit-content"
-            alignItems="center"
-            gap=".25rem"
-            onMouseEnter={handleClick}
-          >
+          <Box width="fit-content" alignItems="center" gap=".25rem">
             <Typography
               fontWeight="bold"
               fontSize="0.7rem"
@@ -579,7 +572,7 @@ const ProfileCustomCard = ({
                 mt="1rem"
               >
                 <Typography fontWeight="bold">
-                  Partilhe nas suas redes sociais
+                  {t("postCard.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
@@ -643,7 +636,7 @@ const ProfileCustomCard = ({
                   variant="contained"
                   endIcon={<Link />}
                 >
-                  Copiar Ligação
+                  {"postCard.copiarLigacao"}
                 </Button>
               </Box>
             </Box>
