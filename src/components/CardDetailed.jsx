@@ -447,6 +447,18 @@ const CardDetailed = () => {
             <DetailedProgram programs={details?.programa} />
             <DetailedOther others={details?.outros} />
             <DetailedImages images={details?.imagens} type={type} />
+            <DetailedRelated
+              related={
+                type === "projetos"
+                  ? details?.eventos_assoc
+                    ? details?.eventos_assoc
+                    : null
+                  : details?.projeto_assoc
+                  ? [details?.projeto_assoc]
+                  : null
+              }
+              type={type}
+            />
           </Box>
         </Box>
         <Box
@@ -796,20 +808,73 @@ const DetailedImages = ({ images, type }) => {
 };
 
 const DetailedRelated = ({ related, type }) => {
-  const calculateSpace = () => {
-    // if(related.length % 2 === 0)
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const getPostPath = (id, name) => {
+    const postType = type === "eventos" ? "projetos" : "eventos";
+    const postName = name.toLowerCase().trim().replaceAll(" ", "_");
+    return `/${postType}/${id}/${postName}`;
   };
+
+  const associated =
+    type === "eventos"
+      ? "cardDetailed.associatedProjects"
+      : "cardDetailed.associatedEvents";
+
   return (
-    <Box display="flex" alignItems="center">
-      {related?.map((post) => (
-        <Box sm={6}>
-          <Avatar
-            src={`https://comein.cv/comeincv_api_test/img/${
-              type === "eventos" ? "eventos" : "projetos"
-            }Img/${post.imagem}`}
-          />
-        </Box>
-      ))}
+    <Box m="2rem">
+      <Typography fontWeight="bold" textTransform="uppercase">
+        {t(associated)}
+      </Typography>
+      <Box
+        display="flex"
+        gap="2rem"
+        justifyContent="space-around"
+        alignItems="center"
+        flexWrap="wrap"
+      >
+        {related?.map((post, index) => (
+          <Box
+            display="flex"
+            gap="1rem"
+            flexDirection="column"
+            alignItems="center"
+            key={index}
+            sx={{ width: "35%" }}
+          >
+            <Avatar
+              src={`https://comein.cv/comeincv_api_test/img/${
+                type === "eventos" ? "projetos" : "eventos"
+              }Img/${post.imagem}`}
+              variant="square"
+              sx={{
+                width: "100%",
+                height: "auto",
+                "&:hover": {
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  opacity: 0.8,
+                },
+              }}
+              onClick={() => navigate(getPostPath(post.id, post.nome))}
+            />
+            <Typography
+              fontWeight="bold"
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  opacity: 0.8,
+                },
+              }}
+              onClick={() => navigate(getPostPath(post.id, post.nome))}
+            >
+              {post?.nome}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };

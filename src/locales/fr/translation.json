@@ -169,7 +169,9 @@
     "endDate": "Date de fin:",
     "hour": "Heure:",
     "freeEntry": "Entrée libre",
-    "program": "Programme"
+    "program": "Programme",
+    "associatedEvents": "Événements associés",
+    "associatedProjects": "Projet associé"
   },
   "eventPage": {
     "common": {
