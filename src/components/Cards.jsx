@@ -13,6 +13,7 @@ import axiosInstance from "../api/axiosInstance";
 import CloseIcon from "@mui/icons-material/Close";
 
 import defaultImg from "../assets/img/event3.jpg";
+import { useTranslation } from "react-i18next";
 
 const Cards = ({
   searchQuery,
@@ -23,6 +24,8 @@ const Cards = ({
   const { posts: allPosts } = usePosts();
   const [posts, setPosts] = useState([]);
   const [emptyResult, setEmptyResult] = useState(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     setPosts(posts);

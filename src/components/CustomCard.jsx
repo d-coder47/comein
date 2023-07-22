@@ -42,6 +42,7 @@ import axiosInstance from "../api/axiosInstance";
 import usePosts from "../hooks/usePosts";
 import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CustomCard = ({
   id = null,
@@ -62,6 +63,8 @@ const CustomCard = ({
   const [publisherInfo, setPublisherInfo] = useState(null);
   const [showUserCard, setShowUserCard] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const { t } = useTranslation();
 
   const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
