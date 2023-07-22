@@ -5,13 +5,16 @@ import {
   Box,
   Typography,
   IconButton,
-  Modal,
   Skeleton,
   Stack,
   Menu,
   MenuItem,
   Button,
-  Divider,
+  Alert,
+  Collapse,
+  AlertTitle,
+  Grid,
+  Modal,
 } from "@mui/material";
 import {
   ThumbUp,
@@ -115,23 +118,31 @@ const ProfileCustomCard = ({
   const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
+
+  const [openRemoveEventModal, setOpenRemoveEventModal] = React.useState(false);
+
   const { removeFavoriteFromProject } = useProjects();
 
-  const { t } = useTranslation();
+  const { removeFavoriteFromEvent } = useEvents();
 
-  const [postActionsMenuAnchorEl, setPostActionsMenuAnchorEl] =
-    React.useState(null);
-  const postActionsMenuOpen = Boolean(postActionsMenuAnchorEl);
-  const handlePostActionsMenuClick = (event) => {
-    setPostActionsMenuAnchorEl(event.currentTarget);
-  };
-  const handlePostActionsMenuClose = () => {
-    setPostActionsMenuAnchorEl(null);
-  };
+  const { likePost, favoritePost, removeEvent } = usePosts();
+
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  const [postActionsMenuAnchorEl, setPostActionsMenuAnchorEl] =
+    React.useState(null);
+  const postActionsMenuOpen = Boolean(postActionsMenuAnchorEl);
+
+  const [openRemoveEventError, setOpenRemoveEventError] = useState(false);
+  const [openRemoveEventSuccess, setOpenRemoveEventSuccess] = useState(false);
+  React.useState(false);
+
+  const handleOpenRemoveEventModal = () => setOpenRemoveEventModal(true);
+  const handleCloseRemoveEventModal = () => setOpenRemoveEventModal(false);
 
   const getPostPath = () => {
     const postType = type === "E" ? "eventos" : "projetos";
@@ -150,9 +161,32 @@ const ProfileCustomCard = ({
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
 
-  const { removeFavoriteFromEvent } = useEvents();
+  const handlePostActionsMenuClick = (event) => {
+    setPostActionsMenuAnchorEl(event.currentTarget);
+  };
+  const handlePostActionsMenuClose = () => {
+    setPostActionsMenuAnchorEl(null);
+  };
 
-  const { likePost, favoritePost } = usePosts();
+  const handleEditEventClick = () => {
+    handlePostActionsMenuClose();
+  };
+
+  const handleRemoveEventClick = () => {
+    handlePostActionsMenuClose();
+    handleOpenRemoveEventModal();
+  };
+
+  const handleRemoveEvent = async () => {
+    const res = await removeEvent(id);
+    if (!res) {
+      handleCloseRemoveEventModal();
+      setOpenRemoveEventError(true);
+    } else {
+      handleCloseRemoveEventModal();
+      setOpenRemoveEventSuccess(true);
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500);
@@ -264,7 +298,6 @@ const ProfileCustomCard = ({
     const userId = user?.id;
 
     const result = await likePost(userId, id, type);
-    console.log("result", result);
     if (result === null) return null;
 
     if (result) setIsLiked(true);
@@ -358,11 +391,11 @@ const ProfileCustomCard = ({
               open={postActionsMenuOpen}
               onClose={handlePostActionsMenuClose}
             >
-              <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
+              <MenuItem onClick={handleEditEventClick} disableRipple>
                 <Edit />
                 {t("userProfile.editar")}
               </MenuItem>
-              <MenuItem onClick={handlePostActionsMenuClose} disableRipple>
+              <MenuItem onClick={handleRemoveEventClick} disableRipple>
                 <Delete />
                 {t("userProfile.remover")}
               </MenuItem>
@@ -640,6 +673,142 @@ const ProfileCustomCard = ({
                 </Button>
               </Box>
             </Box>
+          </Box>
+        </Modal>
+        <Grid
+          sx={{
+            position: "fixed",
+            top: "20px", // Adjust the top position as needed
+            left: "20px", // Adjust the left position as needed
+            zIndex: 9999, // Ensure the alert is above other elements
+          }}
+        >
+          <Collapse in={openRemoveEventError}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpenRemoveEventError(false);
+                  }}
+                >
+                  <Close fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              <AlertTitle>
+                <strong>{t("userProfile.removerEventoErro")}</strong>
+              </AlertTitle>
+            </Alert>
+          </Collapse>
+        </Grid>
+        <Grid
+          sx={{
+            position: "fixed",
+            top: "20px", // Adjust the top position as needed
+            left: "20px", // Adjust the left position as needed
+            zIndex: 9999, // Ensure the alert is above other elements
+          }}
+        >
+          <Collapse in={openRemoveEventSuccess}>
+            <Alert
+              severity="success"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpenRemoveEventSuccess(false);
+                  }}
+                >
+                  <Close fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              <AlertTitle>
+                <strong>{t("userProfile.removerEventoSucesso")}</strong>
+              </AlertTitle>
+            </Alert>
+          </Collapse>
+        </Grid>
+        <Modal
+          open={openRemoveEventModal}
+          onClose={handleCloseRemoveEventModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              border: "2px solid #000",
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={handleCloseRemoveEventModal}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+              }}
+            >
+              <Close />
+            </IconButton>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {t("userProfile.removerEventoModal")}
+            </Typography>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  className="remove-account-button"
+                  sx={{
+                    marginTop: "15px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleRemoveEvent}
+                >
+                  {t("userProfile.configPage.sim")}
+                </Button>
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  className="remove-account-button"
+                  sx={{
+                    marginTop: "15px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleCloseRemoveEventModal}
+                >
+                  {t("userProfile.configPage.nao")}
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         </Modal>
       </Box>

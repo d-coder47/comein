@@ -825,6 +825,19 @@ export default function UserRegistration() {
                   overflow: "auto",
                 }}
               >
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={handleModalTermsClose}
+                  sx={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <div dangerouslySetInnerHTML={{ __html: terms }} />
               </Box>
             </Modal>
@@ -850,6 +863,19 @@ export default function UserRegistration() {
                   overflow: "auto",
                 }}
               >
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={handleModalPrivacityClose}
+                  sx={{
+                    position: "absolute",
+                    top: 8,
+                    right: 8,
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
                 <div dangerouslySetInnerHTML={{ __html: policy }} />
               </Box>
             </Modal>

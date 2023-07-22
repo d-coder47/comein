@@ -72,6 +72,9 @@
     "visitorNoProjects": " The user has no published projects yet",
     "nenhumFavorito": "You don't have any favorites yet",
     "naoForamEncontradosResultados": "No results were found by the search.",
+    "removerEventoErro": "Error when removing event!",
+    "removerEventoSucesso": "Event successfully removed",
+    "removerEventoModal": "Are you sure you want to remove this event?",
     "configPage": {
       "ajudaSuporte": "Help & Support",
       "reportarErro": "Report problem",
