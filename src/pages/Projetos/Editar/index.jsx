@@ -288,7 +288,7 @@ const Editar = () => {
 
   const editProject = async (newProject) => {
     try {
-      const response = await axiosInstance.post(
+      const response = await axiosInstance.put(
         `/projetos/atualizar/${id}`,
         newProject,
         {
