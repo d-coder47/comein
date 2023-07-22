@@ -22,7 +22,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import { Add } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 
 import useRegisterUser from "../../../hooks/useRegisterUser";
 
@@ -648,6 +648,19 @@ const ProfileConfiguration = () => {
                         p: 4,
                       }}
                     >
+                      <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={handleCloseRemoveModal}
+                        sx={{
+                          position: "absolute",
+                          top: 8,
+                          right: 8,
+                        }}
+                      >
+                        <Close />
+                      </IconButton>
                       <Typography
                         id="modal-modal-title"
                         variant="h6"

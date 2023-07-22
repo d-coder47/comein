@@ -73,6 +73,9 @@
     "visitorNoProjects": " O utilizador ainda não tem projetos publicados",
     "nenhumFavorito": "Ainda não possui nenhum favorito",
     "naoForamEncontradosResultados": "Não foram encontrados resultados pela pesquisa.",
+    "removerEventoErro": "Erro ao remover evento!",
+    "removerEventoSucesso": "Evento removido com sucesso",
+    "removerEventoModal": "Tem certeza de que deseja remover este evento?",
     "configPage": {
       "ajudaSuporte": "Ajuda e suporte",
       "reportarErro": "Comunicar problema",
