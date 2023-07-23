@@ -210,7 +210,7 @@ const Adicionar = () => {
     // );
     newEvent.append(
       "areasCulturais",
-      fieldValues?.areasCulturais?.length > 0
+      fieldValues?.areasCulturais?.length > 1
         ? arrayToString(
             fieldValues?.areasCulturais?.map((item) => item.id)
           ).slice(0, -1)

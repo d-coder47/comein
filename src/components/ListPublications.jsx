@@ -16,12 +16,13 @@ import ProfileCustomCard from "./ProfileCustomCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const ListPublications = ({ userID, type, isVisitor }) => {
+const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const { getEventPostByUser, getProjectPostByUser, getFavoritsPostByUser } =
     usePosts();
   const [events, setEvents] = useState([]);
   const [projects, setProjects] = useState([]);
   const [favs, setFavs] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
   const navigate = useNavigate();
 
@@ -30,8 +31,8 @@ const ListPublications = ({ userID, type, isVisitor }) => {
   useEffect(() => {
     async function fetchEventsData() {
       const res = await getEventPostByUser(userID);
-      if (typeof res.dados !== "string") {
-        setEvents(res.dados);
+      if (typeof res?.dados !== "string") {
+        setEvents(res?.dados);
         localStorage.setItem("eventsNum", events.length);
       }
       localStorage.setItem("eventsNum", events.length);
@@ -60,10 +61,32 @@ const ListPublications = ({ userID, type, isVisitor }) => {
       fetchEventsData();
     } else if (type === "project") {
       fetchProjectsData();
+    } else if (type === "favs") {
+      fetchFavsData();
     } else {
+      fetchEventsData();
+      fetchProjectsData();
       fetchFavsData();
     }
   }, []);
+
+  useEffect(() => {
+    console.log(events);
+    if (!query) return;
+    const eventsResult = events.filter((event) =>
+      event?.nome?.toLowerCase().includes(query)
+    );
+    const projectsResult = events.filter((project) =>
+      project?.nome?.toLowerCase().includes(query)
+    );
+    const favoritesResult = favs.filter((favorite) =>
+      favorite?.nome?.toLowerCase().includes(query)
+    );
+    console.log([...[], eventsResult, projectsResult, favoritesResult]);
+    setSearchResults(
+      eventsResult.concat(projectsResult.concat(favoritesResult.concat))
+    );
+  }, [query]);
 
   const displayNoPostByType = () => {
     if (type == "project") return t("userProfile.visitorNoProjects");
@@ -71,7 +94,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
   };
 
   if (type === "event") {
-    if (events.length === 0) {
+    if (events?.length === 0) {
       return !isVisitor ? (
         <>
           <Card
@@ -252,7 +275,7 @@ const ListPublications = ({ userID, type, isVisitor }) => {
         </Box>
       );
     }
-  } else {
+  } else if (type === "favs") {
     if (favs.length === 0) {
       return (
         <Card
@@ -283,6 +306,33 @@ const ListPublications = ({ userID, type, isVisitor }) => {
         <Grid container spacing={3.8}>
           {favs.length > 0 &&
             favs?.map((card, index) => (
+              <Grid item key={index} xs={3.8}>
+                <ProfileCustomCard
+                  isVisitor={isVisitor}
+                  key={index}
+                  id={card.id}
+                  name={card.nome}
+                  likes={card.gostos}
+                  visits={card.visitas}
+                  picture={`https://comein.cv/comeincv_api_test/img/${
+                    card.distincao === "E" ? "eventos" : "projetos"
+                  }Img/${card.imagem}`}
+                  publisherId={card.id_utilizador}
+                  publisherName={card.nome_user}
+                  publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+                  type={card.distincao}
+                />
+              </Grid>
+            ))}
+        </Grid>
+      </Box>
+    );
+  } else {
+    return (
+      <Box mt="1rem" mx="2rem" flexGrow={1}>
+        <Grid container spacing={3.8}>
+          {searchResults.length > 0 &&
+            searchResults?.map((card, index) => (
               <Grid item key={index} xs={3.8}>
                 <ProfileCustomCard
                   isVisitor={isVisitor}

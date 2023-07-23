@@ -59,6 +59,7 @@ const UserProfile = () => {
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
 
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState();
 
   const {
     updateUserProfileBanner,
@@ -151,9 +152,9 @@ const UserProfile = () => {
       const followers_res = await getUserProfileFollowers(userId);
       const visits_res = await getUserProfileVisits(userId);
       const following_res = await getUserProfileFollowing(userId);
-      setFollowers(followers_res.dados);
-      setVisits(visits_res.dados);
-      setFollowing(following_res.dados.seguidores);
+      setFollowers(followers_res?.dados);
+      setVisits(visits_res?.dados);
+      setFollowing(following_res?.dados.seguidores);
     }
     async function checkIsFollowing() {
       const isFollowingUser = await isFollowing(loggedUserInfo.id, userId);
@@ -215,6 +216,13 @@ const UserProfile = () => {
       },
     },
   }));
+
+  const handleQueryChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+  };
+
+  document?.getElementById("search-query")?.focus();
 
   return (
     <>
@@ -583,8 +591,11 @@ const UserProfile = () => {
                             <Search />
                           </SearchIconWrapper>
                           <StyledInputBase
+                            id="search-input"
                             placeholder="Search…"
                             inputProps={{ "aria-label": "search" }}
+                            onChange={handleQueryChange}
+                            value={searchQuery}
                           />
                         </SearchElement>
                       }
@@ -727,7 +738,22 @@ const UserProfile = () => {
                   </Box>
                 )}
                 {selectedTab === 4 && (
-                  <Typography variant="h6">Resultados do search</Typography>
+                  // <Typography variant="h6">Resultados do search</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <ListPublications
+                      userID={userId}
+                      type={"search"}
+                      isVisitor={visitor}
+                      query={searchQuery}
+                    />
+                  </Box>
                 )}
               </Grid>
             </Grid>

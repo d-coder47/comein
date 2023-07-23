@@ -295,7 +295,7 @@ const Editar = () => {
 
   const editEvent = async (newEvent) => {
     try {
-      const response = await axiosInstance.post(
+      const response = await axiosInstance.put(
         `/eventos/atualizar/${id}`,
         newEvent,
         {
