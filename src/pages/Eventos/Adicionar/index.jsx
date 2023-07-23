@@ -199,15 +199,13 @@ const Adicionar = () => {
     let newEvent = new FormData();
     newEvent.append("id_utilizador", user.id);
     newEvent.append("nome", fieldValues?.nome);
-    // newEvent.append("data_inicio", fieldValues?.data_inicio + ":00");
-    newEvent.append("data_inicio", "07-17-2023 20:00:00");
-    newEvent.append("imgEvento", fieldValues?.imgEvento);
+    newEvent.append("data_inicio", fieldValues?.data_inicio + ":00");
+    newEvent.append("imgEvento", fieldValues?.imagem);
     newEvent.append("descricao", fieldValues?.descricao);
-    newEvent.append("data_fim", "07-21-2023 08:00:00");
-    // newEvent.append(
-    //   "data_fim",
-    //   fieldValues?.data_fim.length > 0 ? fieldValues?.data_fim + ":00" : null
-    // );
+    newEvent.append(
+      "data_fim",
+      fieldValues?.data_fim.length > 0 ? fieldValues?.data_fim + ":00" : null
+    );
     newEvent.append(
       "areasCulturais",
       fieldValues?.areasCulturais?.length > 1
@@ -222,7 +220,7 @@ const Adicionar = () => {
         ? arrayToString(
             fieldValues?.assoc_projeto?.map((item) => item.id)
           ).slice(0, -1)
-        : 0
+        : null
     );
     newEvent.append("idGeografia", fieldValues?.local?.id);
     newEvent.append(
@@ -231,8 +229,9 @@ const Adicionar = () => {
         ? arrayToString(
             fieldValues?.proprietarios?.map((item) => item.id)
           ).slice(0, -1)
-        : 0
+        : null
     );
+    console.log(newEvent);
     createEvent(newEvent);
   };
 
@@ -481,6 +480,7 @@ const Adicionar = () => {
                     },
                   }}
                   InputLabelProps={{ shrink: true }}
+                  InputProps={{ format: "YYYYYY-MM-DDTHH:mm:ss" }}
                   onChange={
                     (e) =>
                       handleChangeFieldValues("data_inicio", e.target.value)
@@ -501,6 +501,7 @@ const Adicionar = () => {
                     },
                   }}
                   InputLabelProps={{ shrink: true }}
+                  InputProps={{ format: "YYYYYY-MM-DDTHH:mm:ss" }}
                   onChange={
                     (e) => handleChangeFieldValues("data_fim", e.target.value)
                     // handleDateLocalChange(e.target.name, e.target.value)

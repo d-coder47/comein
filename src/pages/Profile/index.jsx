@@ -725,7 +725,6 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minHeight: "100%",
-                            background: "red",
                           }
                         : {}),
                     }}
