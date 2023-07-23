@@ -73,7 +73,9 @@ const editorFormats = [
 const EditProfile = () => {
   const params = useParams();
   const { userId } = params;
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
+  const [isSmallScreen, setIsSmallScreen] = React.useState(false);
   const navigate = useNavigate();
   const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
   const { changePassword, addUserbio } = useUserProfile();
@@ -201,6 +203,17 @@ const EditProfile = () => {
       formData.gender = userInfo.sexo;
       formData.residence = userInfo.residencia;
     }
+  }, []);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 1400);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleAboutMeChange = (value) => {
@@ -389,7 +402,7 @@ const EditProfile = () => {
             container
             spacing={2}
             sx={{
-              ...(isSmallScreen
+              ...(isMobileScreen
                 ? {
                     flexDirection: "column",
                     display: "flex",
@@ -404,7 +417,7 @@ const EditProfile = () => {
                 className=""
                 sx={{
                   // Styles for larger displays
-                  ...(isSmallScreen
+                  ...(isMobileScreen
                     ? {}
                     : {
                         padding: "1rem",
@@ -412,9 +425,12 @@ const EditProfile = () => {
                         flexDirection: "column",
                         alignItems: "center",
                         width: "350px",
+                        transformOrigin: "top left",
+                        transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                       }),
+
                   // Styles for small displays
-                  ...(isSmallScreen ? { width: "350px" } : {}),
+                  ...(isMobileScreen ? { width: "350px" } : {}),
                 }}
               >
                 <List
@@ -456,16 +472,18 @@ const EditProfile = () => {
                   className=""
                   sx={{
                     // Styles for larger displays
-                    ...(isSmallScreen
+                    ...(isMobileScreen
                       ? {}
                       : {
                           padding: "1rem",
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
+                          transformOrigin: "top left",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }),
                     // Styles for small displays
-                    ...(isSmallScreen
+                    ...(isMobileScreen
                       ? {
                           width: "350px",
                           paddingTop: "10px",
@@ -488,7 +506,7 @@ const EditProfile = () => {
                     component="form"
                     sx={{
                       // Styles for larger displays
-                      ...(isSmallScreen
+                      ...(isMobileScreen
                         ? {}
                         : {
                             "& .MuiTextField-root": {
@@ -499,7 +517,7 @@ const EditProfile = () => {
                             flexDirection: "column",
                           }),
                       // Styles for small displays
-                      ...(isSmallScreen
+                      ...(isMobileScreen
                         ? {
                             "& .MuiTextField-root": {
                               m: 1,
@@ -519,6 +537,9 @@ const EditProfile = () => {
                       spacing={2}
                       justifyContent="center"
                       alignItems="center"
+                      sx={{
+                        maxWidth: "800px",
+                      }}
                     >
                       <Grid item xs={6} textAlign="left">
                         <FormLabel
@@ -835,16 +856,18 @@ const EditProfile = () => {
                   className=""
                   sx={{
                     // Styles for larger displays
-                    ...(isSmallScreen
+                    ...(isMobileScreen
                       ? {}
                       : {
                           padding: "1rem",
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
+                          transformOrigin: "top left",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }),
                     // Styles for small displays
-                    ...(isSmallScreen
+                    ...(isMobileScreen
                       ? {
                           width: "350px",
                           paddingTop: "10px",
@@ -1092,16 +1115,18 @@ const EditProfile = () => {
                   className=""
                   sx={{
                     // Styles for larger displays
-                    ...(isSmallScreen
+                    ...(isMobileScreen
                       ? {}
                       : {
                           padding: "1rem",
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "center",
+                          transformOrigin: "top left",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }),
                     // Styles for small displays
-                    ...(isSmallScreen
+                    ...(isMobileScreen
                       ? {
                           width: "350px",
                           height: "350px",
@@ -1155,7 +1180,7 @@ const EditProfile = () => {
                       type="submit"
                       sx={{
                         // Styles for larger displays
-                        ...(isSmallScreen
+                        ...(isMobileScreen
                           ? {}
                           : {
                               width: "30%",
@@ -1164,7 +1189,7 @@ const EditProfile = () => {
                               marginTop: "10px",
                             }),
                         // Styles for small displays
-                        ...(isSmallScreen
+                        ...(isMobileScreen
                           ? {
                               width: "40%",
                               borderRadius: "15px",
