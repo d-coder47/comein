@@ -58,6 +58,8 @@ const UserProfile = () => {
   const [profilePhoto, setProfilePhoto] = React.useState();
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
 
+  const [isSmallScreen, setIsSmallScreen] = React.useState(false);
+
   const {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -122,6 +124,17 @@ const UserProfile = () => {
       setIsVisitorFollowing(false);
     }
   };
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 1400);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   React.useEffect(() => {
     async function fetchData() {
@@ -206,9 +219,9 @@ const UserProfile = () => {
   return (
     <>
       <NavBar />
-      <div className="profile_container">
-        <div className="banner_container">
-          <div>
+      <Box className="profile_container">
+        <Box className="banner_container">
+          <Box>
             <label htmlFor="upload-banner-photo">
               <Input
                 style={{ display: "none" }}
@@ -253,13 +266,13 @@ const UserProfile = () => {
                 </Avatar>
               </IconButton>
             </label>
-          </div>
-        </div>
+          </Box>
+        </Box>
         {pageUserInfo && (
           <Box
             sx={{
               padding: "2rem",
-              height: "100vh",
+              height: "100%",
               background: "#f8f8f8",
             }}
           >
@@ -269,7 +282,28 @@ const UserProfile = () => {
                 xs={12}
                 md={4}
                 className="profile_second_grid"
-                sx={{ position: "absolute", top: "20%", left: "3%" }}
+                sx={{
+                  // Styles for larger displays
+                  ...(isSmallScreen
+                    ? {}
+                    : {
+                        position: "absolute",
+                        top: "20%",
+                        left: "3%",
+                        transformOrigin: "top left",
+                        transform: "scale(0.88)",
+                      }),
+                  // Styles for small displays
+                  ...(isSmallScreen
+                    ? {
+                        position: "absolute",
+                        top: "20%",
+                        left: "3%",
+                        transformOrigin: "top left",
+                        transform: "scale(0.74)",
+                      }
+                    : {}),
+                }}
               >
                 <Paper
                   elevation={3}
@@ -279,10 +313,13 @@ const UserProfile = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    // transformOrigin:
+                    //   "top left" /* Define o ponto de origem da transformação */,
+                    // transform: "scale(0.99)",
                   }}
                 >
                   {profilePhoto && (
-                    <div>
+                    <Box>
                       <label htmlFor="upload-photo">
                         <Input
                           style={{ display: "none" }}
@@ -322,7 +359,7 @@ const UserProfile = () => {
                           </Avatar>
                         </IconButton>
                       </label>
-                    </div>
+                    </Box>
                   )}
                   <Typography variant="h5" sx={{ marginTop: "1rem" }}>
                     {pageUserInfo.nome}
@@ -559,10 +596,28 @@ const UserProfile = () => {
                 {selectedTab === "event" && (
                   <Box
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
+                      // Styles for larger displays
+                      ...(isSmallScreen
+                        ? {}
+                        : {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            transformOrigin: "top left",
+                            transform: "scale(0.88)",
+                          }),
+                      // Styles for small displays
+                      ...(isSmallScreen
+                        ? {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            transformOrigin: "top left",
+                            transform: "scale(0.74)",
+                          }
+                        : {}),
                     }}
                   >
                     <ListPublications
@@ -575,9 +630,26 @@ const UserProfile = () => {
                 {selectedTab === "project" && (
                   <Box
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      // Styles for larger displays
+                      ...(isSmallScreen
+                        ? {}
+                        : {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.88)",
+                          }),
+                      // Styles for small displays
+                      ...(isSmallScreen
+                        ? {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.74)",
+                          }
+                        : {}),
                     }}
                   >
                     <ListPublications
@@ -590,9 +662,26 @@ const UserProfile = () => {
                 {selectedTab === "favs" && (
                   <Box
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      // Styles for larger displays
+                      ...(isSmallScreen
+                        ? {}
+                        : {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.88)",
+                          }),
+                      // Styles for small displays
+                      ...(isSmallScreen
+                        ? {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.74)",
+                          }
+                        : {}),
                     }}
                   >
                     <ListPublications
@@ -604,13 +693,38 @@ const UserProfile = () => {
                 )}
 
                 {selectedTab === "about" && (
-                  <>
+                  <Box
+                    sx={{
+                      // Styles for larger displays
+                      ...(isSmallScreen
+                        ? {}
+                        : {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.88)",
+                          }),
+                      // Styles for small displays
+                      ...(isSmallScreen
+                        ? {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.74)",
+                            minHeight: "100%",
+                            background: "red",
+                          }
+                        : {}),
+                    }}
+                  >
                     <ReactQuill
                       theme="bubble"
                       readOnly
                       value={pageUserInfo.bio}
                     />
-                  </>
+                  </Box>
                 )}
                 {selectedTab === 4 && (
                   <Typography variant="h6">Resultados do search</Typography>
@@ -619,7 +733,7 @@ const UserProfile = () => {
             </Grid>
           </Box>
         )}
-      </div>
+      </Box>
       {!visitor ? (
         <>
           <Box
@@ -698,7 +812,7 @@ const UserProfile = () => {
                 navigate("/eventos/adicionar");
               }}
             >
-              Adicionar Evento
+              {t("userProfile.adicionarEvento")}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -706,7 +820,7 @@ const UserProfile = () => {
                 navigate("/projetos/adicionar");
               }}
             >
-              Adicionar Projeto
+              {t("userProfile.adicionarProjeto")}
             </MenuItem>
           </Menu>
         </>

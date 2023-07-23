@@ -75,6 +75,8 @@
     "removerEventoErro": "Error when removing event!",
     "removerEventoSucesso": "Event successfully removed",
     "removerEventoModal": "Are you sure you want to remove this event?",
+    "adicionarEvento": "Add Event",
+    "adicionarProjeto": "Add Project",
     "configPage": {
       "ajudaSuporte": "Help & Support",
       "reportarErro": "Report problem",

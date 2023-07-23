@@ -33,7 +33,7 @@ import validator from "validator";
 
 import useRegisterUser from "../../hooks/useRegisterUser";
 
-export default function UserRegistration() {
+const UserRegistration = () => {
   const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
@@ -884,4 +884,6 @@ export default function UserRegistration() {
       </div>
     </div>
   );
-}
+};
+
+export default UserRegistration;

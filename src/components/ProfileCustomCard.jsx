@@ -123,9 +123,9 @@ const ProfileCustomCard = ({
 
   const { removeFavoriteFromProject } = useProjects();
 
-  const { removeFavoriteFromEvent } = useEvents();
+  const { removeFavoriteFromEvent, removeEvent } = useEvents();
 
-  const { likePost, favoritePost, removeEvent } = usePosts();
+  const { likePost, favoritePost } = usePosts();
 
   const { t } = useTranslation();
 
@@ -179,6 +179,7 @@ const ProfileCustomCard = ({
 
   const handleRemoveEvent = async () => {
     const res = await removeEvent(id);
+    console.log(res);
     if (!res) {
       handleCloseRemoveEventModal();
       setOpenRemoveEventError(true);

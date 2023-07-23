@@ -1135,15 +1135,6 @@ const EditProfile = () => {
                       minHeight: "30vh",
                     }}
                   >
-                    {/* <TextField
-                      variant="outlined"
-                      fullWidth
-                      multiline
-                      rows={4}
-                      value={aboutMeValue}
-                      onChange={handleAboutMeChange}
-                      margin="normal"
-                    /> */}
                     <ReactQuill
                       theme="snow"
                       modules={editorModules}
@@ -1170,6 +1161,7 @@ const EditProfile = () => {
                               width: "30%",
                               borderRadius: "20px",
                               textTransform: "none",
+                              marginTop: "10px",
                             }),
                         // Styles for small displays
                         ...(isSmallScreen
@@ -1177,6 +1169,7 @@ const EditProfile = () => {
                               width: "40%",
                               borderRadius: "15px",
                               textTransform: "none",
+                              marginTop: "10px",
                             }
                           : {}),
                       }}

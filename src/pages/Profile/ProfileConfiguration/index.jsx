@@ -124,11 +124,10 @@ const ProfileConfiguration = () => {
   return (
     <>
       <NavBar />
-      <div className="config_profile_container">
+      <Box className="config_profile_container">
         <Box
           sx={{
             backgroundColor: "#f8f8f8",
-
             padding: "2rem",
             height: "100vh",
           }}
@@ -244,8 +243,8 @@ const ProfileConfiguration = () => {
                   >
                     {t("userProfile.configPage.ajudaSuporte")}
                   </Typography>
-                  <div className="help-topics-area">
-                    <div>
+                  <Box className="help-topics-area">
+                    <Box>
                       <Accordion>
                         <AccordionSummary
                           expandIcon={<ExpandMoreIcon />}
@@ -334,8 +333,8 @@ const ProfileConfiguration = () => {
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                 </Paper>
               )}
               {selectedIndex === 2 && (
@@ -712,7 +711,7 @@ const ProfileConfiguration = () => {
             </Grid>
           </Grid>
         </Box>
-      </div>
+      </Box>
     </>
   );
 };
