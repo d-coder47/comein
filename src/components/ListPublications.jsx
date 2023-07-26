@@ -26,37 +26,44 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
 
   const navigate = useNavigate();
 
+  const [refreshCount, setRefreshCount] = useState(0);
+
   const { t } = useTranslation();
 
-  useEffect(() => {
-    async function fetchEventsData() {
-      const res = await getEventPostByUser(userID);
-      if (typeof res?.dados !== "string") {
-        setEvents(res?.dados);
-        localStorage.setItem("eventsNum", events.length);
-      }
+  const handleRefresh = () => {
+    setRefreshCount((prevCount) => prevCount + 1);
+    fetchEventsData();
+  };
+
+  async function fetchEventsData() {
+    const res = await getEventPostByUser(userID);
+    if (typeof res?.dados !== "string") {
+      setEvents(res?.dados);
       localStorage.setItem("eventsNum", events.length);
     }
+    localStorage.setItem("eventsNum", events.length);
+  }
 
-    async function fetchProjectsData() {
-      const res = await getProjectPostByUser(userID);
-      if (typeof res.dados !== "string") {
-        setProjects(res.dados);
-        localStorage.setItem("favsNum", favs.length);
-        localStorage.setItem("projectsNum", projects.length);
-      }
-
+  async function fetchProjectsData() {
+    const res = await getProjectPostByUser(userID);
+    if (typeof res.dados !== "string") {
+      setProjects(res.dados);
+      localStorage.setItem("favsNum", favs.length);
       localStorage.setItem("projectsNum", projects.length);
     }
 
-    async function fetchFavsData() {
-      const res = await getFavoritsPostByUser(userID);
-      if (typeof res.dados !== "string") {
-        setFavs(res.dados);
-        localStorage.setItem("favsNum", favs.length);
-      }
+    localStorage.setItem("projectsNum", projects.length);
+  }
+
+  async function fetchFavsData() {
+    const res = await getFavoritsPostByUser(userID);
+    if (typeof res.dados !== "string") {
+      setFavs(res.dados);
       localStorage.setItem("favsNum", favs.length);
     }
+    localStorage.setItem("favsNum", favs.length);
+  }
+  useEffect(() => {
     if (type === "event") {
       fetchEventsData();
     } else if (type === "project") {
@@ -178,6 +185,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     publisherName={card.nome_user}
                     publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
                     type={card.distincao}
+                    onRefresh={handleRefresh}
                   />
                 </Grid>
               ))}

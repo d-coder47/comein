@@ -111,6 +111,7 @@ const ProfileCustomCard = ({
   publisherPhoto,
   type,
   isVisitor,
+  onRefresh,
 }) => {
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
@@ -186,6 +187,7 @@ const ProfileCustomCard = ({
     } else {
       handleCloseRemoveEventModal();
       setOpenRemoveEventSuccess(true);
+      onRefresh();
     }
   };
 
