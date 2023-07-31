@@ -153,7 +153,11 @@ const UserProfile = () => {
     const visits_res = await getUserProfileVisits(userId);
     const following_res = await getUserProfileFollowing(userId);
     setFollowers(followers_res?.dados);
-    setVisits(visits_res?.dados);
+    if (visits_res.dados === null) {
+      setVisits(0);
+    } else {
+      setVisits(visits_res?.dados);
+    }
     setFollowing(following_res?.dados.seguidores);
   }
   async function checkIsFollowing() {
