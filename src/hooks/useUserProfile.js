@@ -254,6 +254,25 @@ const useUserProfile = () => {
       console.error(error);
     }
   };
+
+  const setUserProfileVisit = async (idUser, idVisitor) => {
+    try {
+      const body = new FormData();
+      body.append("id_utilizador", idUser);
+      body.append("id_visitante", idVisitor);
+      const response = await axiosInstance.post(`/utilizadores/visits`, body, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          // Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -267,6 +286,7 @@ const useUserProfile = () => {
     followUser,
     getUserProfileFollowing,
     getAllUsers,
+    setUserProfileVisit,
   };
 };
 

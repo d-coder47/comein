@@ -78,7 +78,6 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   }, []);
 
   useEffect(() => {
-    console.log(events);
     if (!query) return;
     const eventsResult = events.filter((event) =>
       event?.nome?.toLowerCase().includes(query)
@@ -89,7 +88,6 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     const favoritesResult = favs.filter((favorite) =>
       favorite?.nome?.toLowerCase().includes(query)
     );
-    console.log([...[], eventsResult, projectsResult, favoritesResult]);
     setSearchResults(
       eventsResult.concat(projectsResult.concat(favoritesResult.concat))
     );

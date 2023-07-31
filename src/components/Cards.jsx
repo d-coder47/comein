@@ -153,10 +153,18 @@ const Cards = ({
 
   return (
     <Box mt="1rem" mx="2rem" flexGrow={1}>
-      <Grid container gap={3.8}>
+      <Grid
+        container
+        gap={3.8}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {posts.length > 0
           ? posts?.map((card, index) => (
-              <Grid item key={index} xs={3.8}>
+              <Grid item key={index} xs={3}>
                 <CustomCard
                   key={index}
                   id={card.id}
