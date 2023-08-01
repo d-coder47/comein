@@ -242,8 +242,12 @@ const useEvents = () => {
 
   const removeEvent = async (eventId) => {
     try {
+      const params = new URLSearchParams({
+        _method: "DELETE",
+      }).toString();
       const response = await axiosInstance.post(
         `/eventos/eliminar/${eventId}`,
+        params,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",

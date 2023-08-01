@@ -69,6 +69,7 @@ const UserProfile = () => {
     getUserProfileFollowing,
     followUser,
     isFollowing,
+    setUserProfileVisit,
   } = useUserProfile();
 
   const { getUser } = useRegisterUser();
@@ -137,40 +138,54 @@ const UserProfile = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  React.useEffect(() => {
-    async function fetchData() {
-      const pageOwner = await getUser(userId);
-      setPageUserInfo(pageOwner.dados);
-      setProfilePhoto(pageOwner.dados.img_perfil);
-      if (!pageOwner.dados.img_capa) {
-        setProfileBannerPhoto("");
-      } else {
-        setProfileBannerPhoto(pageOwner.dados.img_capa);
-      }
-      const loggedUser = await getUser(loggedUserInfo.id);
-      localStorage.setItem("userInfo", JSON.stringify(loggedUser.dados));
-      const followers_res = await getUserProfileFollowers(userId);
-      const visits_res = await getUserProfileVisits(userId);
-      const following_res = await getUserProfileFollowing(userId);
-      setFollowers(followers_res?.dados);
+  async function fetchData() {
+    const pageOwner = await getUser(userId);
+    setPageUserInfo(pageOwner.dados);
+    setProfilePhoto(pageOwner.dados.img_perfil);
+    if (!pageOwner.dados.img_capa) {
+      setProfileBannerPhoto("");
+    } else {
+      setProfileBannerPhoto(pageOwner.dados.img_capa);
+    }
+    const loggedUser = await getUser(loggedUserInfo.id);
+    localStorage.setItem("userInfo", JSON.stringify(loggedUser.dados));
+    const followers_res = await getUserProfileFollowers(userId);
+    const visits_res = await getUserProfileVisits(userId);
+    const following_res = await getUserProfileFollowing(userId);
+    setFollowers(followers_res?.dados);
+    if (visits_res.dados === null) {
+      setVisits(0);
+    } else {
       setVisits(visits_res?.dados);
-      setFollowing(following_res?.dados.seguidores);
     }
-    async function checkIsFollowing() {
-      const isFollowingUser = await isFollowing(loggedUserInfo.id, userId);
-      if (isFollowingUser) {
-        setIsVisitorFollowing(true);
-      } else {
-        setIsVisitorFollowing(false);
-      }
+    setFollowing(following_res?.dados.seguidores);
+  }
+  async function checkIsFollowing() {
+    const isFollowingUser = await isFollowing(loggedUserInfo.id, userId);
+    if (isFollowingUser) {
+      setIsVisitorFollowing(true);
+    } else {
+      setIsVisitorFollowing(false);
     }
+  }
+
+  async function countVisit() {
+    const count_res = await setUserProfileVisit(userId, loggedUserInfo.id);
+    if (count_res === "ok") {
+      fetchData();
+    }
+  }
+
+  React.useEffect(() => {
     if (!authenticated) {
       navigate("/");
     } else {
       fetchData();
       checkIsFollowing();
+
       if (userId !== loggedUserInfo.id) {
         setVisitor(true);
+        countVisit();
       }
     }
   }, []);
