@@ -45,10 +45,18 @@ const CardDetailed = () => {
 
   const { followUser } = useUserProfile();
   const { likePost, favoritePost } = usePosts();
-  const { removeFavoriteFromEvent } = useEvents();
+  const { removeFavoriteFromEvent, addEventVisit } = useEvents();
   const { removeFavoriteFromProject } = useProjects();
 
   const isOwner = user?.id == details?.dados?.id_utilizador;
+
+  async function countEventVisit() {
+    const count_res = await addEventVisit(id);
+  }
+
+  useEffect(() => {
+    countEventVisit();
+  }, []);
 
   useEffect(() => {
     if (!id) return;

@@ -251,7 +251,6 @@ const CustomCard = ({
     const userId = user?.id;
 
     const result = await likePost(userId, id, type);
-    console.log("result", result);
     if (result === null) return null;
 
     if (result) setIsLiked(true);

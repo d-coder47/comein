@@ -175,7 +175,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     id={card.id}
                     name={card.nome}
                     likes={card.gostos}
-                    visits={card.visitas}
+                    visits={card.visitasPost}
                     picture={`https://comein.cv/comeincv_api_test/img/${
                       card.distincao === "E" ? "eventos" : "projetos"
                     }Img/${card.imagem}`}
