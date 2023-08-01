@@ -247,40 +247,38 @@ const Editar = () => {
     // newProject.append("id_utilizador", user.id);
     newProject.append("_method", "PUT");
     newProject.append("nome", fieldValues?.nome);
-    // newProject.append("data_inicio", fieldValues.data_inicio + ":00");
-    // newProject.append("data_inicio", "07-17-2023 20:00:00");
+    newProject.append("data_inicio", fieldValues?.data_inicio + ":00");
     newProject.append("imgProjeto", fieldValues?.imgProjeto);
-    // newProject.append("descricao", fieldValues?.descricao);
-    // newProject.append("data_fim", "07-21-2023 08:00:00");
-    // // newProject.append(
-    // //   "data_fim",
-    // //   fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
-    // // );
-    // newProject.append(
-    //   "areasCulturais",
-    //   fieldValues?.areasCulturais.length > 0
-    //     ? arrayToString(
-    //         fieldValues?.areasCulturais.map((item) => item.id)
-    //       ).slice(0, -1)
-    //     : fieldValues?.areasCulturais[0].id
-    // );
-    // newProject.append(
-    //   "assoc_evento",
-    //   fieldValues?.assoc_evento?.length > 0
-    //     ? arrayToString(
-    //         fieldValues?.assoc_evento?.map((item) => item.id)
-    //       ).slice(0, -1)
-    //     : 0
-    // );
-    // newProject.append("idGeografia", fieldValues?.local.id);
-    // newProject.append(
-    //   "idsProprietarios",
-    //   fieldValues?.proprietarios.length > 0
-    //     ? arrayToString(
-    //         fieldValues?.proprietarios.map((item) => item.id)
-    //       ).slice(0, -1)
-    //     : 0
-    // );
+    newProject.append("descricao", fieldValues?.descricao);
+    newProject.append(
+      "data_fim",
+      fieldValues?.data_fim?.length > 0 ? fieldValues.data_fim + ":00" : null
+    );
+    newProject.append(
+      "areasCulturais",
+      fieldValues?.areasCulturais?.length > 1
+        ? arrayToString(
+            fieldValues?.areasCulturais.map((item) => item.id)
+          ).slice(0, -1)
+        : fieldValues?.areasCulturais[0].id
+    );
+    newProject.append(
+      "assoc_evento",
+      fieldValues?.assoc_evento?.length > 0
+        ? arrayToString(
+            fieldValues?.assoc_evento?.map((item) => item.id)
+          ).slice(0, -1)
+        : 0
+    );
+    newProject.append("idGeografia", fieldValues?.local.id);
+    newProject.append(
+      "idsProprietarios",
+      fieldValues?.proprietarios?.length > 0
+        ? arrayToString(
+            fieldValues?.proprietarios.map((item) => item.id)
+          ).slice(0, -1)
+        : 0
+    );
 
     console.log(newProject);
 

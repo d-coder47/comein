@@ -198,18 +198,16 @@ const Adicionar = () => {
     let newProject = new FormData();
     newProject.append("id_utilizador", user.id);
     newProject.append("nome", fieldValues.nome);
-    // newProject.append("data_inicio", fieldValues.data_inicio + ":00");
-    newProject.append("data_inicio", "07-17-2023 20:00:00");
+    newProject.append("data_inicio", fieldValues.data_inicio + ":00");
     newProject.append("imgProjeto", fieldValues.imgProjeto);
     newProject.append("descricao", fieldValues.descricao);
-    newProject.append("data_fim", "07-21-2023 08:00:00");
-    // newProject.append(
-    //   "data_fim",
-    //   fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
-    // );
+    newProject.append(
+      "data_fim",
+      fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
+    );
     newProject.append(
       "areasCulturais",
-      fieldValues.areasCulturais.length > 0
+      fieldValues.areasCulturais.length > 1
         ? arrayToString(
             fieldValues.areasCulturais.map((item) => item.id)
           ).slice(0, -1)

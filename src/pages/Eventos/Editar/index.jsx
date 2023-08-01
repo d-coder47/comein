@@ -252,42 +252,42 @@ const Editar = () => {
     console.log(fieldValues);
     var newEvent = new FormData();
     newEvent.append("_method", "PUT");
-    // newEvent.append("id_utilizador", user.id);
+    newEvent.append("id_utilizador", user.id);
     newEvent.append("nome", fieldValues.nome);
-    // newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
-    // newEvent.append("imgEvento", fieldValues.imgEvento);
-    // // newEvent.append("descricao", fieldValues.descricao);
-    // newEvent.append(
-    //   "data_fim",
-    //   fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
-    // );
-    // newEvent.append(
-    //   "areasCulturais",
-    //   fieldValues.areasCulturais.length > 0
-    //     ? arrayToString(
-    //         fieldValues.areasCulturais.map((item) => item.id)
-    //       ).slice(0, -1)
-    //     : fieldValues.areasCulturais[0].id
-    // );
-    // newEvent.append(
-    //   "assoc_projeto",
-    //   fieldValues.assoc_projeto.length > 0
-    //     ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id)).slice(
-    //         0,
-    //         -1
-    //       )
-    //     : null
-    // );
-    // newEvent.append("idGeografia", fieldValues.local.id);
-    // newEvent.append(
-    //   "idsProprietarios",
-    //   fieldValues.proprietarios.length > 0
-    //     ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
-    //         0,
-    //         -1
-    //       )
-    //     : null
-    // );
+    newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
+    newEvent.append("imgEvento", fieldValues.imgEvento);
+    newEvent.append("descricao", fieldValues.descricao);
+    newEvent.append(
+      "data_fim",
+      fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
+    );
+    newEvent.append(
+      "areasCulturais",
+      fieldValues.areasCulturais.length > 1
+        ? arrayToString(
+            fieldValues.areasCulturais.map((item) => item.id)
+          ).slice(0, -1)
+        : fieldValues.areasCulturais[0].id
+    );
+    newEvent.append(
+      "assoc_projeto",
+      fieldValues.assoc_projeto.length > 0
+        ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id)).slice(
+            0,
+            -1
+          )
+        : null
+    );
+    newEvent.append("idGeografia", fieldValues.local.id);
+    newEvent.append(
+      "idsProprietarios",
+      fieldValues.proprietarios.length > 0
+        ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
+            0,
+            -1
+          )
+        : null
+    );
 
     console.log(newEvent);
 

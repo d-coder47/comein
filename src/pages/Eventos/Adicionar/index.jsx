@@ -200,7 +200,7 @@ const Adicionar = () => {
     newEvent.append("id_utilizador", user.id);
     newEvent.append("nome", fieldValues?.nome);
     newEvent.append("data_inicio", fieldValues?.data_inicio + ":00");
-    newEvent.append("imgEvento", fieldValues?.imagem);
+    newEvent.append("imgEvento", fieldValues?.imgEvento);
     newEvent.append("descricao", fieldValues?.descricao);
     newEvent.append(
       "data_fim",
