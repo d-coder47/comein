@@ -186,6 +186,9 @@ const UserProfile = () => {
       if (userId !== loggedUserInfo.id) {
         setVisitor(true);
         countVisit();
+        localStorage.setItem("isVisitor", true);
+      } else {
+        localStorage.setItem("isVisitor", false);
       }
     }
   }, []);
