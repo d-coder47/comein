@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -33,13 +33,7 @@ import {
 
 import { Visibility } from "@mui/icons-material";
 
-import CardDetailed from "./CardDetailed";
-
-import LazyLoad from "react-lazy-load";
-import useEvents from "../hooks/useEvents";
-import useProjects from "../hooks/useProjects";
 import axiosInstance from "../api/axiosInstance";
-import usePosts from "../hooks/usePosts";
 import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -52,22 +46,16 @@ const CustomCard = ({
   picture,
   publisherId,
   publisherName,
-  publisherPhoto,
   type,
 }) => {
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);
-  const [showUserCard, setShowUserCard] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { t } = useTranslation();
-
-  const userCardRef = useRef(null);
-  const userCardParentRef = useRef(null);
 
   const openMenu = Boolean(anchorEl);
 
@@ -90,18 +78,10 @@ const CustomCard = ({
   const handleOpen = () => {
     localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
-    // setOpen(true);
   };
-  const handleClose = () => setOpen(false);
 
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
-
-  const { removeFavoriteFromEvent } = useEvents();
-
-  const { likePost, favoritePost } = usePosts();
-
-  const { removeFavoriteFromProject } = useProjects();
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1500);
@@ -204,82 +184,6 @@ const CustomCard = ({
 
     getPublisherInfo();
   }, [publisherId]);
-
-  // useEffect(() => {
-  //   const mouseMoveHandler = (e) => {
-  //     if (!userCardRef.current) return;
-  //     const mousePosition = {
-  //       x: e.clientX,
-  //       y: e.clientY,
-  //     };
-
-  //     // Check if the mouse position is within the div's boundaries.
-  //     const userCardBounds = userCardRef.current.getBoundingClientRect();
-  //     const isInsideUserCard =
-  //       mousePosition.x >= userCardBounds.left &&
-  //       mousePosition.x <= userCardBounds.right &&
-  //       mousePosition.y >= userCardBounds.top &&
-  //       mousePosition.y <= userCardBounds.bottom;
-
-  //     const userCardParentBounds =
-  //       userCardParentRef.current.getBoundingClientRect();
-  //     const isInsideUserCardParent =
-  //       mousePosition.x >= userCardParentBounds.left &&
-  //       mousePosition.x <= userCardParentBounds.right &&
-  //       mousePosition.y >= userCardParentBounds.top &&
-  //       mousePosition.y <= userCardParentBounds.bottom;
-
-  //     if (isInsideUserCard || isInsideUserCardParent) {
-  //       setShowUserCard(true);
-  //     } else {
-  //       setShowUserCard(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("mousemove", mouseMoveHandler);
-
-  //   return () => {
-  //     window.removeEventListener("mousemove", mouseMoveHandler);
-  //   };
-  // }, []);
-
-  const handleLike = async () => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (!user)
-      return (window.location.href = `http://${window.location.host}/user-registration`);
-
-    const userId = user?.id;
-
-    const result = await likePost(userId, id, type);
-    if (result === null) return null;
-
-    if (result) setIsLiked(true);
-    else setIsLiked(false);
-  };
-
-  const handleFavorite = async (favorite) => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (!user)
-      return (window.location.href = `http://${window.location.host}/user-registration`);
-
-    const userId = user?.id;
-
-    if (!favorite) {
-      const result = await favoritePost(userId, id, type);
-      if (!result) return;
-      return setIsFavorite(true);
-    }
-
-    let result;
-    if (type === "E") {
-      result = await removeFavoriteFromEvent(id, userId);
-    } else {
-      result = await removeFavoriteFromProject(id, userId);
-    }
-
-    if (!result) return;
-    return setIsFavorite(false);
-  };
 
   if (isLoading) {
     return (
@@ -442,32 +346,6 @@ const CustomCard = ({
             <UserCard publisher={publisherInfo} />
           </MenuItem>
         </Menu>
-        <Modal
-          id="card-details-modal"
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          sx={{
-            ".MuiModal-backdrop": {
-              backgroundColor: "rgba(0,0,0,.9)",
-            },
-          }}
-        >
-          <CardDetailed
-            id={id}
-            publisherPhoto={publisherPhoto}
-            publishers={[publisherName]}
-            title={name}
-            type={type}
-            isLiked={isLiked}
-            isFavorite={isFavorite}
-            onLikePost={handleLike}
-            onFavoritePost={handleFavorite}
-            onCloseModal={handleClose}
-            picture={picture}
-          />
-        </Modal>
         <Modal
           id="share-modal"
           open={openShareModal}

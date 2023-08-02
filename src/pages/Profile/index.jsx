@@ -18,6 +18,7 @@ import {
   InputBase,
   Menu,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import {
   Edit,
@@ -59,7 +60,7 @@ const UserProfile = () => {
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
 
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState();
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const {
     updateUserProfileBanner,
@@ -83,7 +84,8 @@ const UserProfile = () => {
     setAnchorEl(null);
   };
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (_, newValue) => {
+    setSearchQuery("");
     setSelectedTab(newValue);
   };
 
@@ -186,6 +188,9 @@ const UserProfile = () => {
       if (userId !== loggedUserInfo.id) {
         setVisitor(true);
         countVisit();
+        localStorage.setItem("isVisitor", true);
+      } else {
+        localStorage.setItem("isVisitor", false);
       }
     }
   }, []);
@@ -236,8 +241,6 @@ const UserProfile = () => {
     const query = event.target.value;
     setSearchQuery(query);
   };
-
-  document?.getElementById("search-query")?.focus();
 
   return (
     <>
@@ -599,26 +602,32 @@ const UserProfile = () => {
                       label={t("userProfile.sobre")}
                       sx={{ textTransform: "none" }}
                     />
-                    <Tab
-                      label={
-                        <SearchElement>
-                          <SearchIconWrapper>
-                            <Search />
-                          </SearchIconWrapper>
-                          <StyledInputBase
-                            id="search-input"
-                            placeholder="Search…"
-                            inputProps={{ "aria-label": "search" }}
-                            onChange={handleQueryChange}
-                            value={searchQuery}
-                          />
-                        </SearchElement>
-                      }
-                      sx={{ textTransform: "none" }}
-                    />
                   </Tabs>
+                  {/* <SearchElement onClick={() => handleTabChange("", 4)}>
+                    <SearchIconWrapper>
+                      <Search />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                      id="search-input"
+                      placeholder="Search…"
+                      inputProps={{ "aria-label": "search" }}
+                      onChange={handleQueryChange}
+                      value={searchQuery}
+                    />
+                  </SearchElement> */}
+                  <SearchElement>
+                    <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+                      <Search sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+                      <TextField
+                        id="input-with-sx"
+                        placeholder="Search…"
+                        variant="standard"
+                        value={searchQuery}
+                        onChange={handleQueryChange}
+                      />
+                    </Box>
+                  </SearchElement>
                 </Box>
-
                 {selectedTab === "event" && (
                   <Box
                     sx={{
@@ -717,7 +726,6 @@ const UserProfile = () => {
                     />
                   </Box>
                 )}
-
                 {selectedTab === "about" && (
                   <Box
                     sx={{
@@ -751,7 +759,7 @@ const UserProfile = () => {
                     />
                   </Box>
                 )}
-                {selectedTab === 4 && (
+                {searchQuery.length > 0 && (
                   // <Typography variant="h6">Resultados do search</Typography>
                   <Box
                     sx={{

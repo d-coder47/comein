@@ -180,7 +180,6 @@ const ProfileCustomCard = ({
 
   const handleRemoveEvent = async () => {
     const res = await removeEvent(id);
-    console.log(res);
     if (!res) {
       handleCloseRemoveEventModal();
       setOpenRemoveEventError(true);
@@ -554,6 +553,7 @@ const ProfileCustomCard = ({
             onFavoritePost={handleFavorite}
             onCloseModal={handleClose}
             picture={picture}
+            isVisitor={isVisitor}
           />
         </Modal>
         <Modal

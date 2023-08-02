@@ -46,16 +46,24 @@ const CardDetailed = () => {
   const { followUser } = useUserProfile();
   const { likePost, favoritePost } = usePosts();
   const { removeFavoriteFromEvent, addEventVisit } = useEvents();
-  const { removeFavoriteFromProject } = useProjects();
+  const { removeFavoriteFromProject, addProjetVisit } = useProjects();
+
+  const isVisitor = JSON.parse(localStorage.getItem("isVisitor"));
 
   const isOwner = user?.id == details?.dados?.id_utilizador;
 
   async function countEventVisit() {
-    const count_res = await addEventVisit(id);
+    if (type === "eventos") {
+      const add_event_visit_res = await addEventVisit(id);
+    } else {
+      const add_project_visit_res = await addProjetVisit(id);
+    }
   }
 
   useEffect(() => {
-    countEventVisit();
+    if (isVisitor) {
+      countEventVisit();
+    }
   }, []);
 
   useEffect(() => {
@@ -832,9 +840,11 @@ const DetailedRelated = ({ related, type }) => {
 
   return (
     <Box m="2rem">
-      <Typography fontWeight="bold" textTransform="uppercase">
-        {t(associated)}
-      </Typography>
+      {related.length > 0 ? (
+        <Typography fontWeight="bold" textTransform="uppercase">
+          {t(associated)}
+        </Typography>
+      ) : null}
       <Box
         display="flex"
         gap="2rem"
