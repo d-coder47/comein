@@ -59,6 +59,7 @@ const Editar = () => {
     areasCulturais: [],
     assoc_projeto: [],
   });
+  const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
@@ -146,14 +147,14 @@ const Editar = () => {
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         });
-        console.log(response.data.dados);
+
         if (!response.data.dados) return;
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
         const assoc_projeto = response.data.projeto_assoc;
 
-        setFieldValues({
+        const newData = {
           id,
           nome: data.nome,
           data_inicio: data.data_inicio,
@@ -172,7 +173,9 @@ const Editar = () => {
             { id: 5, name: t("categories.standUp") },
           ],
           assoc_projeto,
-        });
+        };
+
+        setFieldValues(newData);
       } catch (error) {
         console.log(error);
       }
@@ -198,6 +201,9 @@ const Editar = () => {
 
   const handleChangeFieldValues = (key, value) => {
     setFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+    setEditedFieldValues((prev) => {
       return { ...prev, [key]: value };
     });
   };
@@ -248,11 +254,28 @@ const Editar = () => {
     document.getElementById("upload-photo").click();
   };
 
+  const objectToFormData = (object) => {
+    const keys = Object.keys(object);
+    const values = Object.values(object);
+
+    var formData = new FormData();
+    formData.append("_method", "PUT");
+    formData.append("id_utilizador", user.id);
+
+    keys.forEach((key, index) => {
+      formData.append(key, values[index]);
+    });
+
+    return formData;
+  };
+
   const handleSave = () => {
     console.log(fieldValues);
+    console.log({ editedFieldValues });
     var newEvent = new FormData();
     newEvent.append("_method", "PUT");
     newEvent.append("id_utilizador", user.id);
+
     newEvent.append("nome", fieldValues.nome);
     newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
     newEvent.append("imgEvento", fieldValues.imgEvento);
