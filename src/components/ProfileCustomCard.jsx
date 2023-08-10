@@ -151,11 +151,13 @@ const ProfileCustomCard = ({
     return `/${postType}/${id}/${postName}`;
   };
 
+  const getEditPostPath = () => {
+    const postType = type === "E" ? "eventos" : "projetos";
+    return `/${postType}/editar/${id}`;
+  };
+
   const handleOpen = () => {
     localStorage.setItem("previousLocation", location.pathname);
-    navigate(getPostPath());
-
-    // setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
@@ -171,6 +173,7 @@ const ProfileCustomCard = ({
 
   const handleEditEventClick = () => {
     handlePostActionsMenuClose();
+    navigate(getEditPostPath());
   };
 
   const handleRemoveEventClick = () => {
@@ -393,7 +396,10 @@ const ProfileCustomCard = ({
               open={postActionsMenuOpen}
               onClose={handlePostActionsMenuClose}
             >
-              <MenuItem onClick={handleEditEventClick} disableRipple>
+              <MenuItem
+                onClick={() => handleEditEventClick(id, name)}
+                disableRipple
+              >
                 <Edit />
                 {t("userProfile.editar")}
               </MenuItem>
