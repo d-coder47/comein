@@ -35,6 +35,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
+import {
+  cleanPost,
+  filterAssociatedOwners,
+  filterAssociatedProjects,
+  filterCulturalAreas,
+  filterEndDate,
+  filterStartDate,
+  objectToFormData,
+} from "../../../utils/filterPostAttributes";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -59,6 +68,7 @@ const Editar = () => {
     areasCulturais: [],
     assoc_evento: [],
   });
+  const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
   const [addresses, setAddresses] = useState([]);
@@ -110,6 +120,9 @@ const Editar = () => {
 
   const handleChangeFieldValues = (key, value) => {
     setFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+    setEditedFieldValues((prev) => {
       return { ...prev, [key]: value };
     });
   };
@@ -233,56 +246,24 @@ const Editar = () => {
     document.getElementById("upload-photo").click();
   };
 
-  const arrayToString = (array) => {
-    return array.reduce((total, current, index, arr) => {
-      if (index === 1) return `${total},${current},`;
-      if (index === arr.length - 1) return total + current;
-      return total + current + ",";
-    });
-  };
-
   const handleSave = () => {
-    console.log(fieldValues);
-    let newProject = new FormData();
-    // newProject.append("id_utilizador", user.id);
-    newProject.append("_method", "PUT");
-    newProject.append("nome", fieldValues?.nome);
-    newProject.append("data_inicio", fieldValues?.data_inicio + ":00");
-    newProject.append("imgProjeto", fieldValues?.imgProjeto);
-    newProject.append("descricao", fieldValues?.descricao);
-    newProject.append(
-      "data_fim",
-      fieldValues?.data_fim?.length > 0 ? fieldValues.data_fim + ":00" : null
-    );
-    newProject.append(
-      "areasCulturais",
-      fieldValues?.areasCulturais?.length > 1
-        ? arrayToString(
-            fieldValues?.areasCulturais.map((item) => item.id)
-          ).slice(0, -1)
-        : fieldValues?.areasCulturais[0].id
-    );
-    newProject.append(
-      "assoc_evento",
-      fieldValues?.assoc_evento?.length > 0
-        ? arrayToString(
-            fieldValues?.assoc_evento?.map((item) => item.id)
-          ).slice(0, -1)
-        : 0
-    );
-    newProject.append("idGeografia", fieldValues?.local.id);
-    newProject.append(
-      "idsProprietarios",
-      fieldValues?.proprietarios?.length > 0
-        ? arrayToString(
-            fieldValues?.proprietarios.map((item) => item.id)
-          ).slice(0, -1)
-        : 0
-    );
+    console.log({ editedFieldValues });
 
-    console.log(newProject);
+    const filtredFieldValues = {
+      ...editedFieldValues,
+      data_inicio: filterStartDate(editedFieldValues?.data_inicio),
+      data_fim: filterEndDate(editedFieldValues?.data_fim),
+      areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
+      assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
+      proprietarios: filterAssociatedOwners(editedFieldValues?.proprietarios),
+    };
 
-    editProject(newProject);
+    const values = cleanPost(filtredFieldValues);
+    const body = objectToFormData(values, user.id);
+
+    console.log(body);
+
+    editProject(body);
   };
 
   const editProject = async (newProject) => {

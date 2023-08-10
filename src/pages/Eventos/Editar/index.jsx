@@ -34,6 +34,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
+import {
+  cleanPost,
+  filterAssociatedOwners,
+  filterAssociatedProjects,
+  filterCulturalAreas,
+  filterEndDate,
+  filterStartDate,
+  objectToFormData,
+} from "../../../utils/filterPostAttributes";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -225,14 +234,6 @@ const Editar = () => {
   const icon = <CheckBoxOutlineBlank fontSize="small" />;
   const checkedIcon = <CheckBox fontSize="small" />;
 
-  const arrayToString = (array) => {
-    return array.reduce((total, current, index, arr) => {
-      if (index === 1) return `${total},${current},`;
-      if (index === arr.length - 1) return total + current;
-      return total + current + ",";
-    });
-  };
-
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -254,67 +255,24 @@ const Editar = () => {
     document.getElementById("upload-photo").click();
   };
 
-  const objectToFormData = (object) => {
-    const keys = Object.keys(object);
-    const values = Object.values(object);
-
-    var formData = new FormData();
-    formData.append("_method", "PUT");
-    formData.append("id_utilizador", user.id);
-
-    keys.forEach((key, index) => {
-      formData.append(key, values[index]);
-    });
-
-    return formData;
-  };
-
   const handleSave = () => {
-    console.log(fieldValues);
     console.log({ editedFieldValues });
-    var newEvent = new FormData();
-    newEvent.append("_method", "PUT");
-    newEvent.append("id_utilizador", user.id);
 
-    newEvent.append("nome", fieldValues.nome);
-    newEvent.append("data_inicio", fieldValues.data_inicio + ":00");
-    newEvent.append("imgEvento", fieldValues.imgEvento);
-    newEvent.append("descricao", fieldValues.descricao);
-    newEvent.append(
-      "data_fim",
-      fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
-    );
-    newEvent.append(
-      "areasCulturais",
-      fieldValues.areasCulturais.length > 1
-        ? arrayToString(
-            fieldValues.areasCulturais.map((item) => item.id)
-          ).slice(0, -1)
-        : fieldValues.areasCulturais[0].id
-    );
-    newEvent.append(
-      "assoc_projeto",
-      fieldValues.assoc_projeto.length > 0
-        ? arrayToString(fieldValues.assoc_projeto.map((item) => item.id)).slice(
-            0,
-            -1
-          )
-        : null
-    );
-    newEvent.append("idGeografia", fieldValues.local.id);
-    newEvent.append(
-      "idsProprietarios",
-      fieldValues.proprietarios.length > 0
-        ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
-            0,
-            -1
-          )
-        : null
-    );
+    const filtredFieldValues = {
+      ...editedFieldValues,
+      data_inicio: filterStartDate(editedFieldValues?.data_inicio),
+      data_fim: filterEndDate(editedFieldValues?.data_fim),
+      areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
+      assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
+      proprietarios: filterAssociatedOwners(editedFieldValues?.proprietarios),
+    };
 
-    console.log(newEvent);
+    const values = cleanPost(filtredFieldValues);
+    const body = objectToFormData(values, user.id);
 
-    editEvent(newEvent);
+    console.log(body);
+
+    editEvent(body);
   };
 
   const editEvent = async (newEvent) => {
