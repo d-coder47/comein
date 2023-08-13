@@ -158,6 +158,7 @@ const ProfileCustomCard = ({
 
   const handleOpen = () => {
     localStorage.setItem("previousLocation", location.pathname);
+    navigate(getPostPath());
   };
   const handleClose = () => setOpen(false);
 
