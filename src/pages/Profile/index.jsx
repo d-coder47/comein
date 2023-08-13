@@ -19,6 +19,8 @@ import {
   Menu,
   MenuItem,
   TextField,
+  Autocomplete,
+  InputAdornment,
 } from "@mui/material";
 import {
   Edit,
@@ -31,11 +33,12 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
-import { styled, alpha } from "@mui/material/styles";
+import usePosts from "../../hooks/usePosts";
 
 import ReactQuill from "react-quill";
 
 import "react-quill/dist/quill.bubble.css";
+import ProfileCustomCard from "../../components/ProfileCustomCard";
 
 const UserProfile = () => {
   const params = useParams();
@@ -51,6 +54,10 @@ const UserProfile = () => {
   const [visitor, setVisitor] = React.useState(false);
   const [isVisitorFollowing, setIsVisitorFollowing] = React.useState(false);
 
+  const { getEventPostByUser, getProjectPostByUser } = usePosts();
+  const [allPosts, setAllPosts] = React.useState();
+  const [searchOptions, setSearchOptions] = React.useState([]);
+
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -60,7 +67,7 @@ const UserProfile = () => {
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
 
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchSelectedValue, setSearchSelectedValue] = React.useState(null);
 
   const {
     updateUserProfileBanner,
@@ -85,8 +92,11 @@ const UserProfile = () => {
   };
 
   const handleTabChange = (_, newValue) => {
-    setSearchQuery("");
     setSelectedTab(newValue);
+  };
+
+  const handleSearchTabClick = () => {
+    setSelectedTab("search");
   };
 
   const handlePhotoUpload = async (event) => {
@@ -154,7 +164,20 @@ const UserProfile = () => {
     const followers_res = await getUserProfileFollowers(userId);
     const visits_res = await getUserProfileVisits(userId);
     const following_res = await getUserProfileFollowing(userId);
+
+    const allEvents = await getEventPostByUser(userId);
+    const allProjects = await getProjectPostByUser(userId);
+
+    if (allEvents.dados !== "null" && allProjects.dados !== "null") {
+      setAllPosts(allEvents.dados.concat(allProjects.dados));
+    } else if (allEvents.dados && allProjects.dados === "null") {
+      setAllPosts(allEvents.dados);
+    } else {
+      setAllPosts(allProjects.dados);
+    }
+
     setFollowers(followers_res?.dados);
+
     if (visits_res.dados === null) {
       setVisits(0);
     } else {
@@ -195,51 +218,21 @@ const UserProfile = () => {
     }
   }, []);
 
-  const SearchElement = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    // backgroundColor: alpha(theme.palette.common.white, 0.15),
-    // "&:hover": {
-    //   backgroundColor: alpha(theme.palette.common.white, 0.25),
-    // },
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(1),
-      width: "auto",
-    },
-  }));
+  React.useEffect(() => {
+    if (allPosts) {
+      const array = allPosts.map((item) => ({
+        label: item.nome,
+        id: item.id,
+      }));
+      setSearchOptions(array);
+    }
+  }, [allPosts]);
 
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
+  const handleAutocompleteChange = (event, newValue) => {
+    const foundItem = allPosts.find((item) => item.id === newValue.id);
 
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("sm")]: {
-        width: "12ch",
-        "&:focus": {
-          width: "20ch",
-        },
-      },
-    },
-  }));
-
-  const handleQueryChange = (event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
+    console.log(foundItem);
+    setSearchSelectedValue(foundItem);
   };
 
   return (
@@ -603,30 +596,32 @@ const UserProfile = () => {
                       sx={{ textTransform: "none" }}
                     />
                   </Tabs>
-                  {/* <SearchElement onClick={() => handleTabChange("", 4)}>
-                    <SearchIconWrapper>
-                      <Search />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      id="search-input"
-                      placeholder="Search…"
-                      inputProps={{ "aria-label": "search" }}
-                      onChange={handleQueryChange}
-                      value={searchQuery}
-                    />
-                  </SearchElement> */}
-                  <SearchElement>
-                    <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                      <Search sx={{ color: "action.active", mr: 1, my: 0.5 }} />
-                      <TextField
-                        id="input-with-sx"
-                        placeholder="Search…"
-                        variant="standard"
-                        value={searchQuery}
-                        onChange={handleQueryChange}
+
+                  {searchOptions && (
+                    <Box onClick={handleSearchTabClick}>
+                      <Autocomplete
+                        disablePortal
+                        id="combo-box-demo"
+                        onChange={handleAutocompleteChange}
+                        options={searchOptions}
+                        sx={{ width: 300 }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            InputProps={{
+                              ...params.InputProps,
+                              startAdornment: (
+                                <InputAdornment position="end">
+                                  <Search />
+                                </InputAdornment>
+                              ),
+                            }}
+                          />
+                        )}
                       />
                     </Box>
-                  </SearchElement>
+                  )}
                 </Box>
                 {selectedTab === "event" && (
                   <Box
@@ -759,22 +754,51 @@ const UserProfile = () => {
                     />
                   </Box>
                 )}
-                {searchQuery.length > 0 && (
-                  // <Typography variant="h6">Resultados do search</Typography>
+
+                {selectedTab === "search" && (
                   <Box
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
+                      // Styles for larger displays
+                      ...(isSmallScreen
+                        ? {}
+                        : {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.88)",
+                          }),
+                      // Styles for small displays
+                      ...(isSmallScreen
+                        ? {
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            transformOrigin: "top left",
+                            transform: "scale(0.74)",
+                            minHeight: "100%",
+                          }
+                        : {}),
                     }}
                   >
-                    <ListPublications
-                      userID={userId}
-                      type={"search"}
-                      isVisitor={visitor}
-                      query={searchQuery}
-                    />
+                    {searchSelectedValue && (
+                      <ProfileCustomCard
+                        isVisitor={visitor}
+                        id={searchSelectedValue.id}
+                        name={searchSelectedValue.nome}
+                        likes={searchSelectedValue.gostos}
+                        visits={searchSelectedValue.visitas}
+                        picture={`https://comein.cv/comeincv_api_test/img/${
+                          searchSelectedValue.distincao === "E"
+                            ? "eventos"
+                            : "projetos"
+                        }Img/${searchSelectedValue.imagem}`}
+                        publisherId={searchSelectedValue.id_utilizador}
+                        publisherName={searchSelectedValue.nome_user}
+                        publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${searchSelectedValue.imgPerfil}`}
+                        type={searchSelectedValue.distincao}
+                      />
+                    )}
                   </Box>
                 )}
               </Grid>

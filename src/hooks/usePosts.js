@@ -155,6 +155,7 @@ const usePosts = () => {
           },
         }
       );
+
       return response.data;
     } catch (error) {
       console.error(error);
