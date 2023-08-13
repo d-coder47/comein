@@ -48,8 +48,6 @@ const CustomCard = ({
   publisherName,
   type,
 }) => {
-  const [isLiked, setIsLiked] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);
@@ -67,12 +65,33 @@ const CustomCard = ({
     return `${postType}/${id}/${postName}`;
   };
 
+  const getPublisherInfo = async () => {
+    if (!publisherId || publisherId === undefined) return;
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/obterUtilizador/${publisherId}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      const publisherData = response?.data?.dados || 0;
+      setPublisherInfo(publisherData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleMenuClose = (shouldClose) => {
     if (shouldClose) setAnchorEl(null);
   };
 
-  const handleClick = (event) => {
+  const handleOpenUserCard = (event) => {
     setAnchorEl(event.currentTarget);
+    getPublisherInfo();
   };
 
   const handleOpen = () => {
@@ -87,103 +106,29 @@ const CustomCard = ({
     setTimeout(() => setIsLoading(false), 1500);
   }, []);
 
-  useEffect(() => {
-    if (!id && isLiked !== null && isFavorite !== null) return;
-    const user = JSON.parse(localStorage.getItem("userInfo"));
+  // useEffect(() => {
+  //   if (!publisherId || publisherId === undefined) return;
+  //   const getPublisherInfo = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(
+  //         `/utilizadores/obterUtilizador/${publisherId}`,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/x-www-form-urlencoded",
+  //             // Authorization:
+  //             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+  //           },
+  //         }
+  //       );
+  //       const publisherData = response?.data?.dados || 0;
+  //       setPublisherInfo(publisherData);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    if (!user) return;
-
-    const hasLikedEvent = async (userId, eventId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/gostosEventos/gostos/${userId},${eventId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const liked = response?.data?.dados || 0;
-        setIsLiked(liked);
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
-    };
-
-    const hasLikedProject = async (userId, projectId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/gostosProjetos/gostos/${userId},${projectId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const liked = response?.data?.dados || 0;
-        setIsLiked(liked);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const hasFavoritePost = async (userId, postId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/favoritos/getFavoritos/${userId},${postId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const ids = response?.data?.dados?.map((post) => post.id);
-        setIsFavorite(ids.includes(postId));
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
-    };
-
-    if (type === "E") {
-      hasLikedEvent(user.id, id);
-    } else {
-      hasLikedProject(user.id, id);
-    }
-
-    hasFavoritePost(user.id, id);
-  }, [id]);
-
-  useEffect(() => {
-    if (!publisherId || publisherId === undefined) return;
-    const getPublisherInfo = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/utilizadores/obterUtilizador/${publisherId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const publisherData = response?.data?.dados || 0;
-        setPublisherInfo(publisherData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getPublisherInfo();
-  }, [publisherId]);
+  //   getPublisherInfo();
+  // }, [publisherId]);
 
   if (isLoading) {
     return (
@@ -299,7 +244,7 @@ const CustomCard = ({
           width="fit-content"
           alignItems="center"
           gap=".25rem"
-          onMouseEnter={handleClick}
+          onMouseEnter={handleOpenUserCard}
         >
           <Typography
             fontWeight="bold"

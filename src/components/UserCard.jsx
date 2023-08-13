@@ -6,6 +6,8 @@ import {
   Divider,
   List,
   ListItem,
+  Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -13,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const UserCard = ({
-  publisher,
+  publisher = null,
   isFollowing,
   onFollowUser,
   isOwner = false,
@@ -26,6 +28,37 @@ const UserCard = ({
       ? ""
       : `${residencia}, `;
   };
+
+  if (!publisher || publisher === undefined) {
+    return (
+      <Stack
+        spacing={1}
+        direction="column"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "22rem",
+          height: "100%",
+        }}
+      >
+        <Skeleton variant="rectangular" width="100%" height="7rem" />
+        <Skeleton
+          variant="circular"
+          sx={{
+            width: "4.25rem",
+            height: "4.25rem",
+            transform: "translateY(-50%)",
+            border: "2px solid white",
+          }}
+        />
+        <Skeleton variant="rectangular" width="30%" />
+        <Skeleton variant="rectangular" width="50%" />
+        <Skeleton variant="rectangular" width="70%" />
+        <Skeleton variant="rectangular" width="80%" height="2rem" />
+      </Stack>
+    );
+  }
 
   return (
     <Box

@@ -840,7 +840,7 @@ const DetailedRelated = ({ related, type }) => {
 
   return (
     <Box m="2rem">
-      {related.length > 0 ? (
+      {related != null && related?.length > 0 ? (
         <Typography fontWeight="bold" textTransform="uppercase">
           {t(associated)}
         </Typography>
