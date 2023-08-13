@@ -271,29 +271,29 @@ const ProfileCustomCard = ({
     hasFavoritePost(user.id, id);
   }, [id]);
 
-  useEffect(() => {
-    if (!publisherId || publisherId === undefined) return;
-    const getPublisherInfo = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/utilizadores/obterUtilizador/${publisherId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const publisherData = response?.data?.dados || 0;
-        setPublisherInfo(publisherData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // useEffect(() => {
+  //   if (!publisherId || publisherId === undefined) return;
+  //   const getPublisherInfo = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(
+  //         `/utilizadores/obterUtilizador/${publisherId}`,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/x-www-form-urlencoded",
+  //             // Authorization:
+  //             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+  //           },
+  //         }
+  //       );
+  //       const publisherData = response?.data?.dados || 0;
+  //       setPublisherInfo(publisherData);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
 
-    getPublisherInfo();
-  }, [publisherId]);
+  //   getPublisherInfo();
+  // }, [publisherId]);
 
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
