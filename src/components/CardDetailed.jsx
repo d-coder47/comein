@@ -50,6 +50,10 @@ const CardDetailed = () => {
 
   const [isOwner, setIsOwner] = useState();
 
+  const [areaMaxWidth, setAreaMaxWidth] = useState();
+
+  // const [isSmallScreen, setIsSmallScreen] = useState(false);
+
   async function countEventVisit() {
     if (type === "eventos") {
       const add_event_visit_res = await addEventVisit(id);
@@ -57,6 +61,20 @@ const CardDetailed = () => {
       const add_project_visit_res = await addProjetVisit(id);
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      // setIsSmallScreen(window.innerWidth <= 1400);
+
+      const value = parseInt((83 / 100) * window.innerWidth);
+      setAreaMaxWidth(value);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (!id) return;
@@ -444,7 +462,7 @@ const CardDetailed = () => {
             type={type}
             isOwner={isOwner}
           />
-          <Box sx={{ backgroundColor: "white" }}>
+          <Box sx={{ backgroundColor: "white", maxWidth: areaMaxWidth }}>
             <Avatar
               src={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
               alt={`Foto de ${details?.dados?.nome}`}
