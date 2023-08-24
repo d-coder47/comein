@@ -48,9 +48,7 @@ const CardDetailed = () => {
   const { removeFavoriteFromEvent, addEventVisit } = useEvents();
   const { removeFavoriteFromProject, addProjetVisit } = useProjects();
 
-  const isVisitor = JSON.parse(localStorage.getItem("isVisitor"));
-
-  const isOwner = user?.id == details?.dados?.id_utilizador;
+  const [isOwner, setIsOwner] = useState();
 
   async function countEventVisit() {
     if (type === "eventos") {
@@ -59,12 +57,6 @@ const CardDetailed = () => {
       const add_project_visit_res = await addProjetVisit(id);
     }
   }
-
-  useEffect(() => {
-    if (isVisitor) {
-      countEventVisit();
-    }
-  }, []);
 
   useEffect(() => {
     if (!id) return;
@@ -82,6 +74,13 @@ const CardDetailed = () => {
         if (!response.data || !user) return navigate("/login");
         setDetails(response.data);
         setUser(user);
+        if (user.id === response.data.dados.id_utilizador) {
+          setIsOwner(true);
+        } else {
+          countEventVisit();
+          setIsOwner(false);
+        }
+        // user?.id == details?.dados?.id_utilizador;
       } catch (error) {
         console.error(error);
       }

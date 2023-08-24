@@ -2,6 +2,7 @@ import React from "react";
 import "./profile.css";
 import NavBar from "../../components/NavBar";
 import ListPublications from "../../components/ListPublications";
+import ListSearchedPublications from "../../components/ListSearchedPublications";
 import useUserProfile from "../../hooks/useUserProfile";
 import {
   Typography,
@@ -15,11 +16,9 @@ import {
   Tabs,
   Tooltip,
   Tab,
-  InputBase,
   Menu,
   MenuItem,
   TextField,
-  Autocomplete,
   InputAdornment,
 } from "@mui/material";
 import {
@@ -38,7 +37,6 @@ import usePosts from "../../hooks/usePosts";
 import ReactQuill from "react-quill";
 
 import "react-quill/dist/quill.bubble.css";
-import ProfileCustomCard from "../../components/ProfileCustomCard";
 
 const UserProfile = () => {
   const params = useParams();
@@ -67,7 +65,8 @@ const UserProfile = () => {
   const [profileBannerPhoto, setProfileBannerPhoto] = React.useState();
 
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
-  const [searchSelectedValue, setSearchSelectedValue] = React.useState(null);
+
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const {
     updateUserProfileBanner,
@@ -97,6 +96,25 @@ const UserProfile = () => {
 
   const handleSearchTabClick = () => {
     setSelectedTab("search");
+  };
+
+  const handleSearch = () => {
+    const filteredArray = allPosts.filter((item) => {
+      return item.nome.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
+    setSearchOptions(filteredArray);
+  };
+
+  const handleInputChange = (event) => {
+    setSearchQuery(event.target.value);
+    handleSearch();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   const handlePhotoUpload = async (event) => {
@@ -227,13 +245,6 @@ const UserProfile = () => {
       setSearchOptions(array);
     }
   }, [allPosts]);
-
-  const handleAutocompleteChange = (event, newValue) => {
-    const foundItem = allPosts.find((item) => item.id === newValue.id);
-
-    console.log(foundItem);
-    setSearchSelectedValue(foundItem);
-  };
 
   return (
     <>
@@ -599,26 +610,22 @@ const UserProfile = () => {
 
                   {searchOptions && (
                     <Box onClick={handleSearchTabClick}>
-                      <Autocomplete
-                        disablePortal
-                        id="combo-box-demo"
-                        onChange={handleAutocompleteChange}
-                        options={searchOptions}
-                        sx={{ width: 300 }}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant="standard"
-                            InputProps={{
-                              ...params.InputProps,
-                              startAdornment: (
-                                <InputAdornment position="end">
-                                  <Search />
-                                </InputAdornment>
-                              ),
-                            }}
-                          />
-                        )}
+                      <TextField
+                        variant="standard"
+                        value={searchQuery}
+                        onChange={handleInputChange}
+                        onKeyPress={handleKeyPress}
+                        sx={{ width: 300, marginRight: 2 }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="end">
+                              <Search
+                                onClick={handleSearch}
+                                sx={{ fontSize: "1.5rem" }}
+                              />
+                            </InputAdornment>
+                          ),
+                        }}
                       />
                     </Box>
                   )}
@@ -781,22 +788,10 @@ const UserProfile = () => {
                         : {}),
                     }}
                   >
-                    {searchSelectedValue && (
-                      <ProfileCustomCard
+                    {searchOptions && (
+                      <ListSearchedPublications
                         isVisitor={visitor}
-                        id={searchSelectedValue.id}
-                        name={searchSelectedValue.nome}
-                        likes={searchSelectedValue.gostos}
-                        visits={searchSelectedValue.visitas}
-                        picture={`https://comein.cv/comeincv_api_test/img/${
-                          searchSelectedValue.distincao === "E"
-                            ? "eventos"
-                            : "projetos"
-                        }Img/${searchSelectedValue.imagem}`}
-                        publisherId={searchSelectedValue.id_utilizador}
-                        publisherName={searchSelectedValue.nome_user}
-                        publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${searchSelectedValue.imgPerfil}`}
-                        type={searchSelectedValue.distincao}
+                        posts={searchOptions}
                       />
                     )}
                   </Box>

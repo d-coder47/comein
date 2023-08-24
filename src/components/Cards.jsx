@@ -170,7 +170,7 @@ const Cards = ({
                   id={card.id}
                   name={card.nome}
                   likes={card.gostos}
-                  visits={card.visitas}
+                  visits={card.visitasPost}
                   picture={
                     card?.imagem.length > 0
                       ? `https://comein.cv/comeincv_api_test/img/${
@@ -192,7 +192,7 @@ const Cards = ({
                   id={card.id}
                   name={card.nome}
                   likes={card.gostos}
-                  visits={card.visitas}
+                  visits={card.visitasPost}
                   picture={
                     card?.imagem.length > 0
                       ? `https://comein.cv/comeincv_api_test/img/${
