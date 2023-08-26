@@ -306,7 +306,14 @@ const UserProfile = () => {
               background: "#f8f8f8",
             }}
           >
-            <Grid className="profile_main_grid" container spacing={2}>
+            <Grid
+              className="profile_main_grid"
+              container
+              spacing={2}
+              sx={{
+                paddingRight: "220px",
+              }}
+            >
               <Grid
                 item
                 xs={12}
@@ -581,6 +588,7 @@ const UserProfile = () => {
                 className="cards_grid_container"
                 sx={{
                   height: "100vh",
+                  paddingLeft: "0px !important",
                 }}
               >
                 <Box
@@ -588,7 +596,8 @@ const UserProfile = () => {
                     display: "flex",
                     justifyContent: "left",
                     alignItems: "center",
-                    marginLeft: { md: "3rem", lg: "3rem" },
+                    width: "100%",
+                    // marginLeft: { md: "3rem", lg: "3rem" },
                   }}
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
@@ -651,6 +660,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
+                            minWidth: "1310px",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -661,6 +671,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
+                            minWidth: "1275px",
                           }
                         : {}),
                     }}

@@ -164,7 +164,14 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     } else {
       return (
-        <Box mt="1rem" mx="2rem" flexGrow={1}>
+        <Box
+          mt="1rem"
+          style={{
+            marginLeft: "0",
+            marginRigth: "2rem",
+          }}
+          flexGrow={1}
+        >
           <Grid container spacing={3.8}>
             {events.length > 0 &&
               events?.map((card, index) => (
@@ -255,7 +262,14 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     } else {
       return (
-        <Box mt="1rem" mx="2rem" flexGrow={1}>
+        <Box
+          mt="1rem"
+          style={{
+            marginLeft: "0",
+            marginRigth: "2rem",
+          }}
+          flexGrow={1}
+        >
           <Grid container spacing={3.8}>
             {projects.length > 0 &&
               projects?.map((card, index) => (
@@ -308,7 +322,14 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
     return (
-      <Box mt="1rem" mx="2rem" flexGrow={1}>
+      <Box
+        mt="1rem"
+        tyle={{
+          marginLeft: "0",
+          marginRigth: "2rem",
+        }}
+        flexGrow={1}
+      >
         <Grid container spacing={3.8}>
           {favs.length > 0 &&
             favs?.map((card, index) => (
@@ -335,7 +356,14 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     );
   } else {
     return (
-      <Box mt="1rem" mx="2rem" flexGrow={1}>
+      <Box
+        mt="1rem"
+        tyle={{
+          marginLeft: "0",
+          marginRigth: "2rem",
+        }}
+        flexGrow={1}
+      >
         <Grid container spacing={3.8}>
           {searchResults.length > 0 &&
             searchResults?.map((card, index) => (
