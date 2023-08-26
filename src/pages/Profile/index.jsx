@@ -302,7 +302,7 @@ const UserProfile = () => {
           <Box
             sx={{
               padding: "2rem",
-              height: "100%",
+              height: "100vh",
               background: "#f8f8f8",
             }}
           >
@@ -574,7 +574,15 @@ const UserProfile = () => {
                   </Box>
                 </Paper>
               </Grid>
-              <Grid item xs={5} md={8} className="cards_grid_container">
+              <Grid
+                item
+                xs={5}
+                md={8}
+                className="cards_grid_container"
+                sx={{
+                  height: "100vh",
+                }}
+              >
                 <Box
                   sx={{
                     display: "flex",
