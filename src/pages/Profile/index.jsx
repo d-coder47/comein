@@ -695,6 +695,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
+                            minWidth: "1310px",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -704,6 +705,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
+                            minWidth: "1275px",
                           }
                         : {}),
                     }}
@@ -727,6 +729,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
+                            minWidth: "1310px",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -736,6 +739,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
+                            minWidth: "1275px",
                           }
                         : {}),
                     }}
