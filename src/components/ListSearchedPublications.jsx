@@ -9,6 +9,8 @@ const ListSearchedPublications = ({ isVisitor, posts }) => {
     setRefreshCount((prevCount) => prevCount + 1);
   };
 
+  console.log("posts =>", posts);
+
   return (
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid container spacing={3.8}>

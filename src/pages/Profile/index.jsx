@@ -238,11 +238,7 @@ const UserProfile = () => {
 
   React.useEffect(() => {
     if (allPosts) {
-      const array = allPosts.map((item) => ({
-        label: item.nome,
-        id: item.id,
-      }));
-      setSearchOptions(array);
+      setSearchOptions(allPosts);
     }
   }, [allPosts]);
 
@@ -797,6 +793,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
+                            minWidth: "1310px",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -807,6 +804,7 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minHeight: "100%",
+                            minWidth: "1275px",
                           }
                         : {}),
                     }}
