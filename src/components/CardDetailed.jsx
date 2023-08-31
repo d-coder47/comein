@@ -35,7 +35,6 @@ const CardDetailed = () => {
 
   const { type, id } = params;
 
-  const [user, setUser] = useState(null);
   const [details, setDetails] = useState(null);
   const [isFollowing, setIsFollowing] = useState(null);
   const [isLiked, setIsLiked] = useState(null);
@@ -91,7 +90,6 @@ const CardDetailed = () => {
         const user = JSON.parse(localStorage.getItem("userInfo"));
         if (!response.data || !user) return navigate("/login");
         setDetails(response.data);
-        setUser(user);
         if (user.id === response.data.dados.id_utilizador) {
           setIsOwner(true);
         } else {
@@ -170,7 +168,7 @@ const CardDetailed = () => {
     const hasFavoritePost = async (userId, postId) => {
       try {
         const response = await axiosInstance.get(
-          `/favoritos/getFavoritos/${userId},${postId}`,
+          `/favoritos/getFavoritos/${userId}`,
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
@@ -187,10 +185,12 @@ const CardDetailed = () => {
       }
     };
 
-    const publisherId = details?.utilizador[0]?.id;
+    if (!details) return;
 
-    if (!publisherId && publisherId !== undefined && isFollowing !== null)
-      return;
+    const publisherId = details?.utilizador[0]?.id;
+    console.log({ publisherId, details });
+
+    if (isFollowing !== null) return;
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) return;
@@ -220,8 +220,10 @@ const CardDetailed = () => {
       return (window.location.href = `http://${window.location.host}/user-registration`);
 
     const userId = user?.id;
+    const simplifiedType =
+      type === "eventos" ? "E" : type === "projetos" ? "P" : "";
 
-    const result = await likePost(userId, id, details?.dados?.tipo);
+    const result = await likePost(userId, id, simplifiedType);
     if (result === null) return null;
 
     if (result) setIsLiked(true);
@@ -611,7 +613,7 @@ const CardDetailed = () => {
               <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
               {isLiked ? (
                 <Typography color="white" fontSize=".8rem">
-                  {parseInt(details?.dados?.gostos) + 1}
+                  {parseInt(details?.dados?.gostos)}
                 </Typography>
               ) : null}
             </Box>
