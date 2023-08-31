@@ -6,7 +6,7 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CustomCard from "./CustomCard";
 import usePosts from "../hooks/usePosts";
 import axiosInstance from "../api/axiosInstance";
@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import defaultImg from "../assets/img/event3.jpg";
 import { useTranslation } from "react-i18next";
+import { useIntersection } from "@mantine/hooks";
 
 const Cards = ({
   searchQuery,
@@ -21,7 +22,7 @@ const Cards = ({
   localDateValues,
   displayHighlights,
 }) => {
-  const { posts: allPosts } = usePosts();
+  const { posts: allPosts, getPostsByPage } = usePosts();
   const [posts, setPosts] = useState([]);
   const [emptyResult, setEmptyResult] = useState(false);
 
@@ -151,62 +152,125 @@ const Cards = ({
     searchPosts(searchQuery);
   }, [searchQuery]);
 
+  const lastPostRef = useRef(null);
+
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
+  });
+
+  useEffect(() => {
+    if (!entry) return;
+    if (entry?.isIntersecting) {
+      getPostsByPage();
+    }
+  }, [entry]);
+
+  const postsToDisplay = posts?.map((card, index) => {
+    return index === posts?.length - 1 ? (
+      <Grid item key={index} xs={3} ref={ref}>
+        <CustomCard
+          key={index}
+          id={card.id}
+          name={card.nome}
+          likes={card.gostos}
+          visits={card.visitasPost}
+          picture={
+            card?.imagem.length > 0
+              ? `https://comein.cv/comeincv_api_test/img/${
+                  card.distincao === "E" ? "eventos" : "projetos"
+                }Img/${card.imagem}`
+              : defaultImg
+          }
+          publisherId={card.id_utilizador}
+          publisherName={card.nome_user}
+          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          type={card.distincao}
+        />
+      </Grid>
+    ) : (
+      <Grid item key={index} xs={3}>
+        <CustomCard
+          key={index}
+          id={card.id}
+          name={card.nome}
+          likes={card.gostos}
+          visits={card.visitasPost}
+          picture={
+            card?.imagem.length > 0
+              ? `https://comein.cv/comeincv_api_test/img/${
+                  card.distincao === "E" ? "eventos" : "projetos"
+                }Img/${card.imagem}`
+              : defaultImg
+          }
+          publisherId={card.id_utilizador}
+          publisherName={card.nome_user}
+          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          type={card.distincao}
+        />
+      </Grid>
+    );
+  });
+
+  const allPostsToDisplay = allPosts?.map((card, index) => {
+    return index === allPosts?.length - 1 ? (
+      <Grid item key={index} xs={3.8} ref={ref}>
+        <CustomCard
+          key={index}
+          id={card.id}
+          name={card.nome}
+          likes={card.gostos}
+          visits={card.visitasPost}
+          picture={
+            card?.imagem.length > 0
+              ? `https://comein.cv/comeincv_api_test/img/${
+                  card.distincao === "E" ? "eventos" : "projetos"
+                }Img/${card.imagem}`
+              : defaultImg
+          }
+          publisherId={card.id_utilizador}
+          publisherName={card.nome_user}
+          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          type={card.distincao}
+        />
+      </Grid>
+    ) : (
+      <Grid item key={index} xs={3.8}>
+        <CustomCard
+          key={index}
+          id={card.id}
+          name={card.nome}
+          likes={card.gostos}
+          visits={card.visitasPost}
+          picture={
+            card?.imagem.length > 0
+              ? `https://comein.cv/comeincv_api_test/img/${
+                  card.distincao === "E" ? "eventos" : "projetos"
+                }Img/${card.imagem}`
+              : defaultImg
+          }
+          publisherId={card.id_utilizador}
+          publisherName={card.nome_user}
+          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          type={card.distincao}
+        />
+      </Grid>
+    );
+  });
+
   return (
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid
         container
         gap={3.8}
+        mb="2rem"
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        {posts.length > 0
-          ? posts?.map((card, index) => (
-              <Grid item key={index} xs={3}>
-                <CustomCard
-                  key={index}
-                  id={card.id}
-                  name={card.nome}
-                  likes={card.gostos}
-                  visits={card.visitasPost}
-                  picture={
-                    card?.imagem.length > 0
-                      ? `https://comein.cv/comeincv_api_test/img/${
-                          card.distincao === "E" ? "eventos" : "projetos"
-                        }Img/${card.imagem}`
-                      : defaultImg
-                  }
-                  publisherId={card.id_utilizador}
-                  publisherName={card.nome_user}
-                  publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
-                  type={card.distincao}
-                />
-              </Grid>
-            ))
-          : allPosts?.map((card, index) => (
-              <Grid item key={index} xs={3.8}>
-                <CustomCard
-                  key={index}
-                  id={card.id}
-                  name={card.nome}
-                  likes={card.gostos}
-                  visits={card.visitasPost}
-                  picture={
-                    card?.imagem.length > 0
-                      ? `https://comein.cv/comeincv_api_test/img/${
-                          card.distincao === "E" ? "eventos" : "projetos"
-                        }Img/${card.imagem}`
-                      : defaultImg
-                  }
-                  publisherId={card.id_utilizador}
-                  publisherName={card.nome_user}
-                  publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
-                  type={card.distincao}
-                />
-              </Grid>
-            ))}
+        {posts.length > 0 ? postsToDisplay : allPostsToDisplay}
         <Grid
           sx={{
             position: "fixed",

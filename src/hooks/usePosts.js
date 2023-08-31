@@ -3,18 +3,24 @@ import axiosInstance from "../api/axiosInstance";
 
 const usePosts = () => {
   const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [reachedEndPage, setReachedEndPage] = useState(false);
+  const pageSize = 9;
 
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const response = await axiosInstance.get(`/publicacoes/listar`, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-          },
-        });
-        setPosts(response.data.dados);
+        const response = await axiosInstance.get(
+          `/publicacoes/listarPaginacao/${page},${pageSize}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+        setPosts(response?.data?.dados);
       } catch (error) {
         console.error(error);
       }
@@ -180,6 +186,32 @@ const usePosts = () => {
     }
   };
 
+  const getPostsByPage = async () => {
+    if (reachedEndPage) return;
+    try {
+      const response = await axiosInstance.get(
+        `/publicacoes/listarPaginacao/${page + 1},${pageSize}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      if (!response?.data) return setReachedEndPage(true);
+
+      const oldPosts = [...posts];
+      const newPosts = [...oldPosts, ...response?.data?.dados];
+
+      setPage((previous) => previous + 1);
+
+      setPosts(newPosts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getPostsByArea,
     getHighlightPosts,
@@ -190,6 +222,7 @@ const usePosts = () => {
     getEventPostByUser,
     getProjectPostByUser,
     getFavoritsPostByUser,
+    getPostsByPage,
   };
 };
 
