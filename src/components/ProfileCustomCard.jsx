@@ -337,7 +337,7 @@ const ProfileCustomCard = ({
   if (isLoading) {
     return (
       <Stack spacing={1}>
-        <Skeleton variant="rectangular" width="100%" height="17rem" />
+        <Skeleton variant="rectangular" width="23rem" height="17rem" />
         <Box display="flex">
           <Skeleton variant="circular" width={25} height={25} />
           <Box
