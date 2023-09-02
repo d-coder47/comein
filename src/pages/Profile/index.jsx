@@ -243,10 +243,24 @@ const UserProfile = () => {
   }, [allPosts]);
 
   return (
-    <>
+    <Box>
       <NavBar />
-      <Box className="profile_container">
-        <Box className="banner_container">
+      <Box
+        className="profile_container"
+        sx={{
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Box
+          className="banner_container"
+          sx={{
+            minWidth: "100%",
+            maxHeight: "30%",
+            minHeight: "30%",
+            background: "#000",
+          }}
+        >
           <Box>
             <label htmlFor="upload-banner-photo">
               <Input
@@ -298,7 +312,7 @@ const UserProfile = () => {
           <Box
             sx={{
               padding: "2rem",
-              height: "100vh",
+              height: "100%",
               background: "#f8f8f8",
             }}
           >
@@ -308,6 +322,7 @@ const UserProfile = () => {
               spacing={2}
               sx={{
                 paddingRight: "220px",
+                justifyContent: "flex-end",
               }}
             >
               <Grid
@@ -346,6 +361,9 @@ const UserProfile = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    minWidth: "350px !important",
+                    minHeight: "600px",
+                    marginBottom: "20px",
                     // transformOrigin:
                     //   "top left" /* Define o ponto de origem da transformação */,
                     // transform: "scale(0.99)",
@@ -583,8 +601,10 @@ const UserProfile = () => {
                 md={8}
                 className="cards_grid_container"
                 sx={{
-                  height: "100vh",
+                  height: "100%",
                   paddingLeft: "0px !important",
+                  marginTop: "0 !important",
+                  paddingTop: "0 !important",
                 }}
               >
                 <Box
@@ -668,6 +688,7 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minWidth: "1275px",
+                            // background: "green",
                           }
                         : {}),
                     }}
@@ -913,7 +934,7 @@ const UserProfile = () => {
           </Menu>
         </>
       ) : null}
-    </>
+    </Box>
   );
 };
 
