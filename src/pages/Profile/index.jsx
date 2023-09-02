@@ -672,23 +672,24 @@ const UserProfile = () => {
                         : {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
                             minWidth: "1310px",
+                            minHeight: "100vh",
+                            minHeight: "100vh",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
                         ? {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minWidth: "1275px",
-                            // background: "green",
                           }
                         : {}),
                     }}
@@ -709,20 +710,22 @@ const UserProfile = () => {
                         : {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
                             minWidth: "1310px",
+                            minHeight: "100vh",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
                         ? {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minWidth: "1275px",
+                            minHeight: "100vh",
                           }
                         : {}),
                     }}
@@ -743,20 +746,22 @@ const UserProfile = () => {
                         : {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
                             minWidth: "1310px",
+                            minHeight: "100vh",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
                         ? {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minWidth: "1275px",
+                            minHeight: "100vh",
                           }
                         : {}),
                     }}
@@ -777,19 +782,20 @@ const UserProfile = () => {
                         : {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
+                            minHeight: "100vh",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
                         ? {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "center",
+                            alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minHeight: "100%",
+                            minHeight: "100vh",
                           }
                         : {}),
                     }}
