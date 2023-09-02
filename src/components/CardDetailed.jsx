@@ -431,9 +431,7 @@ const CardDetailed = () => {
   }
 
   return (
-    <Box
-      sx={{ width: "100%", height: "100%", backgroundColor: "rgba(0,0,0,.9)" }}
-    >
+    <Box sx={{ width: "100%", height: "100%", backgroundColor: "#cacaca" }}>
       <Helmet>
         <meta property="og:title" content={details?.dados?.nome} />
         <meta
@@ -464,7 +462,13 @@ const CardDetailed = () => {
             type={type}
             isOwner={isOwner}
           />
-          <Box sx={{ backgroundColor: "white", maxWidth: areaMaxWidth }}>
+          <Box
+            sx={{
+              backgroundColor: "white",
+              maxWidth: areaMaxWidth,
+              boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.2)",
+            }}
+          >
             <Avatar
               src={`https://comein.cv/comeincv_api_test/img/${type}Img/${details?.dados?.imagem}`}
               alt={`Foto de ${details?.dados?.nome}`}
@@ -663,7 +667,9 @@ const DetailedHeader = ({
       <Box
         sx={{ display: "flex", flexDirection: "column", marginTop: ".75rem" }}
       >
-        <Typography fontWeight="bold">{title}</Typography>
+        <Typography fontWeight="bold" color="black">
+          {title}
+        </Typography>
         <Box sx={{ display: "flex", gap: ".25rem", alignItems: "center" }}>
           <Publisher
             publishers={publishers}
@@ -691,7 +697,7 @@ const DetailedHeader = ({
       <Box onClick={onCloseModal}>
         <Close
           sx={{
-            color: "white",
+            color: "black",
             position: "absolute",
             right: "1rem",
             top: ".5rem",

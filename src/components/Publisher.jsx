@@ -130,6 +130,7 @@ const Publisher = ({
           <Typography
             ref={userCardParentRef}
             fontWeight="bold"
+            color="black"
             fontSize="0.9rem"
             onMouseEnter={() => setShowUserCard(true)}
             // onMouseLeave={() => setShowUserCard(false)}

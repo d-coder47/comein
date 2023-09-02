@@ -678,7 +678,6 @@ const UserProfile = () => {
                             transform: "scale(0.88)",
                             minWidth: "1310px",
                             minHeight: "100vh",
-                            minHeight: "100vh",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -690,6 +689,7 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minWidth: "1275px",
+                            minHeight: "100vh",
                           }
                         : {}),
                     }}
