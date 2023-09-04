@@ -37,6 +37,7 @@ const CardDetailed = () => {
 
   const [details, setDetails] = useState(null);
   const [isFollowing, setIsFollowing] = useState(null);
+  const [likes, setLikes] = useState(details?.dados?.gostos || 0);
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
 
@@ -90,6 +91,7 @@ const CardDetailed = () => {
         const user = JSON.parse(localStorage.getItem("userInfo"));
         if (!response.data || !user) return navigate("/login");
         setDetails(response.data);
+        setLikes(response?.data?.dados?.gostos);
         if (user.id === response.data.dados.id_utilizador) {
           setIsOwner(true);
         } else {
@@ -226,8 +228,14 @@ const CardDetailed = () => {
     const result = await likePost(userId, id, simplifiedType);
     if (result === null) return null;
 
-    if (result) setIsLiked(true);
-    else setIsLiked(false);
+    const previousLikes = parseInt(likes);
+    if (result) {
+      setIsLiked(true);
+      setLikes(previousLikes + 1);
+    } else {
+      setIsLiked(false);
+      setLikes(previousLikes - 1);
+    }
   };
 
   const handleFavorite = async (favorite) => {
@@ -617,7 +625,7 @@ const CardDetailed = () => {
               <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
               {isLiked ? (
                 <Typography color="white" fontSize=".8rem">
-                  {parseInt(details?.dados?.gostos)}
+                  {parseInt(likes)}
                 </Typography>
               ) : null}
             </Box>
