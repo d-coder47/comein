@@ -355,7 +355,6 @@ const ProfileCustomCard = ({
     );
   }
 
-  // antes de cagada
   return (
     <>
       <Box

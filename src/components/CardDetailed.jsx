@@ -431,7 +431,7 @@ const CardDetailed = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100%", backgroundColor: "#cacaca" }}>
+    <Box sx={{ width: "100%", height: "100%", backgroundColor: "#d3d3d3" }}>
       <Helmet>
         <meta property="og:title" content={details?.dados?.nome} />
         <meta
@@ -679,10 +679,14 @@ const DetailedHeader = ({
           />
           {isOwner ? null : (
             <>
-              <Dot sx={{ fontSize: ".5rem" }} />
+              <Dot sx={{ fontSize: ".5rem", color: "black" }} />
               <Typography
+                color="black"
                 sx={{
-                  "&:hover": { cursor: "pointer", textDecoration: "underline" },
+                  "&:hover": {
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  },
                 }}
                 onClick={onFollowUser}
               >

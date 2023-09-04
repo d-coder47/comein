@@ -120,7 +120,15 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
           />
         </Grid>
       </Grid>
-      <Grid container xs={12} mt="1rem" mx="2rem">
+      <Grid
+        container
+        xs={12}
+        mt="1rem"
+        sx={{
+          paddingLeft: "2rem",
+          marginBottom: "2rem",
+        }}
+      >
         <Grid md={1.25} lg={1.125} xl={0.75}>
           <Button
             variant="outlined"

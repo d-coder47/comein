@@ -4,7 +4,7 @@ import Cards from "../../components/Cards";
 import SearchBar from "../../components/SearchBar";
 import { useState } from "react";
 import MapButton from "../../components/Map/MapButton";
-
+import Highlights from "../../components/highlights";
 
 export default function Home() {
   const [category, setCategory] = useState("");
@@ -53,13 +53,15 @@ export default function Home() {
         onLocalDateChange={handleLocalDateChange}
         onHighlightsClick={handleHighlightsClick}
       />
+      <Highlights />
+
       <Cards
         searchQuery={searchTerm}
         culturalAreaId={category}
         localDateValues={localDateValues}
         displayHighlights={displayHighlights}
       />
-     <MapButton /> 
+      <MapButton />
     </>
   );
 }
