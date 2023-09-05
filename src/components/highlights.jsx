@@ -7,12 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import "./highlights.css";
 
 import ProfileCustomCard from "./ProfileCustomCard";
 
 const Highlights = () => {
   const { t } = useTranslation();
+  const [refreshCount, setRefreshCount] = useState(0);
 
   const posts = [
     {
@@ -176,6 +176,7 @@ const Highlights = () => {
         <Box
           sx={{
             width: "100%",
+            marginRight: "2.5rem",
           }}
         >
           <Typography
@@ -187,17 +188,17 @@ const Highlights = () => {
             Eventos e projetos em destaque
           </Typography>
 
-          <Typography variant="body2" gutterBottom>
+          <Typography variant="body2" gutterBottom align="justify">
             Explore uma riqueza de criatividade e expressão cultural nesta
             seção. De eventos empolgantes a projetos inspiradores, e histórias
-            cativantes, mergulhe na vibrante cena cultural que nossos usuários
-            têm a oferecer.
+            cativantes, mergulhe na vibrante cena cultural que nossos
+            utilizadores têm a oferecer.
           </Typography>
         </Box>
         <Box
           gap="3rem"
           sx={{
-            width: "80%",
+            maxWidth: "80%",
             height: "100%",
           }}
         >

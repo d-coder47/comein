@@ -9,11 +9,10 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Info } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import usePosts from "../hooks/usePosts";
 import ProfileCustomCard from "./ProfileCustomCard";
 
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
@@ -23,8 +22,6 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const [projects, setProjects] = useState([]);
   const [favs, setFavs] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-
-  const navigate = useNavigate();
 
   const [refreshCount, setRefreshCount] = useState(0);
 
