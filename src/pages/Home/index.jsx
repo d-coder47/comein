@@ -53,7 +53,7 @@ export default function Home() {
         onLocalDateChange={handleLocalDateChange}
         onHighlightsClick={handleHighlightsClick}
       />
-      <Highlights />
+      {/* <Highlights /> */}
 
       <Cards
         searchQuery={searchTerm}
