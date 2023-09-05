@@ -161,6 +161,7 @@ const Highlights = () => {
       sx={{
         background: "#f5f8ff",
         padding: "2rem 0 2rem 0",
+        zIndex: "0",
       }}
     >
       <Box
@@ -198,7 +199,7 @@ const Highlights = () => {
         <Box
           gap="3rem"
           sx={{
-            maxWidth: "80%",
+            maxWidth: "70%",
             height: "100%",
           }}
         >
