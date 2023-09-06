@@ -222,7 +222,7 @@ const Adicionar = () => {
           )
         : 0
     );
-    newProject.append("idGeografia", fieldValues.local.id);
+    newProject.append("id_geografia", fieldValues.local.id);
     newProject.append(
       "idsProprietarios",
       fieldValues.proprietarios.length > 0

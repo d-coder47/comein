@@ -222,7 +222,7 @@ const Adicionar = () => {
           ).slice(0, -1)
         : null
     );
-    newEvent.append("idGeografia", fieldValues?.local?.id);
+    newEvent.append("id_geografia", fieldValues?.local?.id);
     newEvent.append(
       "idsProprietarios",
       fieldValues?.proprietarios?.length > 0
