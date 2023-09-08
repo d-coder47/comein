@@ -6,6 +6,7 @@ import {
   Box,
   Checkbox,
   Input,
+  Modal,
   Popover,
   TextField,
   Tooltip,
@@ -21,6 +22,7 @@ import {
   CheckBox,
   Handshake,
   MoreHoriz,
+  Crop,
 } from "@mui/icons-material";
 
 import ReactQuill from "react-quill";
@@ -33,6 +35,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
+import CropImage from "../../../components/CropImage";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -61,6 +64,7 @@ const Adicionar = () => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
+  const [openCroppedImage, setOpenCroppedImage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -655,6 +659,46 @@ const Adicionar = () => {
                 />
               </Box>
             </Popover>
+            <Tooltip
+              title={t("eventPage.common.croppedImage")}
+              placement="left"
+              arrow
+            >
+              <Box
+                id="cropped-image"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={() => setOpenCroppedImage(true)}
+              >
+                <Crop sx={{ color: "white", width: "1rem", height: "1rem" }} />
+              </Box>
+            </Tooltip>
+            <Modal
+              id="cropped-image-modal"
+              open={openCroppedImage}
+              onClose={() => setOpenCroppedImage(false)}
+              aria-labelledby="cropped-image-title"
+              aria-describedby="cropped-image-description"
+              sx={{
+                ".MuiModal-backdrop": {
+                  backgroundColor: "rgba(0,0,0,.5)",
+                },
+              }}
+            >
+              <CropImage />
+            </Modal>
             <Tooltip title={t("eventPage.common.save")} placement="left" arrow>
               <Box
                 id="save"

@@ -197,6 +197,7 @@
       "endDate": "Data Fim",
       "culturalArea": "Áreas Culturais",
       "associatedProject": "Associar Projeto",
+      "croppedImage": "Imagem Recortada. Ajustar como a imagem deve aparecer nos cartões da página inicial.",
       "save": "Guardar",
       "defaultDescription": "Adicione tudo sobre o teu evento",
       "tutorial": "Faça duplo clique para personalizar"

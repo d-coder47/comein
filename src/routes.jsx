@@ -14,6 +14,7 @@ import EditarEvento from "./pages/Eventos/Editar";
 import AdicionarProjeto from "./pages/Projetos/Adicionar";
 import Map from "./pages/Map/index";
 import EditarProjeto from "./pages/Projetos/Editar";
+import CropImage from "./components/CropImage";
 
 const AppRoutes = () => {
   return (
@@ -35,6 +36,7 @@ const AppRoutes = () => {
           <Route path="/projetos/adicionar" element={<AdicionarProjeto />} />
           <Route path="/projetos/editar/:id" element={<EditarProjeto />} />
           <Route path="/map" element={<Map />} />
+          <Route path="/crop" element={<CropImage />} />
           <Route
             path="/user-profile-configuration/:userId/:userName"
             element={<ProfileConfiguration />}
