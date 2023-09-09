@@ -697,7 +697,7 @@ const Adicionar = () => {
                 },
               }}
             >
-              <CropImage />
+              {/* <CropImage /> */}
             </Modal>
             <Tooltip title={t("eventPage.common.save")} placement="left" arrow>
               <Box
