@@ -68,6 +68,8 @@ const UserProfile = () => {
 
   const [searchQuery, setSearchQuery] = React.useState("");
 
+  const [scrolled, setScrolled] = React.useState(0);
+
   const {
     updateUserProfileBanner,
     updateUserProfilePhoto,
@@ -242,6 +244,22 @@ const UserProfile = () => {
     }
   }, [allPosts]);
 
+  React.useEffect(() => {
+    const handleScroll = () => {
+      // Handle scroll event here
+
+      setScrolled(window.scrollY);
+    };
+
+    // Attach the scroll event listener when the component mounts
+    window.addEventListener("scroll", handleScroll);
+
+    // Detach the scroll event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <Box>
       <NavBar />
@@ -335,8 +353,8 @@ const UserProfile = () => {
                   ...(isSmallScreen
                     ? {}
                     : {
-                        position: "absolute",
-                        top: "20%",
+                        position: "fixed",
+                        top: scrolled ? "0%" : "20%",
                         left: "3%",
                         transformOrigin: "top left",
                         transform: "scale(0.88)",
@@ -344,8 +362,8 @@ const UserProfile = () => {
                   // Styles for small displays
                   ...(isSmallScreen
                     ? {
-                        position: "absolute",
-                        top: "20%",
+                        position: "fixed",
+                        top: scrolled ? "0%" : "20%",
                         left: "3%",
                         transformOrigin: "top left",
                         transform: "scale(0.74)",
