@@ -439,7 +439,7 @@ const CardDetailed = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100%", backgroundColor: "#d3d3d3" }}>
+    <Box sx={{ width: "100%", height: "100%", backgroundColor: "#f8f8f8" }}>
       <Helmet>
         <meta property="og:title" content={details?.dados?.nome} />
         <meta
