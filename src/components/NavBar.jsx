@@ -18,6 +18,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import LanguageIcon from "@mui/icons-material/Language";
 
 import siteLogo from "../assets/img/logo_cicv3.png";
 import { useTranslation } from "react-i18next";
@@ -152,11 +153,12 @@ const NavBar = () => {
             }}
           >
             {" "}
-            <Avatar
+            {/* <Avatar
               src={englandFlag}
               alt="Bandeira Inglaterra"
               sx={{ width: "1.6rem", height: "auto" }}
-            />{" "}
+            />{" "} */}
+            <Typography>en</Typography>
           </MenuItem>
           <MenuItem
             value={"pt"}
@@ -166,11 +168,12 @@ const NavBar = () => {
             }}
           >
             {" "}
-            <Avatar
+            {/* <Avatar
               src={portugalFlag}
               alt="Bandeira Portugal"
               sx={{ width: "1.6rem", height: "auto" }}
-            />{" "}
+            />{" "} */}
+            <Typography>pt</Typography>
           </MenuItem>
           <MenuItem
             value={"fr"}
@@ -180,11 +183,12 @@ const NavBar = () => {
             }}
           >
             {" "}
-            <Avatar
+            {/* <Avatar
               src={franceFlag}
               alt="Bandeira França"
               sx={{ width: "1.6rem", height: "auto" }}
-            />{" "}
+            />{" "} */}
+            <Typography>fr</Typography>
           </MenuItem>
         </Select>
 
