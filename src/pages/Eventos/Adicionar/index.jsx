@@ -11,6 +11,10 @@ import {
   TextField,
   Tooltip,
   Typography,
+  Grid,
+  Alert,
+  Collapse,
+  AlertTitle,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -36,6 +40,8 @@ import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 import CropImage from "../../../components/CropImage";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Adicionar = () => {
   const { t } = useTranslation();
