@@ -11,6 +11,10 @@ import {
   TextField,
   Tooltip,
   Typography,
+  Grid,
+  Alert,
+  Collapse,
+  AlertTitle,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -25,6 +29,8 @@ import {
   Handshake,
 } from "@mui/icons-material";
 import Publisher from "../../../components/Publisher";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 import ReactQuill from "react-quill";
 
@@ -66,6 +72,8 @@ const Adicionar = () => {
   const navigate = useNavigate();
 
   const { getAddresses } = useRegisterUser();
+
+  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -172,13 +180,19 @@ const Adicionar = () => {
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    var reader = new FileReader();
-    reader.onload = async function () {
-      console.log("Uploaded");
-      handleChangeFieldValues("imagem", URL.createObjectURL(file));
-      handleChangeFieldValues("imgProjeto", file);
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
+
+    if (fileSizeInMB.toFixed(2) >= 4) {
+      setOpenImageSizeError(true);
+    } else {
+      var reader = new FileReader();
+      reader.onload = async function () {
+        console.log("Uploaded");
+        handleChangeFieldValues("imagem", URL.createObjectURL(file));
+        handleChangeFieldValues("imgProjeto", file);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
   };
 
   const handleChangeImgClick = () => {
@@ -689,6 +703,37 @@ const Adicionar = () => {
             </Tooltip>
           </Box>
         </Box>
+        <Grid
+          sx={{
+            position: "fixed",
+            top: "20px", // Adjust the top position as needed
+            left: "20px", // Adjust the left position as needed
+            zIndex: 9999, // Ensure the alert is above other elements
+          }}
+        >
+          <Collapse in={openImageSizeError}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpenImageSizeError(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              <AlertTitle>
+                <strong>{t("projectPage.common.imageSizeError")}</strong>
+              </AlertTitle>
+            </Alert>
+          </Collapse>
+        </Grid>
       </Box>
     </>
   );

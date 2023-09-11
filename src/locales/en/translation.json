@@ -213,7 +213,8 @@
       "associatedEvent": "Associate Event",
       "save": "Save",
       "defaultDescription": "Add everything about your project",
-      "tutorial": "Double click to customize"
+      "tutorial": "Double click to customize",
+      "imageSizeError": "Error, image is too big to be added!"
     }
   },
   "shareModal": {

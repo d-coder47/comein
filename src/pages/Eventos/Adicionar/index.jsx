@@ -65,6 +65,7 @@ const Adicionar = () => {
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
+  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -185,13 +186,20 @@ const Adicionar = () => {
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
-    var reader = new FileReader();
-    reader.onload = async function () {
-      console.log("Uploaded");
-      handleChangeFieldValues("imagem", URL.createObjectURL(file));
-      handleChangeFieldValues("imgEvento", file);
-    };
-    reader.readAsDataURL(event.target.files[0]);
+    const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
+
+    if (fileSizeInMB.toFixed(2) >= 4) {
+      setOpenImageSizeError(true);
+    } else {
+      var reader = new FileReader();
+      reader.onload = async function () {
+        console.log("Uploaded");
+
+        handleChangeFieldValues("imagem", URL.createObjectURL(file));
+        handleChangeFieldValues("imgEvento", file);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
   };
 
   const handleChangeImgClick = () => {
@@ -723,6 +731,37 @@ const Adicionar = () => {
             </Tooltip>
           </Box>
         </Box>
+        <Grid
+          sx={{
+            position: "fixed",
+            top: "20px", // Adjust the top position as needed
+            left: "20px", // Adjust the left position as needed
+            zIndex: 9999, // Ensure the alert is above other elements
+          }}
+        >
+          <Collapse in={openImageSizeError}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpenImageSizeError(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              <AlertTitle>
+                <strong>{t("projectPage.common.imageSizeError")}</strong>
+              </AlertTitle>
+            </Alert>
+          </Collapse>
+        </Grid>
       </Box>
     </>
   );
