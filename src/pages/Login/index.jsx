@@ -50,7 +50,7 @@ export default function Login() {
   const [openSendMailError, setOpenSendMailError] = React.useState(false);
   const [openSendMailSuccess, setOpenSendMailSuccess] = React.useState(false);
 
-  const { login, getUser, getUserByMail, sendForgotPassEmail } =
+  const { login, getUser, getUserByMail, sendForgotPassEmail, loginGoogle } =
     useRegisterUser();
 
   const [forgotPassEmail, setForgotPassEmail] = React.useState("");
@@ -77,11 +77,24 @@ export default function Login() {
   };
 
   const googleAccountLogin = async (token, decode) => {
-    const user = await getUserByMail(decode.email);
-    if (user) {
-      localStorage.setItem("userInfo", JSON.stringify(user.dados));
-      localStorage.setItem("authenticated", true);
-      navigate("/");
+    const loginGoogleRes = await loginGoogle(
+      decode.email,
+      decode.name,
+      token,
+      decode.picture
+    );
+
+    if (loginGoogleRes.token) {
+      const user = await getUserByMail(decode.email);
+      if (!user.dados) {
+        localStorage.setItem("userInfo", JSON.stringify(user.dados));
+        localStorage.setItem("authenticated", true);
+        localStorage.setItem("userId", user.dados.id);
+        localStorage.setItem("token", loginGoogleRes.token);
+        navigate("/");
+      } else {
+        setOpenLoginError(true);
+      }
     } else {
       setOpenLoginError(true);
     }

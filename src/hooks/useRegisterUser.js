@@ -81,6 +81,30 @@ const useRegisterUser = () => {
     }
   };
 
+  const loginGoogle = async (email, nome, token, img_perfil) => {
+    try {
+      const params = new URLSearchParams({
+        email,
+        nome,
+        token,
+        img_perfil,
+        from: "google",
+      }).toString();
+      const response = await axiosInstance.post(
+        "/utilizadores/loginGoogle",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const getTermsPolicy = async () => {
     try {
       const response = await axiosInstance.get("/termos_politicas", {
@@ -240,6 +264,7 @@ const useRegisterUser = () => {
     sendForgotPassEmail,
     verifyForgotPassEmailLink,
     changeForgotPass,
+    loginGoogle,
   };
 };
 

@@ -1,7 +1,7 @@
 {
   "homepage": {
-    "login": "Entrar/Login",
-    "signUp": "Registrar",
+    "login": "Entrar",
+    "signUp": "Registar",
     "definicoesConta": "Definições da conta",
     "searchPosts": "Pesquise publicações",
     "highlights": "Destaques",
@@ -215,7 +215,8 @@
       "associatedEvent": "Associar Evento",
       "save": "Guardar",
       "defaultDescription": "Adicione tudo sobre o seu projeto",
-      "tutorial": "Faça duplo clique para personalizar"
+      "tutorial": "Faça duplo clique para personalizar",
+      "imageSizeError": "Erro, imagem é muito grande para ser adicionado!"
     }
   },
 

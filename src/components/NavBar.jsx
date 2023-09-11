@@ -158,7 +158,7 @@ const NavBar = () => {
               alt="Bandeira Inglaterra"
               sx={{ width: "1.6rem", height: "auto" }}
             />{" "} */}
-            <Typography>en</Typography>
+            <Typography fontWeight="bold">EN</Typography>
           </MenuItem>
           <MenuItem
             value={"pt"}
@@ -173,7 +173,7 @@ const NavBar = () => {
               alt="Bandeira Portugal"
               sx={{ width: "1.6rem", height: "auto" }}
             />{" "} */}
-            <Typography>pt</Typography>
+            <Typography fontWeight="bold">PT</Typography>
           </MenuItem>
           <MenuItem
             value={"fr"}
@@ -188,7 +188,7 @@ const NavBar = () => {
               alt="Bandeira França"
               sx={{ width: "1.6rem", height: "auto" }}
             />{" "} */}
-            <Typography>fr</Typography>
+            <Typography fontWeight="bold">FR</Typography>
           </MenuItem>
         </Select>
 
