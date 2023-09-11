@@ -685,7 +685,7 @@ const Adicionar = () => {
                 <Crop sx={{ color: "white", width: "1rem", height: "1rem" }} />
               </Box>
             </Tooltip>
-            <Modal
+            {/* <Modal
               id="cropped-image-modal"
               open={openCroppedImage}
               onClose={() => setOpenCroppedImage(false)}
@@ -697,8 +697,8 @@ const Adicionar = () => {
                 },
               }}
             >
-              {/* <CropImage /> */}
-            </Modal>
+              <CropImage />
+            </Modal> */}
             <Tooltip title={t("eventPage.common.save")} placement="left" arrow>
               <Box
                 id="save"
