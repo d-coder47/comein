@@ -27,7 +27,7 @@ import { MuiTelInput } from "mui-tel-input";
 
 import { useNavigate } from "react-router-dom";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 import validator from "validator";
 
@@ -698,7 +698,7 @@ const UserRegistration = () => {
                     width: "50ch",
                   }}
                 >
-                  {t("registerpage.termosPoliticaParte1")}{" "}
+                  <Trans i18nKey="registerpage.termosPoliticaParte1" />
                   <Button
                     sx={{
                       fontSize: 14,
