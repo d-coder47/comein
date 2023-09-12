@@ -31,7 +31,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import "./ProfileConfiguration.css";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 import useUserProfile from "../../../hooks/useUserProfile";
 
@@ -257,7 +257,7 @@ const ProfileConfiguration = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            {t("userProfile.configPage.comoAddPubDetails")}
+                            <Trans i18nKey="userProfile.configPage.comoAddPubDetails" />
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -273,9 +273,7 @@ const ProfileConfiguration = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            {t(
-                              "userProfile.configPage.comoMudarProfileInfoDetails"
-                            )}
+                            <Trans i18nKey="userProfile.configPage.comoMudarProfileInfoDetails" />
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -309,9 +307,7 @@ const ProfileConfiguration = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            {t(
-                              "userProfile.configPage.comoReportarErrorDetails"
-                            )}
+                            <Trans i18nKey="userProfile.configPage.comoReportarErrorDetails" />
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
@@ -327,9 +323,7 @@ const ProfileConfiguration = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            {t(
-                              "userProfile.configPage.comoRemoverContaDetails"
-                            )}
+                            <Trans i18nKey="userProfile.configPage.comoRemoverContaDetails" />
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
