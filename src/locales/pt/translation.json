@@ -216,7 +216,7 @@
       "save": "Guardar",
       "defaultDescription": "Adicionar informações sobre o projeto",
       "tutorial": "Faça duplo clique para personalizar",
-      "imageSizeError": "Erro, imagem é muito grande para ser adicionado!"
+      "imageSizeError": "Erro, imagem é muito grande para ser adicionado, a imagem deve ser menor que 4mb!"
     }
   },
 

@@ -213,7 +213,7 @@
       "save": "Save",
       "defaultDescription": "Add everything about your project",
       "tutorial": "Double click to customize",
-      "imageSizeError": "Error, image is too big to be added!"
+      "imageSizeError": "Error, image is too big to be added, the image must be less than 4mb!"
     }
   },
   "shareModal": {
