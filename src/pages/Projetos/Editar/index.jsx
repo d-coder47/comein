@@ -187,6 +187,14 @@ const Editar = () => {
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
         const assoc_evento = response.data.evento_assoc;
+        const areas_culturais = response.data.areas_culturais;
+        const areasCulturaisIds = areas_culturais?.map(
+          (area) => +area.id_acultural
+        );
+
+        const areasCulturais = categories.filter((area) =>
+          areasCulturaisIds.includes(area.id)
+        );
 
         setFieldValues({
           id,
@@ -196,16 +204,12 @@ const Editar = () => {
           imagem: `https://comein.cv/comeincv_api_test/img/projetosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
-            id: "238103001008004",
-            nome: "CHÃ DE MINDELO",
-            nacionalidade: "CABOVERDIANA",
+            id: data?.id_geografia,
+            nome: data?.local,
           },
           id_utilizador: data.id_utilizador,
           proprietarios,
-          areasCulturais: [
-            { id: 4, name: t("categories.movieTheater") },
-            { id: 5, name: t("categories.standUp") },
-          ],
+          areasCulturais,
           assoc_evento,
         });
       } catch (error) {
