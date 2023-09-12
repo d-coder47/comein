@@ -6,7 +6,6 @@ import {
   Box,
   Checkbox,
   Input,
-  Modal,
   Popover,
   TextField,
   Tooltip,
@@ -22,13 +21,11 @@ import {
   LocationOn,
   FiberManualRecord as Dot,
   Save,
-  Add,
   CheckBoxOutlineBlank,
   CheckBox,
   MoreHoriz,
   Handshake,
 } from "@mui/icons-material";
-import Publisher from "../../../components/Publisher";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
