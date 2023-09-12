@@ -42,14 +42,18 @@ export const filterCulturalAreas = (culturalAreas = []) => {
 export const filterAssociatedProjects = (associatedProject) => {
   if (!associatedProject) return null;
   return associatedProject.length > 0
-    ? arrayToString(associatedProject.map((item) => item.id)).slice(0, -1)
+    ? associatedProject.length > 1
+      ? arrayToString(associatedProject.map((item) => item.id)).slice(0, -1)
+      : arrayToString(associatedProject.map((item) => item.id))
     : null;
 };
 
 export const filterAssociatedOwners = (associatedOwners) => {
   if (!associatedOwners) return null;
   return associatedOwners.length > 0
-    ? arrayToString(associatedOwners.map((item) => item.id)).slice(0, -1)
+    ? associatedOwners.length > 1
+      ? arrayToString(associatedOwners.map((item) => item.id)).slice(0, -1)
+      : arrayToString(associatedOwners.map((item) => item.id))
     : null;
 };
 

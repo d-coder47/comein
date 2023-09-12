@@ -66,7 +66,7 @@ const Editar = () => {
     local: "",
     proprietarios: [],
     areasCulturais: [],
-    assoc_projeto: [],
+    assoc_projeto: "",
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [users, setUsers] = useState([]);
@@ -161,12 +161,13 @@ const Editar = () => {
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
-        const assoc_projeto = response.data.projeto_assoc;
+
+        const assoc_projeto = [response.data.projeto_assoc];
+
         const areas_culturais = response.data.areas_culturais;
         const areasCulturaisIds = areas_culturais?.map(
           (area) => +area.id_acultural
         );
-
         const areasCulturais = categories.filter((area) =>
           areasCulturaisIds.includes(area.id)
         );
@@ -262,16 +263,20 @@ const Editar = () => {
   const handleSave = () => {
     console.log({ editedFieldValues });
 
-    const filtredFieldValues = {
+    const filteredFieldValues = {
       ...editedFieldValues,
       data_inicio: filterStartDate(editedFieldValues?.data_inicio),
       data_fim: filterEndDate(editedFieldValues?.data_fim),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
-      proprietarios: filterAssociatedOwners(editedFieldValues?.proprietarios),
+      idsProprietarios: filterAssociatedOwners(
+        editedFieldValues?.proprietarios
+      ),
     };
 
-    const values = cleanPost(filtredFieldValues);
+    delete filteredFieldValues.proprietarios;
+
+    const values = cleanPost(filteredFieldValues);
     const body = objectToFormData(values, user.id);
 
     console.log(body);
