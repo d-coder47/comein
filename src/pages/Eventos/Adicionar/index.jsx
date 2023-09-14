@@ -266,7 +266,6 @@ const Adicionar = () => {
     console.log(fieldValues);
 
     const newEvent = {
-      id_utilizador: user.id,
       nome: fieldValues?.nome,
       imgEvento: fieldValues?.imgEvento,
       descricao: fieldValues?.descricao,

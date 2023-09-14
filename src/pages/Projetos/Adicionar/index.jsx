@@ -38,6 +38,15 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
+import {
+  cleanPost,
+  filterAssociatedOwners,
+  filterAssociatedProjects,
+  filterCulturalAreas,
+  filterEndDate,
+  filterStartDate,
+  objectToFormData,
+} from "../../../utils/filterPostAttributes";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -206,47 +215,24 @@ const Adicionar = () => {
 
   const handleSave = () => {
     console.log(fieldValues);
-    let newProject = new FormData();
-    newProject.append("id_utilizador", user.id);
-    newProject.append("nome", fieldValues.nome);
-    newProject.append("data_inicio", fieldValues.data_inicio + ":00");
-    newProject.append("imgProjeto", fieldValues.imgProjeto);
-    newProject.append("descricao", fieldValues.descricao);
-    newProject.append(
-      "data_fim",
-      fieldValues.data_fim.length > 0 ? fieldValues.data_fim + ":00" : null
-    );
-    newProject.append(
-      "areasCulturais",
-      fieldValues.areasCulturais.length > 1
-        ? arrayToString(
-            fieldValues.areasCulturais.map((item) => item.id)
-          ).slice(0, -1)
-        : fieldValues.areasCulturais[0].id
-    );
-    newProject.append(
-      "assoc_evento",
-      fieldValues.assoc_evento.length > 0
-        ? arrayToString(fieldValues.assoc_evento.map((item) => item.id)).slice(
-            0,
-            -1
-          )
-        : 0
-    );
-    newProject.append("id_geografia", fieldValues.local.id);
-    newProject.append(
-      "idsProprietarios",
-      fieldValues.proprietarios.length > 0
-        ? arrayToString(fieldValues.proprietarios.map((item) => item.id)).slice(
-            0,
-            -1
-          )
-        : 0
-    );
 
-    console.log(newProject);
+    const newProject = {
+      nome: fieldValues?.nome,
+      imgProjeto: fieldValues?.imgProjeto,
+      descricao: fieldValues?.descricao,
+      id_geografia: fieldValues?.local?.id,
+      data_inicio: filterStartDate(fieldValues?.data_inicio),
+      data_fim: filterEndDate(fieldValues?.data_fim),
+      areasCulturais: filterCulturalAreas(fieldValues?.areasCulturais),
+      assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
+      idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
+    };
 
-    createProject(newProject);
+    const values = cleanPost(newProject);
+    const body = objectToFormData(values, user.id, true);
+    console.log(body);
+
+    createProject(body);
   };
 
   const createProject = async (newProject) => {

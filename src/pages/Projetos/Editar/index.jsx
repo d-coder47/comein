@@ -253,16 +253,18 @@ const Editar = () => {
   const handleSave = () => {
     console.log({ editedFieldValues });
 
-    const filtredFieldValues = {
+    const filteredFieldValues = {
       ...editedFieldValues,
       data_inicio: filterStartDate(editedFieldValues?.data_inicio),
       data_fim: filterEndDate(editedFieldValues?.data_fim),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
-      proprietarios: filterAssociatedOwners(editedFieldValues?.proprietarios),
+      idsProprietarios: filterAssociatedOwners(
+        editedFieldValues?.proprietarios
+      ),
     };
 
-    const values = cleanPost(filtredFieldValues);
+    const values = cleanPost(filteredFieldValues);
     const body = objectToFormData(values, user.id);
 
     console.log(body);
