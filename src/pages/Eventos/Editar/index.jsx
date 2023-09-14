@@ -281,8 +281,6 @@ const Editar = () => {
       ),
     };
 
-    delete filteredFieldValues.proprietarios;
-
     const values = cleanPost(filteredFieldValues);
     const body = objectToFormData(values, user.id);
 

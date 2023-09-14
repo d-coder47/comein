@@ -42,6 +42,15 @@ import { useTranslation } from "react-i18next";
 import CropImage from "../../../components/CropImage";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import {
+  cleanPost,
+  filterAssociatedOwners,
+  filterAssociatedProjects,
+  filterCulturalAreas,
+  filterEndDate,
+  filterStartDate,
+  objectToFormData,
+} from "../../../utils/filterPostAttributes";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -212,7 +221,7 @@ const Adicionar = () => {
     document.getElementById("upload-photo").click();
   };
 
-  const handleSave = () => {
+  const handleSaveOld = () => {
     console.log(fieldValues);
     let newEvent = new FormData();
     newEvent.append("id_utilizador", user.id);
@@ -250,7 +259,30 @@ const Adicionar = () => {
         : null
     );
     console.log(newEvent);
-    createEvent(newEvent);
+    // createEvent(newEvent);
+  };
+
+  const handleSave = () => {
+    console.log(fieldValues);
+
+    const newEvent = {
+      id_utilizador: user.id,
+      nome: fieldValues?.nome,
+      imgEvento: fieldValues?.imgEvento,
+      descricao: fieldValues?.descricao,
+      id_geografia: fieldValues?.local?.id,
+      data_inicio: filterStartDate(fieldValues?.data_inicio),
+      data_fim: filterEndDate(fieldValues?.data_fim),
+      areasCulturais: filterCulturalAreas(fieldValues?.areasCulturais),
+      assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
+      idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
+    };
+
+    const values = cleanPost(newEvent);
+    const body = objectToFormData(values, user.id, true);
+    console.log(body);
+
+    createEvent(body);
   };
 
   const createEvent = async (newEvent) => {

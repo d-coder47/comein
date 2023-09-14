@@ -6,12 +6,14 @@ const arrayToString = (array) => {
   });
 };
 
-export const objectToFormData = (object, userId) => {
+export const objectToFormData = (object, userId, isAdding = false) => {
   const keys = Object.keys(object);
   const values = Object.values(object);
 
   var formData = new FormData();
-  formData.append("_method", "PUT");
+  if (!isAdding) {
+    formData.append("_method", "PUT");
+  }
   formData.append("id_utilizador", userId);
 
   keys.forEach((key, index) => {
@@ -35,7 +37,7 @@ export const filterCulturalAreas = (culturalAreas = []) => {
   if (!culturalAreas || culturalAreas.length === 0) return null;
 
   return culturalAreas.length > 1
-    ? arrayToString(culturalAreas.map((item) => item.id))
+    ? arrayToString(culturalAreas.map((item) => item.id)).slice(0, -1)
     : culturalAreas[0].id;
 };
 
@@ -59,10 +61,18 @@ export const filterAssociatedOwners = (associatedOwners) => {
 
 export const cleanPost = (post) => {
   Object.keys(post).forEach((key) => {
-    if (post[key] === null || post[key] === "imagem") {
+    if (key === "local") {
+      post["id_geografia"] = post[key].id;
+    }
+
+    if (
+      post[key] === null ||
+      key === "imagem" ||
+      key === "proprietarios" ||
+      key === "local"
+    ) {
       delete post[key];
     }
   });
-  console.log(post);
   return post;
 };
