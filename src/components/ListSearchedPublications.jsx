@@ -9,11 +9,13 @@ const ListSearchedPublications = ({ isVisitor, posts }) => {
     setRefreshCount((prevCount) => prevCount + 1);
   };
 
+  const postArray = Array.isArray(posts) ? posts : [];
+
   return (
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid container spacing={3.8}>
-        {posts.length > 0 &&
-          posts?.map((card, index) => (
+        {postArray.length > 0 &&
+          postArray?.map((card, index) => (
             <Grid item key={index} xs={3.8}>
               <ProfileCustomCard
                 isVisitor={isVisitor}

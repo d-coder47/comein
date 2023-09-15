@@ -12,6 +12,7 @@ import { Info } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import usePosts from "../hooks/usePosts";
 import ProfileCustomCard from "./ProfileCustomCard";
+import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 
@@ -26,6 +27,8 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const [refreshCount, setRefreshCount] = useState(0);
 
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
 
   const handleRefresh = () => {
     setRefreshCount((prevCount) => prevCount + 1);
@@ -98,7 +101,14 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   if (type === "event") {
     if (events?.length === 0) {
       return !isVisitor ? (
-        <>
+        <Box
+          mt="1rem"
+          style={{
+            marginLeft: "0",
+            marginRigth: "2rem",
+          }}
+          flexGrow={1}
+        >
           <Card
             sx={{
               minWidth: 275,
@@ -144,6 +154,9 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                 type="submit"
                 variant="contained"
                 color="primary"
+                onClick={() => {
+                  navigate("/eventos/adicionar");
+                }}
                 sx={{
                   m: 3,
                   color: "#ffffff",
@@ -155,7 +168,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
               </Button>
             </CardActions>
           </Card>
-        </>
+        </Box>
       ) : (
         <Typography>{displayNoPostByType()}</Typography>
       );
@@ -243,6 +256,9 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
               type="submit"
               variant="contained"
               color="primary"
+              onClick={() => {
+                navigate("/projetos/adicionar");
+              }}
               sx={{
                 m: 3,
                 color: "#ffffff",

@@ -364,6 +364,7 @@ const EditProfile = () => {
       let nome = formData.name;
       let _method = "PUT";
       const res = await updateUser(
+        "editProfileForm",
         sexo,
         data_nasc,
         contatos,

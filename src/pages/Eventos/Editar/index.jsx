@@ -251,7 +251,7 @@ const Editar = () => {
     const file = event.target.files[0];
 
     const fileSizeInMB = file.size / (1024 * 1024);
-    if (fileSizeInMB.toFixed(2) >= 4) {
+    if (fileSizeInMB.toFixed(2) >= 2) {
       setOpenImageSizeError(true);
     } else {
       var reader = new FileReader();

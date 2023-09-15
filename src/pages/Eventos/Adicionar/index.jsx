@@ -194,7 +194,7 @@ const Adicionar = () => {
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
-    if (fileSizeInMB.toFixed(2) >= 4) {
+    if (fileSizeInMB.toFixed(2) >= 2) {
       setOpenImageSizeError(true);
     } else {
       var reader = new FileReader();

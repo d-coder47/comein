@@ -116,6 +116,7 @@ const UserRegistration = () => {
       let img_perfil = userDecoded.picture;
 
       const updateRes = await updateUser(
+        "googleRegisterForm",
         null,
         null,
         null,
@@ -208,11 +209,12 @@ const UserRegistration = () => {
         let _method = "PUT";
 
         const updateUserRes = await updateUser(
-          "",
-          "",
-          "",
-          "",
-          "",
+          "registerForm",
+          null,
+          null,
+          null,
+          null,
+          null,
           addUserRes.data.id,
           addUserRes.token,
           nome,
