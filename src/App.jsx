@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import "./App.css";
 import AppRoutes from "./routes";
 import { theme } from "./utils/muiTheme";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
         }}
       >
         <AppRoutes />
+        <ToastContainer />
       </Box>
     </ThemeProvider>
   );

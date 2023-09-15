@@ -51,6 +51,7 @@ import {
   filterStartDate,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
+import { validatePost } from "../../../utils/postValidation";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -281,7 +282,11 @@ const Adicionar = () => {
     const body = objectToFormData(values, user.id, true);
     console.log(body);
 
-    createEvent(body);
+    const isValid = validatePost(newEvent, true);
+
+    if (isValid) {
+      createEvent(body);
+    }
   };
 
   const createEvent = async (newEvent) => {
