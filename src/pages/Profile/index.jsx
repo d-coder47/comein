@@ -130,7 +130,7 @@ const UserProfile = () => {
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
-    if (fileSizeInMB.toFixed(2) >= 4) {
+    if (fileSizeInMB.toFixed(2) >= 2) {
       setOpenImageSizeError(true);
     } else {
       var reader = new FileReader();
@@ -149,7 +149,8 @@ const UserProfile = () => {
     const file = event.target.files[0];
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
-    if (fileSizeInMB.toFixed(2) >= 4) {
+
+    if (fileSizeInMB.toFixed(2) >= 2) {
       setOpenImageSizeError(true);
     } else {
       var reader = new FileReader();
@@ -404,49 +405,48 @@ const UserProfile = () => {
                     // transform: "scale(0.99)",
                   }}
                 >
-                  {profilePhoto && (
-                    <Box>
-                      <label htmlFor="upload-photo">
-                        <Input
-                          style={{ display: "none" }}
-                          id="upload-photo"
-                          name="upload-photo"
-                          type="file"
-                          accept="image/*"
-                          onChange={handlePhotoUpload}
-                          disabled={visitor}
-                        />
+                  <Box>
+                    <label htmlFor="upload-photo">
+                      <Input
+                        style={{ display: "none" }}
+                        id="upload-photo"
+                        name="upload-photo"
+                        type="file"
+                        accept="image/*"
+                        onChange={handlePhotoUpload}
+                        disabled={visitor}
+                      />
 
-                        <IconButton color="primary" component="span">
-                          <Avatar
-                            alt="User Profile Photo"
-                            sx={{
-                              width: 150,
-                              height: 150,
-                              "&:hover": {
-                                position: "relative",
-                                "&::after": {
-                                  content: "' '",
-                                  position: "absolute",
-                                  top: 0,
-                                  left: 0,
-                                  right: 0,
-                                  bottom: 0,
-                                  backgroundColor: "rgba(0, 0, 0, 0.6)",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                },
+                      <IconButton color="primary" component="span">
+                        <Avatar
+                          alt="User Profile Photo"
+                          sx={{
+                            width: 150,
+                            height: 150,
+                            "&:hover": {
+                              position: "relative",
+                              "&::after": {
+                                content: "' '",
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
                               },
-                            }}
-                            src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
-                          >
-                            <PhotoCamera />
-                          </Avatar>
-                        </IconButton>
-                      </label>
-                    </Box>
-                  )}
+                            },
+                          }}
+                          src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
+                        >
+                          <PhotoCamera />
+                        </Avatar>
+                      </IconButton>
+                    </label>
+                  </Box>
+
                   <Typography variant="h5" sx={{ marginTop: "1rem" }}>
                     {pageUserInfo.nome}
                   </Typography>
@@ -707,7 +707,7 @@ const UserProfile = () => {
                         : {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
+                            alignItems: "center",
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
@@ -719,7 +719,7 @@ const UserProfile = () => {
                         ? {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
+                            alignItems: "center",
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
@@ -856,6 +856,7 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
                             minWidth: "1310px",
+                            minHeight: "100vh",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -865,7 +866,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minHeight: "100%",
+                            minHeight: "100vh",
                             minWidth: "1275px",
                           }
                         : {}),

@@ -22,7 +22,6 @@
 .registerFormContainer {
   min-width: 80%;
   max-width: 80%;
-  max-height: 600px;
   background: #fff;
   display: flex;
   flex-direction: column;

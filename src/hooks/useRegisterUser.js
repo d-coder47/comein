@@ -210,6 +210,7 @@ const useRegisterUser = () => {
   };
 
   const updateUser = async (
+    formType,
     sexo,
     data_nasc,
     contatos,
@@ -223,17 +224,31 @@ const useRegisterUser = () => {
     img_capa
   ) => {
     try {
-      const params = new URLSearchParams({
-        _method,
-        sexo,
-        data_nasc,
-        contatos,
-        residencia,
-        nacionalidade,
-        nome,
-        img_perfil,
-        img_capa,
-      }).toString();
+      let params;
+      if (formType === "editProfileForm") {
+        params = new URLSearchParams({
+          _method,
+          sexo,
+          data_nasc,
+          contatos,
+          residencia,
+          nacionalidade,
+          nome,
+          img_perfil,
+          img_capa,
+        }).toString();
+      } else if (formType === "registerForm") {
+        params = new URLSearchParams({
+          _method,
+          nome,
+        }).toString();
+      } else {
+        params = new URLSearchParams({
+          _method,
+          nome,
+          img_perfil,
+        }).toString();
+      }
 
       const response = await axiosInstance.post(
         `/utilizadores/atualizar/${userId}`,

@@ -47,25 +47,8 @@ const UserRegistration = () => {
   const [showPasswordError, setShowPasswordError] = React.useState(false);
   const [showNameError, setShowNameError] = React.useState(false);
   const [showSurnameError, setShowSurnameError] = React.useState(false);
-  const [showNationalityError, setShowNationalityError] = React.useState(false);
-  const [showResidenceError, setShowResidenceError] = React.useState(false);
-  const [showContactError, setShowContactError] = React.useState(false);
-  const [showDateError, setShowDateError] = React.useState(false);
-  const [showGenderError, setShowGenderError] = React.useState(false);
 
-  const [showRegisterForm, setShowRegisterForm] = React.useState(false);
-
-  const {
-    addUser,
-    getAddresses,
-    updateUser,
-    getUser,
-    getTermsPolicy,
-    getCountries,
-  } = useRegisterUser();
-
-  const [addresses, setAddresses] = React.useState([]);
-  const [countries, setCountries] = React.useState([]);
+  const { addUser, updateUser, getUser, getTermsPolicy } = useRegisterUser();
 
   const [openLoginError, setOpenLoginError] = React.useState(false);
 
@@ -114,13 +97,6 @@ const UserRegistration = () => {
     });
   };
 
-  const handlePhoneChange = (newValue) => {
-    setFormData({
-      ...formData,
-      contact: newValue,
-    });
-  };
-
   const registeUserGoogleAccount = async (token, userDecoded) => {
     let email = userDecoded.email;
 
@@ -140,6 +116,7 @@ const UserRegistration = () => {
       let img_perfil = userDecoded.picture;
 
       const updateRes = await updateUser(
+        "googleRegisterForm",
         null,
         null,
         null,
@@ -167,146 +144,86 @@ const UserRegistration = () => {
 
     let errors = {};
 
-    if (!showRegisterForm) {
-      // Validate name field
-      if (formData.email.trim() === "") {
-        errors.email = t("registerpage.emailObrigatorio");
-        setShowEmailError(true);
-      } else {
-        setShowEmailError(false);
-      }
-
-      // Validate email field
-      if (formData.email.trim() === "") {
-        errors.email = t("registerpage.emailObrigatorio");
-        setShowEmailError(true);
-      } else if (!validator.isEmail(formData.email)) {
-        errors.email = t("registerpage.emailInvalido");
-        setShowEmailError(true);
-      } else {
-        setShowEmailError(false);
-        setFormErrors({
-          email: "",
-          password: "",
-        });
-      }
-
-      if (formData.password.trim() === "") {
-        errors.password = t("registerpage.passwordObrigatorio");
-        setShowPasswordError(true);
-      } else if (password.length < 6) {
-        errors.password = t("registerpage.passwordTamanho");
-        setShowPasswordError(true);
-      } else {
-        setShowPasswordError(false);
-        setFormErrors({
-          email: "",
-          password: "",
-        });
-      }
-
-      if (Object.keys(errors).length) {
-        setFormErrors(errors);
-      } else {
-        const res = await addUser(formData.email, formData.password);
-
-        if (!res) {
-          setOpenLoginError(true);
-        } else if (
-          res.data ===
-          "Já tem uma conta utilizando o email: rubenmartins463@gmail.com"
-        ) {
-          setShowAccountExistError(true);
-        } else {
-          localStorage.setItem("userID", res.data.id);
-          localStorage.setItem("token", res.token);
-          setShowRegisterForm(true);
-        }
-      }
+    if (formData.name.trim() === "") {
+      errors.name = t("registerpage.nomeObrigatorio");
+      setShowNameError(true);
     } else {
-      if (formData.name.trim() === "") {
-        errors.name = t("registerpage.nomeObrigatorio");
-        setShowNameError(true);
-      } else {
-        setShowNameError(false);
-      }
+      setShowNameError(false);
+    }
 
-      if (formData.surname.trim() === "") {
-        errors.surname = t("registerpage.sobrenomeObrigatorio");
-        setShowSurnameError(true);
-      } else {
-        setShowSurnameError(false);
-      }
+    // Validate email field
+    if (formData.email.trim() === "") {
+      errors.email = t("registerpage.emailObrigatorio");
+      setShowEmailError(true);
+    } else {
+      setShowEmailError(false);
+    }
 
-      if (formData.date.trim() === "") {
-        errors.date = t("registerpage.dataNascObrigatorio");
-        setShowDateError(true);
-      } else {
-        setShowDateError(false);
-      }
+    // Validate email field
+    if (formData.email.trim() === "") {
+      errors.email = t("registerpage.emailObrigatorio");
+      setShowEmailError(true);
+    } else if (!validator.isEmail(formData.email)) {
+      errors.email = t("registerpage.emailInvalido");
+      setShowEmailError(true);
+    } else {
+      setShowEmailError(false);
+      setFormErrors({
+        email: "",
+        password: "",
+      });
+    }
 
-      if (formData.nationality.trim() === "") {
-        errors.nationality = t("registerpage.nacionalidadeObrigatorio");
-        setShowNationalityError(true);
-      } else {
-        setShowNationalityError(false);
-      }
+    if (formData.password.trim() === "") {
+      errors.password = t("registerpage.passwordObrigatorio");
+      setShowPasswordError(true);
+    } else if (password.length < 6) {
+      errors.password = t("registerpage.passwordTamanho");
+      setShowPasswordError(true);
+    } else {
+      setShowPasswordError(false);
+      setFormErrors({
+        email: "",
+        password: "",
+      });
+    }
 
-      if (formData.residence.trim() === "") {
-        errors.residence = t("registerpage.residenciaObrigatorio");
-        setShowResidenceError(true);
-      } else {
-        setShowResidenceError(false);
-      }
+    if (Object.keys(errors).length) {
+      setFormErrors(errors);
+      console.log(errors);
+    } else {
+      const addUserRes = await addUser(formData.email, formData.password);
 
-      if (formData.contact.trim() === "") {
-        errors.contact = t("registerpage.contatoObrigatorio");
-        setShowContactError(true);
+      if (!addUserRes) {
+        setOpenLoginError(true);
+      } else if (
+        addUserRes.data ===
+        "Já tem uma conta utilizando o email: rubenmartins463@gmail.com"
+      ) {
+        setShowAccountExistError(true);
       } else {
-        setShowContactError(false);
-      }
+        localStorage.setItem("userID", addUserRes.data.id);
+        localStorage.setItem("token", addUserRes.token);
 
-      if (formData.gender.trim() === "") {
-        errors.gender = t("registerpage.generoObrigatorio");
-        setShowGenderError(true);
-      } else {
-        setShowGenderError(false);
-      }
-      if (Object.keys(errors).length) {
-        setFormErrors(errors);
-      } else {
-        const id_geografia_nacionalidade = await getCountries(
-          formData.nationality,
-          token
-        );
-        const id_geografia_residencia = await getAddresses(
-          formData.residence,
-          token
-        );
-
-        let sexo = formData.gender;
-        let data_nasc = formData.date;
-        let contatos = formData.contact;
-        let residencia = id_geografia_residencia.dados[0].id;
-        let nacionalidade = id_geografia_nacionalidade.dados[0].id;
-        let nome = `${formData.name} ${formData.surname}`;
+        let nome = formData.name;
         let _method = "PUT";
 
-        console.log(userID);
-        const res = await updateUser(
-          sexo,
-          data_nasc,
-          contatos,
-          residencia,
-          nacionalidade,
-          userID,
-          token,
+        const updateUserRes = await updateUser(
+          "registerForm",
+          null,
+          null,
+          null,
+          null,
+          null,
+          addUserRes.data.id,
+          addUserRes.token,
           nome,
           _method,
           null,
           null
         );
-        if (!res) {
+
+        if (!updateUserRes) {
           setOpenLoginError(true);
         } else {
           const user = await getUser(userID);
@@ -334,9 +251,6 @@ const UserRegistration = () => {
         const res = await getTermsPolicy();
         setTerms(res.termos);
         setPolicy(res.politicas);
-        if (!showRegisterForm) {
-          localStorage.clear();
-        }
       } catch (error) {
         console.error(error);
         // Handle error if necessary
@@ -368,17 +282,6 @@ const UserRegistration = () => {
       <div className="registerPanel">
         <div className="registerFormContainer">
           <Typography
-            variant="h6"
-            sx={{
-              marginTop: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            {showRegisterForm
-              ? t("registerpage.etapa2")
-              : t("registerpage.etapa1")}
-          </Typography>
-          <Typography
             variant="h5"
             sx={{
               marginTop: "1rem",
@@ -389,338 +292,149 @@ const UserRegistration = () => {
             {t("registerpage.criarConta")}
           </Typography>
 
-          {!showRegisterForm && (
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                var decoded = jwt_decode(credentialResponse.credential);
-                registeUserGoogleAccount(
-                  credentialResponse.credential,
-                  decoded
-                );
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
-          )}
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              var decoded = jwt_decode(credentialResponse.credential);
+              registeUserGoogleAccount(credentialResponse.credential, decoded);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          />
 
-          {!showRegisterForm && (
-            <>
-              <Divider style={{ width: "80%" }}>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    marginTop: "2rem",
-                    marginBottom: "2rem",
-                  }}
-                >
-                  {t("registerpage.ou")}
-                </Typography>
-              </Divider>
-
+          <>
+            <Divider style={{ width: "80%" }}>
               <Typography
-                variant="h6"
+                variant="h5"
                 sx={{
-                  marginTop: "0.5rem",
+                  marginTop: "2rem",
                   marginBottom: "2rem",
-                  fontWeight: "bold",
                 }}
               >
-                {t("registerpage.inscreverComEmail")}
+                {t("registerpage.ou")}
               </Typography>
-            </>
-          )}
+            </Divider>
+
+            <Typography
+              variant="h6"
+              sx={{
+                marginTop: "0.5rem",
+                marginBottom: "2rem",
+                fontWeight: "bold",
+              }}
+            >
+              {t("registerpage.inscreverComEmail")}
+            </Typography>
+          </>
+
           <Box
             component="form"
             sx={{
               "& .MuiTextField-root": {
                 m: 1,
-                width: showRegisterForm ? "20ch" : "40ch",
+                width: "40ch",
               },
               display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               flexDirection: "column",
             }}
             noValidate
             autoComplete="off"
             onSubmit={handleSubmit}
           >
-            {!showRegisterForm && (
-              <>
-                <TextField
-                  id="emailField"
-                  name="email"
-                  value={formData.email}
-                  error={showEmailError}
-                  helperText={formErrors.email}
-                  label={t("registerpage.email")}
-                  variant="standard"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={handleInputChange}
-                />
-                <TextField
-                  id="password"
-                  label={t("registerpage.password")}
-                  name="password"
-                  variant="standard"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  error={showPasswordError}
-                  helperText={formErrors.password}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </>
-            )}
+            <>
+              <TextField
+                id="nameField"
+                name="name"
+                value={formData.name}
+                error={showNameError}
+                helperText={formErrors.name}
+                label={t("registerpage.nome")}
+                variant="standard"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleInputChange}
+                fullWidth
+              />
 
-            {showRegisterForm && (
-              <>
-                <Grid
-                  container
-                  spacing={2}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Grid item xs={6} textAlign="center">
-                    <TextField
-                      id="nameField"
-                      name="name"
-                      value={formData.name}
-                      error={showNameError}
-                      helperText={formErrors.name}
-                      label={t("registerpage.nome")}
-                      variant="standard"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={handleInputChange}
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6} textAlign="center">
-                    <TextField
-                      id="surnameField"
-                      name="surname"
-                      value={formData.surname}
-                      error={showSurnameError}
-                      helperText={formErrors.surname}
-                      label={t("registerpage.sobrenome")}
-                      variant="standard"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      onChange={handleInputChange}
-                      fullWidth
-                    />
-                  </Grid>
+              <TextField
+                id="emailField"
+                name="email"
+                value={formData.email}
+                error={showEmailError}
+                helperText={formErrors.email}
+                label={t("registerpage.email")}
+                variant="standard"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleInputChange}
+              />
+              <TextField
+                id="password"
+                label={t("registerpage.password")}
+                name="password"
+                variant="standard"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleInputChange}
+                error={showPasswordError}
+                helperText={formErrors.password}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </>
 
-                  <Grid item xs={6} textAlign="center">
-                    <TextField
-                      label={t("registerpage.genero")}
-                      name="gender"
-                      select
-                      value={formData.gender}
-                      error={showGenderError}
-                      helperText={formErrors.gender}
-                      onChange={handleInputChange}
-                      variant="standard"
-                      fullWidth
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>{t("registerpage.euSou")}</em>
-                      </MenuItem>
-                      <MenuItem value="F">
-                        {t("registerpage.feminino")}
-                      </MenuItem>
-                      <MenuItem value="M">
-                        {t("registerpage.masculino")}
-                      </MenuItem>
-                    </TextField>
-                  </Grid>
-
-                  <Grid item xs={6} textAlign="center">
-                    <TextField
-                      label={t("registerpage.dataNascimento")}
-                      name="date"
-                      type="date"
-                      value={formData.date}
-                      error={showDateError}
-                      helperText={formErrors.date}
-                      onChange={handleInputChange}
-                      variant="standard"
-                      margin="normal"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      required
-                      fullWidth
-                    />
-                  </Grid>
-
-                  <Grid item xs={6} textAlign="center">
-                    <Autocomplete
-                      id="country-select"
-                      options={countries}
-                      autoHighlight
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={t("registerpage.nacionalidade")}
-                          variant="standard"
-                          name="nationality"
-                          value={formData.nationality}
-                          error={showNationalityError}
-                          helperText={formErrors.nationality}
-                          fullWidth
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                          }}
-                        />
-                      )}
-                      onInputChange={async (event, value) => {
-                        if (value.length >= 2 && value.length <= 4) {
-                          const res = await getCountries(value, token);
-                          const newCountries = [];
-
-                          for (let key in res.dados) {
-                            if (res.dados.hasOwnProperty(key)) {
-                              const value = res.dados[key];
-
-                              newCountries.push(value.nacionalidade);
-                            }
-                          }
-                          setCountries(newCountries);
-                        }
-                      }}
-                      onChange={(event, value) => {
-                        formData.nationality = value;
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item xs={6} textAlign="center">
-                    <Autocomplete
-                      id="address-select"
-                      options={addresses}
-                      autoHighlight
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={t("registerpage.residencia")}
-                          variant="standard"
-                          name="residence"
-                          value={formData.residence}
-                          error={showResidenceError}
-                          helperText={formErrors.residence}
-                          fullWidth
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                          }}
-                        />
-                      )}
-                      onInputChange={async (event, value) => {
-                        if (value.length >= 2 && value.length <= 4) {
-                          const res = await getAddresses(value, token);
-
-                          const newAddresses = [];
-                          for (let key in res.dados) {
-                            if (res.dados.hasOwnProperty(key)) {
-                              const value = res.dados[key];
-                              newAddresses.push(value.nome);
-                            }
-                          }
-                          setAddresses(newAddresses);
-                        }
-                      }}
-                      onChange={(event, value) => {
-                        formData.residence = value;
-                      }}
-                    />
-                  </Grid>
-
-                  <Grid item xs={6} textAlign="center">
-                    <MuiTelInput
-                      name="contact"
-                      fullWidth
-                      error={showContactError}
-                      helperText={formErrors.contact}
-                      label={t("registerpage.contato")}
-                      variant="standard"
-                      value={formData.contact}
-                      onChange={handlePhoneChange}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Grid>
-                  <Grid item xs={6} textAlign="center"></Grid>
-                </Grid>
-              </>
-            )}
-
-            {showRegisterForm && (
-              <Grid container justifyContent="center">
-                <Typography
-                  textAlign="center"
-                  variant="h6"
+            <Grid container justifyContent="center">
+              <Typography
+                textAlign="center"
+                variant="h6"
+                sx={{
+                  marginTop: "1rem",
+                  marginBottom: "1rem",
+                  fontSize: 14,
+                  width: "50ch",
+                }}
+              >
+                <Trans i18nKey="registerpage.termosPoliticaParte1" />
+                <Button
                   sx={{
-                    marginTop: "1rem",
-                    marginBottom: "1rem",
                     fontSize: 14,
-                    width: "50ch",
+                    textTransform: "none",
                   }}
+                  onClick={handleModalTermsOpen}
                 >
-                  <Trans i18nKey="registerpage.termosPoliticaParte1" />
-                  <Button
-                    sx={{
-                      fontSize: 14,
-                      textTransform: "none",
-                    }}
-                    onClick={handleModalTermsOpen}
-                  >
-                    {t("registerpage.termosPoliticaParte2")}
-                  </Button>
-                  {t("registerpage.termosPoliticaParte3")}{" "}
-                  <Button
-                    sx={{
-                      fontSize: 14,
-                      textTransform: "none",
-                    }}
-                    onClick={handleModalPrivacityOpen}
-                  >
-                    {t("registerpage.termosPoliticaParte4")}
-                  </Button>
-                </Typography>
-              </Grid>
-            )}
+                  {t("registerpage.termosPoliticaParte2")}
+                </Button>
+                {t("registerpage.termosPoliticaParte3")}{" "}
+                <Button
+                  sx={{
+                    fontSize: 14,
+                    textTransform: "none",
+                  }}
+                  onClick={handleModalPrivacityOpen}
+                >
+                  {t("registerpage.termosPoliticaParte4")}
+                </Button>
+              </Typography>
+            </Grid>
 
             <Grid container justifyContent="center">
               <Button
@@ -735,9 +449,7 @@ const UserRegistration = () => {
                   textTransform: "none",
                 }}
               >
-                {showRegisterForm
-                  ? t("registerpage.concluido")
-                  : t("registerpage.continuar")}
+                {t("registerpage.concluido")}
               </Button>
             </Grid>
             <Grid
