@@ -1,6 +1,6 @@
 .registerContainer {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: #ffffe0 !important;
   color: #000;
   display: flex;

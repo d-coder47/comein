@@ -84,6 +84,7 @@ export default function Login() {
       decode.picture
     );
 
+    console.log(token);
     if (loginGoogleRes.token) {
       const user = await getUserByMail(decode.email);
       if (!user.dados) {
