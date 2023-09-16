@@ -33,6 +33,7 @@
     "nacionalidadeObrigatorio": "nationalité",
     "residenciaObrigatorio": "Adresse",
     "contatoObrigatorio": "contact",
+    "generoObrigatorio": "Genre",
     "nome": "Prénom",
     "sobrenome": "Nom de famille",
     "dataNascimento": "Date de naissance",
@@ -196,6 +197,7 @@
       "endDate": "Date de fin",
       "culturalArea": "Espaces culturels",
       "associatedProject": "Projet associé",
+      "croppedImage": "Image rognée. Ajuster comment l'image doit apparaître sur les cartes de la page d'accueil.  ",
       "save": "Sauvegarder",
       "defaultDescription": "Description de votre événement",
       "tutorial": "Double-cliquez pour personnaliser"

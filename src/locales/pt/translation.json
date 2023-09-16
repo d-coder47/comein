@@ -3,7 +3,7 @@
     "login": "Entrar",
     "signUp": "Registar",
     "definicoesConta": "Definições da conta",
-    "searchPosts": "Pesquise publicações",
+    "searchPosts": "Pesquisar publicações",
     "highlights": "Destaques",
     "filter": "Filtrar",
     "filterCard": {
@@ -62,7 +62,7 @@
     "seguidores": "Seguidores",
     "seguindo": "A seguir",
     "deixarSeguir": "Não seguir",
-    "visitantes": "Visitantes",
+    "visitantes": "Visitas",
     "seguir": "Seguir",
     "sobre": "Sobre",
     "editar": "Editar",
@@ -151,7 +151,7 @@
     "theater": "Teatro",
     "dance": "Dança",
     "movieTheater": "Cinema",
-    "standUp": "Stand Up",
+    "standUp": "Stand Up Comedy",
     "visualArts": "Artes Plásticas",
     "sculpture": "Escultura",
     "craftsmanship": "Artesanato",
@@ -216,11 +216,10 @@
       "save": "Guardar",
       "defaultDescription": "Adicionar informações sobre o projeto",
       "tutorial": "Faça duplo clique para personalizar",
-      "imageSizeError": "Erro, imagem é muito grande para ser adicionado, a imagem deve ser menor que 4mb!"
+      "imageSizeError": "Erro, imagem é muito grande para ser adicionado, a imagem deve ser menor que 2mb!"
     }
   },
-
-  "postCard": {
+  "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
     "copiarLigacao": "Copiar Ligação"
   }
