@@ -242,7 +242,7 @@ const Editar = () => {
     const file = event.target.files[0];
 
     const fileSizeInMB = file.size / (1024 * 1024);
-    if (fileSizeInMB.toFixed(2) >= 2) {
+    if (fileSizeInMB.toFixed(2) >= 5) {
       toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
