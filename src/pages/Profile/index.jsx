@@ -128,6 +128,13 @@ const UserProfile = () => {
 
     if (fileSizeInMB.toFixed(2) >= 2) {
       toast.error(t("projectPage.common.imageSizeError"));
+
+      new Compressor(image, {
+        quality: 0.8,
+        success: (compressedResult) => {
+          console.log(compressedResult);
+        },
+      });
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -146,7 +153,7 @@ const UserProfile = () => {
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
-    if (fileSizeInMB.toFixed(2) >= 2) {
+    if (fileSizeInMB.toFixed(2) >= 4) {
       toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
