@@ -40,6 +40,8 @@ import "react-quill/dist/quill.bubble.css";
 
 import { toast } from "react-toastify";
 
+import Compressor from "compressorjs";
+
 const UserProfile = () => {
   const params = useParams();
   const { userId } = params;
@@ -129,10 +131,11 @@ const UserProfile = () => {
     if (fileSizeInMB.toFixed(2) >= 2) {
       toast.error(t("projectPage.common.imageSizeError"));
 
-      new Compressor(image, {
-        quality: 0.8,
-        success: (compressedResult) => {
+      new Compressor(file, {
+        quality: 0.4,
+        success: async (compressedResult) => {
           console.log(compressedResult);
+          await updateUserProfilePhoto(loggedUserInfo.id, compressedResult);
         },
       });
     } else {
