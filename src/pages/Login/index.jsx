@@ -44,7 +44,7 @@ export default function Login() {
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showPasswordError, setShowPasswordError] = React.useState(false);
 
-  const { login, getUser, getUserByMail, sendForgotPassEmail, loginGoogle } =
+  const { login, getUser, getUserByMail, sendForgotPassEmail } =
     useRegisterUser();
 
   const [forgotPassEmail, setForgotPassEmail] = React.useState("");
@@ -71,14 +71,15 @@ export default function Login() {
   };
 
   const googleAccountLogin = async (token, decode) => {
-    const loginGoogleRes = await loginGoogle(
+    const loginGoogleRes = await login(
       decode.email,
+      null,
       decode.name,
       token,
-      decode.picture
+      decode.picture,
+      "google"
     );
 
-    console.log(token);
     if (loginGoogleRes.token) {
       const user = await getUserByMail(decode.email);
       if (!user.dados) {
@@ -171,7 +172,14 @@ export default function Login() {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      const loginRes = await login(formData.email, formData.password);
+      const loginRes = await login(
+        formData.email,
+        formData.password,
+        null,
+        null,
+        null,
+        "form"
+      );
 
       if (loginRes.token) {
         localStorage.setItem("userId", loginRes.data.id);

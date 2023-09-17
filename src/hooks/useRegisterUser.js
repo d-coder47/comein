@@ -64,41 +64,31 @@ const useRegisterUser = () => {
     }
   };
 
-  const login = async (email, palavra_passe) => {
+  const login = async (email, palavra_passe, nome, token, img_perfil, from) => {
     try {
-      const params = new URLSearchParams({
-        email,
-        palavra_passe,
-      }).toString();
+      var params;
+
+      if (from === "google") {
+        params = new URLSearchParams({
+          email,
+          nome,
+          token,
+          img_perfil,
+          from: "google",
+        }).toString();
+      } else {
+        params = new URLSearchParams({
+          email,
+          palavra_passe,
+          from: "form",
+        }).toString();
+      }
+
       const response = await axiosInstance.post("/utilizadores/login", params, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const loginGoogle = async (email, nome, token, img_perfil) => {
-    try {
-      const params = new URLSearchParams({
-        email,
-        nome,
-        token,
-        img_perfil,
-        from: "google",
-      }).toString();
-      const response = await axiosInstance.post(
-        "/utilizadores/loginGoogle",
-        params,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-      );
       return response.data;
     } catch (error) {
       console.error(error);
