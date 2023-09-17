@@ -269,7 +269,6 @@ const useRegisterUser = () => {
     sendForgotPassEmail,
     verifyForgotPassEmailLink,
     changeForgotPass,
-    loginGoogle,
   };
 };
 
