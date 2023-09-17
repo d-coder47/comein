@@ -11,9 +11,6 @@ import {
   Grid,
   Avatar,
   Link,
-  Alert,
-  Collapse,
-  AlertTitle,
   Modal,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -31,6 +28,8 @@ import validator from "validator";
 
 import useRegisterUser from "../../hooks/useRegisterUser";
 
+import { toast } from "react-toastify";
+
 export default function Login() {
   const navigate = useNavigate();
 
@@ -44,11 +43,6 @@ export default function Login() {
 
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showPasswordError, setShowPasswordError] = React.useState(false);
-
-  const [openLoginError, setOpenLoginError] = React.useState(false);
-
-  const [openSendMailError, setOpenSendMailError] = React.useState(false);
-  const [openSendMailSuccess, setOpenSendMailSuccess] = React.useState(false);
 
   const { login, getUser, getUserByMail, sendForgotPassEmail, loginGoogle } =
     useRegisterUser();
@@ -94,10 +88,10 @@ export default function Login() {
         localStorage.setItem("token", loginGoogleRes.token);
         navigate("/");
       } else {
-        setOpenLoginError(true);
+        toast.error(t("loginPage.erroLogin"));
       }
     } else {
-      setOpenLoginError(true);
+      toast.error(t("loginPage.erroLogin"));
     }
   };
 
@@ -124,10 +118,10 @@ export default function Login() {
       const send_email_res = await sendForgotPassEmail(forgotPassEmail);
 
       if (send_email_res === 200) {
-        setOpenSendMailSuccess(true);
+        toast.success(t("loginPage.sucessoEnviarMail"));
         setForgotPassEmail("");
       } else {
-        setOpenSendMailError(true);
+        toast.error(t("loginPage.erroEnviarMail"));
       }
     }
   };
@@ -184,7 +178,7 @@ export default function Login() {
         localStorage.setItem("token", loginRes.token);
         const user = await getUser(loginRes.data.id);
         if (user.dados === "Não existem dados para retornar") {
-          setOpenLoginError(true);
+          toast.error(t("loginPage.erroLogin"));
         } else {
           localStorage.setItem("userInfo", JSON.stringify(user.dados));
           localStorage.setItem("authenticated", true);
@@ -192,7 +186,7 @@ export default function Login() {
           navigate("/");
         }
       } else {
-        setOpenLoginError(true);
+        toast.error(t("loginPage.erroLogin"));
       }
     }
   };
@@ -447,100 +441,6 @@ export default function Login() {
                 {t("loginPage.login")}
               </Button>
             </Grid>
-            <Grid
-              sx={{
-                position: "fixed",
-                top: "20px", // Adjust the top position as needed
-                left: "20px", // Adjust the left position as needed
-                zIndex: 9999, // Ensure the alert is above other elements
-              }}
-            >
-              <Collapse in={openLoginError}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenLoginError(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  <AlertTitle>
-                    <strong>{t("loginPage.erroLogin")}</strong>
-                  </AlertTitle>
-                </Alert>
-              </Collapse>
-            </Grid>
-            <Grid
-              sx={{
-                position: "fixed",
-                top: "20px",
-                left: "20px",
-                zIndex: 9999,
-              }}
-            >
-              <Collapse in={openSendMailError}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenSendMailError(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  <AlertTitle>
-                    <strong>[{t("loginPage.erroEnviarMail")}]</strong>
-                  </AlertTitle>
-                </Alert>
-              </Collapse>
-            </Grid>
-
-            <Grid
-              sx={{
-                position: "fixed",
-                top: "20px",
-                left: "20px",
-                zIndex: 9999,
-              }}
-            >
-              <Collapse in={openSendMailSuccess}>
-                <Alert
-                  severity="success"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenSendMailSuccess(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  <AlertTitle>
-                    <strong>{t("loginPage.sucessoEnviarMail")}</strong>
-                  </AlertTitle>
-                </Alert>
-              </Collapse>
-            </Grid>
           </Box>
           <Divider style={{ width: "80%" }}>
             <Typography
@@ -560,7 +460,7 @@ export default function Login() {
             }}
             onError={() => {
               console.log("Login Failed");
-              setOpenLoginError(true);
+              toast.error(t("loginPage.erroLogin"));
             }}
           />
         </div>

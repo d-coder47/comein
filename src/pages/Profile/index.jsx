@@ -20,9 +20,6 @@ import {
   MenuItem,
   TextField,
   InputAdornment,
-  Alert,
-  Collapse,
-  AlertTitle,
 } from "@mui/material";
 import {
   Edit,
@@ -32,7 +29,6 @@ import {
   Add,
   Search,
 } from "@mui/icons-material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useParams } from "react-router-dom";
 import useRegisterUser from "../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
@@ -41,6 +37,8 @@ import usePosts from "../../hooks/usePosts";
 import ReactQuill from "react-quill";
 
 import "react-quill/dist/quill.bubble.css";
+
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const params = useParams();
@@ -73,8 +71,6 @@ const UserProfile = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const [scrolled, setScrolled] = React.useState(0);
-
-  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
 
   const {
     updateUserProfileBanner,
@@ -131,7 +127,7 @@ const UserProfile = () => {
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
     if (fileSizeInMB.toFixed(2) >= 2) {
-      setOpenImageSizeError(true);
+      toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -151,7 +147,7 @@ const UserProfile = () => {
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
     if (fileSizeInMB.toFixed(2) >= 2) {
-      setOpenImageSizeError(true);
+      toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -974,38 +970,6 @@ const UserProfile = () => {
               {t("userProfile.adicionarProjeto")}
             </MenuItem>
           </Menu>
-
-          <Grid
-            sx={{
-              position: "fixed",
-              top: "20px", // Adjust the top position as needed
-              left: "20px", // Adjust the left position as needed
-              zIndex: 9999, // Ensure the alert is above other elements
-            }}
-          >
-            <Collapse in={openImageSizeError}>
-              <Alert
-                severity="error"
-                action={
-                  <IconButton
-                    aria-label="close"
-                    color="inherit"
-                    size="small"
-                    onClick={() => {
-                      setOpenImageSizeError(false);
-                    }}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </IconButton>
-                }
-                sx={{ mb: 2 }}
-              >
-                <AlertTitle>
-                  <strong>{t("projectPage.common.imageSizeError")}</strong>
-                </AlertTitle>
-              </Alert>
-            </Collapse>
-          </Grid>
         </>
       ) : null}
     </Box>

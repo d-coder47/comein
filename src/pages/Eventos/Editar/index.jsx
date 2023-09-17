@@ -6,15 +6,10 @@ import {
   Box,
   Checkbox,
   Input,
-  Modal,
   Popover,
   TextField,
   Tooltip,
   Typography,
-  Grid,
-  Alert,
-  Collapse,
-  AlertTitle,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -22,7 +17,6 @@ import {
   LocationOn,
   FiberManualRecord as Dot,
   Save,
-  Add,
   CheckBoxOutlineBlank,
   CheckBox,
   Handshake,
@@ -47,8 +41,7 @@ import {
   filterStartDate,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { toast } from "react-toastify";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -78,8 +71,6 @@ const Editar = () => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
-
-  const [openImageSizeError, setOpenImageSizeError] = useState(false);
 
   const params = useParams();
   const { id } = params;
@@ -252,7 +243,7 @@ const Editar = () => {
 
     const fileSizeInMB = file.size / (1024 * 1024);
     if (fileSizeInMB.toFixed(2) >= 2) {
-      setOpenImageSizeError(true);
+      toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -743,37 +734,6 @@ const Editar = () => {
             </Tooltip>
           </Box>
         </Box>
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={openImageSizeError}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenImageSizeError(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>{t("projectPage.common.imageSizeError")}</strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
       </Box>
     </>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   Typography,
   Grid,
@@ -9,19 +9,17 @@ import {
   InputAdornment,
   TextField,
   FormLabel,
-  Collapse,
-  Alert,
-  AlertTitle,
-} from '@mui/material';
+} from "@mui/material";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import { useTranslation } from 'react-i18next';
-import CloseIcon from '@mui/icons-material/Close';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useTranslation } from "react-i18next";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import useRegisterUser from '../../hooks/useRegisterUser';
+import useRegisterUser from "../../hooks/useRegisterUser";
+
+import { toast } from "react-toastify";
 
 export default function ResetPassword() {
   const { t } = useTranslation();
@@ -34,23 +32,20 @@ export default function ResetPassword() {
   const [showNewPasswordError, setShowNewPasswordError] = useState(false);
   const [showConfPasswordError, setShowConfPasswordError] = useState(false);
 
-  const [openChangePassError, setOpenChangePassError] = useState(false);
-  const [openChangePassSucc, setOpenChangePassSucc] = useState(false);
-
   const queryParameters = new URLSearchParams(window.location.search);
-  const key = queryParameters.get('key');
-  const email = queryParameters.get('email');
+  const key = queryParameters.get("key");
+  const email = queryParameters.get("email");
 
   const { verifyForgotPassEmailLink, changeForgotPass } = useRegisterUser();
 
   const [formData, setFormData] = useState({
-    newPassword: '',
-    confPassword: '',
+    newPassword: "",
+    confPassword: "",
   });
 
   const [formErrors, setFormErrors] = useState({
-    newPassword: '',
-    confPassword: '',
+    newPassword: "",
+    confPassword: "",
   });
 
   const handleMouseDownPassword = (event) => {
@@ -70,7 +65,7 @@ export default function ResetPassword() {
     async function fetchData() {
       const verfify_res = await verifyForgotPassEmailLink(email, key);
       if (!verfify_res.dados) {
-        navigate('/');
+        navigate("/");
       }
     }
     fetchData();
@@ -81,16 +76,16 @@ export default function ResetPassword() {
 
     let errors = {};
 
-    if (formData.newPassword.trim() === '') {
-      errors.newPassword = t('editProfilePage.palavraPasseNovaObrigatorio');
+    if (formData.newPassword.trim() === "") {
+      errors.newPassword = t("editProfilePage.palavraPasseNovaObrigatorio");
       setShowNewPasswordError(true);
     } else {
       setShowNewPasswordError(false);
     }
 
-    if (formData.confPassword.trim() === '') {
+    if (formData.confPassword.trim() === "") {
       errors.confPassword = t(
-        'editProfilePage.confPalavraPasseNovaObrigatorio'
+        "editProfilePage.confPalavraPasseNovaObrigatorio"
       );
       setShowConfPasswordError(true);
     } else {
@@ -98,14 +93,14 @@ export default function ResetPassword() {
     }
 
     if (formData.newPassword.trim() !== formData.confPassword.trim()) {
-      errors.confPassword = t('editProfilePage.palavraPasseNCoincidem');
+      errors.confPassword = t("editProfilePage.palavraPasseNCoincidem");
       setShowConfPasswordError(true);
     } else {
       setShowConfPasswordError(false);
     }
 
-    if (formData.confPassword.trim() === '') {
-      errors.confPassword = t('editProfilePage.confPassObrigatorio');
+    if (formData.confPassword.trim() === "") {
+      errors.confPassword = t("editProfilePage.confPassObrigatorio");
       setShowConfPasswordError(true);
     } else {
       setShowConfPasswordError(false);
@@ -116,96 +111,96 @@ export default function ResetPassword() {
     } else {
       const res = await changeForgotPass(email, formData.newPassword);
       if (res.dados) {
-        setOpenChangePassSucc(true);
+        toast.success(t("editProfilePage.palavraPassAtualizadoSucesso"));
       } else {
-        setOpenChangePassError(true);
+        toast.error(t("editProfilePage.erroAtualizarPalavraPasse"));
       }
     }
   };
   return (
     <Paper
       sx={{
-        width: '100vw',
-        height: '100vh',
-        background: '#f3f3f3',
+        width: "100vw",
+        height: "100vh",
+        background: "#f3f3f3",
 
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
       }}
     >
-      <Button href='/'>{t('forgotPassword.voltarHome')}</Button>
+      <Button href="/">{t("forgotPassword.voltarHome")}</Button>
 
       <Box
-        component='form'
-        className='reset_pass_form'
+        component="form"
+        className="reset_pass_form"
         sx={{
-          '& .MuiTextField-root': {
+          "& .MuiTextField-root": {
             m: 1,
-            width: '40ch',
+            width: "40ch",
           },
-          display: 'flex',
-          flexDirection: 'column',
-          width: '500px',
-          height: '400px',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#fff',
-          marginTop: '10px',
+          display: "flex",
+          flexDirection: "column",
+          width: "500px",
+          height: "400px",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#fff",
+          marginTop: "10px",
         }}
         noValidate
-        autoComplete='off'
+        autoComplete="off"
         onSubmit={handleChangePassSubmit}
       >
         <Typography
-          id='modal-modal-title'
-          variant='h6'
-          component='h2'
-          fontWeight='bold'
-          fontSize='18px'
-          textAlign='center'
+          id="modal-modal-title"
+          variant="h6"
+          component="h2"
+          fontWeight="bold"
+          fontSize="18px"
+          textAlign="center"
           sx={{
-            marginBottom: '10px',
+            marginBottom: "10px",
           }}
         >
-          {t('forgotPassword.resetPassword')}
+          {t("forgotPassword.resetPassword")}
         </Typography>
         <Grid
           container
-          justifyContent='center'
+          justifyContent="center"
           spacing={2}
           sx={{
-            marginLeft: '0px',
-            width: '100%',
+            marginLeft: "0px",
+            width: "100%",
           }}
         >
           <Box
             sx={{
-              marginTop: '20px',
+              marginTop: "20px",
             }}
           >
             <Grid
-              display='flex'
-              flexDirection='column'
-              justifyContent='center'
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
               item
               xs={12}
-              textAlign='left'
+              textAlign="left"
             >
               <FormLabel
-                id='new_reset_password_label'
+                id="new_reset_password_label"
                 sx={{
-                  marginLeft: '8px',
+                  marginLeft: "8px",
                 }}
               >
-                {t('editProfilePage.novoPass')}
+                {t("editProfilePage.novoPass")}
               </FormLabel>
               <TextField
-                id='new_password'
-                name='newPassword'
-                variant='outlined'
-                type={showNewPassword ? 'text' : 'password'}
+                id="new_password"
+                name="newPassword"
+                variant="outlined"
+                type={showNewPassword ? "text" : "password"}
                 value={formData.newPassword}
                 onChange={handleInputChange}
                 error={showNewPasswordError}
@@ -215,12 +210,12 @@ export default function ResetPassword() {
                 }}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        aria-label='toggle password visibility'
+                        aria-label="toggle password visibility"
                         onClick={handleClickShowNewPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge='end'
+                        edge="end"
                       >
                         {showNewPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -230,26 +225,26 @@ export default function ResetPassword() {
               />
             </Grid>
             <Grid
-              display='flex'
-              flexDirection='column'
-              justifyContent='center'
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
               item
               xs={12}
-              textAlign='left'
+              textAlign="left"
             >
               <FormLabel
-                id='conf_password_label'
+                id="conf_password_label"
                 sx={{
-                  marginLeft: '8px',
+                  marginLeft: "8px",
                 }}
               >
-                {t('editProfilePage.confirmPass')}
+                {t("editProfilePage.confirmPass")}
               </FormLabel>
               <TextField
-                id='conf_password'
-                name='confPassword'
-                variant='outlined'
-                type={showConfPassword ? 'text' : 'password'}
+                id="conf_password"
+                name="confPassword"
+                variant="outlined"
+                type={showConfPassword ? "text" : "password"}
                 value={formData.confPassword}
                 onChange={handleInputChange}
                 error={showConfPasswordError}
@@ -259,12 +254,12 @@ export default function ResetPassword() {
                 }}
                 InputProps={{
                   endAdornment: (
-                    <InputAdornment position='end'>
+                    <InputAdornment position="end">
                       <IconButton
-                        aria-label='toggle password visibility'
+                        aria-label="toggle password visibility"
                         onClick={handleClickShowConfPassword}
                         onMouseDown={handleMouseDownPassword}
-                        edge='end'
+                        edge="end"
                       >
                         {showConfPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -275,76 +270,22 @@ export default function ResetPassword() {
             </Grid>
           </Box>
         </Grid>
-        <Grid container justifyContent='center'>
+        <Grid container justifyContent="center">
           <Button
-            type='submit'
-            variant='contained'
-            className='change_pass_button'
-            color='primary'
+            type="submit"
+            variant="contained"
+            className="change_pass_button"
+            color="primary"
             sx={{
               m: 3,
-              color: '#ffffff',
-              width: '20ch',
-              borderRadius: '16px',
-              textTransform: 'none',
+              color: "#ffffff",
+              width: "20ch",
+              borderRadius: "16px",
+              textTransform: "none",
             }}
           >
-            {t('editProfilePage.guardar')}
+            {t("editProfilePage.guardar")}
           </Button>
-        </Grid>
-        <Grid>
-          <Collapse in={openChangePassSucc}>
-            <Alert
-              severity='success'
-              action={
-                <IconButton
-                  aria-label='close'
-                  color='inherit'
-                  size='small'
-                  onClick={() => {
-                    setOpenChangePassSucc(false);
-                  }}
-                >
-                  <CloseIcon fontSize='inherit' />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>
-                  <strong>
-                    {t('editProfilePage.palavraPassAtualizadoSucesso')}
-                  </strong>
-                </strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
-        <Grid>
-          <Collapse in={openChangePassError}>
-            <Alert
-              severity='error'
-              action={
-                <IconButton
-                  aria-label='close'
-                  color='inherit'
-                  size='small'
-                  onClick={() => {
-                    setOpenChangePassError(false);
-                  }}
-                >
-                  <CloseIcon fontSize='inherit' />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>
-                  {t('editProfilePage.erroAtualizarPalavraPasse')}
-                </strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
         </Grid>
       </Box>
     </Paper>

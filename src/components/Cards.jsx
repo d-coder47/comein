@@ -1,20 +1,13 @@
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Collapse,
-  Grid,
-  IconButton,
-} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import CustomCard from "./CustomCard";
 import usePosts from "../hooks/usePosts";
 import axiosInstance from "../api/axiosInstance";
-import CloseIcon from "@mui/icons-material/Close";
 
 import defaultImg from "../assets/img/event3.jpg";
 import { useTranslation } from "react-i18next";
 import { useIntersection } from "@mantine/hooks";
+import { toast } from "react-toastify";
 
 const Cards = ({
   searchQuery,
@@ -24,7 +17,6 @@ const Cards = ({
 }) => {
   const { posts: allPosts, getPostsByPage } = usePosts();
   const [posts, setPosts] = useState([]);
-  const [emptyResult, setEmptyResult] = useState(false);
 
   const { t } = useTranslation();
 
@@ -109,7 +101,7 @@ const Cards = ({
           }
         );
         if (response.data.length === 0) {
-          setEmptyResult(true);
+          toast.error(t("userProfile.naoForamEncontradosResultados"));
           return setPosts([]);
         }
         console.log("here");
@@ -271,39 +263,6 @@ const Cards = ({
         }}
       >
         {posts.length > 0 ? postsToDisplay : allPostsToDisplay}
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={emptyResult}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setEmptyResult(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>
-                  {t("userProfile.naoForamEncontradosResultados")}
-                </strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
       </Grid>
     </Box>
   );

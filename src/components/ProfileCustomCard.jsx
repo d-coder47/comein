@@ -10,9 +10,6 @@ import {
   Menu,
   MenuItem,
   Button,
-  Alert,
-  Collapse,
-  AlertTitle,
   Grid,
   Modal,
 } from "@mui/material";
@@ -56,6 +53,7 @@ import usePosts from "../hooks/usePosts";
 import useProjects from "../hooks/useProjects";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -138,10 +136,6 @@ const ProfileCustomCard = ({
     React.useState(null);
   const postActionsMenuOpen = Boolean(postActionsMenuAnchorEl);
 
-  const [openRemoveEventError, setOpenRemoveEventError] = useState(false);
-  const [openRemoveEventSuccess, setOpenRemoveEventSuccess] = useState(false);
-  React.useState(false);
-
   const handleOpenRemoveEventModal = () => setOpenRemoveEventModal(true);
   const handleCloseRemoveEventModal = () => setOpenRemoveEventModal(false);
 
@@ -187,9 +181,10 @@ const ProfileCustomCard = ({
     if (!res) {
       handleCloseRemoveEventModal();
       setOpenRemoveEventError(true);
+      toast.error(t("userProfile.removerEventoErro"));
     } else {
       handleCloseRemoveEventModal();
-      setOpenRemoveEventSuccess(true);
+      toast.success(t("userProfile.removerEventoSucesso"));
       onRefresh();
     }
   };
@@ -684,68 +679,7 @@ const ProfileCustomCard = ({
             </Box>
           </Box>
         </Modal>
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={openRemoveEventError}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenRemoveEventError(false);
-                  }}
-                >
-                  <Close fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>{t("userProfile.removerEventoErro")}</strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={openRemoveEventSuccess}>
-            <Alert
-              severity="success"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenRemoveEventSuccess(false);
-                  }}
-                >
-                  <Close fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>{t("userProfile.removerEventoSucesso")}</strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
+
         <Modal
           open={openRemoveEventModal}
           onClose={handleCloseRemoveEventModal}
