@@ -83,7 +83,11 @@ const UserCard = ({
         }}
       />
       <Avatar
-        src={`https://comein.cv/comeincv_api_test/img/perfilImg/${publisher?.img_perfil}`}
+        src={
+          publisher?.login_from === "google"
+            ? publisher?.img_perfil
+            : `https://comein.cv/comeincv_api_test/img/perfilImg/${publisher?.img_perfil}`
+        }
         alt={`Foto de perfil de ${publisher?.nome}`}
         sx={{
           width: "4.25rem",

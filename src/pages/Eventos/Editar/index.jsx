@@ -79,6 +79,7 @@ const Editar = () => {
 
   const { getAddresses } = useRegisterUser();
 
+  console.log(user);
   const categories = [
     { id: 1, name: t("categories.music") },
     { id: 2, name: t("categories.theater") },
@@ -341,7 +342,11 @@ const Editar = () => {
               }}
             >
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`}
+                src={
+                  user?.login_from === "google"
+                    ? user?.img_perfil
+                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`
+                }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}
               />

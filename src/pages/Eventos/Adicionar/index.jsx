@@ -338,7 +338,11 @@ const Adicionar = () => {
               }}
             >
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`}
+                src={
+                  user?.login_from === "google"
+                    ? user?.img_perfil
+                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`
+                }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}
               />
