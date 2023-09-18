@@ -186,6 +186,7 @@ const UserProfile = () => {
 
   async function fetchData() {
     const pageOwner = await getUser(userId);
+
     setPageUserInfo(pageOwner.dados);
     setProfilePhoto(pageOwner.dados.img_perfil);
     if (!pageOwner.dados.img_capa) {
@@ -435,7 +436,11 @@ const UserProfile = () => {
                               },
                             },
                           }}
-                          src={`https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`}
+                          src={
+                            pageUserInfo.login_from === "google"
+                              ? profilePhoto
+                              : `https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`
+                          }
                         >
                           <PhotoCamera />
                         </Avatar>
