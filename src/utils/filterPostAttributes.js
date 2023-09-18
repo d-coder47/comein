@@ -14,7 +14,7 @@ export const objectToFormData = (object, userId, isAdding = false) => {
   if (!isAdding) {
     formData.append("_method", "PUT");
   }
-  formData.append("id_utilizador", userId);
+  // formData.append("id_utilizador", userId);
 
   keys.forEach((key, index) => {
     formData.append(key, values[index]);

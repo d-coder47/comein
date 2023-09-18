@@ -55,8 +55,8 @@ const Editar = () => {
   const [anchorAssociateEventEl, setAnchorAssociateEventEl] = useState(null);
   const [fieldValues, setFieldValues] = useState({
     nome: "",
-    data_inicio: "",
-    data_fim: "",
+    // data_inicio: "",
+    // data_fim: "",
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "projectPage.common.defaultDescription"
@@ -66,7 +66,7 @@ const Editar = () => {
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
-    assoc_evento: [],
+    // assoc_evento: [],
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [users, setUsers] = useState([]);
@@ -186,7 +186,7 @@ const Editar = () => {
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
-        const assoc_evento = response.data.evento_assoc;
+        // const assoc_evento = response.data.evento_assoc;
         const areas_culturais = response.data.areas_culturais;
         const areasCulturaisIds = areas_culturais?.map(
           (area) => +area.id_acultural
@@ -199,18 +199,18 @@ const Editar = () => {
         setFieldValues({
           id,
           nome: data.nome,
-          data_inicio: data.data_inicio,
-          data_fim: data.data_fim,
+          // data_inicio: data.data_inicio,
+          // data_fim: data.data_fim,
           imagem: `https://comein.cv/comeincv_api_test/img/projetosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
             id: data?.id_geografia,
-            nome: data?.local,
+            nome: data?.localProjeto,
           },
           id_utilizador: data.id_utilizador,
           proprietarios,
           areasCulturais,
-          assoc_evento,
+          // assoc_evento,
         });
       } catch (error) {
         console.log(error);
@@ -255,10 +255,12 @@ const Editar = () => {
 
     const filteredFieldValues = {
       ...editedFieldValues,
-      data_inicio: filterStartDate(editedFieldValues?.data_inicio),
-      data_fim: filterEndDate(editedFieldValues?.data_fim),
+      // imgProjetoRecortada: fieldValues?.imgProjeto,
+      imagem: fieldValues?.imgProjeto,
+      // data_inicio: filterStartDate(editedFieldValues?.data_inicio),
+      // data_fim: filterEndDate(editedFieldValues?.data_fim),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
-      assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
+      // assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(
         editedFieldValues?.proprietarios
       ),
@@ -474,86 +476,6 @@ const Editar = () => {
               </Box>
             </Popover>
             <Tooltip
-              title={t("projectPage.common.date")}
-              placement="left"
-              arrow
-            >
-              <Box
-                id="date"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: () => "#3c3c3c",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={handleDateClick}
-              >
-                <CalendarMonth
-                  sx={{ color: "white", width: "1rem", height: "1rem" }}
-                />
-              </Box>
-            </Tooltip>
-            <Popover
-              id={datePopoverId}
-              open={openDatePopover}
-              anchorEl={anchorDateEl}
-              onClose={() => setAnchorDateEl(null)}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
-                <TextField
-                  id="date-start"
-                  name="startDate"
-                  type="datetime-local"
-                  label={t("projectPage.common.startDate")}
-                  value={fieldValues.data_inicio}
-                  sx={{
-                    height: "2rem",
-                    ".MuiInputBase-root": {
-                      height: "2rem",
-                      borderRadius: ".25rem",
-                    },
-                  }}
-                  InputLabelProps={{ shrink: true }}
-                  onChange={
-                    (e) =>
-                      handleChangeFieldValues("data_inicio", e.target.value)
-                    // handleDateLocalChange(e.target.name, e.target.value)
-                  }
-                />
-                <TextField
-                  id="date-end"
-                  name="endDate"
-                  type="datetime-local"
-                  label={t("projectPage.common.endDate")}
-                  value={fieldValues.data_fim}
-                  sx={{
-                    height: "2rem",
-                    ".MuiInputBase-root": {
-                      height: "2rem",
-                      borderRadius: ".25rem",
-                    },
-                  }}
-                  InputLabelProps={{ shrink: true }}
-                  onChange={
-                    (e) => handleChangeFieldValues("data_fim", e.target.value)
-                    // handleDateLocalChange(e.target.name, e.target.value)
-                  }
-                />
-              </Box>
-            </Popover>
-            <Tooltip
               title={t("projectPage.common.culturalArea")}
               placement="left"
               arrow
@@ -620,79 +542,6 @@ const Editar = () => {
                     <TextField
                       {...params}
                       placeholder={t("projectPage.common.culturalArea")}
-                      size="small"
-                    />
-                  )}
-                />
-              </Box>
-            </Popover>
-            <Tooltip
-              title={t("projectPage.common.associatedEvent")}
-              placement="left"
-              arrow
-            >
-              <Box
-                id="associated-event"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: () => "#3c3c3c",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={handleAssociateEventClick}
-              >
-                <Handshake
-                  sx={{ color: "white", width: "1rem", height: "1rem" }}
-                />{" "}
-              </Box>
-            </Tooltip>
-            <Popover
-              id={associateEventPopoverId}
-              open={openAssociateEventPopover}
-              anchorEl={anchorAssociateEventEl}
-              onClose={() => setAnchorAssociateEventEl(null)}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
-                <Autocomplete
-                  multiple
-                  id="checkboxes-tags-demo"
-                  options={events}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.nome}
-                  value={fieldValues.assoc_evento}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={fieldValues.assoc_evento
-                          .map((proj) => +proj.id)
-                          .includes(+option.id)}
-                      />
-                      {option.nome}
-                    </li>
-                  )}
-                  onChange={(_, value) =>
-                    handleChangeFieldValues("assoc_evento", value)
-                  }
-                  sx={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      placeholder={t("projectPage.common.associatedEvent")}
                       size="small"
                     />
                   )}

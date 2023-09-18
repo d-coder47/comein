@@ -58,8 +58,8 @@ const Adicionar = () => {
   const [anchorAssociateEventEl, setAnchorAssociateEventEl] = useState(null);
   const [fieldValues, setFieldValues] = useState({
     nome: "",
-    data_inicio: "",
-    data_fim: "",
+    // data_inicio: "",
+    // data_fim: "",
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "projectPage.common.defaultDescription"
@@ -69,7 +69,7 @@ const Adicionar = () => {
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
-    assoc_evento: [],
+    // assoc_evento: [],
   });
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -217,14 +217,16 @@ const Adicionar = () => {
     console.log(fieldValues);
 
     const newProject = {
+      id_utilizador: user.id,
       nome: fieldValues?.nome,
       imgProjeto: fieldValues?.imgProjeto,
+      imgProjetoRecortada: fieldValues?.imgProjeto,
       descricao: fieldValues?.descricao,
       id_geografia: fieldValues?.local?.id,
-      data_inicio: filterStartDate(fieldValues?.data_inicio),
-      data_fim: filterEndDate(fieldValues?.data_fim),
+      // data_inicio: filterStartDate(fieldValues?.data_inicio),
+      // data_fim: filterEndDate(fieldValues?.data_fim),
       areasCulturais: filterCulturalAreas(fieldValues?.areasCulturais),
-      assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
+      // assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
     };
 
@@ -433,86 +435,6 @@ const Adicionar = () => {
               </Box>
             </Popover>
             <Tooltip
-              title={t("projectPage.common.date")}
-              placement="left"
-              arrow
-            >
-              <Box
-                id="date"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: () => "#3c3c3c",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={handleDateClick}
-              >
-                <CalendarMonth
-                  sx={{ color: "white", width: "1rem", height: "1rem" }}
-                />
-              </Box>
-            </Tooltip>
-            <Popover
-              id={datePopoverId}
-              open={openDatePopover}
-              anchorEl={anchorDateEl}
-              onClose={() => setAnchorDateEl(null)}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
-                <TextField
-                  id="date-start"
-                  name="startDate"
-                  type="datetime-local"
-                  label={t("projectPage.common.startDate")}
-                  value={fieldValues.data_inicio}
-                  sx={{
-                    height: "2rem",
-                    ".MuiInputBase-root": {
-                      height: "2rem",
-                      borderRadius: ".25rem",
-                    },
-                  }}
-                  InputLabelProps={{ shrink: true }}
-                  onChange={
-                    (e) =>
-                      handleChangeFieldValues("data_inicio", e.target.value)
-                    // handleDateLocalChange(e.target.name, e.target.value)
-                  }
-                />
-                <TextField
-                  id="date-end"
-                  name="endDate"
-                  type="datetime-local"
-                  label={t("projectPage.common.endDate")}
-                  value={fieldValues.data_fim}
-                  sx={{
-                    height: "2rem",
-                    ".MuiInputBase-root": {
-                      height: "2rem",
-                      borderRadius: ".25rem",
-                    },
-                  }}
-                  InputLabelProps={{ shrink: true }}
-                  onChange={
-                    (e) => handleChangeFieldValues("data_fim", e.target.value)
-                    // handleDateLocalChange(e.target.name, e.target.value)
-                  }
-                />
-              </Box>
-            </Popover>
-            <Tooltip
               title={t("projectPage.common.culturalArea")}
               placement="left"
               arrow
@@ -579,79 +501,6 @@ const Adicionar = () => {
                     <TextField
                       {...params}
                       placeholder={t("projectPage.common.culturalArea")}
-                      size="small"
-                    />
-                  )}
-                />
-              </Box>
-            </Popover>
-            <Tooltip
-              title={t("projectPage.common.associatedEvent")}
-              placement="left"
-              arrow
-            >
-              <Box
-                id="associated-event"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: () => "#3c3c3c",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={handleAssociateEventClick}
-              >
-                <Handshake
-                  sx={{ color: "white", width: "1rem", height: "1rem" }}
-                />{" "}
-              </Box>
-            </Tooltip>
-            <Popover
-              id={associateEventPopoverId}
-              open={openAssociateEventPopover}
-              anchorEl={anchorAssociateEventEl}
-              onClose={() => setAnchorAssociateEventEl(null)}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
-                <Autocomplete
-                  multiple
-                  id="checkboxes-tags-demo"
-                  options={events}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) => option.nome}
-                  value={fieldValues.assoc_evento}
-                  renderOption={(props, option, { selected }) => (
-                    <li {...props}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={fieldValues.assoc_evento
-                          .map((proj) => +proj.id)
-                          .includes(+option.id)}
-                      />
-                      {option.nome}
-                    </li>
-                  )}
-                  onChange={(_, value) =>
-                    handleChangeFieldValues("assoc_evento", value)
-                  }
-                  sx={{ width: 300 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      placeholder={t("projectPage.common.associatedEvent")}
                       size="small"
                     />
                   )}

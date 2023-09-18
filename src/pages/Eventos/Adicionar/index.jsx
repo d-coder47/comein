@@ -267,8 +267,10 @@ const Adicionar = () => {
     console.log(fieldValues);
 
     const newEvent = {
+      id_utilizador: user.id,
       nome: fieldValues?.nome,
       imgEvento: fieldValues?.imgEvento,
+      imgEventoRecortada: fieldValues?.imgEvento,
       descricao: fieldValues?.descricao,
       id_geografia: fieldValues?.local?.id,
       data_inicio: filterStartDate(fieldValues?.data_inicio),
@@ -518,8 +520,14 @@ const Adicionar = () => {
                 vertical: "bottom",
                 horizontal: "left",
               }}
+              style={{ padding: ".8rem" }}
             >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
+              <Box
+                display="flex"
+                gap="1rem"
+                justifyContent="space-between"
+                p=".8rem"
+              >
                 <TextField
                   id="date-start"
                   name="startDate"
