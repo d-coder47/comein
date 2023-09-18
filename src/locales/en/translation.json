@@ -27,7 +27,7 @@
     "emailObrigatorio": "Email",
     "emailInvalido": "Invalid email",
     "passwordObrigatorio": "Password",
-    "passwordTamanho": "Password must be at least 6 characters long",
+    "passwordTamanho": "Password must contain at least one uppercase letter and one special character and be at least 7 characters long.",
     "nomeObrigatorio": "Name",
     "sobrenomeObrigatorio": "Nickname",
     "nacionalidadeObrigatorio": "Nationality",

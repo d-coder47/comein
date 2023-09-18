@@ -27,7 +27,7 @@
     "emailObrigatorio": "E-mail",
     "emailInvalido": "E-mail inválido",
     "passwordObrigatorio": "Palavra-passe",
-    "passwordTamanho": "Palavra-passe com o mínimo de 6 caracteres",
+    "passwordTamanho": "Palavra-passe deve conter pelo menos uma letra maiúscula e um caractere especial e ter no mínimo 7 caracteres.",
     "nomeObrigatorio": "Nome",
     "sobrenomeObrigatorio": "Sobrenome",
     "nacionalidadeObrigatorio": "Nacionalidade",

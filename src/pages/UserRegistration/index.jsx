@@ -165,10 +165,13 @@ const UserRegistration = () => {
       });
     }
 
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{7,}$/;
+
     if (formData.password.trim() === "") {
       errors.password = t("registerpage.passwordObrigatorio");
       setShowPasswordError(true);
-    } else if (password.length < 6) {
+    } else if (!passwordRegex.test(formData.password)) {
       errors.password = t("registerpage.passwordTamanho");
       setShowPasswordError(true);
     } else {

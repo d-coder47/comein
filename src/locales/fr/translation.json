@@ -27,7 +27,7 @@
     "emailObrigatorio": "email",
     "emailInvalido": "Adresse email invalide",
     "passwordObrigatorio": "mot de passe",
-    "passwordTamanho": "Le mot de passe doit comporter au moins 6 caractères",
+    "passwordTamanho": "Le mot de passe doit contenir au moins une lettre majuscule et un caractère spécial, et comporter au moins 7 caractères.",
     "nomeObrigatorio": "Prénom",
     "sobrenomeObrigatorio": "Nom de famille",
     "nacionalidadeObrigatorio": "nationalité",
