@@ -1,10 +1,9 @@
 import React, { useState, useCallback } from "react";
-import ReactDOM from "react-dom";
 import Cropper from "react-easy-crop";
 import "./CropImage.css";
-import { Box } from "@mui/material";
+import { Box, Slider, Typography, Button } from "@mui/material";
 
-const CropImage = () => {
+const CropImage = ({ image }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
@@ -40,13 +39,14 @@ const CropImage = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
+        flexDirection: "column",
         // backgroundColor: "white",
       }}
     >
       {/* <div> */}
       <div style={classes.cropContainer}>
         <Cropper
-          image={dogImg}
+          image={image}
           crop={crop}
           rotation={rotation}
           zoom={zoom}
@@ -101,7 +101,7 @@ const CropImage = () => {
           Show Result
         </Button>
       </div>
-      <ImgDialog img={croppedImage} onClose={onClose} />
+      {/* <ImgDialog img={croppedImage} onClose={onClose} /> */}
       {/* </div> */}
     </Box>
   );
@@ -111,13 +111,8 @@ export default CropImage;
 
 export const classes = {
   cropContainer: {
-    position: "relative",
-    width: "100%",
-    height: 200,
-    background: "#333",
-    // [theme.breakpoints.up("sm")]: {
-    //   height: 400,
-    // },
+    width: "100vw",
+    height: "100vh",
   },
   cropButton: {
     flexShrink: 0,

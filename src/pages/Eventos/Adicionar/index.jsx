@@ -52,6 +52,8 @@ import {
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
 import { validatePost } from "../../../utils/postValidation";
+import Cropper from "react-easy-crop";
+import axios from "axios";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -82,6 +84,8 @@ const Adicionar = () => {
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
   const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
 
   const navigate = useNavigate();
 
@@ -220,6 +224,10 @@ const Adicionar = () => {
 
   const handleChangeImgClick = () => {
     document.getElementById("upload-photo").click();
+  };
+
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    console.log(croppedArea, croppedAreaPixels);
   };
 
   const handleSaveOld = () => {
@@ -391,7 +399,12 @@ const Adicionar = () => {
                 </Box>
               </Box>
             </Box>
-            <Box sx={{ backgroundColor: "white" }}>
+            <Box
+              id="image-container"
+              sx={{
+                backgroundColor: "white",
+              }}
+            >
               <Input
                 style={{ display: "none" }}
                 id="upload-photo"
@@ -400,13 +413,33 @@ const Adicionar = () => {
                 accept="image/*"
                 onChange={handlePhotoUpload}
               />
-              <Avatar
-                src={fieldValues.imagem || img}
-                alt={`Adicionar imagem`}
-                variant="square"
-                sx={{ width: "45rem", height: "auto" }}
-                onClick={handleChangeImgClick}
-              />
+              {openCroppedImage ? (
+                <Cropper
+                  image={fieldValues?.imagem}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={4 / 3}
+                  onCropChange={setCrop}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
+                  style={{
+                    containerStyle: {
+                      position: "unset",
+                    },
+                    mediaStyle: {
+                      position: "unset",
+                    },
+                  }}
+                />
+              ) : (
+                <Avatar
+                  src={fieldValues.imagem || img}
+                  alt={`Adicionar imagem`}
+                  variant="square"
+                  sx={{ width: "45rem", height: "auto" }}
+                  onClick={handleChangeImgClick}
+                />
+              )}
             </Box>
             <ReactQuill
               theme="snow"
@@ -755,7 +788,7 @@ const Adicionar = () => {
                 },
               }}
             >
-              <CropImage />
+              <CropImage image={fieldValues?.imagem} />
             </Modal> */}
             <Tooltip title={t("eventPage.common.save")} placement="left" arrow>
               <Box
