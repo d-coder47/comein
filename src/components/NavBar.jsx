@@ -29,6 +29,8 @@ import portugalFlag from "../assets/img/portugal.png";
 
 import { useLocation } from "react-router-dom";
 
+import Notifications from "./Notifications";
+
 const NavBar = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -42,6 +44,9 @@ const NavBar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
+  const notificatinsMenuOpen = Boolean(notificationAnchorEl);
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -61,6 +66,13 @@ const NavBar = () => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationsMenuClick = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+  };
+  const handleNotificationsMenuClose = () => {
+    setNotificationAnchorEl(null);
   };
 
   const handleRegistration = () => {
@@ -126,7 +138,24 @@ const NavBar = () => {
         }}
       >
         <Box display="flex">
-          <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
+          <Tooltip title="Notifications">
+            <IconButton
+              size="small"
+              onClick={handleNotificationsMenuClick}
+              aria-controls={
+                notificatinsMenuOpen ? "notification-menu" : undefined
+              }
+              aria-haspopup="true"
+              aria-expanded={notificatinsMenuOpen ? "true" : undefined}
+            >
+              <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
+            </IconButton>
+          </Tooltip>
+          <Notifications
+            anchorEl={notificationAnchorEl}
+            handleClose={handleNotificationsMenuClose}
+            open={notificatinsMenuOpen}
+          />
         </Box>
         <Select
           labelId="internationalization-label"
