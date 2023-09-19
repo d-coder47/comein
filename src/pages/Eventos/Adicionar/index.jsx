@@ -15,6 +15,7 @@ import {
   Alert,
   Collapse,
   AlertTitle,
+  Button,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -54,6 +55,7 @@ import {
 import { validatePost } from "../../../utils/postValidation";
 import Cropper from "react-easy-crop";
 import axios from "axios";
+import getCroppedImg from "../../../utils/cropImage";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -69,6 +71,7 @@ const Adicionar = () => {
     data_inicio: "",
     data_fim: "",
     imagem: null,
+    imgEventoRecortada: null,
     descricao: `<p><span class="ql-size-large">${t(
       "eventPage.common.defaultDescription"
     )}</span></p><p><span class="ql-size-large">${t(
@@ -86,6 +89,7 @@ const Adicionar = () => {
   const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   const navigate = useNavigate();
 
@@ -213,7 +217,7 @@ const Adicionar = () => {
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
-        console.log("Uploaded");
+        console.log("Uploaded", file);
 
         handleChangeFieldValues("imagem", URL.createObjectURL(file));
         handleChangeFieldValues("imgEvento", file);
@@ -228,47 +232,23 @@ const Adicionar = () => {
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     console.log(croppedArea, croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  const handleSaveOld = () => {
-    console.log(fieldValues);
-    let newEvent = new FormData();
-    newEvent.append("id_utilizador", user.id);
-    newEvent.append("nome", fieldValues?.nome);
-    newEvent.append("data_inicio", fieldValues?.data_inicio + ":00");
-    newEvent.append("imgEvento", fieldValues?.imgEvento);
-    newEvent.append("descricao", fieldValues?.descricao);
-    newEvent.append(
-      "data_fim",
-      fieldValues?.data_fim.length > 0 ? fieldValues?.data_fim + ":00" : null
+  const handleSaveMinimizedImage = async () => {
+    const value = await getCroppedImg(
+      fieldValues.imagem,
+      croppedAreaPixels,
+      0,
+      fieldValues?.imgEvento?.type
     );
-    newEvent.append(
-      "areasCulturais",
-      fieldValues?.areasCulturais?.length > 1
-        ? arrayToString(
-            fieldValues?.areasCulturais?.map((item) => item.id)
-          ).slice(0, -1)
-        : fieldValues?.areasCulturais[0].id
-    );
-    newEvent.append(
-      "assoc_projeto",
-      fieldValues?.assoc_projeto?.length > 0
-        ? arrayToString(
-            fieldValues?.assoc_projeto?.map((item) => item.id)
-          ).slice(0, -1)
-        : null
-    );
-    newEvent.append("id_geografia", fieldValues?.local?.id);
-    newEvent.append(
-      "idsProprietarios",
-      fieldValues?.proprietarios?.length > 0
-        ? arrayToString(
-            fieldValues?.proprietarios?.map((item) => item.id)
-          ).slice(0, -1)
-        : null
-    );
-    console.log(newEvent);
-    // createEvent(newEvent);
+    console.log("value", value);
+
+    setFieldValues((prev) => {
+      return { ...prev, ["imgEventoRecortada"]: value };
+    });
+
+    setOpenCroppedImage(false);
   };
 
   const handleSave = () => {
@@ -403,6 +383,7 @@ const Adicionar = () => {
               id="image-container"
               sx={{
                 backgroundColor: "white",
+                margin: "0 0 0 1rem",
               }}
             >
               <Input
@@ -414,23 +395,54 @@ const Adicionar = () => {
                 onChange={handlePhotoUpload}
               />
               {openCroppedImage ? (
-                <Cropper
-                  image={fieldValues?.imagem}
-                  crop={crop}
-                  zoom={zoom}
-                  aspect={4 / 3}
-                  onCropChange={setCrop}
-                  onCropComplete={onCropComplete}
-                  onZoomChange={setZoom}
-                  style={{
-                    containerStyle: {
-                      position: "unset",
-                    },
-                    mediaStyle: {
-                      position: "unset",
-                    },
-                  }}
-                />
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                >
+                  <Cropper
+                    image={fieldValues?.imagem}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={16 / 9}
+                    onCropChange={setCrop}
+                    onCropComplete={onCropComplete}
+                    onZoomChange={setZoom}
+                    style={{
+                      containerStyle: {
+                        position: "unset",
+                        maxWidth: "600px",
+                      },
+                      mediaStyle: {
+                        position: "unset",
+                      },
+                      cropAreaStyle: {
+                        marginTop: "-2.5rem",
+                      },
+                    }}
+                  />
+                  <Box
+                    p="1rem"
+                    display="flex"
+                    justifyContent="space-evenly"
+                    sx={{ zIndex: "999", backgroundColor: "#fff" }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => setOpenCroppedImage(false)}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleSaveMinimizedImage()}
+                    >
+                      Guardar Recorte
+                    </Button>
+                  </Box>
+                </Box>
               ) : (
                 <Avatar
                   src={fieldValues.imagem || img}

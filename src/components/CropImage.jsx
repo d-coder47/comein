@@ -58,7 +58,7 @@ const CropImage = ({ image }) => {
         />
       </div>
       <div style={classes.controls}>
-        <div style={classes.sliderContainer}>
+        {/* <div style={classes.sliderContainer}>
           <Typography
             variant="overline"
             classes={{ root: classes.sliderLabel }}
@@ -74,8 +74,8 @@ const CropImage = ({ image }) => {
             classes={{ root: classes.slider }}
             onChange={(e, zoom) => setZoom(zoom)}
           />
-        </div>
-        <div style={classes.sliderContainer}>
+        </div> */}
+        {/* <div style={classes.sliderContainer}>
           <Typography
             variant="overline"
             classes={{ root: classes.sliderLabel }}
@@ -91,8 +91,9 @@ const CropImage = ({ image }) => {
             classes={{ root: classes.slider }}
             onChange={(e, rotation) => setRotation(rotation)}
           />
-        </div>
+        </div> */}
         <Button
+          id="slider"
           onClick={showCroppedImage}
           variant="contained"
           color="primary"
