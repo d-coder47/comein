@@ -190,7 +190,6 @@ const CardDetailed = () => {
     if (!details) return;
 
     const publisherId = details?.utilizador[0]?.id;
-    console.log({ publisherId, details });
 
     if (isFollowing !== null) return;
     const user = JSON.parse(localStorage.getItem("userInfo"));
