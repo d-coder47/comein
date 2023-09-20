@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
-  Box,
+  Button,
   Typography,
   List,
   ListItem,
   Divider,
   ListItemText,
-  ListItemAvatar,
-  Avatar,
+  Menu,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { Button, Menu, MenuItem } from "@mui/material";
 
 import useNotifications from "../hooks/useNotifications";
 
@@ -20,11 +18,16 @@ const Notifications = ({ open, anchorEl, handleClose }) => {
 
   const userId = localStorage.getItem("userId");
 
-  const [notifications, setNotications] = useState();
+  const [notifications, setNotications] = useState([]);
 
+  async function fetchData() {
+    const notificationData = await getUserNotifications(userId);
+
+    setNotications(notificationData.dados);
+  }
   useEffect(() => {
     if (userId) {
-      setNotications(getUserNotifications(userId));
+      fetchData();
       //   addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
     }
   }, [userId]);
@@ -68,73 +71,54 @@ const Notifications = ({ open, anchorEl, handleClose }) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+            maxHeight: 360,
+            bgcolor: "background.paper",
+            padding: "5px 5px 0 5px",
+            overflowY: "auto",
+          }}
         >
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Brunch this weekend?"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Ali Connors
-                  </Typography>
-                  {" — I'll be in your neighborhood doing errands this…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Summer BBQ"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    to Scott, Alex, Jennifer
-                  </Typography>
-                  {" — Wish I could come, but I'm out of town this…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Oui Oui"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Sandra Adams
-                  </Typography>
-                  {" — Do you have Paris recommendations? Have you ever…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
+          {notifications.length > 0 &&
+            notifications.map((notification, index) => (
+              <React.Fragment key={index}>
+                <ListItem
+                  alignItems="flex-start"
+                  sx={{
+                    background: notification.vista === "N" ? "#d3d3d3" : "#fff",
+                    marginBottom: "10px",
+                    borderRadius: "5px",
+                    boxShadow: "1px 1px 1px 1px #00000045",
+                  }}
+                >
+                  <ListItemText
+                    primary="Nova atualização"
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          sx={{ display: "inline" }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {notification.mensagem}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+                <Divider />
+              </React.Fragment>
+            ))}
+          <Button
+            variant="text"
+            sx={{
+              textTransform: "capitalize",
+            }}
+          >
+            Limpar
+          </Button>
         </List>
       </Menu>
     </div>

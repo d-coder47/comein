@@ -12,6 +12,7 @@ import {
   Menu,
   Divider,
   ListItemIcon,
+  Badge,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -30,6 +31,7 @@ import portugalFlag from "../assets/img/portugal.png";
 import { useLocation } from "react-router-dom";
 
 import Notifications from "./Notifications";
+import useNotifications from "../hooks/useNotifications";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -47,6 +49,9 @@ const NavBar = () => {
 
   const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
   const notificatinsMenuOpen = Boolean(notificationAnchorEl);
+
+  const { countNotifications } = useNotifications();
+  const [notificationNumber, setNoticationNumber] = useState();
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -93,10 +98,16 @@ const NavBar = () => {
     }
   };
 
+  async function fetchData(userId) {
+    const res = await countNotifications(userId);
+
+    setNoticationNumber(res);
+  }
   useEffect(() => {
     if (authenticated) {
       const data = JSON.parse(localStorage.getItem("userInfo"));
       setUserData(data);
+      fetchData(data.id);
     }
   }, [authenticated]);
   return (
@@ -148,7 +159,12 @@ const NavBar = () => {
               aria-haspopup="true"
               aria-expanded={notificatinsMenuOpen ? "true" : undefined}
             >
-              <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
+              <Badge badgeContent={notificationNumber} color="error">
+                <NotificationsIcon
+                  color="primary"
+                  sx={{ fontSize: "1.25rem" }}
+                />
+              </Badge>
             </IconButton>
           </Tooltip>
           <Notifications

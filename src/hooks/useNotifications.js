@@ -33,7 +33,6 @@ const useNotifications = () => {
           },
         }
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -66,10 +65,30 @@ const useNotifications = () => {
     }
   };
 
+  const countNotifications = async (userId) => {
+    try {
+      const notificationData = await getUserNotifications(userId);
+      var count = 0;
+
+      console.log(notificationData);
+
+      notificationData.dados.map((notification) => {
+        if (notification.vista === "N") {
+          ++count;
+        }
+      });
+
+      return count;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getAllNotifications,
     getUserNotifications,
     addNotifications,
+    countNotifications,
   };
 };
 
