@@ -58,7 +58,7 @@ const useNotifications = () => {
           },
         }
       );
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       console.error(error);
@@ -69,8 +69,6 @@ const useNotifications = () => {
     try {
       const notificationData = await getUserNotifications(userId);
       var count = 0;
-
-      console.log(notificationData);
 
       notificationData.dados.map((notification) => {
         if (notification.vista === "N") {
@@ -84,11 +82,84 @@ const useNotifications = () => {
     }
   };
 
+  const alterarEstadoNotificacoes = async () => {
+    try {
+      const params = new URLSearchParams({
+        _method: "PUT",
+      }).toString();
+      const response = await axiosInstance.post(
+        "/notificacoes/alterarEstadoNotificacoes",
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const alterarEstadoNotificacao = async (idNotificacao) => {
+    try {
+      const params = new URLSearchParams({
+        _method: "PUT",
+      }).toString();
+      const response = await axiosInstance.post(
+        `/notificacoes/alterarEstadoNotificacao/${idNotificacao}`,
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removerNotificacao = async (idNotificacao) => {
+    try {
+      const params = new URLSearchParams({
+        _method: "PUT",
+      }).toString();
+      const response = await axiosInstance.post(
+        `/notificacoes/removerNotificacao/${idNotificacao}`,
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return {
     getAllNotifications,
     getUserNotifications,
     addNotifications,
     countNotifications,
+    alterarEstadoNotificacoes,
+    alterarEstadoNotificacao,
+    removerNotificacao,
   };
 };
 

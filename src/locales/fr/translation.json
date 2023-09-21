@@ -144,7 +144,9 @@
     "perfil": "Profil",
     "adicionarConta": "Ajouter un autre compte",
     "definicoes": "Paramètres",
-    "terminarSessao": "Se déconnecter"
+    "terminarSessao": "Se déconnecter",
+    "novaAtualizacao": "Nouvelle actualisation",
+    "limparTudo": "Tout nettoyer"
   },
   "categories": {
     "music": "Musique",

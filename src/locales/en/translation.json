@@ -144,7 +144,9 @@
     "perfil": "Profile",
     "adicionarConta": "Add another account",
     "definicoes": "Definitions",
-    "terminarSessao": "Sign out"
+    "terminarSessao": "Sign out",
+    "novaAtualizacao": "New update",
+    "limparTudo": "Clean everything"
   },
   "categories": {
     "music": "Music",

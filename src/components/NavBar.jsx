@@ -50,8 +50,13 @@ const NavBar = () => {
   const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
   const notificatinsMenuOpen = Boolean(notificationAnchorEl);
 
-  const { countNotifications } = useNotifications();
+  const {
+    countNotifications,
+    alterarEstadoNotificacoes,
+    getUserNotifications,
+  } = useNotifications();
   const [notificationNumber, setNoticationNumber] = useState();
+  const [notifications, setNotications] = useState([]);
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -73,8 +78,10 @@ const NavBar = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleNotificationsMenuClick = (event) => {
+  const handleNotificationsMenuClick = async (event) => {
     setNotificationAnchorEl(event.currentTarget);
+    await alterarEstadoNotificacoes();
+    await fetchData(userData.id);
   };
   const handleNotificationsMenuClose = () => {
     setNotificationAnchorEl(null);
@@ -99,6 +106,9 @@ const NavBar = () => {
   };
 
   async function fetchData(userId) {
+    const notificationData = await getUserNotifications(userId);
+
+    setNotications(notificationData.dados);
     const res = await countNotifications(userId);
 
     setNoticationNumber(res);
@@ -171,6 +181,7 @@ const NavBar = () => {
             anchorEl={notificationAnchorEl}
             handleClose={handleNotificationsMenuClose}
             open={notificatinsMenuOpen}
+            notifications={notifications}
           />
         </Box>
         <Select

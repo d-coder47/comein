@@ -7,30 +7,60 @@ import {
   Divider,
   ListItemText,
   Menu,
+  ButtonBase,
+  ListItemIcon,
+  IconButton,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import useNotifications from "../hooks/useNotifications";
+import useProjects from "../hooks/useProjects";
+import useEvents from "../hooks/useEvents";
+import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const Notifications = ({ open, anchorEl, handleClose }) => {
+const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
   const { t } = useTranslation();
-  const { getUserNotifications, addNotifications } = useNotifications();
+  const { addNotifications, alterarEstadoNotificacao, removerNotificacao } =
+    useNotifications();
+  const { getProject } = useProjects();
+  const { getEvent } = useEvents();
 
   const userId = localStorage.getItem("userId");
 
-  const [notifications, setNotications] = useState([]);
+  const navigate = useNavigate();
 
-  async function fetchData() {
-    const notificationData = await getUserNotifications(userId);
-
-    setNotications(notificationData.dados);
-  }
+  async function fetchData() {}
   useEffect(() => {
     if (userId) {
-      fetchData();
-      //   addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
+      // addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
     }
   }, [userId]);
+
+  async function ListItemClick(idPub, pubType, idNotification) {
+    if (pubType === "E") {
+      const event = await getEvent(idPub);
+      const postName = event.dados.nome
+        .toLowerCase()
+        .trim()
+        .replaceAll(" ", "_");
+      navigate(`/eventos/${idPub}/${postName}`);
+    } else {
+      const project = await getProject(idPub);
+
+      const postName = project.dados.nome
+        .toLowerCase()
+        .trim()
+        .replaceAll(" ", "_");
+      navigate(`/projetos/${idPub}/${postName}`);
+    }
+
+    await alterarEstadoNotificacao(idNotification);
+  }
+
+  async function removeItemClick(idNotification) {
+    await removerNotificacao(idNotification);
+  }
   return (
     <div>
       <Menu
@@ -86,40 +116,62 @@ const Notifications = ({ open, anchorEl, handleClose }) => {
                 <ListItem
                   alignItems="flex-start"
                   sx={{
-                    background: notification.vista === "N" ? "#d3d3d3" : "#fff",
+                    background: notification.lida === "N" ? "#d3d3d3" : "#fff",
                     marginBottom: "10px",
                     borderRadius: "5px",
                     boxShadow: "1px 1px 1px 1px #00000045",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  <ListItemText
-                    primary="Nova atualização"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          sx={{ display: "inline" }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          {notification.mensagem}
-                        </Typography>
-                      </React.Fragment>
+                  <ButtonBase
+                    onClick={() =>
+                      ListItemClick(
+                        notification.id_publicacao,
+                        notification.tipo_publicacao,
+                        notification.id,
+                        "item"
+                      )
                     }
-                  />
+                    style={{ width: "100%", textAlign: "left" }}
+                  >
+                    <ListItemText
+                      primary={t("navBar.novaAtualizacao")}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: "inline" }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            {notification.mensagem}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </ButtonBase>
+                  <ListItemIcon>
+                    <IconButton>
+                      <DeleteIcon
+                        onClick={() => removeItemClick(notification.id)}
+                      />
+                    </IconButton>
+                  </ListItemIcon>
                 </ListItem>
+
                 <Divider />
               </React.Fragment>
             ))}
-          <Button
-            variant="text"
-            sx={{
-              textTransform: "capitalize",
-            }}
-          >
-            Limpar
-          </Button>
         </List>
+        <Button
+          variant="text"
+          sx={{
+            textTransform: "none",
+          }}
+        >
+          {t("navBar.limparTudo")}
+        </Button>
       </Menu>
     </div>
   );
