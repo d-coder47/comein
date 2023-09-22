@@ -15,6 +15,7 @@ import {
   Alert,
   Collapse,
   AlertTitle,
+  Button,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -27,6 +28,7 @@ import {
   CheckBox,
   Handshake,
   MoreHoriz,
+  Crop,
 } from "@mui/icons-material";
 
 import ReactQuill from "react-quill";
@@ -49,6 +51,9 @@ import {
 } from "../../../utils/filterPostAttributes";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import getCroppedImg from "../../../utils/cropImage";
+import Cropper from "react-easy-crop";
+import { validatePost } from "../../../utils/postValidation";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -78,8 +83,11 @@ const Editar = () => {
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
-
-  const [openImageSizeError, setOpenImageSizeError] = useState(false);
+  const [openCroppedImage, setOpenCroppedImage] = useState(false);
+  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   const params = useParams();
   const { id } = params;
@@ -267,6 +275,26 @@ const Editar = () => {
     document.getElementById("upload-photo").click();
   };
 
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleSaveMinimizedImage = async () => {
+    const value = await getCroppedImg(
+      fieldValues.imagem,
+      croppedAreaPixels,
+      0,
+      fieldValues?.imgEvento?.type
+    );
+    console.log("value", value);
+
+    setFieldValues((prev) => {
+      return { ...prev, ["imgEventoRecortada"]: value };
+    });
+
+    setOpenCroppedImage(false);
+  };
+
   const handleSave = () => {
     console.log({ editedFieldValues });
 
@@ -283,7 +311,6 @@ const Editar = () => {
 
     const values = cleanPost(filteredFieldValues);
     const body = objectToFormData(values, user.id);
-
     console.log(body);
 
     editEvent(body);
@@ -402,13 +429,77 @@ const Editar = () => {
                 accept="image/*"
                 onChange={handlePhotoUpload}
               />
-              <Avatar
-                src={fieldValues.imagem || img}
-                alt={`Adicionar imagem`}
-                variant="square"
-                sx={{ width: "45rem", height: "auto" }}
-                onClick={handleChangeImgClick}
-              />
+              {openCroppedImage ? (
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  sx={{
+                    backgroundColor: "#f8f8f8",
+                  }}
+                >
+                  <Cropper
+                    image={fieldValues?.imagem}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={16 / 9}
+                    onCropChange={setCrop}
+                    onCropComplete={onCropComplete}
+                    onZoomChange={setZoom}
+                    style={{
+                      containerStyle: {
+                        position: "unset",
+                        maxWidth: "600px",
+                        maxHeight: "385px",
+                        height: "385px",
+                      },
+                      mediaStyle: {
+                        position: "unset",
+                      },
+                      cropAreaStyle: {
+                        marginTop: "-4.5rem",
+                      },
+                    }}
+                  />
+                  <Box
+                    p="1rem"
+                    display="flex"
+                    justifyContent="space-evenly"
+                    sx={{
+                      zIndex: "999",
+                      backgroundColor: "#fff",
+                      borderRadius: "0 0 .25rem .25rem",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => setOpenCroppedImage(false)}
+                      sx={{ textTransform: "unset" }}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleSaveMinimizedImage()}
+                      sx={{
+                        textTransform: "unset",
+                      }}
+                    >
+                      Guardar Recorte
+                    </Button>
+                  </Box>
+                </Box>
+              ) : (
+                <Avatar
+                  src={fieldValues.imagem || img}
+                  alt={`Adicionar imagem`}
+                  variant="square"
+                  sx={{ width: "45rem", height: "auto" }}
+                  onClick={handleChangeImgClick}
+                />
+              )}
             </Box>
             <ReactQuill
               theme="snow"
@@ -719,6 +810,32 @@ const Editar = () => {
                 />
               </Box>
             </Popover>
+            <Tooltip
+              title={t("eventPage.common.croppedImage")}
+              placement="left"
+              arrow
+            >
+              <Box
+                id="cropped-image"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={() => setOpenCroppedImage(true)}
+              >
+                <Crop sx={{ color: "white", width: "1rem", height: "1rem" }} />
+              </Box>
+            </Tooltip>
             <Tooltip title={t("eventPage.common.save")} placement="left" arrow>
               <Box
                 id="save"

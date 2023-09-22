@@ -4,9 +4,9 @@ import {
   Autocomplete,
   Avatar,
   Box,
+  Button,
   Checkbox,
   Input,
-  Modal,
   Popover,
   TextField,
   Tooltip,
@@ -14,17 +14,14 @@ import {
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
-  CalendarMonth,
   LocationOn,
   FiberManualRecord as Dot,
   Save,
-  Add,
   CheckBoxOutlineBlank,
   CheckBox,
   MoreHoriz,
-  Handshake,
+  Crop,
 } from "@mui/icons-material";
-import Publisher from "../../../components/Publisher";
 
 import ReactQuill from "react-quill";
 
@@ -38,12 +35,11 @@ import { useTranslation } from "react-i18next";
 import {
   cleanPost,
   filterAssociatedOwners,
-  filterAssociatedProjects,
   filterCulturalAreas,
-  filterEndDate,
-  filterStartDate,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
+import getCroppedImg from "../../../utils/cropImage";
+import Cropper from "react-easy-crop";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -55,8 +51,6 @@ const Editar = () => {
   const [anchorAssociateEventEl, setAnchorAssociateEventEl] = useState(null);
   const [fieldValues, setFieldValues] = useState({
     nome: "",
-    // data_inicio: "",
-    // data_fim: "",
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "projectPage.common.defaultDescription"
@@ -66,12 +60,16 @@ const Editar = () => {
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
-    // assoc_evento: [],
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
   const [addresses, setAddresses] = useState([]);
+  const [openCroppedImage, setOpenCroppedImage] = useState(false);
+  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   const params = useParams();
   const { id } = params;
@@ -151,23 +149,7 @@ const Editar = () => {
       }
     };
 
-    const getEvents = async () => {
-      try {
-        const response = await axiosInstance.get(`/eventos/listar`, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-          },
-        });
-        setEvents(response.data.dados);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     getUsers();
-    getEvents();
   }, []);
 
   useEffect(() => {
@@ -222,14 +204,8 @@ const Editar = () => {
   const openLocationPopover = Boolean(anchorLocationEl);
   const locationPopoverId = open ? "location-popover" : undefined;
 
-  const openDatePopover = Boolean(anchorDateEl);
-  const datePopoverId = open ? "date-popover" : undefined;
-
   const openCulturalAreaPopover = Boolean(anchorCulturalAreaEl);
   const culturalAreaPopoverId = open ? "culturalArea-popover" : undefined;
-
-  const openAssociateEventPopover = Boolean(anchorAssociateEventEl);
-  const associateEventPopoverId = open ? "associateEvent-popover" : undefined;
 
   const icon = <CheckBoxOutlineBlank fontSize="small" />;
   const checkedIcon = <CheckBox fontSize="small" />;
@@ -250,17 +226,32 @@ const Editar = () => {
     document.getElementById("upload-photo").click();
   };
 
+  const onCropComplete = (_, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const handleSaveMinimizedImage = async () => {
+    const value = await getCroppedImg(
+      fieldValues.imagem,
+      croppedAreaPixels,
+      0,
+      fieldValues?.imgProjeto?.type
+    );
+
+    setFieldValues((prev) => {
+      return { ...prev, ["imgProjetoRecortada"]: value };
+    });
+
+    setOpenCroppedImage(false);
+  };
+
   const handleSave = () => {
     console.log({ editedFieldValues });
 
     const filteredFieldValues = {
       ...editedFieldValues,
-      // imgProjetoRecortada: fieldValues?.imgProjeto,
       imagem: fieldValues?.imgProjeto,
-      // data_inicio: filterStartDate(editedFieldValues?.data_inicio),
-      // data_fim: filterEndDate(editedFieldValues?.data_fim),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
-      // assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(
         editedFieldValues?.proprietarios
       ),
@@ -268,7 +259,6 @@ const Editar = () => {
 
     const values = cleanPost(filteredFieldValues);
     const body = objectToFormData(values, user.id);
-
     console.log(body);
 
     editProject(body);
@@ -388,13 +378,77 @@ const Editar = () => {
                 accept="image/*"
                 onChange={handlePhotoUpload}
               />
-              <Avatar
-                src={fieldValues.imagem || img}
-                alt={`Adicionar imagem`}
-                variant="square"
-                sx={{ width: "45rem", height: "auto" }}
-                onClick={handleChangeImgClick}
-              />
+              {openCroppedImage ? (
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  sx={{
+                    backgroundColor: "#f8f8f8",
+                  }}
+                >
+                  <Cropper
+                    image={fieldValues?.imagem}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={16 / 9}
+                    onCropChange={setCrop}
+                    onCropComplete={onCropComplete}
+                    onZoomChange={setZoom}
+                    style={{
+                      containerStyle: {
+                        position: "unset",
+                        maxWidth: "600px",
+                        maxHeight: "385px",
+                        height: "385px",
+                      },
+                      mediaStyle: {
+                        position: "unset",
+                      },
+                      cropAreaStyle: {
+                        marginTop: "-4.5rem",
+                      },
+                    }}
+                  />
+                  <Box
+                    p="1rem"
+                    display="flex"
+                    justifyContent="space-evenly"
+                    sx={{
+                      zIndex: "999",
+                      backgroundColor: "#fff",
+                      borderRadius: "0 0 .25rem .25rem",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={() => setOpenCroppedImage(false)}
+                      sx={{ textTransform: "unset" }}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleSaveMinimizedImage()}
+                      sx={{
+                        textTransform: "unset",
+                      }}
+                    >
+                      Guardar Recorte
+                    </Button>
+                  </Box>
+                </Box>
+              ) : (
+                <Avatar
+                  src={fieldValues.imagem || img}
+                  alt={`Adicionar imagem`}
+                  variant="square"
+                  sx={{ width: "45rem", height: "auto" }}
+                  onClick={handleChangeImgClick}
+                />
+              )}
             </Box>
             <ReactQuill
               theme="snow"
@@ -548,6 +602,32 @@ const Editar = () => {
                 />
               </Box>
             </Popover>
+            <Tooltip
+              title={t("eventPage.common.croppedImage")}
+              placement="left"
+              arrow
+            >
+              <Box
+                id="cropped-image"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={() => setOpenCroppedImage(true)}
+              >
+                <Crop sx={{ color: "white", width: "1rem", height: "1rem" }} />
+              </Box>
+            </Tooltip>
             <Tooltip
               title={t("projectPage.common.save")}
               placement="left"

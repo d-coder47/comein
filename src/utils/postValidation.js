@@ -68,15 +68,19 @@ export const validatePost = (values, isEvent) => {
     isEvent ? values?.imgEvento : values?.imgProjeto
   );
   const successOnValidateLocation = validateLocation(values?.id_geografia);
-  const successOnValidateStartDate = validateStartDate(values?.data_inicio);
+  const successOnValidateStartDate = isEvent
+    ? validateStartDate(values?.data_inicio)
+    : true;
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
-  const successOnIsDatesValid = isDatesValid(
-    values?.data_inicio,
-    values?.data_fim,
-    successOnValidateStartDate
-  );
+  const successOnIsDatesValid = isEvent
+    ? isDatesValid(
+        values?.data_inicio,
+        values?.data_fim,
+        successOnValidateStartDate
+      )
+    : true;
 
   return (
     successOnValidateName &&

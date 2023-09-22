@@ -1,3 +1,5 @@
+import { saveAs } from "file-saver";
+
 export const createImage = (url) =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -91,7 +93,14 @@ export default async function getCroppedImg(
   return new Promise((resolve, reject) => {
     croppedCanvas.toBlob((file) => {
       // resolve(URL.createObjectURL(file));
+      // const blobWithFilename = saveAs(file, "minimized.jpeg");
+      let newBlob = new Blob([file], { type: type });
+      newBlob.lastModifiedDate = new Date();
+      const fileType = type.split("/")[1];
+      newBlob.name = "minimized." + fileType;
+
       resolve(file);
     }, type);
+    // }, "image/png");
   });
 }

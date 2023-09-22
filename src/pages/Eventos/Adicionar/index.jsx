@@ -199,14 +199,6 @@ const Adicionar = () => {
   const icon = <CheckBoxOutlineBlank fontSize="small" />;
   const checkedIcon = <CheckBox fontSize="small" />;
 
-  const arrayToString = (array) => {
-    return array.reduce((total, current, index, arr) => {
-      if (index === 1) return `${total},${current},`;
-      if (index === arr.length - 1) return total + current;
-      return total + current + ",";
-    });
-  };
-
   const handlePhotoUpload = async (event) => {
     const file = event.target.files[0];
 
@@ -231,7 +223,6 @@ const Adicionar = () => {
   };
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
-    console.log(croppedArea, croppedAreaPixels);
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
@@ -258,7 +249,7 @@ const Adicionar = () => {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
       imgEvento: fieldValues?.imgEvento,
-      imgEventoRecortada: fieldValues?.imgEvento,
+      imgEventoRecortada: fieldValues?.imgEventoRecortada,
       descricao: fieldValues?.descricao,
       id_geografia: fieldValues?.local?.id,
       data_inicio: filterStartDate(fieldValues?.data_inicio),
@@ -399,6 +390,9 @@ const Adicionar = () => {
                   display="flex"
                   flexDirection="column"
                   justifyContent="center"
+                  sx={{
+                    backgroundColor: "#f8f8f8",
+                  }}
                 >
                   <Cropper
                     image={fieldValues?.imagem}
@@ -412,12 +406,14 @@ const Adicionar = () => {
                       containerStyle: {
                         position: "unset",
                         maxWidth: "600px",
+                        maxHeight: "385px",
+                        height: "385px",
                       },
                       mediaStyle: {
                         position: "unset",
                       },
                       cropAreaStyle: {
-                        marginTop: "-2.5rem",
+                        marginTop: "-4.5rem",
                       },
                     }}
                   />
@@ -425,12 +421,17 @@ const Adicionar = () => {
                     p="1rem"
                     display="flex"
                     justifyContent="space-evenly"
-                    sx={{ zIndex: "999", backgroundColor: "#fff" }}
+                    sx={{
+                      zIndex: "999",
+                      backgroundColor: "#fff",
+                      borderRadius: "0 0 .25rem .25rem",
+                    }}
                   >
                     <Button
                       variant="outlined"
                       color="primary"
                       onClick={() => setOpenCroppedImage(false)}
+                      sx={{ textTransform: "unset" }}
                     >
                       Cancelar
                     </Button>
@@ -438,6 +439,9 @@ const Adicionar = () => {
                       variant="contained"
                       color="primary"
                       onClick={() => handleSaveMinimizedImage()}
+                      sx={{
+                        textTransform: "unset",
+                      }}
                     >
                       Guardar Recorte
                     </Button>
