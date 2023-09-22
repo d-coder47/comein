@@ -48,6 +48,7 @@ const CustomCard = ({
   publisherName,
   type,
 }) => {
+  console.log({ id, picture });
   const [isLoading, setIsLoading] = useState(true);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);

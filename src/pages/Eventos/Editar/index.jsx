@@ -288,7 +288,7 @@ const Editar = () => {
     );
     console.log("value", value);
 
-    setFieldValues((prev) => {
+    setEditedFieldValues((prev) => {
       return { ...prev, ["imgEventoRecortada"]: value };
     });
 

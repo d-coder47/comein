@@ -238,7 +238,7 @@ const Editar = () => {
       fieldValues?.imgProjeto?.type
     );
 
-    setFieldValues((prev) => {
+    setEditedFieldValues((prev) => {
       return { ...prev, ["imgProjetoRecortada"]: value };
     });
 

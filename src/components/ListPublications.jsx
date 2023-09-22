@@ -98,6 +98,13 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     if (type == "event") return t("userProfile.visitorNoEvents");
   };
 
+  const displayImage = (fullImage, minimizedImage, postType) => {
+    const type = postType === "E" ? "eventos" : "projetos";
+    return minimizedImage?.length > 0
+      ? `https://comein.cv/comeincv_api_test/img/${type}Img/${type}ImgRecortada/${minimizedImage}`
+      : `https://comein.cv/comeincv_api_test/img/${type}Img/${fullImage}`;
+  };
+
   if (type === "event") {
     if (events?.length === 0) {
       return !isVisitor ? (
@@ -193,9 +200,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     name={card.nome}
                     likes={card.gostos}
                     visits={card.visitasPost}
-                    picture={`https://comein.cv/comeincv_api_test/img/${
-                      card.distincao === "E" ? "eventos" : "projetos"
-                    }Img/${card.imagem}`}
+                    picture={displayImage(
+                      card?.imagem,
+                      card?.imagem_recortada,
+                      card.distincao
+                    )}
                     publisherId={card.id_utilizador}
                     publisherName={card.nome_user}
                     publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
@@ -294,9 +303,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     name={card.nome}
                     likes={card.gostos}
                     visits={card.visitasPost}
-                    picture={`https://comein.cv/comeincv_api_test/img/${
-                      card.distincao === "E" ? "eventos" : "projetos"
-                    }Img/${card.imagem}`}
+                    picture={displayImage(
+                      card?.imagem,
+                      card?.imagem_recortada,
+                      card.distincao
+                    )}
                     publisherId={card.id_utilizador}
                     publisherName={card.nome_user}
                     publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
@@ -354,9 +365,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   name={card.nome}
                   likes={card.gostos}
                   visits={card.visitas}
-                  picture={`https://comein.cv/comeincv_api_test/img/${
-                    card.distincao === "E" ? "eventos" : "projetos"
-                  }Img/${card.imagem}`}
+                  picture={displayImage(
+                    card?.imagem,
+                    card?.imagem_recortada,
+                    card.distincao
+                  )}
                   publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
                   publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
@@ -388,9 +401,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   name={card.nome}
                   likes={card.gostos}
                   visits={card.visitas}
-                  picture={`https://comein.cv/comeincv_api_test/img/${
-                    card.distincao === "E" ? "eventos" : "projetos"
-                  }Img/${card.imagem}`}
+                  picture={displayImage(
+                    card?.imagem,
+                    card?.imagem_recortada,
+                    card.distincao
+                  )}
                   publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
                   publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
