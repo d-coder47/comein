@@ -21,19 +21,34 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
   const { t } = useTranslation();
-  const { addNotifications, alterarEstadoNotificacao, removerNotificacao } =
-    useNotifications();
+  const {
+    addNotifications,
+    changeNotificationStatus,
+    removerNotificacao,
+    removeNotifications,
+    getUserNotifications,
+  } = useNotifications();
   const { getProject } = useProjects();
   const { getEvent } = useEvents();
 
   const userId = localStorage.getItem("userId");
 
+  const [notificationList, setNotificationList] = useState(notifications);
+
   const navigate = useNavigate();
 
-  async function fetchData() {}
+  async function fetchData() {
+    const notificationData = await getUserNotifications(userId);
+    if (notificationData.dados.length === 0) {
+      setNotificationList([]);
+    } else {
+      setNotificationList(notificationData.dados);
+    }
+  }
   useEffect(() => {
     if (userId) {
-      // addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
+      fetchData();
+      //addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
     }
   }, [userId]);
 
@@ -55,12 +70,22 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
       navigate(`/projetos/${idPub}/${postName}`);
     }
 
-    await alterarEstadoNotificacao(idNotification);
+    await changeNotificationStatus(idNotification);
   }
 
   async function removeItemClick(idNotification) {
     await removerNotificacao(idNotification);
+    const notificationData = await getUserNotifications(userId);
+
+    setNotificationList(notificationData.dados);
   }
+
+  async function removeAllNotifications(userId) {
+    await removeNotifications(userId);
+
+    setNotificationList([]);
+  }
+
   return (
     <div>
       <Menu
@@ -106,20 +131,25 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
             maxWidth: 360,
             maxHeight: 360,
             bgcolor: "background.paper",
-            padding: "5px 5px 0 5px",
+            padding: notificationList.length === 0 ? "0px" : "5px 5px 0 5px",
             overflowY: "auto",
           }}
         >
-          {notifications.length > 0 &&
-            notifications.map((notification, index) => (
+          {notificationList.length === 0 && (
+            <ListItem>
+              <ListItemText primary={t("navBar.nenhumaAtualizacao")} />
+            </ListItem>
+          )}
+          {notificationList.length > 0 &&
+            notificationList.map((notification, index) => (
               <React.Fragment key={index}>
                 <ListItem
                   alignItems="flex-start"
                   sx={{
-                    background: notification.lida === "N" ? "#d3d3d3" : "#fff",
+                    // background: notification.lida === "N" ? "#d3d3d3" : "#fff",
                     marginBottom: "10px",
                     borderRadius: "5px",
-                    boxShadow: "1px 1px 1px 1px #00000045",
+                    boxShadow: "1px 1px 1px 1px #c3c3c3",
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -136,6 +166,13 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
                     style={{ width: "100%", textAlign: "left" }}
                   >
                     <ListItemText
+                      sx={{
+                        fontWeight:
+                          notification.lida === "N" ? "bold" : "normal",
+                        "& .MuiTypography-root": {
+                          fontWeight: "inherit", // Ensure that the primary text inherits the fontWeight
+                        },
+                      }}
                       primary={t("navBar.novaAtualizacao")}
                       secondary={
                         <React.Fragment>
@@ -143,7 +180,7 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
                             sx={{ display: "inline" }}
                             component="span"
                             variant="body2"
-                            color="text.primary"
+                            color="#000"
                           >
                             {notification.mensagem}
                           </Typography>
@@ -164,14 +201,17 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
               </React.Fragment>
             ))}
         </List>
-        <Button
-          variant="text"
-          sx={{
-            textTransform: "none",
-          }}
-        >
-          {t("navBar.limparTudo")}
-        </Button>
+        {notificationList.length > 0 && (
+          <Button
+            variant="text"
+            sx={{
+              textTransform: "none",
+            }}
+            onClick={() => removeAllNotifications(userId)}
+          >
+            {t("navBar.limparTudo")}
+          </Button>
+        )}
       </Menu>
     </div>
   );

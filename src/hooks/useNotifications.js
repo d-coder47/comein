@@ -82,7 +82,7 @@ const useNotifications = () => {
     }
   };
 
-  const alterarEstadoNotificacoes = async () => {
+  const changeNotificationsStatus = async () => {
     try {
       const params = new URLSearchParams({
         _method: "PUT",
@@ -105,7 +105,7 @@ const useNotifications = () => {
     }
   };
 
-  const alterarEstadoNotificacao = async (idNotificacao) => {
+  const changeNotificationStatus = async (idNotificacao) => {
     try {
       const params = new URLSearchParams({
         _method: "PUT",
@@ -131,7 +131,7 @@ const useNotifications = () => {
   const removerNotificacao = async (idNotificacao) => {
     try {
       const params = new URLSearchParams({
-        _method: "PUT",
+        _method: "DELETE",
       }).toString();
       const response = await axiosInstance.post(
         `/notificacoes/removerNotificacao/${idNotificacao}`,
@@ -145,7 +145,28 @@ const useNotifications = () => {
         }
       );
 
-      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeNotifications = async (userId) => {
+    try {
+      const params = new URLSearchParams({
+        _method: "DELETE",
+      }).toString();
+      const response = await axiosInstance.post(
+        `/notificacoes/removerNotificacoes/${userId}`,
+        params,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
 
       return response.data;
     } catch (error) {
@@ -157,9 +178,10 @@ const useNotifications = () => {
     getUserNotifications,
     addNotifications,
     countNotifications,
-    alterarEstadoNotificacoes,
-    alterarEstadoNotificacao,
+    changeNotificationsStatus,
+    changeNotificationStatus,
     removerNotificacao,
+    removeNotifications,
   };
 };
 

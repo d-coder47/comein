@@ -145,8 +145,9 @@
     "adicionarConta": "Ajouter un autre compte",
     "definicoes": "Paramètres",
     "terminarSessao": "Se déconnecter",
-    "novaAtualizacao": "Nouvelle actualisation",
-    "limparTudo": "Tout nettoyer"
+    "novaAtualizacao": "Nouvelle actualisation!",
+    "limparTudo": "Tout nettoyer",
+    "nenhumaAtualizacao": "Pas de nouvelles mises à jour !"
   },
   "categories": {
     "music": "Musique",

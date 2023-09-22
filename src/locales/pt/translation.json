@@ -145,8 +145,9 @@
     "adicionarConta": "Adicionar outra conta",
     "definicoes": "Definições",
     "terminarSessao": "Terminar sessão",
-    "novaAtualizacao": "Nova atualização",
-    "limparTudo": "Limpar tudo"
+    "novaAtualizacao": "Nova atualização!",
+    "limparTudo": "Limpar tudo",
+    "nenhumaAtualizacao": "Nenhuma atualização nova!"
   },
   "categories": {
     "music": "Música",

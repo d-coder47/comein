@@ -145,8 +145,9 @@
     "adicionarConta": "Add another account",
     "definicoes": "Definitions",
     "terminarSessao": "Sign out",
-    "novaAtualizacao": "New update",
-    "limparTudo": "Clean everything"
+    "novaAtualizacao": "New update!",
+    "limparTudo": "Clean everything",
+    "nenhumaAtualizacao": "Aucune mise à jour disponible !"
   },
   "categories": {
     "music": "Music",

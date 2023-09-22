@@ -52,11 +52,11 @@ const NavBar = () => {
 
   const {
     countNotifications,
-    alterarEstadoNotificacoes,
+    changeNotificationsStatus,
     getUserNotifications,
   } = useNotifications();
   const [notificationNumber, setNoticationNumber] = useState();
-  const [notifications, setNotications] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -80,7 +80,7 @@ const NavBar = () => {
 
   const handleNotificationsMenuClick = async (event) => {
     setNotificationAnchorEl(event.currentTarget);
-    await alterarEstadoNotificacoes();
+    await changeNotificationsStatus();
     await fetchData(userData.id);
   };
   const handleNotificationsMenuClose = () => {
@@ -108,7 +108,7 @@ const NavBar = () => {
   async function fetchData(userId) {
     const notificationData = await getUserNotifications(userId);
 
-    setNotications(notificationData.dados);
+    setNotifications(notificationData.dados);
     const res = await countNotifications(userId);
 
     setNoticationNumber(res);
