@@ -255,7 +255,6 @@ const Adicionar = () => {
 
     const values = cleanPost(newEvent);
     const body = objectToFormData(values, user.id, true);
-    console.log(body);
 
     const isValid = validatePost(newEvent, true);
 
@@ -273,6 +272,14 @@ const Adicionar = () => {
           //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
+      if (response.status === 200) {
+        await addNotifications(
+          user.id,
+          response.data.dados,
+          "E",
+          `${user.nome} adicionou um evento novo`
+        );
+      }
     } catch (error) {
       console.log(error);
     }
