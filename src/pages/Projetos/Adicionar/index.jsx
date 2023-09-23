@@ -10,10 +10,6 @@ import {
   TextField,
   Tooltip,
   Typography,
-  Grid,
-  Alert,
-  Collapse,
-  AlertTitle,
   Button,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
@@ -26,10 +22,10 @@ import {
   MoreHoriz,
   Crop,
 } from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 
 import ReactQuill from "react-quill";
+
+import { toast } from "react-toastify";
 
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
@@ -155,8 +151,8 @@ const Adicionar = () => {
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
-    if (fileSizeInMB.toFixed(2) >= 4) {
-      setOpenImageSizeError(true);
+    if (fileSizeInMB.toFixed(2) >= 5) {
+      toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -273,7 +269,11 @@ const Adicionar = () => {
               }}
             >
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`}
+                src={
+                  user?.login_from === "google"
+                    ? user?.img_perfil
+                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`
+                }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}
               />
@@ -604,37 +604,6 @@ const Adicionar = () => {
             </Tooltip>
           </Box>
         </Box>
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={openImageSizeError}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenImageSizeError(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>{t("projectPage.common.imageSizeError")}</strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
       </Box>
     </>
   );

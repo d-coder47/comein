@@ -1,20 +1,13 @@
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Collapse,
-  Grid,
-  IconButton,
-} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import CustomCard from "./CustomCard";
 import usePosts from "../hooks/usePosts";
 import axiosInstance from "../api/axiosInstance";
-import CloseIcon from "@mui/icons-material/Close";
 
 import defaultImg from "../assets/img/event3.jpg";
 import { useTranslation } from "react-i18next";
 import { useIntersection } from "@mantine/hooks";
+import { toast } from "react-toastify";
 
 const Cards = ({
   searchQuery,
@@ -24,7 +17,6 @@ const Cards = ({
 }) => {
   const { posts: allPosts, getPostsByPage } = usePosts();
   const [posts, setPosts] = useState([]);
-  const [emptyResult, setEmptyResult] = useState(false);
 
   const { t } = useTranslation();
 
@@ -109,10 +101,9 @@ const Cards = ({
           }
         );
         if (response.data.length === 0) {
-          setEmptyResult(true);
+          toast.error(t("userProfile.naoForamEncontradosResultados"));
           return setPosts([]);
         }
-        console.log("here");
         return setPosts(response.data.dados);
       } catch (error) {
         console.error(error);
@@ -177,7 +168,7 @@ const Cards = ({
 
   const postsToDisplay = posts?.map((card, index) => {
     return index === posts?.length - 1 ? (
-      <Grid item key={index} xs={3} ref={ref}>
+      <Grid item key={index} lg={3.8} xs={12} md={3} ref={ref}>
         <CustomCard
           key={index}
           id={card.id}
@@ -191,12 +182,16 @@ const Cards = ({
           )}
           publisherId={card.id_utilizador}
           publisherName={card.nome_user}
-          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          publisherPhoto={
+            card.login_from === "google"
+              ? card.imgPerfil
+              : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+          }
           type={card.distincao}
         />
       </Grid>
     ) : (
-      <Grid item key={index} xs={3}>
+      <Grid item key={index} lg={3.8} xs={12} md={3}>
         <CustomCard
           key={index}
           id={card.id}
@@ -210,7 +205,11 @@ const Cards = ({
           )}
           publisherId={card.id_utilizador}
           publisherName={card.nome_user}
-          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          publisherPhoto={
+            card.login_from === "google"
+              ? card.imgPerfil
+              : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+          }
           type={card.distincao}
         />
       </Grid>
@@ -219,7 +218,7 @@ const Cards = ({
 
   const allPostsToDisplay = allPosts?.map((card, index) => {
     return index === allPosts?.length - 1 ? (
-      <Grid item key={index} xs={3.8} ref={ref}>
+      <Grid item key={index} lg={3.8} xs={12} md={3} ref={ref}>
         <CustomCard
           key={index}
           id={card.id}
@@ -233,12 +232,16 @@ const Cards = ({
           )}
           publisherId={card.id_utilizador}
           publisherName={card.nome_user}
-          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          publisherPhoto={
+            card.login_from === "google"
+              ? card.imgPerfil
+              : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+          }
           type={card.distincao}
         />
       </Grid>
     ) : (
-      <Grid item key={index} xs={3.8}>
+      <Grid item key={index} lg={3.8} md={3} sm={12} xs={12}>
         <CustomCard
           key={index}
           id={card.id}
@@ -252,7 +255,11 @@ const Cards = ({
           )}
           publisherId={card.id_utilizador}
           publisherName={card.nome_user}
-          publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+          publisherPhoto={
+            card.login_from === "google"
+              ? card.imgPerfil
+              : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+          }
           type={card.distincao}
         />
       </Grid>
@@ -263,48 +270,18 @@ const Cards = ({
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid
         container
+        className="gridCardsContainer"
         gap={3.8}
         mb="2rem"
         sx={{
           display: "flex",
           alignItems: "center",
+
           justifyContent: "center",
+          background: "red",
         }}
       >
         {posts.length > 0 ? postsToDisplay : allPostsToDisplay}
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={emptyResult}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setEmptyResult(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>
-                  {t("userProfile.naoForamEncontradosResultados")}
-                </strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
       </Grid>
     </Box>
   );

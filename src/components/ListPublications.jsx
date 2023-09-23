@@ -207,7 +207,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     )}
                     publisherId={card.id_utilizador}
                     publisherName={card.nome_user}
-                    publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+                    publisherPhoto={
+                      card.login_from === "google"
+                        ? card.imgPerfil
+                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                    }
                     type={card.distincao}
                     onRefresh={handleRefresh}
                   />
@@ -310,7 +314,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     )}
                     publisherId={card.id_utilizador}
                     publisherName={card.nome_user}
-                    publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+                    publisherPhoto={
+                      card.login_from === "google"
+                        ? card.imgPerfil
+                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                    }
                     type={card.distincao}
                   />
                 </Grid>
@@ -372,7 +380,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   )}
                   publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
-                  publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+                  publisherPhoto={
+                    card.login_from === "google"
+                      ? card.imgPerfil
+                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                  }
                   type={card.distincao}
                 />
               </Grid>
@@ -408,7 +420,11 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   )}
                   publisherId={card.id_utilizador}
                   publisherName={card.nome_user}
-                  publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`}
+                  publisherPhoto={
+                    card.login_from === "google"
+                      ? card.imgPerfil
+                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                  }
                   type={card.distincao}
                 />
               </Grid>

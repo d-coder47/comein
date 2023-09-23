@@ -190,7 +190,6 @@ const CardDetailed = () => {
     if (!details) return;
 
     const publisherId = details?.utilizador[0]?.id;
-    console.log({ publisherId, details });
 
     if (isFollowing !== null) return;
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -463,7 +462,11 @@ const CardDetailed = () => {
           <DetailedHeader
             onFollowUser={handleFollowUser}
             isFollowingUser={isFollowing}
-            publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
+            publisherPhoto={
+              details?.utilizador[0].login_from === "google"
+                ? details?.utilizador[0].img_perfil
+                : `https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`
+            }
             publishers={details?.utilizador}
             title={details?.dados?.nome}
             onCloseModal={onCloseModal}
@@ -524,7 +527,11 @@ const CardDetailed = () => {
           >
             {isOwner ? (
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
+                src={
+                  details?.utilizador[0].login_from === "google"
+                    ? details?.utilizador[0].img_perfil
+                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`
+                }
                 alt="Foto do Publicador"
                 sx={{
                   width: "3rem",
@@ -555,7 +562,11 @@ const CardDetailed = () => {
                 }}
               >
                 <Avatar
-                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`}
+                  src={
+                    details?.utilizador[0].login_from === "google"
+                      ? details?.utilizador[0].img_perfil
+                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${details?.utilizador[0].img_perfil}`
+                  }
                   alt="Foto do Publicador"
                   sx={{ width: "3rem", height: "3rem" }}
                 />

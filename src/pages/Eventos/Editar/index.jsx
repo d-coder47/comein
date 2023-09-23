@@ -6,15 +6,10 @@ import {
   Box,
   Checkbox,
   Input,
-  Modal,
   Popover,
   TextField,
   Tooltip,
   Typography,
-  Grid,
-  Alert,
-  Collapse,
-  AlertTitle,
   Button,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
@@ -23,7 +18,6 @@ import {
   LocationOn,
   FiberManualRecord as Dot,
   Save,
-  Add,
   CheckBoxOutlineBlank,
   CheckBox,
   Handshake,
@@ -54,7 +48,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import getCroppedImg from "../../../utils/cropImage";
 import Cropper from "react-easy-crop";
 import { validatePost } from "../../../utils/postValidation";
-
+import { toast } from "react-toastify";
 const Editar = () => {
   const { t } = useTranslation();
 
@@ -96,6 +90,7 @@ const Editar = () => {
 
   const { getAddresses } = useRegisterUser();
 
+  console.log(user);
   const categories = [
     { id: 1, name: t("categories.music") },
     { id: 2, name: t("categories.theater") },
@@ -259,8 +254,8 @@ const Editar = () => {
     const file = event.target.files[0];
 
     const fileSizeInMB = file.size / (1024 * 1024);
-    if (fileSizeInMB.toFixed(2) >= 2) {
-      setOpenImageSizeError(true);
+    if (fileSizeInMB.toFixed(2) >= 5) {
+      toast.error(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -377,7 +372,11 @@ const Editar = () => {
               }}
             >
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`}
+                src={
+                  user?.login_from === "google"
+                    ? user?.img_perfil
+                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`
+                }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}
               />
@@ -860,37 +859,6 @@ const Editar = () => {
             </Tooltip>
           </Box>
         </Box>
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={openImageSizeError}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenImageSizeError(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>{t("projectPage.common.imageSizeError")}</strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
       </Box>
     </>
   );

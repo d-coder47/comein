@@ -27,12 +27,13 @@
     "emailObrigatorio": "email",
     "emailInvalido": "Adresse email invalide",
     "passwordObrigatorio": "mot de passe",
-    "passwordTamanho": "Le mot de passe doit comporter au moins 6 caractères",
+    "passwordTamanho": "Le mot de passe doit contenir au moins une lettre majuscule et un caractère spécial, et comporter au moins 7 caractères.",
     "nomeObrigatorio": "Prénom",
     "sobrenomeObrigatorio": "Nom de famille",
     "nacionalidadeObrigatorio": "nationalité",
     "residenciaObrigatorio": "Adresse",
     "contatoObrigatorio": "contact",
+    "generoObrigatorio": "Genre",
     "nome": "Prénom",
     "sobrenome": "Nom de famille",
     "dataNascimento": "Date de naissance",
@@ -143,7 +144,10 @@
     "perfil": "Profil",
     "adicionarConta": "Ajouter un autre compte",
     "definicoes": "Paramètres",
-    "terminarSessao": "Se déconnecter"
+    "terminarSessao": "Se déconnecter",
+    "novaAtualizacao": "Nouvelle actualisation!",
+    "limparTudo": "Tout nettoyer",
+    "nenhumaAtualizacao": "Pas de nouvelles mises à jour !"
   },
   "categories": {
     "music": "Musique",
@@ -196,6 +200,7 @@
       "endDate": "Date de fin",
       "culturalArea": "Espaces culturels",
       "associatedProject": "Projet associé",
+      "croppedImage": "Image rognée. Ajuster comment l'image doit apparaître sur les cartes de la page d'accueil.  ",
       "save": "Sauvegarder",
       "defaultDescription": "Description de votre événement",
       "tutorial": "Double-cliquez pour personnaliser"

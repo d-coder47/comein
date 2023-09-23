@@ -84,6 +84,7 @@ const Publisher = ({
               onMouseEnter={handleOpenUserMenu}
               sx={{
                 cursor: "pointer",
+                color: "#000",
               }}
             >
               {t("cardDetailed.userCard.variousOwners")}
@@ -185,7 +186,11 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
   return (
     <Box display="flex" alignItems="center" gap=".5rem">
       <Avatar
-        src={`https://comein.cv/comeincv_api_test/img/perfilImg/${publisher.img_perfil}`}
+        src={
+          publisher.login_from === "google"
+            ? publisher.img_perfil
+            : `https://comein.cv/comeincv_api_test/img/perfilImg/${publisher.img_perfil}`
+        }
         alt={`Foto de ${publisher?.nome}`}
       >
         {publisher?.nome ? publisher?.nome[0] : "A"}

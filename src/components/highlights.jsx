@@ -226,7 +226,11 @@ const Highlights = () => {
                     }Img/${post.imagem}`}
                     publisherId={post.id_utilizador}
                     publisherName={post.nome_user}
-                    publisherPhoto={`https://comein.cv/comeincv_api_test/img/perfilImg/${post.imgPerfil}`}
+                    publisherPhoto={
+                      post.login_from === "google"
+                        ? post.imgPerfil
+                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${post.imgPerfil}`
+                    }
                     type={post.distincao}
                     onRefresh={handleRefresh}
                   />

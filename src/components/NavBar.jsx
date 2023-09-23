@@ -12,6 +12,7 @@ import {
   Menu,
   Divider,
   ListItemIcon,
+  Badge,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -29,6 +30,9 @@ import portugalFlag from "../assets/img/portugal.png";
 
 import { useLocation } from "react-router-dom";
 
+import Notifications from "./Notifications";
+import useNotifications from "../hooks/useNotifications";
+
 const NavBar = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -42,6 +46,17 @@ const NavBar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
+  const notificatinsMenuOpen = Boolean(notificationAnchorEl);
+
+  const {
+    countNotifications,
+    changeNotificationsStatus,
+    getUserNotifications,
+  } = useNotifications();
+  const [notificationNumber, setNoticationNumber] = useState();
+  const [notifications, setNotifications] = useState([]);
 
   const handleCadastrarClick = () => {
     navigate("/user-registration");
@@ -63,6 +78,15 @@ const NavBar = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleNotificationsMenuClick = async (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+    await changeNotificationsStatus();
+    await fetchData(userData.id);
+  };
+  const handleNotificationsMenuClose = () => {
+    setNotificationAnchorEl(null);
+  };
+
   const handleRegistration = () => {
     handleClose();
     navigate("/user-registration");
@@ -81,10 +105,19 @@ const NavBar = () => {
     }
   };
 
+  async function fetchData(userId) {
+    const notificationData = await getUserNotifications(userId);
+
+    setNotifications(notificationData.dados);
+    const res = await countNotifications(userId);
+
+    setNoticationNumber(res);
+  }
   useEffect(() => {
     if (authenticated) {
       const data = JSON.parse(localStorage.getItem("userInfo"));
       setUserData(data);
+      fetchData(data.id);
     }
   }, [authenticated]);
   return (
@@ -126,7 +159,30 @@ const NavBar = () => {
         }}
       >
         <Box display="flex">
-          <NotificationsIcon color="primary" sx={{ fontSize: "1.25rem" }} />
+          <Tooltip title="Notifications">
+            <IconButton
+              size="small"
+              onClick={handleNotificationsMenuClick}
+              aria-controls={
+                notificatinsMenuOpen ? "notification-menu" : undefined
+              }
+              aria-haspopup="true"
+              aria-expanded={notificatinsMenuOpen ? "true" : undefined}
+            >
+              <Badge badgeContent={notificationNumber} color="error">
+                <NotificationsIcon
+                  color="primary"
+                  sx={{ fontSize: "1.25rem" }}
+                />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+          <Notifications
+            anchorEl={notificationAnchorEl}
+            handleClose={handleNotificationsMenuClose}
+            open={notificatinsMenuOpen}
+            notifications={notifications}
+          />
         </Box>
         <Select
           labelId="internationalization-label"
@@ -211,7 +267,11 @@ const NavBar = () => {
                 >
                   <Avatar
                     sx={{ width: 32, height: 32 }}
-                    src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
+                    src={
+                      userData.login_from === "google"
+                        ? userData.img_perfil
+                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`
+                    }
                   />
                 </IconButton>
               </Tooltip>
@@ -253,7 +313,11 @@ const NavBar = () => {
             >
               <MenuItem className="userInfo" onClick={handleProfileClick}>
                 <Avatar
-                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
+                  src={
+                    userData.login_from === "google"
+                      ? userData.img_perfil
+                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`
+                  }
                   sx={{
                     width: "80px !important",
                     height: "80px !important",
@@ -283,7 +347,11 @@ const NavBar = () => {
               <Divider />
               <MenuItem onClick={handleProfileClick}>
                 <Avatar
-                  src={`https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`}
+                  src={
+                    userData.login_from === "google"
+                      ? userData.img_perfil
+                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`
+                  }
                 />{" "}
                 {t("navBar.perfil")}
               </MenuItem>

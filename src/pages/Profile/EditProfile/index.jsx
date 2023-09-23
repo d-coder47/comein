@@ -14,14 +14,10 @@ import {
   ListItemText,
   TextField,
   FormLabel,
-  Collapse,
   MenuItem,
-  Alert,
-  AlertTitle,
   Autocomplete,
   useMediaQuery,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import validator from "validator";
@@ -34,6 +30,8 @@ import { MuiTelInput } from "mui-tel-input";
 
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import useUserProfile from "../../../hooks/useUserProfile";
+
+import { toast } from "react-toastify";
 
 const editorModules = {
   toolbar: [
@@ -80,20 +78,11 @@ const EditProfile = () => {
   const { getAddresses, updateUser, getUser, getCountries } = useRegisterUser();
   const { changePassword, addUserbio } = useUserProfile();
 
-  const [openChangePassError, setOpenChangePassError] = React.useState(false);
-  const [openChangePassSucc, setOpenChangePassSucc] = React.useState(false);
-
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
 
   const [countries, setCountries] = React.useState([]);
   const [addresses, setAddresses] = React.useState([]);
-
-  const [openUpdateError, setOpenUpdateError] = React.useState(false);
-  const [openUpdateSuccess, setOpenUpdateSuccess] = React.useState(false);
-
-  const [openUpdateBioSuccess, setOpenUpdateBioSuccess] = React.useState(false);
-  const [openUpdateBioError, setOpenUpdateBioError] = React.useState(false);
 
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
@@ -181,12 +170,12 @@ const EditProfile = () => {
     const res = await addUserbio(userInfo.id, aboutMeValue);
 
     if (res.dados === "Guardado com sucesso") {
-      setOpenUpdateBioSuccess(true);
+      toast.success(t("editProfilePage.sucessoAtualizarBio"));
       setAboutMeValue(aboutMeValue);
       const user = await getUser(userId);
       localStorage.setItem("userInfo", JSON.stringify(user.dados));
     } else {
-      setOpenUpdateBioError(true);
+      toast.success(t("editProfilePage.sucessoAtualizarBio"));
     }
   };
 
@@ -271,11 +260,11 @@ const EditProfile = () => {
         formData.newPassword
       );
       if (res.token) {
-        setOpenChangePassSucc(true);
+        toast.success(t("editProfilePage.palavraPassAtualizadoSucesso"));
 
         localStorage.setItem("token", res.token);
       } else {
-        setOpenChangePassError(true);
+        toast.error(t("editProfilePage.erroAtualizarPalavraPasse"));
       }
     }
   };
@@ -379,11 +368,11 @@ const EditProfile = () => {
       );
 
       if (!res) {
-        setOpenUpdateError(true);
+        toast.error(t("editProfilePage.erroAtualizarPerfil"));
       } else {
         const user = await getUser(userId);
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
-        setOpenUpdateSuccess(true);
+        toast.success(t("editProfilePage.perfilAtualizadoSucesso"));
       }
     }
   };
@@ -796,58 +785,6 @@ const EditProfile = () => {
                         {t("editProfilePage.guardar")}
                       </Button>
                     </Grid>
-                    <Grid>
-                      <Collapse in={openUpdateError}>
-                        <Alert
-                          severity="error"
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenUpdateError(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          sx={{ mb: 2 }}
-                        >
-                          <AlertTitle>
-                            <strong>
-                              {t("editProfilePage.erroAtualizarPerfil")}
-                            </strong>
-                          </AlertTitle>
-                        </Alert>
-                      </Collapse>
-                    </Grid>
-                    <Grid>
-                      <Collapse in={openUpdateSuccess}>
-                        <Alert
-                          severity="success"
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenUpdateSuccess(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          sx={{ mb: 2 }}
-                        >
-                          <AlertTitle>
-                            <strong>
-                              {t("editProfilePage.perfilAtualizadoSucesso")}
-                            </strong>
-                          </AlertTitle>
-                        </Alert>
-                      </Collapse>
-                    </Grid>
                   </Box>
                 </Paper>
               )}
@@ -1053,60 +990,6 @@ const EditProfile = () => {
                         {t("editProfilePage.guardar")}
                       </Button>
                     </Grid>
-                    <Grid>
-                      <Collapse in={openChangePassSucc}>
-                        <Alert
-                          severity="success"
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenChangePassSucc(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          sx={{ mb: 2 }}
-                        >
-                          <AlertTitle>
-                            <strong>
-                              {t(
-                                "editProfilePage.palavraPassAtualizadoSucesso"
-                              )}
-                            </strong>
-                          </AlertTitle>
-                        </Alert>
-                      </Collapse>
-                    </Grid>
-                    <Grid>
-                      <Collapse in={openChangePassError}>
-                        <Alert
-                          severity="success"
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenChangePassError(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          sx={{ mb: 2 }}
-                        >
-                          <AlertTitle>
-                            <strong>
-                              {t("editProfilePage.erroAtualizarPalavraPasse")}
-                            </strong>
-                          </AlertTitle>
-                        </Alert>
-                      </Collapse>
-                    </Grid>
                   </Box>
                 </Paper>
               )}
@@ -1202,58 +1085,6 @@ const EditProfile = () => {
                     >
                       {t("editProfilePage.guardar")}
                     </Button>
-                    <Grid>
-                      <Collapse in={openUpdateBioSuccess}>
-                        <Alert
-                          severity="success"
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenUpdateBioSuccess(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          sx={{ mb: 2 }}
-                        >
-                          <AlertTitle>
-                            <strong>
-                              {t("editProfilePage.sucessoAtualizarBio")}
-                            </strong>
-                          </AlertTitle>
-                        </Alert>
-                      </Collapse>
-                    </Grid>
-                    <Grid>
-                      <Collapse in={openUpdateBioError}>
-                        <Alert
-                          severity="success"
-                          action={
-                            <IconButton
-                              aria-label="close"
-                              color="inherit"
-                              size="small"
-                              onClick={() => {
-                                setOpenUpdateBioError(false);
-                              }}
-                            >
-                              <CloseIcon fontSize="inherit" />
-                            </IconButton>
-                          }
-                          sx={{ mb: 2 }}
-                        >
-                          <AlertTitle>
-                            <strong>
-                              {t("editProfilePage.sucessoAtualizarBio")}
-                            </strong>
-                          </AlertTitle>
-                        </Alert>
-                      </Collapse>
-                    </Grid>
                   </Box>
                 </Paper>
               )}

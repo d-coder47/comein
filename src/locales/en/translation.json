@@ -27,12 +27,13 @@
     "emailObrigatorio": "Email",
     "emailInvalido": "Invalid email",
     "passwordObrigatorio": "Password",
-    "passwordTamanho": "Password must be at least 6 characters long",
+    "passwordTamanho": "Password must contain at least one uppercase letter and one special character and be at least 7 characters long.",
     "nomeObrigatorio": "Name",
     "sobrenomeObrigatorio": "Nickname",
     "nacionalidadeObrigatorio": "Nationality",
     "residenciaObrigatorio": "Place of residence",
     "contatoObrigatorio": "Contact",
+    "generoObrigatorio": "Gender",
     "nome": "Name",
     "sobrenome": "Surname",
     "dataNascimento": "Date of birth",
@@ -128,7 +129,8 @@
     "crieConta": "Create an account",
     "login": "login",
     "erroLogin": "Error logging in",
-    "forgotPassword": "Forgot Password",
+    "esqueceuPassword": "Forgot your password?",
+    "forgotPassword": "Esqueci a palavra-passe",
     "forgotPassEnterMail": "Enter yout email and we´ll send you alink to reset your password.",
     "submit": "Submit",
     "erroEnviarMail": "Error when sending email",
@@ -142,14 +144,17 @@
     "perfil": "Profile",
     "adicionarConta": "Add another account",
     "definicoes": "Definitions",
-    "terminarSessao": "Sign out"
+    "terminarSessao": "Sign out",
+    "novaAtualizacao": "New update!",
+    "limparTudo": "Clean everything",
+    "nenhumaAtualizacao": "Aucune mise à jour disponible !"
   },
   "categories": {
     "music": "Music",
     "theater": "Theater",
     "dance": "Dance",
     "movieTheater": "Cinema",
-    "standUp": "Stand Up",
+    "standUp": "Stand Up Comedy",
     "visualArts": "Visual Arts",
     "sculpture": "Sculpture",
     "craftsmanship": "Arts & Crafts",
@@ -195,6 +200,7 @@
       "endDate": "End Date",
       "culturalArea": "Cultural Areas",
       "associatedProject": "Associate Project",
+      "croppedImage": "Cropped Image. Adjust how the image should appear on the homepage cards.",
       "save": "Save",
       "defaultDescription": "Add everything about your event",
       "tutorial": "Double click to customize"
@@ -213,7 +219,7 @@
       "save": "Save",
       "defaultDescription": "Add everything about your project",
       "tutorial": "Double click to customize",
-      "imageSizeError": "Error, image is too big to be added, the image must be less than 4mb!"
+      "imageSizeError": "Error, image is too big to be added, the image must be less than 5mb!"
     }
   },
   "shareModal": {

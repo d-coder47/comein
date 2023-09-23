@@ -10,11 +10,6 @@ import {
   Divider,
   Grid,
   Avatar,
-  MenuItem,
-  Autocomplete,
-  Alert,
-  Collapse,
-  AlertTitle,
   Modal,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -23,7 +18,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CloseIcon from "@mui/icons-material/Close";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { MuiTelInput } from "mui-tel-input";
 
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +26,8 @@ import { useTranslation, Trans } from "react-i18next";
 import validator from "validator";
 
 import useRegisterUser from "../../hooks/useRegisterUser";
+
+import { toast } from "react-toastify";
 
 const UserRegistration = () => {
   const navigate = useNavigate();
@@ -49,11 +45,6 @@ const UserRegistration = () => {
   const [showSurnameError, setShowSurnameError] = React.useState(false);
 
   const { addUser, updateUser, getUser, getTermsPolicy } = useRegisterUser();
-
-  const [openLoginError, setOpenLoginError] = React.useState(false);
-
-  const [showAccountExistError, setShowAccountExistError] =
-    React.useState(false);
 
   const [openTermsModal, setOpenTermsModal] = React.useState(false);
   const handleModalTermsOpen = () => setOpenTermsModal(true);
@@ -103,9 +94,9 @@ const UserRegistration = () => {
     const addRes = await addUser(email);
 
     if (!addRes) {
-      setOpenLoginError(true);
+      toast.error(t("registerpage.erroCadastro"));
     } else if (!addRes.data.id) {
-      setShowAccountExistError(true);
+      toast.error(t("registerpage.erroUserExiste"));
     } else {
       localStorage.setItem("userID", addRes.data.id);
       localStorage.setItem("token", addRes.token);
@@ -130,7 +121,7 @@ const UserRegistration = () => {
         null
       );
       if (!updateRes) {
-        setOpenLoginError(true);
+        toast.error(t("registerpage.erroCadastro"));
       } else {
         const user = await getUser(userId);
         localStorage.setItem("authenticated", true);
@@ -174,10 +165,13 @@ const UserRegistration = () => {
       });
     }
 
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{7,}$/;
+
     if (formData.password.trim() === "") {
       errors.password = t("registerpage.passwordObrigatorio");
       setShowPasswordError(true);
-    } else if (password.length < 6) {
+    } else if (!passwordRegex.test(formData.password)) {
       errors.password = t("registerpage.passwordTamanho");
       setShowPasswordError(true);
     } else {
@@ -195,12 +189,12 @@ const UserRegistration = () => {
       const addUserRes = await addUser(formData.email, formData.password);
 
       if (!addUserRes) {
-        setOpenLoginError(true);
+        toast.error(t("registerpage.erroCadastro"));
       } else if (
         addUserRes.data ===
         "Já tem uma conta utilizando o email: rubenmartins463@gmail.com"
       ) {
-        setShowAccountExistError(true);
+        toast.error(t("registerpage.erroUserExiste"));
       } else {
         localStorage.setItem("userID", addUserRes.data.id);
         localStorage.setItem("token", addUserRes.token);
@@ -224,7 +218,7 @@ const UserRegistration = () => {
         );
 
         if (!updateUserRes) {
-          setOpenLoginError(true);
+          toast.error(t("registerpage.erroCadastro"));
         } else {
           const user = await getUser(userID);
           localStorage.setItem("authenticated", true);
@@ -452,69 +446,7 @@ const UserRegistration = () => {
                 {t("registerpage.concluido")}
               </Button>
             </Grid>
-            <Grid
-              sx={{
-                position: "fixed",
-                top: "20px", // Adjust the top position as needed
-                left: "20px", // Adjust the left position as needed
-                zIndex: 9999, // Ensure the alert is above other elements
-              }}
-            >
-              <Collapse in={showAccountExistError}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setShowAccountExistError(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  <AlertTitle>
-                    <strong>{t("registerpage.erroUserExiste")}</strong>
-                  </AlertTitle>
-                </Alert>
-              </Collapse>
-            </Grid>
 
-            <Grid
-              sx={{
-                position: "fixed",
-                top: "20px", // Adjust the top position as needed
-                left: "20px", // Adjust the left position as needed
-                zIndex: 9999, // Ensure the alert is above other elements
-              }}
-            >
-              <Collapse in={openLoginError}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setOpenLoginError(false);
-                      }}
-                    >
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}
-                >
-                  <AlertTitle>
-                    <strong>{t("registerpage.erroCadastro")}</strong>
-                  </AlertTitle>
-                </Alert>
-              </Collapse>
-            </Grid>
             <Modal
               open={openTermsModal}
               onClose={handleModalTermsClose}

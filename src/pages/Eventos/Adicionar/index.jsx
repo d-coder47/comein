@@ -6,15 +6,10 @@ import {
   Box,
   Checkbox,
   Input,
-  Modal,
   Popover,
   TextField,
   Tooltip,
   Typography,
-  Grid,
-  Alert,
-  Collapse,
-  AlertTitle,
   Button,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
@@ -39,10 +34,8 @@ import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
+import useNotifications from "../../../hooks/useNotifications";
 import { useTranslation } from "react-i18next";
-import CropImage from "../../../components/CropImage";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import {
   cleanPost,
   filterAssociatedOwners,
@@ -56,6 +49,7 @@ import { validatePost } from "../../../utils/postValidation";
 import Cropper from "react-easy-crop";
 import axios from "axios";
 import getCroppedImg from "../../../utils/cropImage";
+import { toast } from "react-toastify";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -90,6 +84,8 @@ const Adicionar = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const { addNotifications } = useNotifications();
 
   const navigate = useNavigate();
 
@@ -204,8 +200,8 @@ const Adicionar = () => {
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
 
-    if (fileSizeInMB.toFixed(2) >= 2) {
-      setOpenImageSizeError(true);
+    if (fileSizeInMB.toFixed(2) >= 5) {
+      toast.success(t("projectPage.common.imageSizeError"));
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
@@ -243,8 +239,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    console.log(fieldValues);
-
     const newEvent = {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
@@ -279,7 +273,6 @@ const Adicionar = () => {
           //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
-      console.log(response.data.dados);
     } catch (error) {
       console.log(error);
     }
@@ -327,7 +320,11 @@ const Adicionar = () => {
               }}
             >
               <Avatar
-                src={`https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`}
+                src={
+                  user?.login_from === "google"
+                    ? user?.img_perfil
+                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`
+                }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}
               />
@@ -830,37 +827,6 @@ const Adicionar = () => {
             </Tooltip>
           </Box>
         </Box>
-        <Grid
-          sx={{
-            position: "fixed",
-            top: "20px", // Adjust the top position as needed
-            left: "20px", // Adjust the left position as needed
-            zIndex: 9999, // Ensure the alert is above other elements
-          }}
-        >
-          <Collapse in={openImageSizeError}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpenImageSizeError(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              <AlertTitle>
-                <strong>{t("projectPage.common.imageSizeError")}</strong>
-              </AlertTitle>
-            </Alert>
-          </Collapse>
-        </Grid>
       </Box>
     </>
   );

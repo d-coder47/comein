@@ -3,7 +3,7 @@
     "login": "Entrar",
     "signUp": "Registar",
     "definicoesConta": "Definições da conta",
-    "searchPosts": "Pesquise publicações",
+    "searchPosts": "Pesquisar publicações",
     "highlights": "Destaques",
     "filter": "Filtrar",
     "filterCard": {
@@ -27,7 +27,7 @@
     "emailObrigatorio": "E-mail",
     "emailInvalido": "E-mail inválido",
     "passwordObrigatorio": "Palavra-passe",
-    "passwordTamanho": "Palavra-passe com o mínimo de 6 caracteres",
+    "passwordTamanho": "Palavra-passe deve conter pelo menos uma letra maiúscula e um caractere especial e ter no mínimo 7 caracteres.",
     "nomeObrigatorio": "Nome",
     "sobrenomeObrigatorio": "Sobrenome",
     "nacionalidadeObrigatorio": "Nacionalidade",
@@ -62,7 +62,7 @@
     "seguidores": "Seguidores",
     "seguindo": "A seguir",
     "deixarSeguir": "Não seguir",
-    "visitantes": "Visitantes",
+    "visitantes": "Visitas",
     "seguir": "Seguir",
     "sobre": "Sobre",
     "editar": "Editar",
@@ -144,14 +144,17 @@
     "perfil": "Perfil",
     "adicionarConta": "Adicionar outra conta",
     "definicoes": "Definições",
-    "terminarSessao": "Terminar sessão"
+    "terminarSessao": "Terminar sessão",
+    "novaAtualizacao": "Nova atualização!",
+    "limparTudo": "Limpar tudo",
+    "nenhumaAtualizacao": "Nenhuma atualização nova!"
   },
   "categories": {
     "music": "Música",
     "theater": "Teatro",
     "dance": "Dança",
     "movieTheater": "Cinema",
-    "standUp": "Stand Up",
+    "standUp": "Stand Up Comedy",
     "visualArts": "Artes Plásticas",
     "sculpture": "Escultura",
     "craftsmanship": "Artesanato",
@@ -216,11 +219,10 @@
       "save": "Guardar",
       "defaultDescription": "Adicionar informações sobre o projeto",
       "tutorial": "Faça duplo clique para personalizar",
-      "imageSizeError": "Erro, imagem é muito grande para ser adicionado, a imagem deve ser menor que 4mb!"
+      "imageSizeError": "Erro, imagem é muito grande para ser adicionado, a imagem deve ser menor que 5mb!"
     }
   },
-
-  "postCard": {
+  "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
     "copiarLigacao": "Copiar Ligação"
   }
