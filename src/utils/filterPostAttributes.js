@@ -59,18 +59,17 @@ export const filterAssociatedOwners = (associatedOwners) => {
     : null;
 };
 
-export const cleanPost = (post) => {
+export const cleanPost = (post, isAdding = true) => {
   Object.keys(post).forEach((key) => {
     if (key === "local") {
       post["id_geografia"] = post[key].id;
     }
 
-    if (
-      post[key] === null ||
-      key === "imagem" ||
-      key === "proprietarios" ||
-      key === "local"
-    ) {
+    if (!isAdding && post[key] === null) {
+      delete post[key];
+    }
+
+    if (key === "imagem" || key === "proprietarios" || key === "local") {
       delete post[key];
     }
   });

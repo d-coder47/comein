@@ -201,7 +201,7 @@ const Adicionar = () => {
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
     };
 
-    const values = cleanPost(newProject);
+    const values = cleanPost(newProject, true);
     const body = objectToFormData(values, user.id, true);
     console.log(body);
 
@@ -221,7 +221,9 @@ const Adicionar = () => {
           //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
-      console.log(response.data.dados);
+      if (!response?.data?.dados !== "erro") {
+        navigate(`/projetos/${+response?.data?.dados}/${newProject.nome}`);
+      }
     } catch (error) {
       console.error(error);
     }

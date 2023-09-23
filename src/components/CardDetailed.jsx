@@ -89,7 +89,7 @@ const CardDetailed = () => {
           },
         });
         const user = JSON.parse(localStorage.getItem("userInfo"));
-        if (!response.data || !user) return navigate("/login");
+        if (!response.data || !user) return navigate("/user-login");
         setDetails(response.data);
         setLikes(response?.data?.dados?.gostos);
         if (user.id === response.data.dados.id_utilizador) {
