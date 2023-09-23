@@ -278,7 +278,6 @@ const Cards = ({
           alignItems: "center",
 
           justifyContent: "center",
-          background: "red",
         }}
       >
         {posts.length > 0 ? postsToDisplay : allPostsToDisplay}

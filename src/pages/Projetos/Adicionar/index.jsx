@@ -43,6 +43,7 @@ import {
 import { validatePost } from "../../../utils/postValidation";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../../../utils/cropImage";
+import useNotifications from "../../../hooks/useNotifications";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -69,6 +70,8 @@ const Adicionar = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const { addNotifications } = useNotifications();
 
   const navigate = useNavigate();
 
@@ -221,6 +224,14 @@ const Adicionar = () => {
           //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
+      if (response.status === 200) {
+        await addNotifications(
+          user.id,
+          response.data.dados,
+          "P",
+          `${user.nome} adicionou um projeto novo`
+        );
+      }
       if (!response?.data?.dados !== "erro") {
         navigate(`/projetos/${+response?.data?.dados}/${newProject.nome}`);
       }
