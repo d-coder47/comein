@@ -44,7 +44,7 @@ const UserRegistration = () => {
   const [showNameError, setShowNameError] = React.useState(false);
   const [showSurnameError, setShowSurnameError] = React.useState(false);
 
-  const { addUser, updateUser, getUser, getTermsPolicy, login } =
+  const { addUser, updateUser, getUser, getTermsPolicy, login, getUserByMail } =
     useRegisterUser();
 
   const [openTermsModal, setOpenTermsModal] = React.useState(false);
