@@ -39,7 +39,7 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
 
   async function fetchData() {
     const notificationData = await getUserNotifications(userId);
-    if (notificationData.dados.length === 0) {
+    if (notificationData.dados === "null") {
       setNotificationList([]);
     } else {
       setNotificationList(notificationData.dados);
@@ -48,7 +48,7 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
   useEffect(() => {
     if (userId) {
       fetchData();
-      //addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
+      // addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
     }
   }, [userId]);
 

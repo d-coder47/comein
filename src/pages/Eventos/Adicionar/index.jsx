@@ -33,6 +33,7 @@ import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
+import useNotifications from "../../../hooks/useNotifications";
 import { useTranslation } from "react-i18next";
 import {
   cleanPost,
@@ -74,6 +75,8 @@ const Adicionar = () => {
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
+
+  const { addNotifications } = useNotifications();
 
   const navigate = useNavigate();
 
@@ -256,8 +259,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    console.log(fieldValues);
-
     const newEvent = {
       nome: fieldValues?.nome,
       imgEvento: fieldValues?.imgEvento,
@@ -290,7 +291,6 @@ const Adicionar = () => {
           //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
-      console.log(response.data.dados);
     } catch (error) {
       console.log(error);
     }
