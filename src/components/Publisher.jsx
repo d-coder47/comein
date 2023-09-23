@@ -142,9 +142,7 @@ const Publisher = ({
               },
             }}
             onClick={() =>
-              navigate(
-                `/user-profile/${publishers[0].id}/${publishers[0].nome}`
-              )
+              navigate(`/perfil/${publishers[0].id}/${publishers[0].nome}`)
             }
           >
             {publishers[0]?.nome}

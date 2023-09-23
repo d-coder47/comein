@@ -26,7 +26,7 @@ export default function MapButton() {
         },
       }}
     >
-      <Button onClick={() => navigate("/map")}>
+      <Button onClick={() => navigate("/mapa")}>
         <LocationOnIcon
           sx={{
             color: "#fff",

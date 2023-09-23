@@ -260,7 +260,7 @@ export default function Login() {
               }}
             >
               {t("loginPage.novoUsuario")}{" "}
-              <Link href="/user-registration" underline="none">
+              <Link href="/registar" underline="none">
                 {t("loginPage.crieConta")}
               </Link>
             </Typography>

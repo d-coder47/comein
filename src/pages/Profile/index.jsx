@@ -491,7 +491,7 @@ const UserProfile = () => {
                             ? handleFollowingUser
                             : () =>
                                 navigate(
-                                  `/edit-profile/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                                  `/editar-perfil/${loggedUserInfo.id}/${loggedUserInfo.nome}`
                                 )
                         }
                         sx={{
@@ -528,7 +528,7 @@ const UserProfile = () => {
                         color="primary"
                         onClick={() =>
                           navigate(
-                            `/user-profile-configuration/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                            `/perfil-utilizador-configuracao/${loggedUserInfo.id}/${loggedUserInfo.nome}`
                           )
                         }
                       >

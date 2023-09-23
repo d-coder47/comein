@@ -294,7 +294,7 @@ const ProfileCustomCard = ({
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
-      return (window.location.href = `http://${window.location.host}/user-registration`);
+      return (window.location.href = `http://${window.location.host}/registar`);
 
     const userId = user?.id;
 
@@ -308,7 +308,7 @@ const ProfileCustomCard = ({
   const handleFavorite = async (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
-      return (window.location.href = `http://${window.location.host}/user-registration`);
+      return (window.location.href = `http://${window.location.host}/registar`);
 
     const userId = user?.id;
 

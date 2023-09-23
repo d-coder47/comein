@@ -22,12 +22,12 @@ const AppRoutes = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/user-registration" element={<UserRegistration />} />
-          <Route path="/user-reset-password" element={<ResetPassword />} />
-          <Route path="/user-login" element={<Login />} />
-          <Route path="/user-profile/:userId/:userName" element={<Profile />} />
+          <Route path="/registar" element={<UserRegistration />} />
+          <Route path="/resetar-palavra-passe" element={<ResetPassword />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/perfil/:userId/:userName" element={<Profile />} />
           <Route
-            path="/edit-profile/:userId/:userName"
+            path="/editar-perfil/:userId/:userName"
             element={<EditProfile />}
           />
           <Route path="/:type/:id/:name" element={<CardDetailed />} />
@@ -35,10 +35,10 @@ const AppRoutes = () => {
           <Route path="/eventos/editar/:id" element={<EditarEvento />} />
           <Route path="/projetos/adicionar" element={<AdicionarProjeto />} />
           <Route path="/projetos/editar/:id" element={<EditarProjeto />} />
-          <Route path="/map" element={<Map />} />
-          <Route path="/crop" element={<CropImage />} />
+          <Route path="/mapa" element={<Map />} />
+          <Route path="/recortar" element={<CropImage />} />
           <Route
-            path="/user-profile-configuration/:userId/:userName"
+            path="/perfil-utilizador-configuracao/:userId/:userName"
             element={<ProfileConfiguration />}
           />
         </Routes>

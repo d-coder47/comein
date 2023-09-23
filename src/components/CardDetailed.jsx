@@ -218,7 +218,7 @@ const CardDetailed = () => {
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
-      return (window.location.href = `http://${window.location.host}/user-registration`);
+      return (window.location.href = `http://${window.location.host}/registar`);
 
     const userId = user?.id;
     const simplifiedType =
@@ -240,7 +240,7 @@ const CardDetailed = () => {
   const handleFavorite = async (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user)
-      return (window.location.href = `http://${window.location.host}/user-registration`);
+      return (window.location.href = `http://${window.location.host}/registar`);
 
     const userId = user?.id;
 
@@ -543,7 +543,7 @@ const CardDetailed = () => {
                 }}
                 onClick={() =>
                   navigate(
-                    `/user-profile/${details?.utilizador[0]?.id}/${details?.utilizador[0]?.nome}`
+                    `/perfil/${details?.utilizador[0]?.id}/${details?.utilizador[0]?.nome}`
                   )
                 }
               />
@@ -680,7 +680,7 @@ const DetailedHeader = ({
           },
         }}
         onClick={() =>
-          navigate(`/user-profile/${publishers[0]?.id}/${publishers[0]?.nome}`)
+          navigate(`/perfil/${publishers[0]?.id}/${publishers[0]?.nome}`)
         }
       />
       <Box

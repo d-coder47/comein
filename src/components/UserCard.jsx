@@ -99,14 +99,10 @@ const UserCard = ({
             cursor: "pointer",
           },
         }}
-        onClick={() =>
-          navigate(`/user-profile/${publisher.id}/${publisher.nome}`)
-        }
+        onClick={() => navigate(`/perfil/${publisher.id}/${publisher.nome}`)}
       />
       <Typography
-        onClick={() =>
-          navigate(`/user-profile/${publisher.id}/${publisher.nome}`)
-        }
+        onClick={() => navigate(`/perfil/${publisher.id}/${publisher.nome}`)}
         sx={{
           color: "black",
           fontWeight: "bold",

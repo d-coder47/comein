@@ -59,11 +59,11 @@ const NavBar = () => {
   const [notifications, setNotifications] = useState([]);
 
   const handleCadastrarClick = () => {
-    navigate("/user-registration");
+    navigate("/registar");
   };
 
   const handleLoginClick = () => {
-    navigate("/user-login");
+    navigate("/login");
   };
 
   const handleTranslationChange = (e) => {
@@ -89,17 +89,17 @@ const NavBar = () => {
 
   const handleRegistration = () => {
     handleClose();
-    navigate("/user-registration");
+    navigate("/registar");
   };
 
   const handleConfiguration = () => {
     handleClose();
-    navigate("/user-profile-configuration");
+    navigate("/perfil-utilizador-configuracao");
   };
 
   const handleProfileClick = () => {
     handleClose();
-    navigate(`/user-profile/${userData.id}/${userData.nome}`);
+    navigate(`/perfil/${userData.id}/${userData.nome}`);
     if (location.pathname.includes("user-profile")) {
       window.location.reload(false);
     }
