@@ -44,7 +44,8 @@ const UserRegistration = () => {
   const [showNameError, setShowNameError] = React.useState(false);
   const [showSurnameError, setShowSurnameError] = React.useState(false);
 
-  const { addUser, updateUser, getUser, getTermsPolicy } = useRegisterUser();
+  const { addUser, updateUser, getUser, getTermsPolicy, login } =
+    useRegisterUser();
 
   const [openTermsModal, setOpenTermsModal] = React.useState(false);
   const handleModalTermsOpen = () => setOpenTermsModal(true);
@@ -88,48 +89,70 @@ const UserRegistration = () => {
     });
   };
 
-  const registeUserGoogleAccount = async (token, userDecoded) => {
-    let email = userDecoded.email;
+  const registeUserGoogleAccount = async (token, decode) => {
+    const loginGoogleRes = await login(
+      decode.email,
+      null,
+      decode.name,
+      token,
+      decode.picture,
+      "google"
+    );
 
-    const addRes = await addUser(email);
+    if (loginGoogleRes.token) {
+      const user = await getUserByMail(decode.email);
 
-    if (!addRes) {
-      toast.error(t("registerpage.erroCadastro"));
-    } else if (!addRes.data.id) {
-      toast.error(t("registerpage.erroUserExiste"));
-    } else {
-      localStorage.setItem("userID", addRes.data.id);
-      localStorage.setItem("token", addRes.token);
-
-      let userId = addRes.data.id;
-      let token = addRes.token;
-      let nome = userDecoded.name;
-      let img_perfil = userDecoded.picture;
-
-      const updateRes = await updateUser(
-        "googleRegisterForm",
-        null,
-        null,
-        null,
-        null,
-        null,
-        userId,
-        token,
-        nome,
-        "PUT",
-        img_perfil,
-        null
-      );
-      if (!updateRes) {
-        toast.error(t("registerpage.erroCadastro"));
-      } else {
-        const user = await getUser(userId);
-        localStorage.setItem("authenticated", true);
+      if (user.dados) {
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
-        navigate("/editar'perfil");
+        localStorage.setItem("authenticated", true);
+        localStorage.setItem("userId", user.dados.id);
+        localStorage.setItem("token", loginGoogleRes.token);
+        navigate("/");
+      } else {
+        toast.error(t("registerpage.erroCadastro"));
       }
+    } else {
+      toast.error(t("registerpage.erroCadastro"));
     }
+
+    // let email = userDecoded.email;
+    // const addRes = await addUser(email);
+    // if (!addRes) {
+    //   toast.error(t("registerpage.erroCadastro"));
+    // } else if (!addRes.data.id) {
+    //   toast.error(t("registerpage.erroUserExiste"));
+    // } else {
+    //   localStorage.setItem("userID", addRes.data.id);
+    //   localStorage.setItem("token", addRes.token);
+    //   let userId = addRes.data.id;
+    //   let token = addRes.token;
+    //   let nome = userDecoded.name;
+    //   let img_perfil = userDecoded.picture;
+    //   const updateRes = await updateUser(
+    //     "googleRegisterForm",
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     null,
+    //     userId,
+    //     token,
+    //     nome,
+    //     "PUT",
+    //     img_perfil,
+    //     null
+    //   );
+    //   if (!updateRes) {
+    //     toast.error(t("registerpage.erroCadastro"));
+    //   } else {
+    //     const user = await getUser(userId);
+    //     localStorage.setItem("authenticated", true);
+    //     localStorage.setItem("userInfo", JSON.stringify(user.dados));
+    //     navigate("/editar-perfil");
+    //   }
+    // }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
