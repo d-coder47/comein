@@ -304,7 +304,7 @@ const Editar = () => {
       ),
     };
 
-    const values = cleanPost(filteredFieldValues);
+    const values = cleanPost(filteredFieldValues, false);
     const body = objectToFormData(values, user.id);
     console.log(body);
 
@@ -324,7 +324,10 @@ const Editar = () => {
           },
         }
       );
-      console.log(response.data.dados);
+      const postName = fieldValues?.nome || editedFieldValues?.nome;
+      if (!response?.data?.dados !== "erro") {
+        navigate(`/eventos/${+id}/${postName}`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -656,10 +659,10 @@ const Editar = () => {
                     },
                   }}
                   InputLabelProps={{ shrink: true }}
-                  onChange={
-                    (e) => handleChangeFieldValues("data_fim", e.target.value)
-                    // handleDateLocalChange(e.target.name, e.target.value)
-                  }
+                  onChange={(e) => {
+                    handleChangeFieldValues("data_fim", e.target.value);
+                    setAnchorDateEl(null);
+                  }}
                 />
               </Box>
             </Popover>

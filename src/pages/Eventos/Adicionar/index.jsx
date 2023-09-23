@@ -239,6 +239,7 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
+    console.log({ fieldValues });
     const newEvent = {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
@@ -253,7 +254,8 @@ const Adicionar = () => {
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
     };
 
-    const values = cleanPost(newEvent);
+    const values = cleanPost(newEvent, true);
+    console.log({ values });
     const body = objectToFormData(values, user.id, true);
 
     const isValid = validatePost(newEvent, true);
@@ -279,6 +281,9 @@ const Adicionar = () => {
           "E",
           `${user.nome} adicionou um evento novo`
         );
+      }
+      if (!response?.data?.dados !== "erro") {
+        navigate(`/eventos/${+response?.data?.dados}/${newEvent.nome}`);
       }
     } catch (error) {
       console.log(error);
@@ -528,9 +533,10 @@ const Adicionar = () => {
                   )}
                   getOptionLabel={(option) => option?.nome}
                   value={fieldValues.local}
-                  onChange={(_, value) =>
-                    handleChangeFieldValues("local", value)
-                  }
+                  onChange={(_, value) => {
+                    handleChangeFieldValues("local", value);
+                    setAnchorLocationEl(null);
+                  }}
                   onInputChange={async (event, value) => {
                     if (value.length >= 2 && value.length <= 4) {
                       const res = await getAddresses(value);
@@ -617,10 +623,10 @@ const Adicionar = () => {
                   }}
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ format: "YYYYYY-MM-DDTHH:mm:ss" }}
-                  onChange={
-                    (e) => handleChangeFieldValues("data_fim", e.target.value)
-                    // handleDateLocalChange(e.target.name, e.target.value)
-                  }
+                  onChange={(e) => {
+                    handleChangeFieldValues("data_fim", e.target.value);
+                    setAnchorDateEl(null);
+                  }}
                 />
               </Box>
             </Popover>

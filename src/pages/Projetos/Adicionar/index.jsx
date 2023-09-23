@@ -204,7 +204,7 @@ const Adicionar = () => {
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
     };
 
-    const values = cleanPost(newProject);
+    const values = cleanPost(newProject, true);
     const body = objectToFormData(values, user.id, true);
     console.log(body);
 
@@ -231,6 +231,9 @@ const Adicionar = () => {
           "P",
           `${user.nome} adicionou um projeto novo`
         );
+      }
+      if (!response?.data?.dados !== "erro") {
+        navigate(`/projetos/${+response?.data?.dados}/${newProject.nome}`);
       }
     } catch (error) {
       console.error(error);

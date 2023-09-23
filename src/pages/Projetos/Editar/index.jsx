@@ -257,7 +257,7 @@ const Editar = () => {
       ),
     };
 
-    const values = cleanPost(filteredFieldValues);
+    const values = cleanPost(filteredFieldValues, false);
     const body = objectToFormData(values, user.id);
     console.log(body);
 
@@ -278,6 +278,10 @@ const Editar = () => {
         }
       );
       console.log(response.data.dados);
+      const postName = fieldValues?.nome || editedFieldValues?.nome;
+      if (!response?.data?.dados !== "erro") {
+        navigate(`/projetos/${+id}/${postName}`);
+      }
     } catch (error) {
       console.error(error);
     }
