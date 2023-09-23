@@ -104,7 +104,6 @@ const Cards = ({
           toast.error(t("userProfile.naoForamEncontradosResultados"));
           return setPosts([]);
         }
-        console.log("here");
         return setPosts(response.data.dados);
       } catch (error) {
         console.error(error);
@@ -160,7 +159,7 @@ const Cards = ({
 
   const postsToDisplay = posts?.map((card, index) => {
     return index === posts?.length - 1 ? (
-      <Grid item key={index} xs={3} ref={ref}>
+      <Grid item key={index} lg={3.8} xs={12} md={3} ref={ref}>
         <CustomCard
           key={index}
           id={card.id}
@@ -185,7 +184,7 @@ const Cards = ({
         />
       </Grid>
     ) : (
-      <Grid item key={index} xs={3}>
+      <Grid item key={index} lg={3.8} xs={12} md={3}>
         <CustomCard
           key={index}
           id={card.id}
@@ -214,7 +213,7 @@ const Cards = ({
 
   const allPostsToDisplay = allPosts?.map((card, index) => {
     return index === allPosts?.length - 1 ? (
-      <Grid item key={index} xs={3.8} ref={ref}>
+      <Grid item key={index} lg={3.8} xs={12} md={3} ref={ref}>
         <CustomCard
           key={index}
           id={card.id}
@@ -239,7 +238,7 @@ const Cards = ({
         />
       </Grid>
     ) : (
-      <Grid item key={index} xs={3.8}>
+      <Grid item key={index} lg={3.8} md={3} sm={12} xs={12}>
         <CustomCard
           key={index}
           id={card.id}
@@ -270,12 +269,15 @@ const Cards = ({
     <Box mt="1rem" mx="2rem" flexGrow={1}>
       <Grid
         container
+        className="gridCardsContainer"
         gap={3.8}
         mb="2rem"
         sx={{
           display: "flex",
           alignItems: "center",
+
           justifyContent: "center",
+          background: "red",
         }}
       >
         {posts.length > 0 ? postsToDisplay : allPostsToDisplay}
