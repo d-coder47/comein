@@ -640,17 +640,20 @@ const Editar = () => {
                   borderRadius: "50%",
                   height: "3rem",
                   width: "3rem",
-                  backgroundColor: () => "#3c3c3c",
+                  backgroundColor: () =>
+                    editedFieldValues?.imagem ? "#3c3c3c" : "#808080",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  cursor: "pointer",
+                  cursor: editedFieldValues?.imagem ? "pointer" : "not-allowed",
                   "&:hover": {
                     opacity: 0.8,
                   },
                 }}
-                onClick={() => setOpenCroppedImage(true)}
+                onClick={() =>
+                  editedFieldValues?.imagem ? setOpenCroppedImage(true) : null
+                }
               >
                 <Crop sx={{ color: "white", width: "1rem", height: "1rem" }} />
               </Box>
