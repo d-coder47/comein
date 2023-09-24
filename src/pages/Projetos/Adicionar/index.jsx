@@ -160,9 +160,9 @@ const Adicionar = () => {
     } else {
       var reader = new FileReader();
       reader.onload = async function () {
-        console.log("Uploaded");
         handleChangeFieldValues("imagem", URL.createObjectURL(file));
         handleChangeFieldValues("imgProjeto", file);
+        handleChangeFieldValues("imgProjetoRecortada", null);
       };
       reader.readAsDataURL(event.target.files[0]);
     }

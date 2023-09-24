@@ -265,6 +265,7 @@ const Editar = () => {
       reader.onload = async function () {
         handleChangeFieldValues("imagem", URL.createObjectURL(file));
         handleChangeFieldValues("imgEvento", file);
+        handleChangeFieldValues("imgEventoRecortada", null);
       };
       reader.readAsDataURL(event.target.files[0]);
     }
