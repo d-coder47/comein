@@ -21,6 +21,7 @@ import {
   CheckBox,
   MoreHoriz,
   Crop,
+  Close,
 } from "@mui/icons-material";
 
 import ReactQuill from "react-quill";
@@ -240,6 +241,10 @@ const Adicionar = () => {
     }
   };
 
+  const onGoBack = () => {
+    navigate(-1);
+  };
+
   if (!user) return <div>Loading</div>;
 
   return (
@@ -253,14 +258,27 @@ const Adicionar = () => {
           // backgroundColor: "rgba(0,0,0,.3)",
         }}
       >
+        <Box onClick={onGoBack} mr=".5rem" sx={{ float: "right" }}>
+          <Close
+            sx={{
+              color: "rgba(0,0,0,.9)",
+              // position: "absolute",
+              // right: "1rem",
+              // top: ".5rem",
+              cursor: "pointer",
+              "&:hover": {
+                color: "rgba(0,0,0,.7)",
+              },
+            }}
+          />
+        </Box>
         <Box
           id="add-content"
           sx={{
             margin: "0 0 0 4rem",
             backgroundColor: "transparent",
             outline: "none",
-            height: "100vh",
-            overflowY: "auto",
+            minHeight: "100vh",
             display: "flex",
             justifyContent: "center",
             gap: "1.5rem",
@@ -271,6 +289,7 @@ const Adicionar = () => {
             display="flex"
             flexDirection="column"
             gap="0.5rem"
+            mb="2rem"
           >
             <Box
               id="detailed-header"
