@@ -678,9 +678,9 @@ const ProfileConfiguration = () => {
                               borderRadius: "20px",
                               textTransform: "none",
                             }}
-                            onClick={handleRemoveAccount}
+                            onClick={handleCloseRemoveModal}
                           >
-                            {t("userProfile.configPage.sim")}
+                            {t("userProfile.configPage.nao")}
                           </Button>
                         </Grid>
                         <Grid item xs={6} md={4}>
@@ -692,9 +692,9 @@ const ProfileConfiguration = () => {
                               borderRadius: "20px",
                               textTransform: "none",
                             }}
-                            onClick={handleCloseRemoveModal}
+                            onClick={handleRemoveAccount}
                           >
-                            {t("userProfile.configPage.nao")}
+                            {t("userProfile.configPage.sim")}
                           </Button>
                         </Grid>
                       </Grid>
