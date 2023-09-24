@@ -746,7 +746,8 @@ const UserProfile = () => {
                         : {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
+                            alignItems: "center",
+                            flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
                             minWidth: "1310px",
@@ -757,7 +758,8 @@ const UserProfile = () => {
                         ? {
                             display: "flex",
                             justifyContent: "center",
-                            alignItems: "flex-start",
+                            alignItems: "center",
+                            flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minWidth: "1275px",

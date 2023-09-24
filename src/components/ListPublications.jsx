@@ -303,7 +303,13 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
           <Grid container spacing={3.8}>
             {projects.length > 0 &&
               projects?.map((card, index) => (
-                <Grid item key={index} xs={3.8}>
+                <Grid
+                  item
+                  key={index}
+                  xs={
+                    projects.length === 1 ? 12 : projects.length === 2 ? 6 : 3.8
+                  }
+                >
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}

@@ -172,7 +172,12 @@ const Adicionar = () => {
             },
           }
         );
-        setProjects(response.data.dados);
+        console.log(typeof response.data.dados);
+        if (response.data.dados === "null") {
+          setProjects([]);
+        } else {
+          setProjects(response.data.dados);
+        }
       } catch (error) {
         console.error(error);
       }
