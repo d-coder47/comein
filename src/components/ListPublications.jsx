@@ -191,8 +191,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         >
           <Grid container spacing={3.8}>
             {events.length > 0 &&
-              events?.map((card, index) => (
-                <Grid item key={index} xs={3.8}>
+              events.map((card, index) => (
+                <Grid
+                  item
+                  key={index}
+                  xs={events.length === 1 ? 12 : events.length === 2 ? 6 : 3.8}
+                >
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
