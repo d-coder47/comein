@@ -20,6 +20,7 @@ import {
   MenuItem,
   TextField,
   InputAdornment,
+  LinearProgress,
 } from "@mui/material";
 import {
   Edit,
@@ -57,6 +58,7 @@ const UserProfile = () => {
   const { getEventPostByUser, getProjectPostByUser } = usePosts();
   const [allPosts, setAllPosts] = React.useState();
   const [searchOptions, setSearchOptions] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -122,6 +124,7 @@ const UserProfile = () => {
   };
 
   const handlePhotoUpload = async (event) => {
+    setLoading(true);
     const file = event.target.files[0];
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
@@ -132,6 +135,7 @@ const UserProfile = () => {
       var reader = new FileReader();
       reader.onload = async function () {
         await updateUserProfilePhoto(loggedUserInfo.id, file);
+        setLoading(false);
         const user = await getUser(loggedUserInfo.id);
         setProfilePhoto(user.dados.img_perfil);
 
@@ -142,6 +146,7 @@ const UserProfile = () => {
   };
 
   const handleBannerPhotoUpload = async (event) => {
+    setLoading(true);
     const file = event.target.files[0];
 
     const fileSizeInMB = file.size / (1024 * 1024); // 1 MB = 1024 KB, 1 KB = 1024 bytes
@@ -152,10 +157,12 @@ const UserProfile = () => {
       var reader = new FileReader();
       reader.onload = async function () {
         await updateUserProfileBanner(loggedUserInfo.id, file);
+
         const user = await getUser(loggedUserInfo.id);
         setProfileBannerPhoto(user.dados.img_capa);
 
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
+        setLoading(false);
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -278,6 +285,7 @@ const UserProfile = () => {
   return (
     <Box>
       <NavBar />
+      <div>{loading && <LinearProgress />}</div>
       <Box
         className="profile_container"
         sx={{

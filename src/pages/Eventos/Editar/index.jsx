@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
   Button,
+  LinearProgress,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -83,6 +84,7 @@ const Editar = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const params = useParams();
   const { id } = params;
@@ -297,6 +299,7 @@ const Editar = () => {
 
   const handleSave = () => {
     console.log({ editedFieldValues });
+    setLoading(true);
 
     const filteredFieldValues = {
       ...editedFieldValues,
@@ -330,11 +333,13 @@ const Editar = () => {
         }
       );
       const postName = fieldValues?.nome || editedFieldValues?.nome;
+      setLoading(false);
       if (!response?.data?.dados !== "erro") {
         navigate(`/eventos/${+id}/${postName}`);
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -346,6 +351,7 @@ const Editar = () => {
 
   return (
     <>
+      <div>{loading && <LinearProgress />}</div>
       <NavBar />
       <Box
         id="wrapper"

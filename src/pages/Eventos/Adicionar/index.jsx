@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
   Button,
+  LinearProgress,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -85,6 +86,8 @@ const Adicionar = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const [loading, setLoading] = React.useState(false);
 
   const { addNotifications } = useNotifications();
 
@@ -248,6 +251,7 @@ const Adicionar = () => {
 
   const handleSave = () => {
     console.log({ fieldValues });
+    setLoading(true);
     const newEvent = {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
@@ -263,7 +267,6 @@ const Adicionar = () => {
     };
 
     const values = cleanPost(newEvent, true);
-    console.log({ values });
     const body = objectToFormData(values, user.id, true);
 
     const isValid = validatePost(newEvent, true);
@@ -283,6 +286,7 @@ const Adicionar = () => {
         },
       });
       if (response.status === 200) {
+        setLoading(false);
         await addNotifications(
           user.id,
           response.data.dados,
@@ -295,6 +299,7 @@ const Adicionar = () => {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -306,6 +311,7 @@ const Adicionar = () => {
 
   return (
     <>
+      <div>{loading && <LinearProgress />}</div>
       <NavBar />
       <Box
         id="wrapper"

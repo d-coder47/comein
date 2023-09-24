@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
   Button,
+  LinearProgress,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
 import {
@@ -71,6 +72,8 @@ const Adicionar = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+
+  const [loading, setLoading] = React.useState(false);
 
   const { addNotifications } = useNotifications();
 
@@ -193,6 +196,7 @@ const Adicionar = () => {
 
   const handleSave = () => {
     console.log(fieldValues);
+    setLoading(true);
 
     const newProject = {
       id_utilizador: user.id,
@@ -226,6 +230,7 @@ const Adicionar = () => {
         },
       });
       if (response.status === 200) {
+        setLoading(false);
         await addNotifications(
           user.id,
           response.data.dados,
@@ -233,11 +238,13 @@ const Adicionar = () => {
           `${user.nome} adicionou um projeto novo`
         );
       }
+      setLoading(false);
       if (!response?.data?.dados !== "erro") {
         navigate(`/projetos/${+response?.data?.dados}/${newProject.nome}`);
       }
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
@@ -249,6 +256,7 @@ const Adicionar = () => {
 
   return (
     <>
+      <div>{loading && <LinearProgress />}</div>
       <NavBar />
       <Box
         id="wrapper"
