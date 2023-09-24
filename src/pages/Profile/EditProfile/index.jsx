@@ -334,20 +334,40 @@ const EditProfile = () => {
     } else {
       let token = localStorage.getItem("token");
 
-      const id_geografia_nacionalidade = await getCountries(
-        formData.nationality,
+      const nacionalidades = await getCountries(
+        formData.nationality.slice(0, 4),
         token
       );
-      const id_geografia_residencia = await getAddresses(
-        formData.residence,
+      const residencias = await getAddresses(
+        formData.residence.slice(0, 4),
         token
       );
+
+      let id_geografia_nacionalidade;
+      let id_geografia_residencia;
+      nacionalidades.dados.map((item) => {
+        if (item.nacionalidade === formData.nationality) {
+          id_geografia_nacionalidade = item.id;
+        }
+      });
+
+      nacionalidades.dados.map((item) => {
+        if (item.nacionalidade === formData.nationality) {
+          id_geografia_nacionalidade = item.id;
+        }
+      });
+
+      residencias.dados.map((item) => {
+        if (item.nome === formData.residence) {
+          id_geografia_residencia = item.id;
+        }
+      });
 
       let sexo = formData.gender;
       let data_nasc = formData.date;
       let contatos = formData.contact;
-      let residencia = id_geografia_residencia.dados[0].id;
-      let nacionalidade = id_geografia_nacionalidade.dados[0].id;
+      let residencia = id_geografia_residencia;
+      let nacionalidade = id_geografia_nacionalidade;
       let userId = userInfo.id;
 
       let nome = formData.name;
@@ -362,9 +382,7 @@ const EditProfile = () => {
         userId,
         token,
         nome,
-        _method,
-        null,
-        null
+        _method
       );
 
       if (!res) {
