@@ -147,7 +147,11 @@
     "terminarSessao": "Se déconnecter",
     "novaAtualizacao": "Nouvelle actualisation!",
     "limparTudo": "Tout nettoyer",
-    "nenhumaAtualizacao": "Pas de nouvelles mises à jour !"
+    "nenhumaAtualizacao": "Pas de nouvelles mises à jour !",
+    "diaAtras": " jour(s) il y a",
+    "horaAtras": " heure(s) il y a",
+    "minutoAtras": " minute(s) il y a",
+    "segundoAtras": " seconde(s) il y a"
   },
   "categories": {
     "music": "Musique",

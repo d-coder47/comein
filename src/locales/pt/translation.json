@@ -147,7 +147,11 @@
     "terminarSessao": "Terminar sessão",
     "novaAtualizacao": "Nova atualização!",
     "limparTudo": "Limpar tudo",
-    "nenhumaAtualizacao": "Nenhuma atualização nova!"
+    "nenhumaAtualizacao": "Nenhuma atualização nova!",
+    "diaAtras": " dia(s) atrás",
+    "horaAtras": " hora(s) atrás",
+    "minutoAtras": " minuto(s) atrás",
+    "segundoAtras": " segundo(s) atrás"
   },
   "categories": {
     "music": "Música",

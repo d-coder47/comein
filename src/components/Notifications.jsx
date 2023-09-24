@@ -10,6 +10,7 @@ import {
   ButtonBase,
   ListItemIcon,
   IconButton,
+  Box,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
@@ -22,7 +23,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
   const { t } = useTranslation();
   const {
-    addNotifications,
     changeNotificationStatus,
     removerNotificacao,
     removeNotifications,
@@ -37,18 +37,39 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
 
   const navigate = useNavigate();
 
+  function timeSince(dateString) {
+    const currentDate = new Date();
+    const pastDate = new Date(dateString);
+    const timeDifference = currentDate - pastDate;
+
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return days + t("navBar.diaAtras");
+    } else if (hours > 0) {
+      return hours + t("navBar.horaAtras");
+    } else if (minutes > 0) {
+      return minutes + t("navBar.minutoAtras");
+    } else {
+      return seconds + t("navBar.segundoAtras");
+    }
+  }
+
   async function fetchData() {
     const notificationData = await getUserNotifications(userId);
     if (notificationData.dados === "null") {
       setNotificationList([]);
     } else {
+      console.log(notificationData.dados);
       setNotificationList(notificationData.dados);
     }
   }
   useEffect(() => {
     if (userId) {
       fetchData();
-      // addNotifications(336, 114, "E", "Danilson Reis adicionou um evento novo");
     }
   }, [userId]);
 
@@ -61,7 +82,7 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
         .replaceAll(" ", "_");
       navigate(`/eventos/${idPub}/${postName}`);
     } else {
-      const project = await getProject(idPub);
+      const project = await getProject(idPub, pubType);
 
       const postName = project.dados.nome
         .toLowerCase()
@@ -129,6 +150,7 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
           sx={{
             width: "100%",
             maxWidth: 360,
+            minWidth: 360,
             maxHeight: 360,
             bgcolor: "background.paper",
             padding: notificationList.length === 0 ? "0px" : "5px 5px 0 5px",
@@ -176,18 +198,34 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
                       primary={t("navBar.novaAtualizacao")}
                       secondary={
                         <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="#000"
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
                           >
-                            {notification.mensagem}
-                          </Typography>
+                            <Typography
+                              sx={{ display: "inline" }}
+                              component="span"
+                              variant="body2"
+                              color="#000"
+                            >
+                              {notification.mensagem}
+                            </Typography>
+                            <Typography
+                              sx={{ display: "inline" }}
+                              component="span"
+                              variant="body2"
+                              color="#c3c3c3"
+                            >
+                              {timeSince(notification.data)}
+                            </Typography>
+                          </Box>
                         </React.Fragment>
                       }
                     />
                   </ButtonBase>
+
                   <ListItemIcon>
                     <IconButton>
                       <DeleteIcon
