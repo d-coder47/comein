@@ -147,7 +147,11 @@
     "terminarSessao": "Sign out",
     "novaAtualizacao": "New update!",
     "limparTudo": "Clean everything",
-    "nenhumaAtualizacao": "Aucune mise à jour disponible !"
+    "nenhumaAtualizacao": "No new updates!",
+    "diaAtras": " day(s) ago",
+    "horaAtras": " hour(s) ago",
+    "minutoAtras": " minute(s) ago",
+    "segundoAtras": " second(s) ago"
   },
   "categories": {
     "music": "Music",
