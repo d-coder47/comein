@@ -21,6 +21,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOnOutlined";
 
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   const [filterSelected, setFilterSelected] = useState("");
@@ -57,7 +58,10 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   };
 
   const onSubmitLocalDateForm = () => {
-    if (formValues.startDate !== "") onLocalDateChange(formValues);
+    if (formValues.startDate === "") {
+      return toast.error("Data de início é obrigatória!");
+    }
+    onLocalDateChange(formValues);
     setShowLocalDate(false);
   };
 
@@ -235,6 +239,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         name="startDate"
                         type="date"
                         label={t("homepage.filterCard.startDate")}
+                        value={formValues?.startDate}
                         sx={{
                           height: "2rem",
                           ".MuiInputBase-root": {
@@ -252,6 +257,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         name="endDate"
                         type="date"
                         label={t("homepage.filterCard.endDate")}
+                        value={formValues?.endDate}
                         sx={{
                           height: "2rem",
                           ".MuiInputBase-root": {
@@ -276,6 +282,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
                         onChange={(e) =>
                           handleDateLocalChange("address", e.target.value)
                         }
+                        value={formValues?.address}
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">

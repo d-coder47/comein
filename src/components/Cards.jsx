@@ -15,6 +15,7 @@ const Cards = ({
   culturalAreaId,
   localDateValues,
   displayHighlights,
+  setIsLoading,
 }) => {
   const { posts: allPosts, getPostsByPage } = usePosts();
   const [posts, setPosts] = useState([]);
@@ -34,6 +35,7 @@ const Cards = ({
     )
       return setPosts(allPosts);
     const getPostsByArea = async () => {
+      setIsLoading(true);
       try {
         const response = await axiosInstance.get(
           `/publicacoes/listar/${culturalAreaId}`,
@@ -47,10 +49,13 @@ const Cards = ({
         );
         if (response.data.dados === "null") return setPosts(allPosts);
         setPosts(response.data.dados);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
+
     getPostsByArea();
   }, [culturalAreaId]);
 
@@ -64,6 +69,7 @@ const Cards = ({
       return setPosts(allPosts);
 
     const getHighlightPosts = async () => {
+      setIsLoading(true);
       try {
         const response = await axiosInstance.get(`/publicacoes/destaques`, {
           headers: {
@@ -73,8 +79,10 @@ const Cards = ({
           },
         });
         setPosts(response.data.dados);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     getHighlightPosts();
@@ -90,6 +98,7 @@ const Cards = ({
       return setPosts(allPosts);
 
     const searchByLocalAndDate = async () => {
+      setIsLoading(true);
       try {
         const response = await axiosInstance.get(
           `/publicacoes/pesquisaDataLocal/${localDateValues}`,
@@ -103,11 +112,14 @@ const Cards = ({
         );
         if (response.data.length === 0) {
           toast.error(t("userProfile.naoForamEncontradosResultados"));
+          setIsLoading(false);
           return setPosts([]);
         }
+        setIsLoading(false);
         return setPosts(response.data.dados);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     searchByLocalAndDate();
@@ -122,6 +134,7 @@ const Cards = ({
     )
       return setPosts(allPosts);
     const searchPosts = async (search) => {
+      setIsLoading(true);
       try {
         const response = await axiosInstance.get(
           `/publicacoes/pesquisaInput/${search}`,
@@ -134,11 +147,13 @@ const Cards = ({
           }
         );
         if (response.data.dados === "Não existem dados para retornar") {
+          setIsLoading(false);
           return setPosts([]);
         }
         setPosts(response.data.dados);
       } catch (error) {
         console.error(error);
+        setIsLoading(false);
       }
     };
     searchPosts(searchQuery);

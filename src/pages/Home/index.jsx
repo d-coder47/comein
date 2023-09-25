@@ -5,12 +5,14 @@ import SearchBar from "../../components/SearchBar";
 import { useState } from "react";
 import MapButton from "../../components/Map/MapButton";
 import Highlights from "../../components/highlights";
+import { LinearProgress } from "@mui/material";
 
 export default function Home() {
   const [category, setCategory] = useState("");
   const [displayHighlights, setDisplayHighlights] = useState(false);
   const [searchTerm, setSearchTerm] = useState(null);
   const [localDateValues, setLocalDateValues] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
 
   const onCategoryChange = (category) => {
     setCategory(category);
@@ -46,6 +48,7 @@ export default function Home() {
 
   return (
     <>
+      <div>{isLoading && <LinearProgress />}</div>
       <NavBar />
       <Categories onCategoryChange={onCategoryChange} />
       <SearchBar
@@ -60,6 +63,7 @@ export default function Home() {
         culturalAreaId={category}
         localDateValues={localDateValues}
         displayHighlights={displayHighlights}
+        setIsLoading={setIsLoading}
       />
       <MapButton />
     </>

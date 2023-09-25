@@ -62,7 +62,6 @@ const isDatesValid = (startDate, endDate, isStartDateValid) => {
 };
 
 export const validatePost = (values, isEvent) => {
-  console.log(values);
   const successOnValidateName = validateName(values?.nome);
   const successOnValidateImage = validateImage(
     isEvent ? values?.imgEvento : values?.imgProjeto
