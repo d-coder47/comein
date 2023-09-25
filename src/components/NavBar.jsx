@@ -32,6 +32,7 @@ import { useLocation } from "react-router-dom";
 
 import Notifications from "./Notifications";
 import useNotifications from "../hooks/useNotifications";
+import { apiPath } from "../api/apiPath";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -270,7 +271,7 @@ const NavBar = () => {
                     src={
                       userData.login_from === "google"
                         ? userData.img_perfil
-                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`
+                        : `${apiPath}/img/perfilImg/${userData.img_perfil}`
                     }
                   />
                 </IconButton>
@@ -316,7 +317,7 @@ const NavBar = () => {
                   src={
                     userData.login_from === "google"
                       ? userData.img_perfil
-                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`
+                      : `${apiPath}/img/perfilImg/${userData.img_perfil}`
                   }
                   sx={{
                     width: "80px !important",
@@ -350,7 +351,7 @@ const NavBar = () => {
                   src={
                     userData.login_from === "google"
                       ? userData.img_perfil
-                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${userData.img_perfil}`
+                      : `${apiPath}/img/perfilImg/${userData.img_perfil}`
                   }
                 />{" "}
                 {t("navBar.perfil")}

@@ -41,6 +41,7 @@ import {
 } from "../../../utils/filterPostAttributes";
 import getCroppedImg from "../../../utils/cropImage";
 import Cropper from "react-easy-crop";
+import { apiPath } from "../../../api/apiPath";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -184,7 +185,7 @@ const Editar = () => {
           nome: data.nome,
           // data_inicio: data.data_inicio,
           // data_fim: data.data_fim,
-          imagem: `https://comein.cv/comeincv_api_test/img/projetosImg/${data.imagem}`,
+          imagem: `${apiPath}/img/projetosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
             id: data?.id_geografia,
@@ -352,7 +353,7 @@ const Editar = () => {
                 src={
                   user.login_from === "google"
                     ? user?.img_perfil
-                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${user?.img_perfil}`
+                    : `${apiPath}/img/perfilImg/${user?.img_perfil}`
                 }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}

@@ -5,6 +5,7 @@ import { ArrowDropDown, LocationOn } from "@mui/icons-material";
 import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { apiPath } from "../api/apiPath";
 
 const Publisher = ({
   publishers = [{ nome: "" }],
@@ -187,7 +188,7 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
         src={
           publisher.login_from === "google"
             ? publisher.img_perfil
-            : `https://comein.cv/comeincv_api_test/img/perfilImg/${publisher.img_perfil}`
+            : `${apiPath}/img/perfilImg/${publisher.img_perfil}`
         }
         alt={`Foto de ${publisher?.nome}`}
       >

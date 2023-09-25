@@ -39,6 +39,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 import { toast } from "react-toastify";
+import { apiPath } from "../../api/apiPath";
 
 const UserProfile = () => {
   const params = useParams();
@@ -333,7 +334,7 @@ const UserProfile = () => {
                       },
                     },
                   }}
-                  src={`https://comein.cv/comeincv_api_test/img/capaImg/${profileBannerPhoto}`}
+                  src={`${apiPath}/img/capaImg/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
                 </Avatar>
@@ -439,7 +440,7 @@ const UserProfile = () => {
                           src={
                             pageUserInfo.login_from === "google"
                               ? profilePhoto
-                              : `https://comein.cv/comeincv_api_test/img/perfilImg/${profilePhoto}`
+                              : `${apiPath}/img/perfilImg/${profilePhoto}`
                           }
                         >
                           <PhotoCamera />

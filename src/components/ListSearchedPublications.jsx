@@ -2,6 +2,7 @@ import { Box, Grid } from "@mui/material";
 import React, { useState } from "react";
 
 import ProfileCustomCard from "./ProfileCustomCard";
+import { apiPath } from "../api/apiPath";
 
 const ListSearchedPublications = ({ isVisitor, posts }) => {
   const [refreshCount, setRefreshCount] = useState(0);
@@ -24,7 +25,7 @@ const ListSearchedPublications = ({ isVisitor, posts }) => {
                 name={card.nome}
                 likes={card.gostos}
                 visits={card.visitasPost}
-                picture={`https://comein.cv/comeincv_api_test/img/${
+                picture={`${apiPath}/img/${
                   card.distincao === "E" ? "eventos" : "projetos"
                 }Img/${card.imagem}`}
                 publisherId={card.id_utilizador}
@@ -32,7 +33,7 @@ const ListSearchedPublications = ({ isVisitor, posts }) => {
                 publisherPhoto={
                   card.login_from === "google"
                     ? card.imgPerfil
-                    : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                    : `${apiPath}/img/perfilImg/${card.imgPerfil}`
                 }
                 type={card.distincao}
                 onRefresh={handleRefresh}

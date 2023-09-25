@@ -13,6 +13,7 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { apiPath } from "../api/apiPath";
 
 const UserCard = ({
   publisher = null,
@@ -71,10 +72,7 @@ const UserCard = ({
     >
       <Avatar
         variant="square"
-        src={
-          `https://comein.cv/comeincv_api_test/img/capaImg/${publisher?.img_capa}` ||
-          wallpaper
-        }
+        src={`${apiPath}/img/capaImg/${publisher?.img_capa}` || wallpaper}
         alt={`Foto de capa de ${publisher?.nome}`}
         sx={{
           width: "100%",
@@ -86,7 +84,7 @@ const UserCard = ({
         src={
           publisher?.login_from === "google"
             ? publisher?.img_perfil
-            : `https://comein.cv/comeincv_api_test/img/perfilImg/${publisher?.img_perfil}`
+            : `${apiPath}/img/perfilImg/${publisher?.img_perfil}`
         }
         alt={`Foto de perfil de ${publisher?.nome}`}
         sx={{

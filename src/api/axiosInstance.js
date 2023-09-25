@@ -1,7 +1,8 @@
 import axios from "axios";
+import { apiPath } from "./apiPath";
 
 const axiosInstance = axios.create({
-  baseURL: "https://comein.cv/comeincv_api_test",
+  baseURL: apiPath,
   timeout: 100000,
   //   headers: {
   //     "Content-Type": "application/json",

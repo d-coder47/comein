@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import ProfileCustomCard from "./ProfileCustomCard";
+import { apiPath } from "../api/apiPath";
 
 const Highlights = () => {
   const { t } = useTranslation();
@@ -221,7 +222,7 @@ const Highlights = () => {
                     name={post.nome}
                     likes={post.gostos}
                     visits={post.visitasPost}
-                    picture={`https://comein.cv/comeincv_api_test/img/${
+                    picture={`${apiPath}/img/${
                       post.distincao === "E" ? "eventos" : "projetos"
                     }Img/${post.imagem}`}
                     publisherId={post.id_utilizador}
@@ -229,7 +230,7 @@ const Highlights = () => {
                     publisherPhoto={
                       post.login_from === "google"
                         ? post.imgPerfil
-                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${post.imgPerfil}`
+                        : `${apiPath}/img/perfilImg/${post.imgPerfil}`
                     }
                     type={post.distincao}
                     onRefresh={handleRefresh}

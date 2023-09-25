@@ -15,6 +15,7 @@ import ProfileCustomCard from "./ProfileCustomCard";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+import { apiPath } from "../api/apiPath";
 
 const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const { getEventPostByUser, getProjectPostByUser, getFavoritsPostByUser } =
@@ -101,8 +102,8 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const displayImage = (fullImage, minimizedImage, postType) => {
     const type = postType === "E" ? "eventos" : "projetos";
     return minimizedImage?.length > 0
-      ? `https://comein.cv/comeincv_api_test/img/${type}Img/${type}ImgRecortada/${minimizedImage}`
-      : `https://comein.cv/comeincv_api_test/img/${type}Img/${fullImage}`;
+      ? `${apiPath}/img/${type}Img/${type}ImgRecortada/${minimizedImage}`
+      : `${apiPath}/img/${type}Img/${fullImage}`;
   };
 
   if (type === "event") {
@@ -210,7 +211,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     publisherPhoto={
                       card.login_from === "google"
                         ? card.imgPerfil
-                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                        : `${apiPath}/img/perfilImg/${card.imgPerfil}`
                     }
                     type={card.distincao}
                     onRefresh={handleRefresh}
@@ -317,7 +318,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     publisherPhoto={
                       card.login_from === "google"
                         ? card.imgPerfil
-                        : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                        : `${apiPath}/img/perfilImg/${card.imgPerfil}`
                     }
                     type={card.distincao}
                   />
@@ -383,7 +384,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   publisherPhoto={
                     card.login_from === "google"
                       ? card.imgPerfil
-                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                      : `${apiPath}/img/perfilImg/${card.imgPerfil}`
                   }
                   type={card.distincao}
                 />
@@ -423,7 +424,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   publisherPhoto={
                     card.login_from === "google"
                       ? card.imgPerfil
-                      : `https://comein.cv/comeincv_api_test/img/perfilImg/${card.imgPerfil}`
+                      : `${apiPath}/img/perfilImg/${card.imgPerfil}`
                   }
                   type={card.distincao}
                 />
