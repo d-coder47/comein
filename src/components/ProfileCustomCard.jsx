@@ -141,7 +141,11 @@ const ProfileCustomCard = ({
 
   const getPostPath = () => {
     const postType = type === "E" ? "eventos" : "projetos";
-    const postName = name?.toLowerCase().trim().replaceAll(" ", "_");
+    const postName = name
+      .toLowerCase()
+      .trim()
+      .replaceAll(" ", "_")
+      .replaceAll("/", "_");
     return `/${postType}/${id}/${postName}`;
   };
 

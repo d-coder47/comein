@@ -43,6 +43,7 @@ import {
 import getCroppedImg from "../../../utils/cropImage";
 import Cropper from "react-easy-crop";
 import { apiPath } from "../../../api/apiPath";
+import ImageCropper from "../../../components/ImageCropper";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -235,7 +236,7 @@ const Editar = () => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  const handleSaveMinimizedImage = async () => {
+  const handleSaveMinimizedImage = async (croppedAreaPixels) => {
     const value = await getCroppedImg(
       fieldValues.imagem,
       croppedAreaPixels,
@@ -287,7 +288,8 @@ const Editar = () => {
       setLoading(false);
 
       if (!response?.data?.dados !== "erro") {
-        navigate(`/projetos/${+id}/${postName}`);
+        const nome = postName.replaceAll("/", "_").replaceAll(" ", "_");
+        navigate(`/projetos/${+id}/${nome}`);
       }
     } catch (error) {
       console.error(error);
@@ -414,67 +416,12 @@ const Editar = () => {
                 onChange={handlePhotoUpload}
               />
               {openCroppedImage ? (
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  sx={{
-                    backgroundColor: "#f8f8f8",
-                  }}
-                >
-                  <Cropper
-                    image={fieldValues?.imagem}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={16 / 9}
-                    onCropChange={setCrop}
-                    onCropComplete={onCropComplete}
-                    onZoomChange={setZoom}
-                    style={{
-                      containerStyle: {
-                        position: "unset",
-                        maxWidth: "600px",
-                        maxHeight: "385px",
-                        height: "385px",
-                      },
-                      mediaStyle: {
-                        position: "unset",
-                      },
-                      cropAreaStyle: {
-                        marginTop: "-4.5rem",
-                      },
-                    }}
-                  />
-                  <Box
-                    p="1rem"
-                    display="flex"
-                    justifyContent="space-evenly"
-                    sx={{
-                      zIndex: "999",
-                      backgroundColor: "#fff",
-                      borderRadius: "0 0 .25rem .25rem",
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => setOpenCroppedImage(false)}
-                      sx={{ textTransform: "unset" }}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleSaveMinimizedImage()}
-                      sx={{
-                        textTransform: "unset",
-                      }}
-                    >
-                      Guardar Recorte
-                    </Button>
-                  </Box>
-                </Box>
+                <ImageCropper
+                  isOpened={openCroppedImage}
+                  handleClose={() => setOpenCroppedImage(false)}
+                  image={fieldValues?.imagem}
+                  handleSaveMinimizedImage={handleSaveMinimizedImage}
+                />
               ) : (
                 <Avatar
                   src={fieldValues.imagem || img}

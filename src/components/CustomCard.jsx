@@ -48,7 +48,6 @@ const CustomCard = ({
   publisherName,
   type,
 }) => {
-  console.log({ id, picture });
   const [isLoading, setIsLoading] = useState(true);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);
@@ -62,7 +61,11 @@ const CustomCard = ({
 
   const getPostPath = () => {
     const postType = type === "E" ? "eventos" : "projetos";
-    const postName = name.toLowerCase().trim().replaceAll(" ", "_");
+    const postName = name
+      .toLowerCase()
+      .trim()
+      .replaceAll(" ", "_")
+      .replaceAll("/", "_");
     return `${postType}/${id}/${postName}`;
   };
 

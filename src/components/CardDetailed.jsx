@@ -28,6 +28,7 @@ import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import { useTranslation } from "react-i18next";
 import { apiPath } from "../api/apiPath";
+import { toast } from "react-toastify";
 
 const CardDetailed = () => {
   const params = useParams();
@@ -90,7 +91,7 @@ const CardDetailed = () => {
           },
         });
         const user = JSON.parse(localStorage.getItem("userInfo"));
-        if (!response.data || !user) return navigate("/user-login");
+        if (!response.data) return navigate("/");
         setDetails(response.data);
         setLikes(response?.data?.dados?.gostos);
         if (user.id === response.data.dados.id_utilizador) {
@@ -211,15 +212,22 @@ const CardDetailed = () => {
   const handleFollowUser = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
-    if (!user) return;
+    if (!user) {
+      return toast.info(
+        "Para interagir com o promotor primeiro deve efetuar o login."
+      );
+    }
     const result = await followUser(user.id, id);
     if (result !== null) setIsFollowing(result);
   };
 
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (!user)
-      return (window.location.href = `http://${window.location.host}/registar`);
+    if (!user) {
+      return toast.info(
+        "Para interagir com a publicacão primeiro deve efetuar o login."
+      );
+    }
 
     const userId = user?.id;
     const simplifiedType =
@@ -240,8 +248,11 @@ const CardDetailed = () => {
 
   const handleFavorite = async (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (!user)
-      return (window.location.href = `http://${window.location.host}/registar`);
+    if (!user) {
+      return toast.info(
+        "Para interagir com a publicacão primeiro deve efetuar o login."
+      );
+    }
 
     const userId = user?.id;
 
@@ -878,7 +889,11 @@ const DetailedRelated = ({ related, type }) => {
 
   const getPostPath = (id, name) => {
     const postType = type === "eventos" ? "projetos" : "eventos";
-    const postName = name.toLowerCase().trim().replaceAll(" ", "_");
+    const postName = name
+      .toLowerCase()
+      .trim()
+      .replaceAll(" ", "_")
+      .replaceAll("/", "_");
     return `/${postType}/${id}/${postName}`;
   };
 

@@ -245,13 +245,15 @@ const UserProfile = () => {
   }
 
   React.useEffect(() => {
-    if (!authenticated) {
-      navigate("/");
-    } else {
-      fetchData();
-      checkIsFollowing();
+    fetchData();
 
+    if (!authenticated) {
+      setVisitor(true);
+      countVisit();
+      localStorage.setItem("isVisitor", true);
+    } else {
       if (userId !== loggedUserInfo.id) {
+        checkIsFollowing();
         setVisitor(true);
         countVisit();
         localStorage.setItem("isVisitor", true);

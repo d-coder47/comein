@@ -61,6 +61,10 @@ const UserCard = ({
     );
   }
 
+  const handleAccessPage = () => {
+    navigate(`/perfil/${publisher?.id}/${publisher?.nome}`);
+  };
+
   return (
     <Box
       sx={{
@@ -218,13 +222,14 @@ const UserCard = ({
         color="primary"
         size="small"
         sx={{ width: "80%" }}
-        onClick={onFollowUser}
+        onClick={handleAccessPage}
       >
-        {isOwner
+        {/* {isOwner
           ? t("cardDetailed.userCard.accessYourPage")
           : isFollowing
           ? t("cardDetailed.userCard.following")
-          : t("cardDetailed.userCard.follow")}
+          : t("cardDetailed.userCard.follow")} */}
+        Aceder a página
       </Button>
     </Box>
   );

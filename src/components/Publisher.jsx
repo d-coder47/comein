@@ -6,6 +6,7 @@ import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiPath } from "../api/apiPath";
+import useUserProfile from "../hooks/useUserProfile";
 
 const Publisher = ({
   publishers = [{ nome: "" }],
@@ -21,6 +22,8 @@ const Publisher = ({
 
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const { followUser } = useUserProfile();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -182,6 +185,16 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
       : `${residencia}, `;
   };
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    // isOwner
+    //   ? accessOwnPage()
+    //   : isFollowing
+    //   ? unFollow()
+    //   : follow()
+    navigate(`/perfil/${publisher?.id}/${publisher?.nome}`);
+  };
   return (
     <Box display="flex" alignItems="center" gap=".5rem">
       <Avatar
@@ -214,12 +227,14 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
             backgroundColor: (theme) => theme.palette.primary.dark,
           },
         }}
+        onClick={handleClick}
       >
-        {isOwner
+        {/* {isOwner
           ? t("cardDetailed.userCard.accessYourPage")
           : isFollowing
           ? t("cardDetailed.userCard.following")
-          : t("cardDetailed.userCard.follow")}
+          : t("cardDetailed.userCard.follow")} */}
+        Aceder a página
       </Box>
     </Box>
   );
