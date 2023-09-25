@@ -1058,8 +1058,8 @@ const EditProfile = () => {
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
-                      width: "60%",
-                      minHeight: "30vh",
+                      width: "100%",
+                      height: "200px",
                     }}
                   >
                     <ReactQuill
@@ -1088,7 +1088,7 @@ const EditProfile = () => {
                               width: "30%",
                               borderRadius: "20px",
                               textTransform: "none",
-                              marginTop: "10px",
+                              marginTop: "60px",
                             }),
                         // Styles for small displays
                         ...(isMobileScreen
