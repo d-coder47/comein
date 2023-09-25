@@ -363,7 +363,8 @@ const UserProfile = () => {
               container
               spacing={2}
               sx={{
-                paddingRight: "220px",
+                // paddingRight: "220px",
+                display: "flex",
                 justifyContent: "flex-end",
               }}
             >
@@ -647,9 +648,13 @@ const UserProfile = () => {
                 className="cards_grid_container"
                 sx={{
                   height: "100%",
+                  minWidth: "70%",
                   paddingLeft: "0px !important",
                   marginTop: "0 !important",
                   paddingTop: "0 !important",
+                  display: "flex",
+                  flexDirection: "column",
+                  // justifyContent: "center",
                 }}
               >
                 <Box
@@ -721,8 +726,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "1310px",
-                            minHeight: "100vh",
+                            minWidth: "92rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -733,8 +737,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minWidth: "1275px",
-                            minHeight: "100vh",
+                            minWidth: "72rem",
                           }
                         : {}),
                     }}
@@ -759,8 +762,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "1310px",
-                            minHeight: "100vh",
+                            minWidth: "92rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -771,8 +773,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minWidth: "1275px",
-                            minHeight: "100vh",
+                            minWidth: "72rem",
                           }
                         : {}),
                     }}
@@ -796,8 +797,7 @@ const UserProfile = () => {
                             alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "1310px",
-                            minHeight: "100vh",
+                            minWidth: "92rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -807,8 +807,7 @@ const UserProfile = () => {
                             alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minWidth: "1275px",
-                            minHeight: "100vh",
+                            minWidth: "72rem",
                           }
                         : {}),
                     }}
@@ -867,7 +866,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "1310px",
+                            minWidth: "92",
                             minHeight: "100vh",
                           }),
                       // Styles for small displays
@@ -879,7 +878,7 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minHeight: "100vh",
-                            minWidth: "1275px",
+                            minWidth: "72rem",
                           }
                         : {}),
                     }}

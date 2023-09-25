@@ -111,7 +111,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       return !isVisitor ? (
         <Box
           mt="1rem"
-          style={{
+          sx={{
             marginLeft: "0",
             marginRigth: "2rem",
           }}
@@ -184,10 +184,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       return (
         <Box
           mt="1rem"
-          style={{
-            marginLeft: "0",
-            marginRigth: "2rem",
-          }}
+          sx={
+            {
+              // marginLeft: "0",
+              // marginRigth: "2rem",
+            }
+          }
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
