@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Category from "./Category";
 import { useTranslation } from "react-i18next";
 
@@ -62,12 +62,35 @@ const Categories = ({ onCategoryChange }) => {
     onCategoryChange(categoryId);
   };
 
+  const theme = useTheme();
+
+  const extraSmallToSmall = useMediaQuery(
+    theme.breakpoints.between("xs", "sm")
+  );
+  const smallToMid = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const MidToLarge = useMediaQuery(theme.breakpoints.between("md", "lg"));
+  const LargeToExtraLarge = useMediaQuery(
+    theme.breakpoints.between("lg", "xl")
+  );
+
+  console.log({ smallToMid });
+
+  const slidesPerView = extraSmallToSmall
+    ? 4
+    : smallToMid
+    ? 5
+    : MidToLarge
+    ? 7
+    : LargeToExtraLarge
+    ? 10
+    : 13;
+
   return (
     <Box gap="3rem" mt="1rem" mx="2rem">
       <Swiper
         modules={[Navigation, A11y]}
         spaceBetween={0}
-        slidesPerView={13}
+        slidesPerView={slidesPerView}
         navigation
         scrollbar={{ draggable: false }}
       >
