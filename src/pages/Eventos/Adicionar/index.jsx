@@ -53,6 +53,7 @@ import axios from "axios";
 import getCroppedImg from "../../../utils/cropImage";
 import { toast } from "react-toastify";
 import { apiPath } from "../../../api/apiPath";
+import ImageCropper from "../../../components/ImageCropper";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -83,7 +84,6 @@ const Adicionar = () => {
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
-  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -234,7 +234,7 @@ const Adicionar = () => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  const handleSaveMinimizedImage = async () => {
+  const handleSaveMinimizedImage = async (croppedAreaPixels) => {
     const value = await getCroppedImg(
       fieldValues.imagem,
       croppedAreaPixels,
@@ -429,67 +429,12 @@ const Adicionar = () => {
                 onChange={handlePhotoUpload}
               />
               {openCroppedImage ? (
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  sx={{
-                    backgroundColor: "#f8f8f8",
-                  }}
-                >
-                  <Cropper
-                    image={fieldValues?.imagem}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={16 / 9}
-                    onCropChange={setCrop}
-                    onCropComplete={onCropComplete}
-                    onZoomChange={setZoom}
-                    style={{
-                      containerStyle: {
-                        position: "unset",
-                        maxWidth: "600px",
-                        maxHeight: "385px",
-                        height: "385px",
-                      },
-                      mediaStyle: {
-                        position: "unset",
-                      },
-                      cropAreaStyle: {
-                        marginTop: "-4.5rem",
-                      },
-                    }}
-                  />
-                  <Box
-                    p="1rem"
-                    display="flex"
-                    justifyContent="space-evenly"
-                    sx={{
-                      zIndex: "999",
-                      backgroundColor: "#fff",
-                      borderRadius: "0 0 .25rem .25rem",
-                    }}
-                  >
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => setOpenCroppedImage(false)}
-                      sx={{ textTransform: "unset" }}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleSaveMinimizedImage()}
-                      sx={{
-                        textTransform: "unset",
-                      }}
-                    >
-                      Guardar Recorte
-                    </Button>
-                  </Box>
-                </Box>
+                <ImageCropper
+                  isOpened={openCroppedImage}
+                  handleClose={() => setOpenCroppedImage(false)}
+                  image={fieldValues?.imagem}
+                  handleSaveMinimizedImage={handleSaveMinimizedImage}
+                />
               ) : (
                 <Avatar
                   src={fieldValues.imagem || img}
