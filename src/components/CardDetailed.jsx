@@ -27,7 +27,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
 import { useTranslation } from "react-i18next";
-import { apiPath } from "../api/apiPath";
+import { imgApiPath } from "../api/apiPath";
 import { toast } from "react-toastify";
 
 const CardDetailed = () => {
@@ -455,7 +455,7 @@ const CardDetailed = () => {
         <meta property="og:title" content={details?.dados?.nome} />
         <meta
           property="og:image"
-          content={`${apiPath}/img/${type}Img/${details?.dados?.imagem}`}
+          content={`${imgApiPath}/${type}Img/${details?.dados?.imagem}`}
         />
       </Helmet>
       <Box
@@ -477,7 +477,7 @@ const CardDetailed = () => {
             publisherPhoto={
               details?.utilizador[0].login_from === "google"
                 ? details?.utilizador[0].img_perfil
-                : `${apiPath}/img/perfilImg/${details?.utilizador[0].img_perfil}`
+                : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
             }
             publishers={details?.utilizador}
             title={details?.dados?.nome}
@@ -493,7 +493,7 @@ const CardDetailed = () => {
             }}
           >
             <Avatar
-              src={`${apiPath}/img/${type}Img/${details?.dados?.imagem}`}
+              src={`${imgApiPath}/${type}Img/${details?.dados?.imagem}`}
               alt={`Foto de ${details?.dados?.nome}`}
               variant="square"
               sx={{ width: "100%", height: "auto" }}
@@ -542,7 +542,7 @@ const CardDetailed = () => {
                 src={
                   details?.utilizador[0].login_from === "google"
                     ? details?.utilizador[0].img_perfil
-                    : `${apiPath}/img/perfilImg/${details?.utilizador[0].img_perfil}`
+                    : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
                 }
                 alt="Foto do Publicador"
                 sx={{
@@ -577,7 +577,7 @@ const CardDetailed = () => {
                   src={
                     details?.utilizador[0].login_from === "google"
                       ? details?.utilizador[0].img_perfil
-                      : `${apiPath}/img/perfilImg/${details?.utilizador[0].img_perfil}`
+                      : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
                   }
                   alt="Foto do Publicador"
                   sx={{ width: "3rem", height: "3rem" }}
@@ -800,7 +800,7 @@ const DetailedProgram = ({ programs = [] }) => {
             <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
               <Typography mx="auto">{program?.data}</Typography>
               <Avatar
-                src={`${apiPath}/programa_eventosImg/${program?.imagem}`}
+                src={`${imgApiPath}/programa_eventosImg/${program?.imagem}`}
                 alt={`Foto de ${program?.titulo}`}
                 variant="square"
                 sx={{ width: "100%", height: "auto" }}
@@ -847,7 +847,7 @@ const DetailedOther = ({ others }) => {
       {others?.map((program) => (
         <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
           <Avatar
-            src={`${apiPath}/carnavalImg/${program?.imagem}`}
+            src={`${imgApiPath}/carnavalImg/${program?.imagem}`}
             alt={`Foto de ${program?.titulo}`}
             variant="square"
             sx={{ width: "100%", height: "auto" }}
@@ -871,7 +871,7 @@ const DetailedImages = ({ images, type }) => {
       {images?.map((img, index) => (
         <Avatar
           key={img.id}
-          src={`${apiPath}/${type === "E" ? "eventosImg" : "projetosImg"}/${
+          src={`${imgApiPath}/${type === "E" ? "eventosImg" : "projetosImg"}/${
             img.imagem
           }`}
           alt={`Imagem _${index}`}
@@ -926,7 +926,7 @@ const DetailedRelated = ({ related, type }) => {
             sx={{ width: "35%" }}
           >
             <Avatar
-              src={`${apiPath}/img/${
+              src={`${imgApiPath}/${
                 type === "eventos" ? "projetos" : "eventos"
               }Img/${post.imagem}`}
               variant="square"

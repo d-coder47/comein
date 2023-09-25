@@ -46,7 +46,7 @@ import { validatePost } from "../../../utils/postValidation";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../../../utils/cropImage";
 import useNotifications from "../../../hooks/useNotifications";
-import { apiPath } from "../../../api/apiPath";
+import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 
 const Adicionar = () => {
@@ -314,7 +314,7 @@ const Adicionar = () => {
                 src={
                   user?.login_from === "google"
                     ? user?.img_perfil
-                    : `${apiPath}/img/perfilImg/${user?.img_perfil}`
+                    : `${imgApiPath}/perfilImg/${user?.img_perfil}`
                 }
                 alt="Foto de Perfil"
                 sx={{ marginTop: ".75rem" }}
