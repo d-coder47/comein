@@ -272,7 +272,7 @@ const Cards = ({
       <Grid
         container
         className="gridCardsContainer"
-        gap={3.8}
+        gap={3.6}
         mb="2rem"
         sx={{
           display: "flex",

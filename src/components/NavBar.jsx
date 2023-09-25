@@ -101,7 +101,7 @@ const NavBar = () => {
   const handleProfileClick = () => {
     handleClose();
     navigate(`/perfil/${userData.id}/${userData.nome}`);
-    if (location.pathname.includes("user-profile")) {
+    if (location.pathname.includes("perfil")) {
       window.location.reload(false);
     }
   };
