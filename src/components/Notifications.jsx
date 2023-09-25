@@ -63,7 +63,6 @@ const Notifications = ({ open, anchorEl, handleClose, notifications }) => {
     if (notificationData.dados === "null") {
       setNotificationList([]);
     } else {
-      console.log(notificationData.dados);
       setNotificationList(notificationData.dados);
     }
   }
