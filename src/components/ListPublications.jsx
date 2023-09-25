@@ -15,7 +15,7 @@ import ProfileCustomCard from "./ProfileCustomCard";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
-import { apiPath } from "../api/apiPath";
+import { imgApiPath } from "../api/apiPath";
 
 const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const { getEventPostByUser, getProjectPostByUser, getFavoritsPostByUser } =
@@ -102,8 +102,8 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const displayImage = (fullImage, minimizedImage, postType) => {
     const type = postType === "E" ? "eventos" : "projetos";
     return minimizedImage?.length > 0
-      ? `${apiPath}/img/${type}Img/${type}ImgRecortada/${minimizedImage}`
-      : `${apiPath}/img/${type}Img/${fullImage}`;
+      ? `${imgApiPath}/${type}Img/${type}ImgRecortada/${minimizedImage}`
+      : `${imgApiPath}/${type}Img/${fullImage}`;
   };
 
   if (type === "event") {
@@ -217,7 +217,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     publisherPhoto={
                       card.login_from === "google"
                         ? card.imgPerfil
-                        : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+                        : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                     }
                     type={card.distincao}
                     onRefresh={handleRefresh}
@@ -330,7 +330,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                     publisherPhoto={
                       card.login_from === "google"
                         ? card.imgPerfil
-                        : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+                        : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                     }
                     type={card.distincao}
                   />
@@ -396,7 +396,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   publisherPhoto={
                     card.login_from === "google"
                       ? card.imgPerfil
-                      : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+                      : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                   }
                   type={card.distincao}
                 />
@@ -436,7 +436,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                   publisherPhoto={
                     card.login_from === "google"
                       ? card.imgPerfil
-                      : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+                      : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                   }
                   type={card.distincao}
                 />

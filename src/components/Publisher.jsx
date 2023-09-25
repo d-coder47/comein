@@ -5,7 +5,7 @@ import { ArrowDropDown, LocationOn } from "@mui/icons-material";
 import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { apiPath } from "../api/apiPath";
+import { imgApiPath } from "../api/apiPath";
 import useUserProfile from "../hooks/useUserProfile";
 
 const Publisher = ({
@@ -196,12 +196,12 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
     navigate(`/perfil/${publisher?.id}/${publisher?.nome}`);
   };
   return (
-    <Box display="flex" alignItems="center" gap=".5rem">
+    <Box display="flex" alignItems="center" gap=".5rem" width="100%">
       <Avatar
         src={
           publisher.login_from === "google"
             ? publisher.img_perfil
-            : `${apiPath}/img/perfilImg/${publisher.img_perfil}`
+            : `${imgApiPath}/perfilImg/${publisher.img_perfil}`
         }
         alt={`Foto de ${publisher?.nome}`}
       >
@@ -221,7 +221,7 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
           backgroundColor: (theme) => theme.palette.primary.main,
           padding: ".25rem .5rem",
           borderRadius: ".25rem",
-          marginLeft: "1rem",
+          marginLeft: "auto",
           color: "white",
           "&:hover": {
             backgroundColor: (theme) => theme.palette.primary.dark,

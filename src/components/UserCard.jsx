@@ -13,7 +13,7 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { apiPath } from "../api/apiPath";
+import { imgApiPath } from "../api/apiPath";
 
 const UserCard = ({
   publisher = null,
@@ -76,7 +76,7 @@ const UserCard = ({
     >
       <Avatar
         variant="square"
-        src={`${apiPath}/img/capaImg/${publisher?.img_capa}` || wallpaper}
+        src={`${imgApiPath}/capaImg/${publisher?.img_capa}` || wallpaper}
         alt={`Foto de capa de ${publisher?.nome}`}
         sx={{
           width: "100%",
@@ -88,7 +88,7 @@ const UserCard = ({
         src={
           publisher?.login_from === "google"
             ? publisher?.img_perfil
-            : `${apiPath}/img/perfilImg/${publisher?.img_perfil}`
+            : `${imgApiPath}/perfilImg/${publisher?.img_perfil}`
         }
         alt={`Foto de perfil de ${publisher?.nome}`}
         sx={{

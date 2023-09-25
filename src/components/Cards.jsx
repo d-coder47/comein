@@ -8,7 +8,7 @@ import defaultImg from "../assets/img/event3.jpg";
 import { useTranslation } from "react-i18next";
 import { useIntersection } from "@mantine/hooks";
 import { toast } from "react-toastify";
-import { apiPath } from "../api/apiPath";
+import { imgApiPath } from "../api/apiPath";
 
 const Cards = ({
   searchQuery,
@@ -161,9 +161,9 @@ const Cards = ({
   const displayImage = (fullImage, minimizedImage, postType) => {
     const type = postType === "E" ? "eventos" : "projetos";
     return minimizedImage?.length > 0
-      ? `${apiPath}/img/${type}Img/${type}ImgRecortada/${minimizedImage}`
+      ? `${imgApiPath}/${type}Img/${type}ImgRecortada/${minimizedImage}`
       : fullImage?.length > 0
-      ? `${apiPath}/img/${type}Img/${fullImage}`
+      ? `${imgApiPath}/${type}Img/${fullImage}`
       : defaultImg;
   };
 
@@ -186,7 +186,7 @@ const Cards = ({
           publisherPhoto={
             card.login_from === "google"
               ? card.imgPerfil
-              : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+              : `${imgApiPath}/perfilImg/${card.imgPerfil}`
           }
           type={card.distincao}
         />
@@ -209,7 +209,7 @@ const Cards = ({
           publisherPhoto={
             card.login_from === "google"
               ? card.imgPerfil
-              : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+              : `${imgApiPath}/perfilImg/${card.imgPerfil}`
           }
           type={card.distincao}
         />
@@ -236,7 +236,7 @@ const Cards = ({
           publisherPhoto={
             card.login_from === "google"
               ? card.imgPerfil
-              : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+              : `${imgApiPath}/perfilImg/${card.imgPerfil}`
           }
           type={card.distincao}
         />
@@ -259,7 +259,7 @@ const Cards = ({
           publisherPhoto={
             card.login_from === "google"
               ? card.imgPerfil
-              : `${apiPath}/img/perfilImg/${card.imgPerfil}`
+              : `${imgApiPath}/perfilImg/${card.imgPerfil}`
           }
           type={card.distincao}
         />

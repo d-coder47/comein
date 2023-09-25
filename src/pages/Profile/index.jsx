@@ -40,7 +40,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 import { toast } from "react-toastify";
-import { apiPath } from "../../api/apiPath";
+import { imgApiPath } from "../../api/apiPath";
 
 const UserProfile = () => {
   const params = useParams();
@@ -344,7 +344,7 @@ const UserProfile = () => {
                       },
                     },
                   }}
-                  src={`${apiPath}/img/capaImg/${profileBannerPhoto}`}
+                  src={`${imgApiPath}/capaImg/${profileBannerPhoto}`}
                 >
                   <PhotoCamera />
                 </Avatar>
@@ -451,7 +451,7 @@ const UserProfile = () => {
                           src={
                             pageUserInfo.login_from === "google"
                               ? profilePhoto
-                              : `${apiPath}/img/perfilImg/${profilePhoto}`
+                              : `${imgApiPath}/perfilImg/${profilePhoto}`
                           }
                         >
                           <PhotoCamera />
