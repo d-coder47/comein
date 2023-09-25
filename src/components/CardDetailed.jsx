@@ -878,7 +878,11 @@ const DetailedRelated = ({ related, type }) => {
 
   const getPostPath = (id, name) => {
     const postType = type === "eventos" ? "projetos" : "eventos";
-    const postName = name.toLowerCase().trim().replaceAll(" ", "_");
+    const postName = name
+      .toLowerCase()
+      .trim()
+      .replaceAll(" ", "_")
+      .replaceAll("/", "_");
     return `/${postType}/${id}/${postName}`;
   };
 

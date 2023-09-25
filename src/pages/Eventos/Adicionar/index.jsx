@@ -296,7 +296,8 @@ const Adicionar = () => {
         );
       }
       if (!response?.data?.dados !== "erro") {
-        navigate(`/eventos/${+response?.data?.dados}/${newEvent.nome}`);
+        const nome = newEvent.nome.replaceAll("/", "_").replaceAll(" ", "_");
+        navigate(`/eventos/${+response?.data?.dados}/${nome}`);
       }
     } catch (error) {
       console.log(error);

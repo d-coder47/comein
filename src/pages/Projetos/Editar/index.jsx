@@ -287,7 +287,8 @@ const Editar = () => {
       setLoading(false);
 
       if (!response?.data?.dados !== "erro") {
-        navigate(`/projetos/${+id}/${postName}`);
+        const nome = postName.replaceAll("/", "_").replaceAll(" ", "_");
+        navigate(`/projetos/${+id}/${nome}`);
       }
     } catch (error) {
       console.error(error);
