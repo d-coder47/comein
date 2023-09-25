@@ -243,7 +243,7 @@ const UserRegistration = () => {
         if (!updateUserRes) {
           toast.error(t("registerpage.erroCadastro"));
         } else {
-          const user = await getUser(userID);
+          const user = await getUser(addUserRes.data.id);
           localStorage.setItem("authenticated", true);
           localStorage.setItem("userInfo", JSON.stringify(user.dados));
           navigate("/");
