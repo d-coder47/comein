@@ -42,6 +42,65 @@
   color: #000 !important;
 }
 
+@media screen and (max-width: 375px) {
+  .css-qndp1g-MuiAvatar-root {
+    width: 110px !important;
+    height: auto;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .panel {
+    min-height: 600px !important;
+    min-width: 280px !important;
+  }
+
+  .css-5joihi .MuiTextField-root {
+    width: 200px !important;
+  }
+  .formContainer {
+    width: 100%;
+    min-height: 60%;
+  }
+
+  .logoSection {
+    display: flex;
+    margin: 0 0 10px 0;
+  }
+}
+@media screen and (max-width: 414px) {
+  .css-qndp1g-MuiAvatar-root {
+    width: 110px !important;
+    height: auto;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .panel {
+    min-height: 600px !important;
+    min-width: 280px !important;
+  }
+
+  .css-5joihi .MuiTextField-root {
+    width: 200px !important;
+  }
+  .formContainer {
+    width: 100%;
+    min-height: 60%;
+  }
+
+  .logoSection {
+    display: flex;
+    margin: 0 0 10px 0;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .css-qndp1g-MuiAvatar-root {
     width: 210px;
@@ -51,39 +110,15 @@
     flex-direction: column;
     justify-content: center;
     height: 100%;
+    display: flex;
+    justify-content: center;
   }
   .panel {
     min-height: 70vh;
-    min-width: 280px;
-  }
-
-  .css-5joihi .MuiTextField-root {
-    width: 200px !important;
-  }
-  .formContainer {
-    width: 100%;
-    min-height: 60%;
-  }
-
-  .logoSection {
+    min-width: 380px;
     display: flex;
-    margin: 0 0 10px 0;
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .css-qndp1g-MuiAvatar-root {
-    width: 110px !important;
-    height: auto;
-  }
-  .container {
-    flex-direction: column;
     justify-content: center;
-    height: 100%;
-  }
-  .panel {
-    min-height: 400px;
-    min-width: 280px;
+    margin-right: 0%;
   }
 
   .css-5joihi .MuiTextField-root {
@@ -100,8 +135,26 @@
   }
 }
 
+@media screen and (max-width: 905px) {
+  form {
+    /* background: blue; */
+    width: 100%;
+    /* width: 290px; */
+  }
+
+  .css-5joihi .MuiTextField-root {
+    width: 90% !important;
+  }
+}
+@media screen and (max-width: 1190px) {
+  .formContainer {
+    min-height: 500px;
+    min-width: 100%;
+  }
+}
 @media screen and (max-width: 1366px) {
   .formContainer {
     min-height: 500px;
+    min-width: 100%;
   }
 }
