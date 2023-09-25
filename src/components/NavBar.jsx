@@ -95,7 +95,7 @@ const NavBar = () => {
 
   const handleConfiguration = () => {
     handleClose();
-    navigate("/perfil-utilizador-configuracao");
+    navigate(`/perfil-utilizador-configuracao/${userData.id}/${userData.nome}`);
   };
 
   const handleProfileClick = () => {

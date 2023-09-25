@@ -183,14 +183,20 @@ const EditProfile = () => {
     if (!authenticated || userId !== userInfo.id) {
       navigate("/");
     }
-    formData.name = userInfo.nome;
-    formData.email = userInfo.email;
+    setFormData({
+      ...formData,
+      name: userInfo.nome,
+      email: userInfo.email,
+    });
     if (userInfo.sexo) {
-      formData.date = userInfo.data_nasc;
-      formData.nationality = userInfo.nacionalidade;
-      formData.contact = userInfo.contatos;
-      formData.gender = userInfo.sexo;
-      formData.residence = userInfo.residencia;
+      setFormData({
+        ...formData,
+        date: userInfo.data_nasc,
+        nationality: userInfo.nacionalidade,
+        contact: userInfo.contatos,
+        gender: userInfo.sexo,
+        residence: userInfo.residencia,
+      });
     }
   }, []);
 
