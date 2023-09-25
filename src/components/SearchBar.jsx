@@ -12,6 +12,7 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
@@ -59,6 +60,27 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
     if (formValues.startDate !== "") onLocalDateChange(formValues);
     setShowLocalDate(false);
   };
+
+  const theme = useTheme();
+
+  const extraSmallToSmall = useMediaQuery(
+    theme.breakpoints.between("xs", "sm")
+  );
+  const smallToMid = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const MidToLarge = useMediaQuery(theme.breakpoints.between("md", "lg"));
+  const LargeToExtraLarge = useMediaQuery(
+    theme.breakpoints.between("lg", "xl")
+  );
+
+  const filtersGap = extraSmallToSmall
+    ? "1rem"
+    : smallToMid
+    ? "1rem"
+    : MidToLarge
+    ? "1rem"
+    : LargeToExtraLarge
+    ? ".5rem"
+    : ".5rem";
 
   return (
     <>
@@ -128,6 +150,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
           paddingLeft: "2rem",
           marginBottom: "2rem",
         }}
+        gap={filtersGap}
       >
         <Grid md={1.25} lg={1.125} xl={0.75}>
           <Button

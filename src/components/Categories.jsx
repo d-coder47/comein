@@ -73,8 +73,6 @@ const Categories = ({ onCategoryChange }) => {
     theme.breakpoints.between("lg", "xl")
   );
 
-  console.log({ smallToMid });
-
   const slidesPerView = extraSmallToSmall
     ? 4
     : smallToMid
