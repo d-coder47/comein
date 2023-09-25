@@ -356,7 +356,7 @@ const UserProfile = () => {
           <Box
             sx={{
               padding: "2rem",
-              height: "100%",
+              minHeight: "100vh",
               background: "#f8f8f8",
             }}
           >
@@ -728,7 +728,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "92rem",
+                            minWidth: "72rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -764,7 +764,7 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "92rem",
+                            minWidth: "72rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -799,7 +799,7 @@ const UserProfile = () => {
                             alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "92rem",
+                            minWidth: "72rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -868,8 +868,7 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "92",
-                            minHeight: "100vh",
+                            minWidth: "72rem",
                           }),
                       // Styles for small displays
                       ...(isSmallScreen

@@ -184,22 +184,22 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       return (
         <Box
           mt="1rem"
-          sx={
-            {
-              // marginLeft: "0",
-              // marginRigth: "2rem",
-            }
-          }
+          sx={{
+            // marginLeft: "0",
+            // marginRigth: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transformOrigin: "top left",
+            transform: "scale(0.88)",
+            minWidth: "72rem",
+          }}
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
             {events.length > 0 &&
               events.map((card, index) => (
-                <Grid
-                  item
-                  key={index}
-                  xs={events.length === 1 ? 12 : events.length === 2 ? 6 : 3.8}
-                >
+                <Grid item key={index} xs={3.8}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
@@ -298,21 +298,19 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         <Box
           mt="1rem"
           style={{
-            marginLeft: "0",
-            marginRigth: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transformOrigin: "top left",
+            transform: "scale(0.88)",
+            minWidth: "72rem",
           }}
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
             {projects.length > 0 &&
               projects?.map((card, index) => (
-                <Grid
-                  item
-                  key={index}
-                  xs={
-                    projects.length === 1 ? 12 : projects.length === 2 ? 6 : 3.8
-                  }
-                >
+                <Grid item key={index} xs={3.8}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
@@ -370,8 +368,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
-          marginLeft: "0",
-          marginRigth: "2rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          transformOrigin: "top left",
+          transform: "scale(0.88)",
+          minWidth: "72rem",
         }}
         flexGrow={1}
       >
@@ -410,8 +412,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
-          marginLeft: "0",
-          marginRigth: "2rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          transformOrigin: "top left",
+          transform: "scale(0.88)",
+          minWidth: "72rem",
         }}
         flexGrow={1}
       >
