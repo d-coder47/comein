@@ -216,6 +216,7 @@ const useRegisterUser = () => {
     try {
       let params;
       if (formType === "editProfileForm") {
+        console.log("hello");
         params = new URLSearchParams({
           _method,
           sexo,
@@ -224,8 +225,6 @@ const useRegisterUser = () => {
           residencia,
           nacionalidade,
           nome,
-          img_perfil,
-          img_capa,
         }).toString();
       } else if (formType === "registerForm") {
         params = new URLSearchParams({

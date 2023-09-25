@@ -732,9 +732,9 @@ const ProfileCustomCard = ({
                     borderRadius: "20px",
                     textTransform: "none",
                   }}
-                  onClick={handleRemoveEvent}
+                  onClick={handleCloseRemoveEventModal}
                 >
-                  {t("userProfile.configPage.sim")}
+                  {t("userProfile.configPage.nao")}
                 </Button>
               </Grid>
               <Grid item xs={6} md={4}>
@@ -746,9 +746,9 @@ const ProfileCustomCard = ({
                     borderRadius: "20px",
                     textTransform: "none",
                   }}
-                  onClick={handleCloseRemoveEventModal}
+                  onClick={handleRemoveEvent}
                 >
-                  {t("userProfile.configPage.nao")}
+                  {t("userProfile.configPage.sim")}
                 </Button>
               </Grid>
             </Grid>
