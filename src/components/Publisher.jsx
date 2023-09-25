@@ -196,7 +196,7 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
     navigate(`/perfil/${publisher?.id}/${publisher?.nome}`);
   };
   return (
-    <Box display="flex" alignItems="center" gap=".5rem">
+    <Box display="flex" alignItems="center" gap=".5rem" width="100%">
       <Avatar
         src={
           publisher.login_from === "google"
@@ -221,7 +221,7 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
           backgroundColor: (theme) => theme.palette.primary.main,
           padding: ".25rem .5rem",
           borderRadius: ".25rem",
-          marginLeft: "1rem",
+          marginLeft: "auto",
           color: "white",
           "&:hover": {
             backgroundColor: (theme) => theme.palette.primary.dark,
