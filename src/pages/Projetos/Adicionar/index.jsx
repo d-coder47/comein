@@ -240,8 +240,8 @@ const Adicionar = () => {
         );
       }
       setLoading(false);
-      if (!response?.data?.dados !== "erro") {
-        let nome = newProject.nome.replaceAll("/", "_");
+      if (response?.data?.dados !== "erro") {
+        let nome = fieldValues.nome.replaceAll("/", "_");
         nome = nome.replaceAll(" ", "_");
         navigate(`/projetos/${+response?.data?.dados}/${nome}`);
       }

@@ -295,8 +295,8 @@ const Adicionar = () => {
           `${user.nome} adicionou um evento novo`
         );
       }
-      if (!response?.data?.dados !== "erro") {
-        let nome = newEvent.nome.replaceAll("/", "_");
+      if (response?.data?.dados !== "erro") {
+        let nome = fieldValues.nome.replaceAll("/", "_");
         nome = nome.replaceAll(" ", "_");
         navigate(`/eventos/${+response?.data?.dados}/${nome}`);
       }

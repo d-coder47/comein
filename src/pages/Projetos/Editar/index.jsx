@@ -284,10 +284,10 @@ const Editar = () => {
           },
         }
       );
-      const postName = fieldValues?.nome || editedFieldValues?.nome;
+      const postName = editedFieldValues?.nome || fieldValues?.nome;
       setLoading(false);
 
-      if (!response?.data?.dados !== "erro") {
+      if (response?.data?.dados !== "erro") {
         let nome = postName.replaceAll("/", "_");
         nome = postName.replaceAll(" ", "_");
         navigate(`/projetos/${+id}/${nome}`);

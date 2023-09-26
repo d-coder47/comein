@@ -325,11 +325,11 @@ const Editar = () => {
           },
         }
       );
-      const postName = fieldValues?.nome || editedFieldValues?.nome;
+      const postName = editedFieldValues?.nome || fieldValues?.nome;
       let nome = postName.replaceAll("/", "_");
       nome = nome.replaceAll(" ", "_");
       setLoading(false);
-      if (!response?.data?.dados !== "erro") {
+      if (response?.data?.dados !== "erro") {
         navigate(`/eventos/${+id}/${nome}`);
       }
     } catch (error) {
