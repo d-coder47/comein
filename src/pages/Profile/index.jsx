@@ -694,16 +694,30 @@ const UserProfile = () => {
                   </Tabs>
 
                   {searchOptions && (
-                    <Box onClick={handleSearchTabClick}>
+                    <Box
+                      onClick={handleSearchTabClick}
+                      sx={{
+                        marginLeft: "15px",
+                        height: "48px",
+                        display: "flex",
+                        alignItems: "flex-end",
+                      }}
+                    >
                       <TextField
                         variant="standard"
                         value={searchQuery}
                         onChange={handleInputChange}
                         onKeyPress={handleKeyPress}
-                        sx={{ width: 300, marginRight: 2 }}
+                        sx={{
+                          width: 300,
+                          marginRight: 2,
+                        }}
                         InputProps={{
                           startAdornment: (
-                            <InputAdornment position="end">
+                            <InputAdornment
+                              position="end"
+                              sx={{ marginBottom: "15px" }}
+                            >
                               <Search
                                 onClick={handleSearch}
                                 sx={{ fontSize: "1.5rem" }}
