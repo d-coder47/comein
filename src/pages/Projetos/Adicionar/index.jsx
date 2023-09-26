@@ -241,7 +241,8 @@ const Adicionar = () => {
       }
       setLoading(false);
       if (!response?.data?.dados !== "erro") {
-        const nome = newProject.nome.replaceAll("/", "_").replaceAll(" ", "_");
+        let nome = newProject.nome.replaceAll("/", "_");
+        nome = nome.replaceAll(" ", "_");
         navigate(`/projetos/${+response?.data?.dados}/${nome}`);
       }
     } catch (error) {
