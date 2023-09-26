@@ -221,7 +221,7 @@ const UserCard = ({
         variant="contained"
         color="primary"
         size="small"
-        sx={{ width: "80%" }}
+        sx={{ width: "80%", textTransform: "unset", fontWeight: "bold" }}
         onClick={handleAccessPage}
       >
         {/* {isOwner
@@ -229,7 +229,7 @@ const UserCard = ({
           : isFollowing
           ? t("cardDetailed.userCard.following")
           : t("cardDetailed.userCard.follow")} */}
-        Aceder a página
+        {t("cardDetailed.userCard.accessPage")}
       </Button>
     </Box>
   );

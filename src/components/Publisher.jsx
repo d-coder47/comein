@@ -234,7 +234,7 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
           : isFollowing
           ? t("cardDetailed.userCard.following")
           : t("cardDetailed.userCard.follow")} */}
-        Aceder a página
+        {t("cardDetailed.userCard.accessPage")}
       </Box>
     </Box>
   );

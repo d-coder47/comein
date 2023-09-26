@@ -24,7 +24,7 @@ export default function Leaflet() {
       style={{ width: "100vw", height: "100vh" }}
     >
       <TileLayer
-        url="https://api.maptiler.com/mapas/basic-v2/256/{z}/{x}/{y}.png?key=1FWGXU4w28HArN41bZhF"
+        url="https://api.maptiler.com/mapas/basic-v2/256/{z}/{x}/{y}.png?key=OTtqlD9QwRDVVCM6n26U"
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       />
 
