@@ -6,7 +6,7 @@ import musicIcon from "../../assets/svg/musica.svg";
 import { statesData } from "./data";
 import teatroIcon from "../../assets/svg/teatro.svg";
 
-const center = [16.896426314126867, -24.988609308850506];
+const center = [16.890455072287708, -24.98754235360934];
 const center1 = [16.87965920177269, -24.990839680879148];
 
 export default function Leaflet() {
@@ -24,7 +24,7 @@ export default function Leaflet() {
       style={{ width: "100vw", height: "100vh" }}
     >
       <TileLayer
-        url="https://api.maptiler.com/maps/basic-v2/style.json?key=4d3lGy6vTvjGNu72qBIK"
+        url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=4d3lGy6vTvjGNu72qBIK"
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       />
 
