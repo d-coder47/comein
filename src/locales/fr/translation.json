@@ -124,7 +124,8 @@
     "palavraPassAtualizadoSucesso": "Mot de passe mis à jour avec succès",
     "erroAtualizarPalavraPasse": "Erreur lors de la mise à jour du mot de passe",
     "erroAtualizarBio": "Erreur de mise à jour du profil",
-    "sucessoAtualizarBio": "Erreur de mise à jour du profil"
+    "sucessoAtualizarBio": "Erreur de mise à jour du profil",
+    "defaultDescription": "Ajoutez tout ce qui vous concerne"
   },
   "loginPage": {
     "fazerLogin": "Connexion",

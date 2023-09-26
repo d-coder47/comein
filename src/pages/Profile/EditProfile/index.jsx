@@ -116,9 +116,13 @@ const EditProfile = () => {
     gender: "",
   });
 
+  const { t } = useTranslation();
+
   const [aboutMeValue, setAboutMeValue] = React.useState(
     userInfo.bio ||
-      '<p><span class="ql-size-large">Adicione tudo sobre o seu evento</span></p><p><span class="ql-size-large">Faça duplo clique para personalizar</span></p>'
+      `<p><span class="ql-size-large">${t(
+        "editProfilePage.defaultDescription"
+      )}</span></p>`
   );
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
@@ -135,8 +139,6 @@ const EditProfile = () => {
   const [showContactError, setShowContactError] = React.useState(false);
   const [showDateError, setShowDateError] = React.useState(false);
   const [showGenderError, setShowGenderError] = React.useState(false);
-
-  const { t } = useTranslation();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);

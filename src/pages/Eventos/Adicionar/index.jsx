@@ -72,8 +72,6 @@ const Adicionar = () => {
     imgEventoRecortada: null,
     descricao: `<p><span class="ql-size-large">${t(
       "eventPage.common.defaultDescription"
-    )}</span></p><p><span class="ql-size-large">${t(
-      "eventPage.common.tutorial"
     )}</span></p>`,
     local: { id: 0, nome: "" },
     proprietarios: [],

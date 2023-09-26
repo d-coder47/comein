@@ -58,9 +58,7 @@ const Editar = () => {
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "projectPage.common.defaultDescription"
-    )}</span></p><p><span class="ql-size-large">${t(
-      "projectPage.common.tutorial"
-    )}</span></p>`,
+    )}</p>`,
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],

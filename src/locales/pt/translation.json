@@ -124,7 +124,8 @@
     "palavraPassAtualizadoSucesso": "Palavra-passe atualizada com sucesso",
     "erroAtualizarPalavraPasse": "Erro ao atualizar palavra-passe",
     "erroAtualizarBio": "Erro ao atualizar",
-    "sucessoAtualizarBio": "Atualizado com sucesso"
+    "sucessoAtualizarBio": "Atualizado com sucesso",
+    "defaultDescription": "Adicione tudo sobre ti"
   },
   "loginPage": {
     "fazerLogin": "Entrar",

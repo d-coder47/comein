@@ -124,7 +124,8 @@
     "palavraPassAtualizadoSucesso": "Password Successfully updated",
     "erroAtualizarPalavraPasse": "Error updating password",
     "erroAtualizarBio": "Error updating",
-    "sucessoAtualizarBio": "successfully updated"
+    "sucessoAtualizarBio": "successfully updated",
+    "defaultDescription": "Add everything about you"
   },
   "loginPage": {
     "fazerLogin": "Login",
