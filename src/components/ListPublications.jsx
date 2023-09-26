@@ -40,10 +40,10 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     const res = await getEventPostByUser(userID);
 
     if (res?.dados !== "null") {
-      console.log(res?.dados.length);
       setEvents(res?.dados);
       localStorage.setItem("eventsNum", res?.dados.length);
     } else {
+      setEvents([]);
       localStorage.setItem("eventsNum", 0);
     }
   }
