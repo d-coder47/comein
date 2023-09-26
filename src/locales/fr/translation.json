@@ -2,6 +2,7 @@
   "homepage": {
     "login": "Connexion",
     "signUp": "S'inscrire",
+    "notifications": "Notifications",
     "definicoesConta": "Paramètres du compte",
     "searchPosts": "Rechercher des publications",
     "highlights": "Points forts",
