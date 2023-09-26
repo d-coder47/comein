@@ -600,11 +600,15 @@ const CardDetailed = () => {
                 borderRadius: "50%",
                 height: "3rem",
                 width: "3rem",
-                backgroundColor: isFavorite ? "#3c3c3c" : "white",
+                backgroundColor: (theme) =>
+                  isFavorite ? "#3c3c3c" : theme.palette.primary.main,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover": {
+                  opacity: 0.8,
+                },
               }}
               onClick={() => handleFavorite(isFavorite)}
             >
@@ -613,7 +617,7 @@ const CardDetailed = () => {
                 sx={{
                   width: "1.25rem",
                   height: "1.25rem",
-                  color: isFavorite ? "white" : "#3c3c3c",
+                  color: "white",
                 }}
               />
             </Box>
