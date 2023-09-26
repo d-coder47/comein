@@ -40,29 +40,28 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     const res = await getEventPostByUser(userID);
     if (typeof res?.dados !== "string") {
       setEvents(res?.dados);
-      localStorage.setItem("eventsNum", events.length);
+      localStorage.setItem("eventsNum", res?.dados.length);
     }
-    localStorage.setItem("eventsNum", events.length);
+    localStorage.setItem("eventsNum", res?.dados.length);
   }
 
   async function fetchProjectsData() {
     const res = await getProjectPostByUser(userID);
     if (typeof res.dados !== "string") {
       setProjects(res.dados);
-      localStorage.setItem("favsNum", favs.length);
-      localStorage.setItem("projectsNum", projects.length);
+      localStorage.setItem("projectsNum", res?.dados.length);
     }
 
-    localStorage.setItem("projectsNum", projects.length);
+    localStorage.setItem("projectsNum", res?.dados.length);
   }
 
   async function fetchFavsData() {
     const res = await getFavoritsPostByUser(userID);
     if (typeof res.dados !== "string") {
       setFavs(res.dados);
-      localStorage.setItem("favsNum", favs.length);
+      localStorage.setItem("favsNum", res?.dados.length);
     }
-    localStorage.setItem("favsNum", favs.length);
+    localStorage.setItem("favsNum", res?.dados.length);
   }
   useEffect(() => {
     if (type === "event") {
@@ -107,7 +106,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   };
 
   if (type === "event") {
-    if (events?.length === 0) {
+    if (localStorage.getItem("eventsNum") === 0) {
       return !isVisitor ? (
         <Box
           mt="1rem"
@@ -229,7 +228,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
   } else if (type === "project") {
-    if (projects.length === 0) {
+    if (localStorage.getItem("projectsNum") === 0) {
       return !isVisitor ? (
         <Card
           sx={{
@@ -339,7 +338,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
   } else if (type === "favs") {
-    if (favs.length === 0) {
+    if (localStorage.getItem("favsNum") === 0) {
       return (
         <Card
           sx={{
