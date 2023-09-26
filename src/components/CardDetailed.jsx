@@ -516,7 +516,7 @@ const CardDetailed = () => {
                     ? details?.eventos_assoc
                     : null
                   : details?.projeto_assoc
-                  ? [details?.projeto_assoc]
+                  ? details?.projeto_assoc
                   : null
               }
               type={type}
