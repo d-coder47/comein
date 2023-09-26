@@ -40,10 +40,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     const res = await getEventPostByUser(userID);
 
     if (res?.dados !== "null") {
+      console.log(res?.dados.length);
       setEvents(res?.dados);
       localStorage.setItem("eventsNum", res?.dados.length);
+    } else {
+      localStorage.setItem("eventsNum", 0);
     }
-    localStorage.setItem("eventsNum", 0);
   }
 
   async function fetchProjectsData() {
@@ -51,9 +53,9 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     if (res.dados !== "null") {
       setProjects(res.dados);
       localStorage.setItem("projectsNum", res?.dados.length);
+    } else {
+      localStorage.setItem("projectsNum", 0);
     }
-
-    localStorage.setItem("projectsNum", 0);
   }
 
   async function fetchFavsData() {
@@ -61,8 +63,9 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     if (res.dados !== "null") {
       setFavs(res.dados);
       localStorage.setItem("favsNum", res?.dados.length);
+    } else {
+      localStorage.setItem("favsNum", 0);
     }
-    localStorage.setItem("favsNum", 0);
   }
   useEffect(() => {
     if (type === "event") {
