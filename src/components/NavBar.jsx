@@ -160,7 +160,7 @@ const NavBar = () => {
         }}
       >
         <Box display="flex">
-          <Tooltip title="Notifications">
+          <Tooltip title={t("homepage.notifications")}>
             <IconButton
               size="small"
               onClick={handleNotificationsMenuClick}

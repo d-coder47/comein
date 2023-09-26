@@ -110,13 +110,12 @@ const Cards = ({
             },
           }
         );
+        setIsLoading(false);
         if (response.data.length === 0) {
           toast.error(t("userProfile.naoForamEncontradosResultados"));
-          setIsLoading(false);
           return setPosts([]);
         }
-        setIsLoading(false);
-        return setPosts(response.data.dados);
+        setPosts(response.data.dados);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -146,8 +145,8 @@ const Cards = ({
             },
           }
         );
+        setIsLoading(false);
         if (response.data.dados === "Não existem dados para retornar") {
-          setIsLoading(false);
           return setPosts([]);
         }
         setPosts(response.data.dados);

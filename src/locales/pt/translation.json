@@ -2,6 +2,7 @@
   "homepage": {
     "login": "Entrar",
     "signUp": "Registar",
+    "notifications": "Notificações",
     "definicoesConta": "Definições da conta",
     "searchPosts": "Pesquisar publicações",
     "highlights": "Destaques",
@@ -101,7 +102,9 @@
       "sim": "Sim",
       "nao": "Não",
       "enviarErro": "Enviar erro",
-      "enviarSugestao": "Enviar sugestão"
+      "enviarSugestao": "Enviar sugestão",
+      "erro": "Erro",
+      "suggestion": "Sugestão"
     }
   },
   "editProfilePage": {
@@ -121,7 +124,8 @@
     "palavraPassAtualizadoSucesso": "Palavra-passe atualizada com sucesso",
     "erroAtualizarPalavraPasse": "Erro ao atualizar palavra-passe",
     "erroAtualizarBio": "Erro ao atualizar",
-    "sucessoAtualizarBio": "Atualizado com sucesso"
+    "sucessoAtualizarBio": "Atualizado com sucesso",
+    "defaultDescription": "Adicione tudo sobre ti"
   },
   "loginPage": {
     "fazerLogin": "Entrar",
@@ -179,7 +183,7 @@
       "visits": "Visitas",
       "follow": "Seguir",
       "following": "A seguir",
-      "accessYourPage": "Aceder ao seu perfil?"
+      "accessPage": "Aceder à página"
     },
     "addToFavorites": "Adicionar aos favoritos",
     "removeFromFavorites": "Remover dos favoritos",
@@ -192,7 +196,9 @@
     "freeEntry": "Entrada Livre",
     "program": "Programa",
     "associatedEvents": "Evento Associado",
-    "associatedProjects": "Projeto Associado"
+    "associatedProjects": "Projeto Associado",
+    "publisherInteractionNotAllowed": "Para interagir com o promotor primeiro deve efetuar o login",
+    "postInteractionNotAllowed": "Para interagir com a publicacão primeiro deve efetuar o login"
   },
   "eventPage": {
     "common": {

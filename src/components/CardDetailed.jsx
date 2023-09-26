@@ -181,6 +181,7 @@ const CardDetailed = () => {
             },
           }
         );
+        if (response?.data?.dados == "null") return setIsFavorite(false);
         const ids = response?.data?.dados?.map((post) => post.id);
         setIsFavorite(ids.includes(postId));
       } catch (error) {
@@ -213,9 +214,7 @@ const CardDetailed = () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) {
-      return toast.info(
-        "Para interagir com o promotor primeiro deve efetuar o login."
-      );
+      return toast.info(t("cardDetailed.publisherInteractionNotAllowed"));
     }
     const result = await followUser(user.id, id);
     if (result !== null) setIsFollowing(result);
@@ -224,9 +223,7 @@ const CardDetailed = () => {
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user) {
-      return toast.info(
-        "Para interagir com a publicacão primeiro deve efetuar o login."
-      );
+      return toast.info(t("cardDetailed.postInteractionNotAllowed"));
     }
 
     const userId = user?.id;
@@ -249,9 +246,7 @@ const CardDetailed = () => {
   const handleFavorite = async (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user) {
-      return toast.info(
-        "Para interagir com a publicacão primeiro deve efetuar o login."
-      );
+      return toast.info(t("cardDetailed.postInteractionNotAllowed"));
     }
 
     const userId = user?.id;
@@ -516,7 +511,7 @@ const CardDetailed = () => {
                     ? details?.eventos_assoc
                     : null
                   : details?.projeto_assoc
-                  ? [details?.projeto_assoc]
+                  ? details?.projeto_assoc
                   : null
               }
               type={type}
@@ -600,11 +595,15 @@ const CardDetailed = () => {
                 borderRadius: "50%",
                 height: "3rem",
                 width: "3rem",
-                backgroundColor: isFavorite ? "#3c3c3c" : "white",
+                backgroundColor: (theme) =>
+                  isFavorite ? "#3c3c3c" : theme.palette.primary.main,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                "&:hover": {
+                  opacity: 0.8,
+                },
               }}
               onClick={() => handleFavorite(isFavorite)}
             >
@@ -613,7 +612,7 @@ const CardDetailed = () => {
                 sx={{
                   width: "1.25rem",
                   height: "1.25rem",
-                  color: isFavorite ? "white" : "#3c3c3c",
+                  color: "white",
                 }}
               />
             </Box>
@@ -774,12 +773,14 @@ const DetailedInfo = ({
               {<Typography fontWeight="normal">{dateStart}</Typography>}
             </Typography>
           </Box>
-          <Box>
-            <Typography display="flex" gap=".5rem" fontWeight="bold">
-              {t("cardDetailed.endDate")}{" "}
-              {<Typography fontWeight="normal">{dateEnd}</Typography>}
-            </Typography>
-          </Box>
+          {dateEnd !== "1900-01-01 23:59:59" ? (
+            <Box>
+              <Typography display="flex" gap=".5rem" fontWeight="bold">
+                {t("cardDetailed.endDate")}{" "}
+                {<Typography fontWeight="normal">{dateEnd}</Typography>}
+              </Typography>
+            </Box>
+          ) : null}
         </>
       ) : null}
     </Box>
@@ -796,9 +797,17 @@ const DetailedProgram = ({ programs = [] }) => {
           <Typography fontWeight="bold" textTransform="uppercase">
             {t("cardDetailed.program")}
           </Typography>
-          {programs?.map((program) => (
-            <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
-              <Typography mx="auto">{program?.data}</Typography>
+          {programs?.map((program, index) => (
+            <Box
+              key={program?.id}
+              display="flex"
+              flexDirection="column"
+              gap=".5rem"
+              width="100%"
+            >
+              {program?.data !== "1900-01-01" ? (
+                <Typography mx="auto">{program?.data}</Typography>
+              ) : null}
               <Avatar
                 src={`${imgApiPath}/programa_eventosImg/${program?.imagem}`}
                 alt={`Foto de ${program?.titulo}`}
@@ -807,26 +816,30 @@ const DetailedProgram = ({ programs = [] }) => {
               />
               <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
                 <Typography fontWeight="bold">{program?.titulo}</Typography>
-                <Box>
-                  <Typography display="flex" gap=".5rem" fontWeight="bold">
-                    {t("cardDetailed.local")}{" "}
-                    {
-                      <Typography fontWeight="normal">
-                        {program?.local}
-                      </Typography>
-                    }
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography display="flex" gap=".5rem" fontWeight="bold">
-                    {t("cardDetailed.hour")}{" "}
-                    {
-                      <Typography fontWeight="normal">
-                        {program?.hora}
-                      </Typography>
-                    }
-                  </Typography>
-                </Box>
+                {program?.local?.length > 0 ? (
+                  <Box>
+                    <Typography display="flex" gap=".5rem" fontWeight="bold">
+                      {t("cardDetailed.local")}{" "}
+                      {
+                        <Typography fontWeight="normal">
+                          {program?.local}
+                        </Typography>
+                      }
+                    </Typography>
+                  </Box>
+                ) : null}
+                {program?.hora !== "23:59:59" ? (
+                  <Box>
+                    <Typography display="flex" gap=".5rem" fontWeight="bold">
+                      {t("cardDetailed.hour")}{" "}
+                      {
+                        <Typography fontWeight="normal">
+                          {program?.hora}
+                        </Typography>
+                      }
+                    </Typography>
+                  </Box>
+                ) : null}
                 <Box>
                   <Typography display="flex" gap=".5rem">
                     {program?.tipoBilhete ? t("cardDetailed.freeEntry") : ""}
@@ -902,9 +915,15 @@ const DetailedRelated = ({ related, type }) => {
       ? "cardDetailed.associatedProjects"
       : "cardDetailed.associatedEvents";
 
+  let _related = related;
+
+  if (related?.id) {
+    _related = [related];
+  }
+
   return (
     <Box m="2rem">
-      {related != null && related?.length > 0 ? (
+      {_related != null && _related?.length > 0 ? (
         <Typography fontWeight="bold" textTransform="uppercase">
           {t(associated)}
         </Typography>
@@ -916,7 +935,7 @@ const DetailedRelated = ({ related, type }) => {
         alignItems="center"
         flexWrap="wrap"
       >
-        {related?.map((post, index) => (
+        {_related?.map((post, index) => (
           <Box
             display="flex"
             gap="1rem"

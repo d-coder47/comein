@@ -69,9 +69,12 @@ const useNotifications = () => {
     try {
       const notificationData = await getUserNotifications(userId);
       var count = 0;
+      if (notificationData?.dados == "null") {
+        return 0;
+      }
 
-      notificationData.dados.map((notification) => {
-        if (notification.vista === "N") {
+      notificationData?.dados?.map((notification) => {
+        if (notification?.vista === "N") {
           ++count;
         }
       });

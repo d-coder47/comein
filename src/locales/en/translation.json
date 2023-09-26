@@ -2,6 +2,7 @@
   "homepage": {
     "login": "Log In",
     "signUp": "Sign Up",
+    "notifications": "Notifications",
     "definicoesConta": "Account settings",
     "searchPosts": "Search posts",
     "highlights": "Highlights",
@@ -71,7 +72,7 @@
     "adicionePrimeiroProj": "Add your first project",
     "visitorNoEvents": "No published events",
     "visitorNoProjects": "No published events",
-    "nenhumFavorito": "No published events",
+    "nenhumFavorito": "No chosen favorites",
     "naoForamEncontradosResultados": "No results found",
     "removerEventoErro": "Error when removing event!",
     "removerEventoSucesso": "Event successfully removed",
@@ -101,7 +102,9 @@
       "sim": "Yes",
       "nao": "No",
       "enviarErro": "Submit Error",
-      "enviarSugestao": "Send suggestion"
+      "enviarSugestao": "Send suggestion",
+      "erro": "Error",
+      "suggestion": "Suggestion"
     }
   },
   "editProfilePage": {
@@ -121,7 +124,8 @@
     "palavraPassAtualizadoSucesso": "Password Successfully updated",
     "erroAtualizarPalavraPasse": "Error updating password",
     "erroAtualizarBio": "Error updating",
-    "sucessoAtualizarBio": "successfully updated"
+    "sucessoAtualizarBio": "successfully updated",
+    "defaultDescription": "Add everything about you"
   },
   "loginPage": {
     "fazerLogin": "Login",
@@ -179,7 +183,7 @@
       "visits": "Views",
       "follow": "Follow",
       "following": "Following",
-      "accessYourPage": "Access your page"
+      "accessPage": "Access page"
     },
     "addToFavorites": "Add to Favorites",
     "removeFromFavorites": "Remove from favorites",
@@ -192,7 +196,9 @@
     "freeEntry": "Free admission",
     "program": "Program",
     "associatedEvents": "Associated Events",
-    "associatedProjects": "Associated Project"
+    "associatedProjects": "Associated Project",
+    "publisherInteractionNotAllowed": "To interact with the promoter you must log in",
+    "postInteractionNotAllowed": "To interact with the post you must log in"
   },
   "eventPage": {
     "common": {

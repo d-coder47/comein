@@ -65,6 +65,10 @@ export const cleanPost = (post, isAdding = true) => {
       post["id_geografia"] = post[key].id;
     }
 
+    if (isAdding && key === "data_fim" && post[key] === null) {
+      delete post[key];
+    }
+
     if (!isAdding && post[key] === null) {
       delete post[key];
     }

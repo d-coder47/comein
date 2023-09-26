@@ -60,8 +60,6 @@ const Adicionar = () => {
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "projectPage.common.defaultDescription"
-    )}</span></p><p><span class="ql-size-large">${t(
-      "projectPage.common.tutorial"
     )}</span></p>`,
     local: { id: 0, nome: "" },
     proprietarios: [],
@@ -240,8 +238,9 @@ const Adicionar = () => {
         );
       }
       setLoading(false);
-      if (!response?.data?.dados !== "erro") {
-        const nome = newProject.nome.replaceAll("/", "_").replaceAll(" ", "_");
+      if (response?.data?.dados !== "erro") {
+        let nome = fieldValues.nome.replaceAll("/", "_");
+        nome = nome.replaceAll(" ", "_");
         navigate(`/projetos/${+response?.data?.dados}/${nome}`);
       }
     } catch (error) {

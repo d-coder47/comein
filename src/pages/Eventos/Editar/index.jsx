@@ -69,8 +69,6 @@ const Editar = () => {
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "eventPage.common.defaultDescription"
-    )}</span></p><p><span class="ql-size-large">${t(
-      "eventPage.common.tutorial"
     )}</span></p>`,
     local: "",
     proprietarios: [],
@@ -325,10 +323,11 @@ const Editar = () => {
           },
         }
       );
-      const postName = fieldValues?.nome || editedFieldValues?.nome;
-      const nome = postName.replaceAll("/", "_").replaceAll(" ", "_");
+      const postName = editedFieldValues?.nome || fieldValues?.nome;
+      let nome = postName.replaceAll("/", "_");
+      nome = nome.replaceAll(" ", "_");
       setLoading(false);
-      if (!response?.data?.dados !== "erro") {
+      if (response?.data?.dados !== "erro") {
         navigate(`/eventos/${+id}/${nome}`);
       }
     } catch (error) {

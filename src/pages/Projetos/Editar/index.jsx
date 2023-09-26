@@ -58,9 +58,7 @@ const Editar = () => {
     imagem: null,
     descricao: `<p><span class="ql-size-large">${t(
       "projectPage.common.defaultDescription"
-    )}</span></p><p><span class="ql-size-large">${t(
-      "projectPage.common.tutorial"
-    )}</span></p>`,
+    )}</p>`,
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
@@ -284,11 +282,12 @@ const Editar = () => {
           },
         }
       );
-      const postName = fieldValues?.nome || editedFieldValues?.nome;
+      const postName = editedFieldValues?.nome || fieldValues?.nome;
       setLoading(false);
 
-      if (!response?.data?.dados !== "erro") {
-        const nome = postName.replaceAll("/", "_").replaceAll(" ", "_");
+      if (response?.data?.dados !== "erro") {
+        let nome = postName.replaceAll("/", "_");
+        nome = postName.replaceAll(" ", "_");
         navigate(`/projetos/${+id}/${nome}`);
       }
     } catch (error) {

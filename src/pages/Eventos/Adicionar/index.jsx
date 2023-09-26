@@ -72,8 +72,6 @@ const Adicionar = () => {
     imgEventoRecortada: null,
     descricao: `<p><span class="ql-size-large">${t(
       "eventPage.common.defaultDescription"
-    )}</span></p><p><span class="ql-size-large">${t(
-      "eventPage.common.tutorial"
     )}</span></p>`,
     local: { id: 0, nome: "" },
     proprietarios: [],
@@ -295,8 +293,9 @@ const Adicionar = () => {
           `${user.nome} adicionou um evento novo`
         );
       }
-      if (!response?.data?.dados !== "erro") {
-        const nome = newEvent.nome.replaceAll("/", "_").replaceAll(" ", "_");
+      if (response?.data?.dados !== "erro") {
+        let nome = fieldValues.nome.replaceAll("/", "_");
+        nome = nome.replaceAll(" ", "_");
         navigate(`/eventos/${+response?.data?.dados}/${nome}`);
       }
     } catch (error) {

@@ -374,13 +374,13 @@ const ProfileConfiguration = () => {
                         aria-label="basic tabs example"
                       >
                         <Tab
-                          label="Erro"
+                          label={t("userProfile.configPage.erro")}
                           sx={{
                             textTransform: "none",
                           }}
                         />
                         <Tab
-                          label="Sugestão"
+                          label={t("userProfile.configPage.suggestion")}
                           sx={{
                             textTransform: "none",
                           }}

@@ -2,6 +2,7 @@
   "homepage": {
     "login": "Connexion",
     "signUp": "S'inscrire",
+    "notifications": "Notifications",
     "definicoesConta": "Paramètres du compte",
     "searchPosts": "Rechercher des publications",
     "highlights": "Points forts",
@@ -71,7 +72,7 @@
     "adicionePrimeiroProj": "Ajoutez votre premier projet",
     "visitorNoEvents": "L'utilisateur n'a pas encore publié d'événement",
     "visitorNoProjects": " L'utilisateur n'a pas encore de projets publié",
-    "nenhumFavorito": "Aucun favori pour l'instant",
+    "nenhumFavorito": "Pas de favori",
     "naoForamEncontradosResultados": "La recherche n'a donné aucun résultat.",
     "removerEventoErro": "Erreur lors de la suppression d'un événement!",
     "removerEventoSucesso": "Événement supprimé avec succès",
@@ -101,7 +102,9 @@
       "sim": "Oui",
       "nao": "Non",
       "enviarErro": "Envoyer une erreur",
-      "enviarSugestao": "Envoyer une suggestion"
+      "enviarSugestao": "Envoyer une suggestion",
+      "erro": "Erreur",
+      "suggestion": "Suggestion"
     }
   },
   "editProfilePage": {
@@ -121,7 +124,8 @@
     "palavraPassAtualizadoSucesso": "Mot de passe mis à jour avec succès",
     "erroAtualizarPalavraPasse": "Erreur lors de la mise à jour du mot de passe",
     "erroAtualizarBio": "Erreur de mise à jour du profil",
-    "sucessoAtualizarBio": "Erreur de mise à jour du profil"
+    "sucessoAtualizarBio": "Erreur de mise à jour du profil",
+    "defaultDescription": "Ajoutez tout ce qui vous concerne"
   },
   "loginPage": {
     "fazerLogin": "Connexion",
@@ -179,7 +183,7 @@
       "visits": "Visites",
       "follow": "Suivre",
       "following": "Suivant",
-      "accessYourPage": "Accéder à votre page"
+      "accessPage": "Aller à la page"
     },
     "addToFavorites": "Ajouter aux Favoris",
     "removeFromFavorites": "Retirer des favoris",
@@ -192,7 +196,9 @@
     "freeEntry": "Entrée libre",
     "program": "Programme",
     "associatedEvents": "Événements associés",
-    "associatedProjects": "Projet associé"
+    "associatedProjects": "Projet associé",
+    "publisherInteractionNotAllowed": "Pour interagir avec le promoteur, vous devez d'abord vous connecter",
+    "postInteractionNotAllowed": "Pour interagir avec le publication, vous devez d'abord vous connecter"
   },
   "eventPage": {
     "common": {
