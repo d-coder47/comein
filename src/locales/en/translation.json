@@ -193,7 +193,9 @@
     "freeEntry": "Free admission",
     "program": "Program",
     "associatedEvents": "Associated Events",
-    "associatedProjects": "Associated Project"
+    "associatedProjects": "Associated Project",
+    "publisherInteractionNotAllowed": "To interact with the promoter you must log in",
+    "postInteractionNotAllowed": "To interact with the post you must log in"
   },
   "eventPage": {
     "common": {

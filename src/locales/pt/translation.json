@@ -193,7 +193,9 @@
     "freeEntry": "Entrada Livre",
     "program": "Programa",
     "associatedEvents": "Evento Associado",
-    "associatedProjects": "Projeto Associado"
+    "associatedProjects": "Projeto Associado",
+    "publisherInteractionNotAllowed": "Para interagir com o promotor primeiro deve efetuar o login",
+    "postInteractionNotAllowed": "Para interagir com a publicacão primeiro deve efetuar o login"
   },
   "eventPage": {
     "common": {

@@ -213,9 +213,7 @@ const CardDetailed = () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) {
-      return toast.info(
-        "Para interagir com o promotor primeiro deve efetuar o login."
-      );
+      return toast.info(t("cardDetailed.publisherInteractionNotAllowed"));
     }
     const result = await followUser(user.id, id);
     if (result !== null) setIsFollowing(result);
@@ -224,9 +222,7 @@ const CardDetailed = () => {
   const handleLike = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user) {
-      return toast.info(
-        "Para interagir com a publicacão primeiro deve efetuar o login."
-      );
+      return toast.info(t("cardDetailed.postInteractionNotAllowed"));
     }
 
     const userId = user?.id;
@@ -249,9 +245,7 @@ const CardDetailed = () => {
   const handleFavorite = async (favorite) => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     if (!user) {
-      return toast.info(
-        "Para interagir com a publicacão primeiro deve efetuar o login."
-      );
+      return toast.info(t("cardDetailed.postInteractionNotAllowed"));
     }
 
     const userId = user?.id;
@@ -906,9 +900,15 @@ const DetailedRelated = ({ related, type }) => {
       ? "cardDetailed.associatedProjects"
       : "cardDetailed.associatedEvents";
 
+  let _related = related;
+
+  if (related?.id) {
+    _related = [related];
+  }
+
   return (
     <Box m="2rem">
-      {related != null && related?.length > 0 ? (
+      {_related != null && _related?.length > 0 ? (
         <Typography fontWeight="bold" textTransform="uppercase">
           {t(associated)}
         </Typography>
@@ -920,7 +920,7 @@ const DetailedRelated = ({ related, type }) => {
         alignItems="center"
         flexWrap="wrap"
       >
-        {related?.map((post, index) => (
+        {_related?.map((post, index) => (
           <Box
             display="flex"
             gap="1rem"
