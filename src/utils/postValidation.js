@@ -46,6 +46,7 @@ const validateCulturalArea = (culturarArea) => {
 
 const isDatesValid = (startDate, endDate, isStartDateValid) => {
   if (!isStartDateValid) return false;
+  if (!endDate) return true;
 
   let date1 = new Date(startDate).getTime();
   let date2 = new Date(endDate).getTime();
