@@ -181,6 +181,7 @@ const CardDetailed = () => {
             },
           }
         );
+        if (response?.data?.dados == "null") return setIsFavorite(false);
         const ids = response?.data?.dados?.map((post) => post.id);
         setIsFavorite(ids.includes(postId));
       } catch (error) {
@@ -772,12 +773,14 @@ const DetailedInfo = ({
               {<Typography fontWeight="normal">{dateStart}</Typography>}
             </Typography>
           </Box>
-          <Box>
-            <Typography display="flex" gap=".5rem" fontWeight="bold">
-              {t("cardDetailed.endDate")}{" "}
-              {<Typography fontWeight="normal">{dateEnd}</Typography>}
-            </Typography>
-          </Box>
+          {dateEnd !== "1900-01-01 23:59:59" ? (
+            <Box>
+              <Typography display="flex" gap=".5rem" fontWeight="bold">
+                {t("cardDetailed.endDate")}{" "}
+                {<Typography fontWeight="normal">{dateEnd}</Typography>}
+              </Typography>
+            </Box>
+          ) : null}
         </>
       ) : null}
     </Box>
@@ -794,9 +797,17 @@ const DetailedProgram = ({ programs = [] }) => {
           <Typography fontWeight="bold" textTransform="uppercase">
             {t("cardDetailed.program")}
           </Typography>
-          {programs?.map((program) => (
-            <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
-              <Typography mx="auto">{program?.data}</Typography>
+          {programs?.map((program, index) => (
+            <Box
+              key={program?.id}
+              display="flex"
+              flexDirection="column"
+              gap=".5rem"
+              width="100%"
+            >
+              {program?.data !== "1900-01-01" ? (
+                <Typography mx="auto">{program?.data}</Typography>
+              ) : null}
               <Avatar
                 src={`${imgApiPath}/programa_eventosImg/${program?.imagem}`}
                 alt={`Foto de ${program?.titulo}`}
@@ -805,26 +816,30 @@ const DetailedProgram = ({ programs = [] }) => {
               />
               <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
                 <Typography fontWeight="bold">{program?.titulo}</Typography>
-                <Box>
-                  <Typography display="flex" gap=".5rem" fontWeight="bold">
-                    {t("cardDetailed.local")}{" "}
-                    {
-                      <Typography fontWeight="normal">
-                        {program?.local}
-                      </Typography>
-                    }
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography display="flex" gap=".5rem" fontWeight="bold">
-                    {t("cardDetailed.hour")}{" "}
-                    {
-                      <Typography fontWeight="normal">
-                        {program?.hora}
-                      </Typography>
-                    }
-                  </Typography>
-                </Box>
+                {program?.local?.length > 0 ? (
+                  <Box>
+                    <Typography display="flex" gap=".5rem" fontWeight="bold">
+                      {t("cardDetailed.local")}{" "}
+                      {
+                        <Typography fontWeight="normal">
+                          {program?.local}
+                        </Typography>
+                      }
+                    </Typography>
+                  </Box>
+                ) : null}
+                {program?.hora !== "23:59:59" ? (
+                  <Box>
+                    <Typography display="flex" gap=".5rem" fontWeight="bold">
+                      {t("cardDetailed.hour")}{" "}
+                      {
+                        <Typography fontWeight="normal">
+                          {program?.hora}
+                        </Typography>
+                      }
+                    </Typography>
+                  </Box>
+                ) : null}
                 <Box>
                   <Typography display="flex" gap=".5rem">
                     {program?.tipoBilhete ? t("cardDetailed.freeEntry") : ""}
