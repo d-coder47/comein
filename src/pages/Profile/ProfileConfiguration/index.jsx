@@ -289,9 +289,7 @@ const ProfileConfiguration = () => {
                         </AccordionSummary>
                         <AccordionDetails>
                           <Typography>
-                            {t(
-                              "userProfile.configPage.comoMudarProfilePhotoDetails"
-                            )}
+                            <Trans i18nKey="userProfile.configPage.comoMudarProfilePhotoDetails" />
                           </Typography>
                         </AccordionDetails>
                       </Accordion>
