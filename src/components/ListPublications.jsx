@@ -40,29 +40,28 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
     const res = await getEventPostByUser(userID);
     if (typeof res?.dados !== "string") {
       setEvents(res?.dados);
-      localStorage.setItem("eventsNum", events.length);
+      localStorage.setItem("eventsNum", res?.dados.length);
     }
-    localStorage.setItem("eventsNum", events.length);
+    localStorage.setItem("eventsNum", res?.dados.length);
   }
 
   async function fetchProjectsData() {
     const res = await getProjectPostByUser(userID);
     if (typeof res.dados !== "string") {
       setProjects(res.dados);
-      localStorage.setItem("favsNum", favs.length);
-      localStorage.setItem("projectsNum", projects.length);
+      localStorage.setItem("projectsNum", res?.dados.length);
     }
 
-    localStorage.setItem("projectsNum", projects.length);
+    localStorage.setItem("projectsNum", res?.dados.length);
   }
 
   async function fetchFavsData() {
     const res = await getFavoritsPostByUser(userID);
     if (typeof res.dados !== "string") {
       setFavs(res.dados);
-      localStorage.setItem("favsNum", favs.length);
+      localStorage.setItem("favsNum", res?.dados.length);
     }
-    localStorage.setItem("favsNum", favs.length);
+    localStorage.setItem("favsNum", res?.dados.length);
   }
   useEffect(() => {
     if (type === "event") {
@@ -107,7 +106,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   };
 
   if (type === "event") {
-    if (events?.length === 0) {
+    if (localStorage.getItem("eventsNum") === 0) {
       return !isVisitor ? (
         <Box
           mt="1rem"
@@ -184,22 +183,22 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       return (
         <Box
           mt="1rem"
-          sx={
-            {
-              // marginLeft: "0",
-              // marginRigth: "2rem",
-            }
-          }
+          sx={{
+            // marginLeft: "0",
+            // marginRigth: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transformOrigin: "top left",
+            transform: "scale(0.88)",
+            minWidth: "72rem",
+          }}
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
             {events.length > 0 &&
               events.map((card, index) => (
-                <Grid
-                  item
-                  key={index}
-                  xs={events.length === 1 ? 12 : events.length === 2 ? 6 : 3.8}
-                >
+                <Grid item key={index} xs={3.8}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
@@ -229,7 +228,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
   } else if (type === "project") {
-    if (projects.length === 0) {
+    if (localStorage.getItem("projectsNum") === 0) {
       return !isVisitor ? (
         <Card
           sx={{
@@ -298,21 +297,19 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         <Box
           mt="1rem"
           style={{
-            marginLeft: "0",
-            marginRigth: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            transformOrigin: "top left",
+            transform: "scale(0.88)",
+            minWidth: "72rem",
           }}
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
             {projects.length > 0 &&
               projects?.map((card, index) => (
-                <Grid
-                  item
-                  key={index}
-                  xs={
-                    projects.length === 1 ? 12 : projects.length === 2 ? 6 : 3.8
-                  }
-                >
+                <Grid item key={index} xs={3.8}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
@@ -341,7 +338,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
   } else if (type === "favs") {
-    if (favs.length === 0) {
+    if (localStorage.getItem("favsNum") === 0) {
       return (
         <Card
           sx={{
@@ -370,8 +367,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
-          marginLeft: "0",
-          marginRigth: "2rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          transformOrigin: "top left",
+          transform: "scale(0.88)",
+          minWidth: "72rem",
         }}
         flexGrow={1}
       >
@@ -410,8 +411,12 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
-          marginLeft: "0",
-          marginRigth: "2rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          transformOrigin: "top left",
+          transform: "scale(0.88)",
+          minWidth: "72rem",
         }}
         flexGrow={1}
       >

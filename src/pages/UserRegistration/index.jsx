@@ -243,7 +243,7 @@ const UserRegistration = () => {
         if (!updateUserRes) {
           toast.error(t("registerpage.erroCadastro"));
         } else {
-          const user = await getUser(userID);
+          const user = await getUser(addUserRes.data.id);
           localStorage.setItem("authenticated", true);
           localStorage.setItem("userInfo", JSON.stringify(user.dados));
           navigate("/");
@@ -310,6 +310,7 @@ const UserRegistration = () => {
           </Typography>
 
           <GoogleLogin
+            locale={i18n.language}
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
               registeUserGoogleAccount(credentialResponse.credential, decoded);

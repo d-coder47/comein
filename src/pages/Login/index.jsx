@@ -463,6 +463,7 @@ export default function Login() {
             </Typography>
           </Divider>
           <GoogleLogin
+            locale={i18n.language}
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
               googleAccountLogin(credentialResponse.credential, decoded);
