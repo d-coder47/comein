@@ -102,7 +102,9 @@
       "sim": "Oui",
       "nao": "Non",
       "enviarErro": "Envoyer une erreur",
-      "enviarSugestao": "Envoyer une suggestion"
+      "enviarSugestao": "Envoyer une suggestion",
+      "erro": "Erreur",
+      "suggestion": "Suggestion"
     }
   },
   "editProfilePage": {
