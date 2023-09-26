@@ -271,7 +271,10 @@ const CardDetailed = () => {
   };
 
   const onCloseModal = () => {
-    navigate(localStorage.getItem("previousLocation"));
+    if (localStorage.getItem("previousLocation") !== null) {
+      return navigate(localStorage.getItem("previousLocation"));
+    }
+    return navigate("/");
   };
 
   if (!details) {
