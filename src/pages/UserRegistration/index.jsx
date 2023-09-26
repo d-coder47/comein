@@ -310,6 +310,7 @@ const UserRegistration = () => {
           </Typography>
 
           <GoogleLogin
+            locale={i18n.language}
             onSuccess={(credentialResponse) => {
               var decoded = jwt_decode(credentialResponse.credential);
               registeUserGoogleAccount(credentialResponse.credential, decoded);
