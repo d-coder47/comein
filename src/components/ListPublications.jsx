@@ -38,30 +38,31 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
 
   async function fetchEventsData() {
     const res = await getEventPostByUser(userID);
-    if (typeof res?.dados !== "string") {
+
+    if (res?.dados !== "null") {
       setEvents(res?.dados);
       localStorage.setItem("eventsNum", res?.dados.length);
     }
-    localStorage.setItem("eventsNum", res?.dados.length);
+    localStorage.setItem("eventsNum", 0);
   }
 
   async function fetchProjectsData() {
     const res = await getProjectPostByUser(userID);
-    if (typeof res.dados !== "string") {
+    if (res.dados !== "null") {
       setProjects(res.dados);
       localStorage.setItem("projectsNum", res?.dados.length);
     }
 
-    localStorage.setItem("projectsNum", res?.dados.length);
+    localStorage.setItem("projectsNum", 0);
   }
 
   async function fetchFavsData() {
     const res = await getFavoritsPostByUser(userID);
-    if (typeof res.dados !== "string") {
+    if (res.dados !== "null") {
       setFavs(res.dados);
       localStorage.setItem("favsNum", res?.dados.length);
     }
-    localStorage.setItem("favsNum", res?.dados.length);
+    localStorage.setItem("favsNum", 0);
   }
   useEffect(() => {
     if (type === "event") {
@@ -106,7 +107,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   };
 
   if (type === "event") {
-    if (localStorage.getItem("eventsNum") === 0) {
+    if (localStorage.getItem("eventsNum") === "0") {
       return !isVisitor ? (
         <Box
           mt="1rem"
@@ -228,7 +229,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
   } else if (type === "project") {
-    if (localStorage.getItem("projectsNum") === 0) {
+    if (localStorage.getItem("projectsNum") === "0") {
       return !isVisitor ? (
         <Card
           sx={{
@@ -338,7 +339,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       );
     }
   } else if (type === "favs") {
-    if (localStorage.getItem("favsNum") === 0) {
+    if (localStorage.getItem("favsNum") === "0") {
       return (
         <Card
           sx={{
