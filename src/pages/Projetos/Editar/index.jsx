@@ -166,8 +166,10 @@ const Editar = () => {
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         });
-        console.log(response.data.dados);
         if (!response.data.dados) return;
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if (+userInfo?.id !== +response.data.dados?.id_utilizador)
+          return navigate("/");
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();

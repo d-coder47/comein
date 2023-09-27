@@ -170,6 +170,9 @@ const Editar = () => {
         });
 
         if (!response.data.dados) return;
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if (+userInfo?.id !== +response.data.dados?.id_utilizador)
+          return navigate("/");
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
