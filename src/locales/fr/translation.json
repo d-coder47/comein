@@ -76,7 +76,10 @@
     "naoForamEncontradosResultados": "La recherche n'a donné aucun résultat.",
     "removerEventoErro": "Erreur lors de la suppression d'un événement!",
     "removerEventoSucesso": "Événement supprimé avec succès",
-    "removerEventoModal": "Are you sure you want to remove this event?",
+    "removerEventoModal": "Êtes-vous sûr de vouloir supprimer cet événement ?",
+    "removerProjetoErro": "Erreur lors de la suppression d'un projet!",
+    "removerProjetoSucesso": "Projet supprimé avec succès",
+    "removerProjetoModal": "Êtes-vous sûr de vouloir supprimer cet projet ?",
     "adicionarEvento": "Ajouter un événement",
     "adicionarProjeto": "Ajouter un projet",
     "configPage": {
