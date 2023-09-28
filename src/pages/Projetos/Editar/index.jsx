@@ -4,7 +4,6 @@ import {
   Autocomplete,
   Avatar,
   Box,
-  Button,
   Checkbox,
   Input,
   Popover,
@@ -41,7 +40,6 @@ import {
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
 import getCroppedImg from "../../../utils/cropImage";
-import Cropper from "react-easy-crop";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 
@@ -50,9 +48,7 @@ const Editar = () => {
 
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
-  const [anchorDateEl, setAnchorDateEl] = useState(null);
   const [anchorCulturalAreaEl, setAnchorCulturalAreaEl] = useState(null);
-  const [anchorAssociateEventEl, setAnchorAssociateEventEl] = useState(null);
   const [fieldValues, setFieldValues] = useState({
     nome: "",
     imagem: null,
@@ -65,13 +61,8 @@ const Editar = () => {
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [users, setUsers] = useState([]);
-  const [events, setEvents] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
-  const [openImageSizeError, setOpenImageSizeError] = React.useState(false);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [loading, setLoading] = React.useState(false);
 
   const params = useParams();
@@ -107,16 +98,8 @@ const Editar = () => {
     setAnchorLocationEl(event.currentTarget);
   };
 
-  const handleDateClick = (event) => {
-    setAnchorDateEl(event.currentTarget);
-  };
-
   const handleCulturalAreaClick = (event) => {
     setAnchorCulturalAreaEl(event.currentTarget);
-  };
-
-  const handleAssociateEventClick = (event) => {
-    setAnchorAssociateEventEl(event.currentTarget);
   };
 
   const handleChangeFieldValues = (key, value) => {
@@ -156,7 +139,7 @@ const Editar = () => {
   }, []);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return navigate("/");
     const getProjectDetails = async () => {
       try {
         const response = await axiosInstance.get(`/projetos/listar/${id}`, {
@@ -166,8 +149,10 @@ const Editar = () => {
             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         });
-        console.log(response.data.dados);
-        if (!response.data.dados) return;
+        if (!response.data.dados) return navigate("/");
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if (+userInfo?.id !== +response.data.dados?.id_utilizador)
+          return navigate("/");
         const data = response.data.dados;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
@@ -228,10 +213,6 @@ const Editar = () => {
 
   const handleChangeImgClick = () => {
     document.getElementById("upload-photo").click();
-  };
-
-  const onCropComplete = (_, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
   };
 
   const handleSaveMinimizedImage = async (croppedAreaPixels) => {
@@ -301,6 +282,8 @@ const Editar = () => {
   };
 
   if (!user) return <div>Loading</div>;
+
+  if (!fieldValues?.id) return <div>Loading</div>;
 
   return (
     <>

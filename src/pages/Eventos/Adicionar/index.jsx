@@ -228,8 +228,39 @@ const Adicionar = () => {
     document.getElementById("upload-photo").click();
   };
 
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
-    setCroppedAreaPixels(croppedAreaPixels);
+  function itemIsDuplicate(item, array) {
+    for (const arrayItem of array) {
+      if (arrayItem.id === item.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const handleCulturalAreaChange = (selectedOptions) => {
+    const selectedOptionsLength = selectedOptions.length;
+    if (selectedOptionsLength === 0 || selectedOptionsLength === 1) {
+      return handleChangeFieldValues("areasCulturais", selectedOptions);
+    }
+
+    const lastSelectedOption = selectedOptions[selectedOptions.length - 1];
+    const selectedOptionsCopy = [...selectedOptions];
+    selectedOptionsCopy.pop();
+
+    const isDuplicate = itemIsDuplicate(
+      lastSelectedOption,
+      selectedOptionsCopy
+    );
+    if (isDuplicate) {
+      const noDuplicateSelectedOptions = selectedOptionsCopy.filter(
+        (item) => item.id !== lastSelectedOption.id
+      );
+      return handleChangeFieldValues(
+        "areasCulturais",
+        noDuplicateSelectedOptions
+      );
+    }
+    handleChangeFieldValues("areasCulturais", selectedOptions);
   };
 
   const handleSaveMinimizedImage = async (croppedAreaPixels) => {
@@ -667,8 +698,12 @@ const Adicionar = () => {
                       {option.name}
                     </li>
                   )}
-                  onChange={(_, value) =>
-                    handleChangeFieldValues("areasCulturais", value)
+                  onChange={
+                    (_, value) => {
+                      console.log(value);
+                      handleCulturalAreaChange(value);
+                    }
+                    // handleChangeFieldValues("areasCulturais", value)
                   }
                   sx={{ width: 300 }}
                   renderInput={(params) => (
