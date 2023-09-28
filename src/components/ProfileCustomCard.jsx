@@ -190,7 +190,6 @@ const ProfileCustomCard = ({
       const res = await removeEvent(id);
       if (!res) {
         handleCloseRemoveEventModal();
-        setOpenRemoveEventError(true);
         toast.error(t("userProfile.removerEventoErro"));
       } else {
         handleCloseRemoveEventModal();
@@ -202,7 +201,6 @@ const ProfileCustomCard = ({
 
       if (!res) {
         handleCloseRemoveEventModal();
-        setOpenRemoveEventError(true);
         toast.error(t("userProfile.removerProjetoErro"));
       } else {
         handleCloseRemoveEventModal();

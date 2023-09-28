@@ -34,6 +34,8 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   const handleRefresh = () => {
     setRefreshCount((prevCount) => prevCount + 1);
     fetchEventsData();
+    fetchProjectsData();
+    fetchFavsData();
   };
 
   async function fetchEventsData() {
@@ -334,6 +336,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                         : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                     }
                     type={card.distincao}
+                    onRefresh={handleRefresh}
                   />
                 </Grid>
               ))}
@@ -404,6 +407,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                       : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                   }
                   type={card.distincao}
+                  onRefresh={handleRefresh}
                 />
               </Grid>
             ))}
@@ -448,6 +452,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
                       : `${imgApiPath}/perfilImg/${card.imgPerfil}`
                   }
                   type={card.distincao}
+                  onRefresh={handleRefresh}
                 />
               </Grid>
             ))}
