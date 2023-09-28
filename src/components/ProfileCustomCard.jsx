@@ -120,9 +120,9 @@ const ProfileCustomCard = ({
 
   const [openRemoveEventModal, setOpenRemoveEventModal] = React.useState(false);
 
-  const { removeFavoriteFromProject } = useProjects();
+  const { removeFavoriteFromProject, deleteProject } = useProjects();
 
-  const { removeFavoriteFromEvent, removeEvent } = useEvents();
+  const { removeFavoriteFromEvent, removeEvent, removeProjet } = useEvents();
 
   const { likePost, favoritePost } = usePosts();
 
@@ -176,20 +176,39 @@ const ProfileCustomCard = ({
   };
 
   const handleRemoveEventClick = () => {
-    handlePostActionsMenuClose();
-    handleOpenRemoveEventModal();
+    if (type === "E") {
+      handlePostActionsMenuClose();
+      handleOpenRemoveEventModal();
+    } else {
+      handlePostActionsMenuClose();
+      handleOpenRemoveEventModal();
+    }
   };
 
   const handleRemoveEvent = async () => {
-    const res = await removeEvent(id);
-    if (!res) {
-      handleCloseRemoveEventModal();
-      setOpenRemoveEventError(true);
-      toast.error(t("userProfile.removerEventoErro"));
+    if (type === "E") {
+      const res = await removeEvent(id);
+      if (!res) {
+        handleCloseRemoveEventModal();
+        setOpenRemoveEventError(true);
+        toast.error(t("userProfile.removerEventoErro"));
+      } else {
+        handleCloseRemoveEventModal();
+        toast.success(t("userProfile.removerEventoSucesso"));
+        onRefresh();
+      }
     } else {
-      handleCloseRemoveEventModal();
-      toast.success(t("userProfile.removerEventoSucesso"));
-      onRefresh();
+      const res = await deleteProject(id);
+
+      if (!res) {
+        handleCloseRemoveEventModal();
+        setOpenRemoveEventError(true);
+        toast.error(t("userProfile.removerProjetoErro"));
+      } else {
+        handleCloseRemoveEventModal();
+        toast.success(t("userProfile.removerProjetoSucesso"));
+        onRefresh();
+      }
     }
   };
 
@@ -701,6 +720,9 @@ const ProfileCustomCard = ({
               border: "2px solid #000",
               boxShadow: 24,
               p: 4,
+              display: "flex",
+              flexDirection: "column",
+              justifyItems: "center",
             }}
           >
             <IconButton
@@ -717,7 +739,9 @@ const ProfileCustomCard = ({
               <Close />
             </IconButton>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              {t("userProfile.removerEventoModal")}
+              {type === "E"
+                ? t("userProfile.removerEventoModal")
+                : t("userProfile.removerProjetoModal")}
             </Typography>
             <Grid
               container

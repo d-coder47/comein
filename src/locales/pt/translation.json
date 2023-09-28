@@ -77,6 +77,9 @@
     "removerEventoErro": "Erro ao remover evento!",
     "removerEventoSucesso": "Evento removido com sucesso",
     "removerEventoModal": "Tem certeza de que deseja remover este evento?",
+    "removerProjetoErro": "Erro ao remover projeto!",
+    "removerProjetoSucesso": "Projeto removido com sucesso",
+    "removerProjetoModal": "Tem certeza de que deseja remover este projeto?",
     "adicionarEvento": "Adicionar Evento",
     "adicionarProjeto": " Adicionar Projeto",
     "configPage": {
