@@ -10,7 +10,6 @@ import {
   TextField,
   Tooltip,
   Typography,
-  Button,
   LinearProgress,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
@@ -45,11 +44,7 @@ import {
   filterStartDate,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import getCroppedImg from "../../../utils/cropImage";
-import Cropper from "react-easy-crop";
-import { validatePost } from "../../../utils/postValidation";
 import { toast } from "react-toastify";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
@@ -158,7 +153,7 @@ const Editar = () => {
   }, []);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return navigate("/");
     const getEventDetails = async () => {
       try {
         const response = await axiosInstance.get(`/eventos/listar/${id}`, {
@@ -169,7 +164,7 @@ const Editar = () => {
           },
         });
 
-        if (!response.data.dados) return;
+        if (!response.data.dados) return navigate("/");
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
         if (+userInfo?.id !== +response.data.dados?.id_utilizador)
           return navigate("/");
@@ -344,6 +339,8 @@ const Editar = () => {
   };
 
   if (!user) return <div>Loading</div>;
+
+  if (!fieldValues?.id) return <div>Loading</div>;
 
   return (
     <>
