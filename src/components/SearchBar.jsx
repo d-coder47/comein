@@ -1,15 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
-  Autocomplete,
   Box,
   Button,
-  Divider,
-  FormControl,
-  FormGroup,
   Grid,
   InputAdornment,
-  MenuItem,
-  Stack,
   TextField,
   Typography,
   useMediaQuery,
@@ -22,6 +16,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOnOutlined";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { detectOutsideClick } from "../utils/detectOutsideClick";
 
 const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   const [filterSelected, setFilterSelected] = useState("");
@@ -33,6 +28,9 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
   });
 
   const { t } = useTranslation();
+
+  const filterRef = useRef();
+  detectOutsideClick(filterRef, () => setShowLocalDate(false));
 
   const handleChange = (event) => {
     const search = event.target.value;
@@ -206,7 +204,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
             )}
           </Button>
           {showLocalDate ? (
-            <Box value={"dateandtime"}>
+            <Box ref={filterRef}>
               <form>
                 <Box
                   display="flex"
