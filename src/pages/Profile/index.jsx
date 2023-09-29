@@ -41,6 +41,7 @@ import "react-quill/dist/quill.bubble.css";
 
 import { toast } from "react-toastify";
 import { imgApiPath } from "../../api/apiPath";
+import { redirectToProfileConfigPage } from "../../utils/generateUrl";
 
 const UserProfile = () => {
   const params = useParams();
@@ -540,7 +541,10 @@ const UserProfile = () => {
                         color="primary"
                         onClick={() =>
                           navigate(
-                            `/perfil-utilizador-configuracao/${loggedUserInfo.id}/${loggedUserInfo.nome}`
+                            redirectToProfileConfigPage(
+                              loggedUserInfo?.id,
+                              loggedUserInfo?.nome
+                            )
                           )
                         }
                       >
