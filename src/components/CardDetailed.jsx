@@ -29,6 +29,7 @@ import "react-quill/dist/quill.bubble.css";
 import { useTranslation } from "react-i18next";
 import { imgApiPath } from "../api/apiPath";
 import { toast } from "react-toastify";
+import { redirectToProfilePage } from "../utils/generateUrl";
 
 const CardDetailed = () => {
   const params = useParams();
@@ -553,7 +554,10 @@ const CardDetailed = () => {
                 }}
                 onClick={() =>
                   navigate(
-                    `/perfil/${details?.utilizador[0]?.id}/${details?.utilizador[0]?.nome}`
+                    redirectToProfilePage(
+                      details?.utilizador[0]?.id,
+                      details?.utilizador[0]?.nome
+                    )
                   )
                 }
               />
@@ -694,7 +698,9 @@ const DetailedHeader = ({
           },
         }}
         onClick={() =>
-          navigate(`/perfil/${publishers[0]?.id}/${publishers[0]?.nome}`)
+          navigate(
+            redirectToProfilePage(publishers[0]?.id, publishers[0]?.nome)
+          )
         }
       />
       <Box

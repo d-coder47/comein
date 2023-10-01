@@ -33,6 +33,10 @@ import { useLocation } from "react-router-dom";
 import Notifications from "./Notifications";
 import useNotifications from "../hooks/useNotifications";
 import { imgApiPath } from "../api/apiPath";
+import {
+  redirectToProfileConfigPage,
+  redirectToProfilePage,
+} from "../utils/generateUrl";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -95,12 +99,12 @@ const NavBar = () => {
 
   const handleConfiguration = () => {
     handleClose();
-    navigate(`/perfil-utilizador-configuracao/${userData.id}/${userData.nome}`);
+    navigate(redirectToProfileConfigPage(userData.id, userData.nome));
   };
 
   const handleProfileClick = () => {
     handleClose();
-    navigate(`/perfil/${userData.id}/${userData.nome}`);
+    navigate(redirectToProfilePage(userData.id, userData.nome));
     if (location.pathname.includes("perfil")) {
       window.location.reload(false);
     }

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { imgApiPath } from "../api/apiPath";
 import useUserProfile from "../hooks/useUserProfile";
+import { redirectToProfilePage } from "../utils/generateUrl";
 
 const Publisher = ({
   publishers = [{ nome: "" }],
@@ -146,7 +147,9 @@ const Publisher = ({
               },
             }}
             onClick={() =>
-              navigate(`/perfil/${publishers[0].id}/${publishers[0].nome}`)
+              navigate(
+                redirectToProfilePage(publishers[0]?.id, publishers[0]?.nome)
+              )
             }
           >
             {publishers[0]?.nome}
@@ -193,7 +196,7 @@ const PublisherCard = ({ publisher, isFollowing, isOwner }) => {
     //   : isFollowing
     //   ? unFollow()
     //   : follow()
-    navigate(`/perfil/${publisher?.id}/${publisher?.nome}`);
+    navigate(redirectToProfilePage(publisher?.id, publisher?.nome));
   };
   return (
     <Box display="flex" alignItems="center" gap=".5rem" width="100%">

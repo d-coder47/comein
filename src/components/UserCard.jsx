@@ -14,6 +14,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { imgApiPath } from "../api/apiPath";
+import { redirectToProfilePage } from "../utils/generateUrl";
 
 const UserCard = ({
   publisher = null,
@@ -62,7 +63,7 @@ const UserCard = ({
   }
 
   const handleAccessPage = () => {
-    navigate(`/perfil/${publisher?.id}/${publisher?.nome}`);
+    navigate(redirectToProfilePage(publisher?.id, publisher?.nome));
   };
 
   return (
@@ -101,10 +102,10 @@ const UserCard = ({
             cursor: "pointer",
           },
         }}
-        onClick={() => navigate(`/perfil/${publisher.id}/${publisher.nome}`)}
+        onClick={handleAccessPage}
       />
       <Typography
-        onClick={() => navigate(`/perfil/${publisher.id}/${publisher.nome}`)}
+        onClick={handleAccessPage}
         sx={{
           color: "black",
           fontWeight: "bold",
