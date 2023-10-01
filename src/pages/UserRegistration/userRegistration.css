@@ -40,7 +40,7 @@
 }
 
 @media screen and (max-width: 767px) {
-  .css-qndp1g-MuiAvatar-root {
+  .css-1vpn6hs-MuiAvatar-root {
     width: 210px;
     height: auto;
   }
@@ -69,7 +69,7 @@
 }
 
 @media screen and (max-width: 375px) {
-  .css-qndp1g-MuiAvatar-root {
+  .css-1vpn6hs-MuiAvatar-root {
     width: 110px !important;
     height: auto;
   }
@@ -83,7 +83,7 @@
     min-width: 280px;
   }
 
-  .css-5joihi .MuiTextField-root {
+  .css-1j5xr5u .MuiTextField-root {
     width: 200px !important;
   }
   .registerFormContainer {
@@ -97,7 +97,63 @@
   }
 }
 
+@media screen and (max-width: 767px) {
+  .css-qndp1g-MuiAvatar-root {
+    width: 210px;
+    height: auto;
+  }
+  .registerFormContainer {
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .panel {
+    min-height: 70vh;
+    min-width: 380px;
+    display: flex;
+    justify-content: center;
+    margin-right: 0%;
+  }
+
+  .css-1j5xr5u .MuiTextField-root {
+    width: 200px !important;
+  }
+  .formContainer {
+    width: 100%;
+    min-height: 60%;
+  }
+
+  .logoSection {
+    display: flex;
+    margin: 0 0 10px 0;
+  }
+}
+
+@media screen and (max-width: 905px) {
+  form {
+    /* background: blue; */
+    width: 100%;
+    /* width: 290px; */
+  }
+
+  .css-1j5xr5u .MuiTextField-root {
+    width: 90% !important;
+  }
+}
+@media screen and (max-width: 1190px) {
+  .registerFormContainer {
+    min-height: 500px;
+    min-width: 100%;
+  }
+}
+
 @media screen and (max-width: 1366px) {
+  .registerFormContainer {
+    min-height: 500px;
+    min-width: 100%;
+  }
   .css-pt8k7c-MuiTypography-root {
     font-weight: 500;
     font-size: 16px !important;
