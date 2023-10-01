@@ -381,7 +381,7 @@ const UserProfile = () => {
                     ? {}
                     : {
                         position: "fixed",
-                        top: scrolled ? "0%" : "20%",
+                        top: scrolled > 0 ? "0%" : "20%",
                         left: "3%",
                         transformOrigin: "top left",
                         transform: "scale(0.88)",
@@ -390,7 +390,7 @@ const UserProfile = () => {
                   ...(isSmallScreen
                     ? {
                         position: "fixed",
-                        top: scrolled ? "0%" : "20%",
+                        top: scrolled > 0 ? "0%" : "20%",
                         left: "3%",
                         transformOrigin: "top left",
                         transform: "scale(0.74)",
