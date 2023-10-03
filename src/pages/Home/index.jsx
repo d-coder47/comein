@@ -1,11 +1,11 @@
+import { useEffect, useRef, useState } from "react";
 import NavBar from "../../components/NavBar";
 import Categories from "../../components/Categories";
 import Cards from "../../components/Cards";
 import SearchBar from "../../components/SearchBar";
-import { useState } from "react";
 import MapButton from "../../components/Map/MapButton";
 import Highlights from "../../components/highlights";
-import { LinearProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 
 export default function Home() {
   const [category, setCategory] = useState("");
@@ -13,6 +13,8 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState(null);
   const [localDateValues, setLocalDateValues] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
+
+  const layoutRef = useRef(null);
 
   const onCategoryChange = (category) => {
     setCategory(category);
@@ -46,8 +48,13 @@ export default function Home() {
     setDisplayHighlights(false);
   };
 
+  useEffect(() => {
+    if (!layoutRef.current) return;
+    layoutRef?.current?.scrollTo(0, 1225);
+  }, [layoutRef]);
+
   return (
-    <>
+    <Box ref={layoutRef}>
       <div>{isLoading && <LinearProgress />}</div>
       <NavBar />
       <Categories onCategoryChange={onCategoryChange} />
@@ -66,6 +73,6 @@ export default function Home() {
         setIsLoading={setIsLoading}
       />
       <MapButton />
-    </>
+    </Box>
   );
 }
