@@ -62,9 +62,7 @@ const Editar = () => {
     data_inicio: "",
     data_fim: "",
     imagem: null,
-    descricao: `<p><span class="ql-size-large">${t(
-      "eventPage.common.defaultDescription"
-    )}</span></p>`,
+    descricao: ``,
     local: "",
     proprietarios: [],
     areasCulturais: [],
@@ -476,6 +474,7 @@ const Editar = () => {
               formats={editorFormats}
               value={fieldValues.descricao}
               onChange={(value) => handleChangeFieldValues("descricao", value)}
+              placeholder={t("eventPage.common.defaultDescription")}
             />
           </Box>
           <Box

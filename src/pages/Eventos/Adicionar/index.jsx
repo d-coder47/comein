@@ -70,9 +70,7 @@ const Adicionar = () => {
     data_fim: "",
     imagem: null,
     imgEventoRecortada: null,
-    descricao: `<p><span class="ql-size-large">${t(
-      "eventPage.common.defaultDescription"
-    )}</span></p>`,
+    descricao: ``,
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
@@ -82,9 +80,6 @@ const Adicionar = () => {
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -481,6 +476,7 @@ const Adicionar = () => {
               formats={editorFormats}
               value={fieldValues.descricao}
               onChange={(value) => handleChangeFieldValues("descricao", value)}
+              placeholder={t("eventPage.common.defaultDescription")}
             />
           </Box>
           <Box
