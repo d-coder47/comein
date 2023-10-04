@@ -359,6 +359,13 @@ const UserProfile = () => {
               padding: "2rem",
               minHeight: "100vh",
               background: "#f8f8f8",
+              display: {
+                xs: "flex",
+                sm: "flex",
+                md: "block",
+                lg: "block",
+                xl: "block",
+              },
             }}
           >
             <Grid
@@ -366,9 +373,28 @@ const UserProfile = () => {
               container
               spacing={2}
               sx={{
-                // paddingRight: "220px",
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: {
+                  xs: "center",
+                  sm: "center",
+                  md: "flex-end",
+                  lg: "flex-end",
+                  xl: "flex-end",
+                },
+                alignItems: {
+                  xs: "center",
+                  sm: "center",
+                  md: "none",
+                  lg: "none",
+                  xl: "none",
+                },
+                flexDirection: {
+                  xs: "column",
+                  sm: "column",
+                  md: "row",
+                  lg: "row",
+                  xl: "row",
+                },
               }}
             >
               <Grid
@@ -381,18 +407,68 @@ const UserProfile = () => {
                   ...(isSmallScreen
                     ? {}
                     : {
-                        position: "fixed",
-                        top: scrolled > 0 ? "0%" : "20%",
-                        left: "3%",
+                        position: {
+                          xs: "absolute",
+                          sm: "absolute",
+                          md: "fixed",
+                          lg: "fixed",
+                          xl: "fixed",
+                        },
+                        top: {
+                          xs: "25%",
+                          sm: "25%",
+                          md: scrolled > 0 ? "0%" : "20%",
+                          lg: scrolled > 0 ? "0%" : "20%",
+                          xl: scrolled > 0 ? "0%" : "20%",
+                        },
+                        left: {
+                          xs: "0%",
+                          sm: "0%",
+                          md: "3%",
+                          lg: "3%",
+                          xl: "3%",
+                        },
+                        paddingLeft: {
+                          xs: "0px",
+                          sm: "0px",
+                          md: "16px",
+                          lg: "16px",
+                          xl: "16px",
+                        },
                         transformOrigin: "top left",
                         transform: "scale(0.88)",
                       }),
                   // Styles for small displays
                   ...(isSmallScreen
                     ? {
-                        position: "fixed",
-                        top: scrolled > 0 ? "0%" : "20%",
-                        left: "3%",
+                        position: {
+                          xs: "absolute",
+                          sm: "absolute",
+                          md: "fixed",
+                          lg: "fixed",
+                          xl: "fixed",
+                        },
+                        top: {
+                          xs: "25%",
+                          sm: "25%",
+                          md: scrolled > 0 ? "0%" : "20%",
+                          lg: scrolled > 0 ? "0%" : "20%",
+                          xl: scrolled > 0 ? "0%" : "20%",
+                        },
+                        left: {
+                          xs: "0%",
+                          sm: "0%",
+                          md: "3%",
+                          lg: "3%",
+                          xl: "3%",
+                        },
+                        paddingLeft: {
+                          xs: "0px",
+                          sm: "0px",
+                          md: "16px",
+                          lg: "16px",
+                          xl: "16px",
+                        },
                         transformOrigin: "top left",
                         transform: "scale(0.74)",
                       }
@@ -410,6 +486,22 @@ const UserProfile = () => {
                     minWidth: "350px !important",
                     minHeight: "600px",
                     marginBottom: "20px",
+                    background: {
+                      xs: "none",
+                      sm: "none",
+                      md: "#fff",
+                      lg: "#fff",
+                      xl: "#fff",
+                    },
+
+                    boxShadow: {
+                      xs: "none",
+                      sm: "none",
+                      md: "0px 1px 8px 0px rgba(0,0,0,0.12)",
+                      lg: "0px 1px 8px 0px rgba(0,0,0,0.12)",
+                      xl: "0px 1px 8px 0px rgba(0,0,0,0.12)",
+                    },
+
                     // transformOrigin:
                     //   "top left" /* Define o ponto de origem da transformação */,
                     // transform: "scale(0.99)",
@@ -660,7 +752,6 @@ const UserProfile = () => {
                   paddingTop: "0 !important",
                   display: "flex",
                   flexDirection: "column",
-                  // justifyContent: "center",
                 }}
               >
                 <Box
@@ -746,7 +837,13 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -757,7 +854,13 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
@@ -782,7 +885,13 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -793,7 +902,13 @@ const UserProfile = () => {
                             flexDirection: "column",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
@@ -817,7 +932,13 @@ const UserProfile = () => {
                             alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -827,7 +948,13 @@ const UserProfile = () => {
                             alignItems: "flex-start",
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
@@ -886,7 +1013,13 @@ const UserProfile = () => {
                             alignItems: "center",
                             transformOrigin: "top left",
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -897,7 +1030,13 @@ const UserProfile = () => {
                             transformOrigin: "top left",
                             transform: "scale(0.74)",
                             minHeight: "100vh",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "72rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
