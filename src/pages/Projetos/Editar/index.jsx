@@ -52,9 +52,7 @@ const Editar = () => {
   const [fieldValues, setFieldValues] = useState({
     nome: "",
     imagem: null,
-    descricao: `<p><span class="ql-size-large">${t(
-      "projectPage.common.defaultDescription"
-    )}</p>`,
+    descricao: ``,
     local: { id: 0, nome: "" },
     proprietarios: [],
     areasCulturais: [],
@@ -419,6 +417,7 @@ const Editar = () => {
               modules={editorModules}
               formats={editorFormats}
               value={fieldValues.descricao}
+              placeholder={t("projectPage.common.defaultDescription")}
               onChange={(value) => handleChangeFieldValues("descricao", value)}
             />
           </Box>

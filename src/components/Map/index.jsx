@@ -1,5 +1,12 @@
-import React from "react";
-import { MapContainer, TileLayer, Polygon, Marker, Popup } from "react-leaflet";
+import React, { useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Polygon,
+  Marker,
+  Popup,
+  useMapEvents,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
 import musicIcon from "../../assets/svg/musica.svg";
@@ -8,6 +15,27 @@ import teatroIcon from "../../assets/svg/teatro.svg";
 
 const center = [16.890455072287708, -24.98754235360934];
 const center1 = [16.87965920177269, -24.990839680879148];
+
+function LocationMarker() {
+  const [position, setPosition] = useState(null);
+  const map = useMapEvents({
+    click(location) {
+      console.log(location);
+      setPosition(location.latlng);
+      // map.locate();
+    },
+    // locationfound(e) {
+    //   setPosition(e.latlng);
+    //   map.flyTo(e.latlng, map.getZoom());
+    // },
+  });
+
+  return position === null ? null : (
+    <Marker position={position}>
+      <Popup>You are here</Popup>
+    </Marker>
+  );
+}
 
 export default function Leaflet() {
   const customIcon = L.icon({
@@ -27,6 +55,13 @@ export default function Leaflet() {
         url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=4d3lGy6vTvjGNu72qBIK"
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       />
+
+      {/* <LocationMarker /> */}
+
+      <Marker position={center}>
+        {/* Optionally, you can add a Popup component to display additional information */}
+        <Popup> Test </Popup>
+      </Marker>
 
       {/* 
                 statesData.features.map((state)=>{
@@ -72,11 +107,6 @@ export default function Leaflet() {
                 }) 
             
             */}
-
-      <Marker position={center}>
-        {/* Optionally, you can add a Popup component to display additional information */}
-        <Popup> Test </Popup>
-      </Marker>
       {/*
             <Marker position={center1} icon={customIcon}>
                 <Popup>  Event test 2 - theatre </Popup>

@@ -118,12 +118,7 @@ const EditProfile = () => {
 
   const { t } = useTranslation();
 
-  const [aboutMeValue, setAboutMeValue] = React.useState(
-    userInfo.bio ||
-      `<p><span class="ql-size-large">${t(
-        "editProfilePage.defaultDescription"
-      )}</span></p>`
-  );
+  const [aboutMeValue, setAboutMeValue] = React.useState(userInfo.bio || ``);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showNewPassword, setShowNewPassword] = React.useState(false);
   const [showConfPassword, setShowConfPassword] = React.useState(false);
@@ -1075,6 +1070,7 @@ const EditProfile = () => {
                       modules={editorModules}
                       formats={editorFormats}
                       value={aboutMeValue}
+                      placeholder={t("editProfilePage.defaultDescription")}
                       onChange={
                         (value) => {
                           console.log(value);
