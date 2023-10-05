@@ -356,7 +356,13 @@ const UserProfile = () => {
         {pageUserInfo && (
           <Box
             sx={{
-              padding: "2rem",
+              padding: {
+                xs: "0",
+                sm: "0",
+                md: "2rem",
+                lg: "2rem",
+                xl: "2rem",
+              },
               minHeight: "100vh",
               background: "#f8f8f8",
               display: {
@@ -395,6 +401,14 @@ const UserProfile = () => {
                   lg: "row",
                   xl: "row",
                 },
+                minWidth: "100%",
+                marginLeft: {
+                  xs: "0",
+                  sm: "0",
+                  md: "-16px",
+                  lg: "-16px",
+                  xl: "-16px",
+                },
               }}
             >
               <Grid
@@ -422,21 +436,28 @@ const UserProfile = () => {
                           xl: scrolled > 0 ? "0%" : "20%",
                         },
                         left: {
-                          xs: "0%",
-                          sm: "0%",
                           md: "3%",
                           lg: "3%",
                           xl: "3%",
                         },
                         paddingLeft: {
-                          xs: "0px",
-                          sm: "0px",
+                          xs: "0 !important",
+                          sm: "0 !important",
                           md: "16px",
                           lg: "16px",
                           xl: "16px",
                         },
-                        transformOrigin: "top left",
-                        transform: "scale(0.88)",
+                        transformOrigin: {
+                          md: "top left",
+                          lg: "top left",
+                          xl: "top left",
+                        },
+
+                        transform: {
+                          md: "scale(0.88)",
+                          lg: "scale(0.88)",
+                          xl: "scale(0.88)",
+                        },
                       }),
                   // Styles for small displays
                   ...(isSmallScreen
@@ -456,21 +477,27 @@ const UserProfile = () => {
                           xl: scrolled > 0 ? "0%" : "20%",
                         },
                         left: {
-                          xs: "0%",
-                          sm: "0%",
                           md: "3%",
                           lg: "3%",
                           xl: "3%",
                         },
                         paddingLeft: {
-                          xs: "0px",
-                          sm: "0px",
+                          xs: "0 !important",
+                          sm: "0 !important",
                           md: "16px",
                           lg: "16px",
                           xl: "16px",
                         },
-                        transformOrigin: "top left",
-                        transform: "scale(0.74)",
+                        transformOrigin: {
+                          md: "top left",
+                          lg: "top left",
+                          xl: "top left",
+                        },
+                        transform: {
+                          md: "scale(0.74)",
+                          lg: "scale(0.74)",
+                          xl: "scale(0.74)",
+                        },
                       }
                     : {}),
                 }}
