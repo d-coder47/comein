@@ -197,14 +197,20 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
             alignItems: "center",
             transformOrigin: "top left",
             transform: "scale(0.88)",
-            minWidth: "72rem",
+            minWidth: {
+              xs: "0",
+              sm: "0",
+              md: "72rem",
+              lg: "72rem",
+              xl: "72rem",
+            },
           }}
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
             {events.length > 0 &&
               events.map((card, index) => (
-                <Grid item key={index} xs={3.8}>
+                <Grid item key={index} lg={3.8} xs={12} md={3.8}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
@@ -308,14 +314,20 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
             alignItems: "center",
             transformOrigin: "top left",
             transform: "scale(0.88)",
-            minWidth: "72rem",
+            minWidth: {
+              xs: "0",
+              sm: "0",
+              md: "72rem",
+              lg: "72rem",
+              xl: "72rem",
+            },
           }}
           flexGrow={1}
         >
           <Grid container spacing={3.8}>
             {projects.length > 0 &&
               projects?.map((card, index) => (
-                <Grid item key={index} xs={3.8}>
+                <Grid item key={index} lg={3.8} xs={12} md={3}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
@@ -379,14 +391,20 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
           alignItems: "center",
           transformOrigin: "top left",
           transform: "scale(0.88)",
-          minWidth: "72rem",
+          minWidth: {
+            xs: "0",
+            sm: "0",
+            md: "72rem",
+            lg: "72rem",
+            xl: "72rem",
+          },
         }}
         flexGrow={1}
       >
         <Grid container spacing={3.8}>
           {favs.length > 0 &&
             favs?.map((card, index) => (
-              <Grid item key={index} xs={3.8}>
+              <Grid item key={index} lg={3.8} xs={12} md={3}>
                 <ProfileCustomCard
                   isVisitor={isVisitor}
                   key={index}
@@ -424,14 +442,20 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
           alignItems: "center",
           transformOrigin: "top left",
           transform: "scale(0.88)",
-          minWidth: "72rem",
+          minWidth: {
+            xs: "0",
+            sm: "0",
+            md: "72rem",
+            lg: "72rem",
+            xl: "72rem",
+          },
         }}
         flexGrow={1}
       >
         <Grid container spacing={3.8}>
           {searchResults.length > 0 &&
             searchResults?.map((card, index) => (
-              <Grid item key={index} xs={3.8}>
+              <Grid item key={index} lg={3.8} xs={12} md={3}>
                 <ProfileCustomCard
                   isVisitor={isVisitor}
                   key={index}

@@ -365,13 +365,7 @@ const UserProfile = () => {
               },
               minHeight: "100vh",
               background: "#f8f8f8",
-              display: {
-                xs: "flex",
-                sm: "flex",
-                md: "block",
-                lg: "block",
-                xl: "block",
-              },
+              display: "block",
             }}
           >
             <Grid
@@ -394,14 +388,9 @@ const UserProfile = () => {
                   lg: "none",
                   xl: "none",
                 },
-                flexDirection: {
-                  xs: "column",
-                  sm: "column",
-                  md: "row",
-                  lg: "row",
-                  xl: "row",
-                },
+                flexDirection: "row",
                 minWidth: "100%",
+                maxWidth: "100%",
                 marginLeft: {
                   xs: "0",
                   sm: "0",
@@ -422,8 +411,8 @@ const UserProfile = () => {
                     ? {}
                     : {
                         position: {
-                          xs: "absolute",
-                          sm: "absolute",
+                          xs: "unset",
+                          sm: "unset",
                           md: "fixed",
                           lg: "fixed",
                           xl: "fixed",
@@ -463,8 +452,8 @@ const UserProfile = () => {
                   ...(isSmallScreen
                     ? {
                         position: {
-                          xs: "absolute",
-                          sm: "absolute",
+                          xs: "unset",
+                          sm: "unset",
                           md: "fixed",
                           lg: "fixed",
                           xl: "fixed",
@@ -512,7 +501,7 @@ const UserProfile = () => {
                     alignItems: "center",
                     minWidth: "350px !important",
                     minHeight: "600px",
-                    marginBottom: "20px",
+                    // marginBottom: "20px",
                     background: {
                       xs: "none",
                       sm: "none",
@@ -529,9 +518,13 @@ const UserProfile = () => {
                       xl: "0px 1px 8px 0px rgba(0,0,0,0.12)",
                     },
 
-                    // transformOrigin:
-                    //   "top left" /* Define o ponto de origem da transformação */,
-                    // transform: "scale(0.99)",
+                    marginTop: {
+                      xs: "-24%",
+                      sm: "-24%",
+                      md: "0%",
+                      lg: "0%",
+                      xl: "0%",
+                    },
                   }}
                 >
                   <Box>
@@ -768,13 +761,13 @@ const UserProfile = () => {
               </Grid>
               <Grid
                 item
-                xs={5}
+                xs={12}
                 md={8}
                 className="cards_grid_container"
                 sx={{
                   height: "100%",
-                  minWidth: "70%",
-                  paddingLeft: "0px !important",
+                  // minWidth: "70%",
+                  paddingLeft: "0",
                   marginTop: "0 !important",
                   paddingTop: "0 !important",
                   display: "flex",
@@ -784,10 +777,28 @@ const UserProfile = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "left",
+                    flexWrap: {
+                      xs: "wrap-reverse",
+                      sm: "wrap-reverse",
+                      md: "unset",
+                      lg: "unset",
+                      xl: "unset",
+                    },
+                    justifyContent: {
+                      xs: "center",
+                      sm: "center",
+                      md: "left",
+                      lg: "left",
+                      xl: "left",
+                    },
                     alignItems: "center",
-                    width: "100%",
-                    // marginLeft: { md: "3rem", lg: "3rem" },
+                    width: {
+                      xs: "360px",
+                      sm: "400px",
+                      md: "100%",
+                      lg: "100%",
+                      xl: "100%",
+                    },
                   }}
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
@@ -831,7 +842,13 @@ const UserProfile = () => {
                         onChange={handleInputChange}
                         onKeyPress={handleKeyPress}
                         sx={{
-                          width: 300,
+                          width: {
+                            xs: "300px",
+                            sm: "300px",
+                            md: "100%",
+                            lg: "100%",
+                            xl: "100%",
+                          },
                           marginRight: 2,
                         }}
                         InputProps={{
@@ -862,12 +879,18 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -879,12 +902,18 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -910,12 +939,18 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -927,12 +962,18 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -957,12 +998,18 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -973,12 +1020,18 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -1003,7 +1056,13 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
                             minHeight: "100vh",
                           }),
@@ -1013,7 +1072,13 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minHeight: "100vh",
                           }
@@ -1038,12 +1103,18 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
@@ -1054,13 +1125,19 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minHeight: "100vh",
                             minWidth: {
                               xs: "0",
                               sm: "0",
-                              md: "72rem",
+                              md: "57rem",
                               lg: "72rem",
                               xl: "72rem",
                             },
