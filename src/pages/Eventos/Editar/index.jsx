@@ -48,6 +48,7 @@ import getCroppedImg from "../../../utils/cropImage";
 import { toast } from "react-toastify";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
+import LocationModal from "../../../components/LocationModal";
 const Editar = () => {
   const { t } = useTranslation();
 
@@ -73,6 +74,8 @@ const Editar = () => {
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+
   const [loading, setLoading] = React.useState(false);
 
   const params = useParams();
@@ -167,6 +170,7 @@ const Editar = () => {
         if (+userInfo?.id !== +response.data.dados?.id_utilizador)
           return navigate("/");
         const data = response.data.dados;
+        const coordinates = response?.data?.coordenadas;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
 
@@ -190,6 +194,10 @@ const Editar = () => {
           local: {
             id: data?.id_geografia,
             nome: data?.local,
+            lat: coordinates ? coordinates?.latitude : null,
+            lng: coordinates ? coordinates?.longitude : null,
+            local: coordinates ? coordinates?.nome : null,
+            coordinateId: coordinates ? coordinates?.id : null,
           },
           id_utilizador: data.id_utilizador,
           proprietarios,
@@ -206,7 +214,8 @@ const Editar = () => {
   }, [id]);
 
   const handleLocationClick = (event) => {
-    setAnchorLocationEl(event.currentTarget);
+    setShowLocationModal(true);
+    // setAnchorLocationEl(event.currentTarget);
   };
 
   const handleDateClick = (event) => {
@@ -319,16 +328,64 @@ const Editar = () => {
           },
         }
       );
-      const postName = editedFieldValues?.nome || fieldValues?.nome;
-      let nome = postName.replaceAll("/", "_");
-      nome = nome.replaceAll(" ", "_");
+
       setLoading(false);
       if (response?.data?.dados !== "erro") {
+        if (newEvent.get("id_geografia")) {
+          const addedToMap = await editCoordinates(
+            fieldValues?.local,
+            response?.data?.dados
+          );
+
+          if (!addedToMap) {
+            toast.error("Erro ao editar coordenadas do evento!");
+          }
+        }
+
+        const postName = editedFieldValues?.nome || fieldValues?.nome;
+        let nome = postName.replaceAll("/", "_");
+        nome = nome.replaceAll(" ", "_");
         navigate(`/eventos/${+id}/${nome}`);
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
+    }
+  };
+
+  const editCoordinates = async (location, postId) => {
+    const locationData = objectToFormData(
+      {
+        id_coordenada: location?.coordinateId,
+        name: location?.local,
+        latitude: location?.lat,
+        longitude: location?.lng,
+        id_publicacao: "",
+        tipo_publicacao: "",
+      },
+      "",
+      true
+    );
+
+    try {
+      const response = await axiosInstance.post(
+        `/localizacao/adicionarLocalizacao`,
+        locationData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      setLoading(false);
+      if (response.status === 200) return true;
+      return false;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      return false;
     }
   };
 
@@ -515,6 +572,12 @@ const Editar = () => {
                 />
               </Box>
             </Tooltip>
+            <LocationModal
+              show={showLocationModal}
+              handleClose={() => setShowLocationModal(false)}
+              location={fieldValues?.local}
+              setLocation={(value) => handleChangeFieldValues("local", value)}
+            />
             <Popover
               id={locationPopoverId}
               open={openLocationPopover}

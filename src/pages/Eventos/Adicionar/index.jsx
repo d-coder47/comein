@@ -48,8 +48,6 @@ import {
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
 import { validatePost } from "../../../utils/postValidation";
-import Cropper from "react-easy-crop";
-import axios from "axios";
 import getCroppedImg from "../../../utils/cropImage";
 import { toast } from "react-toastify";
 import { imgApiPath } from "../../../api/apiPath";
@@ -326,7 +324,7 @@ const Adicionar = () => {
           fieldValues?.local,
           response?.data?.dados
         );
-        console.log({ addedToMap });
+
         if (!addedToMap) {
           toast.error("Erro ao adicionar coordenadas do evento!");
         }
@@ -343,6 +341,7 @@ const Adicionar = () => {
   const addCoordinates = async (location, postId) => {
     const locationData = objectToFormData(
       {
+        id_coordenada: 0,
         name: location?.local,
         latitude: location?.lat,
         longitude: location?.lng,
