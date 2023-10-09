@@ -403,9 +403,15 @@ const EditProfile = () => {
       <div className="edit_profile_container">
         <Box
           sx={{
-            backgroundColor: "#f8f8f8",
+            background: "#f8f8f8",
 
-            padding: "2rem",
+            padding: {
+              xs: "0",
+              sm: "0",
+              md: "2rem",
+              lg: "2rem",
+              xl: "2rem",
+            },
             height: "100vh",
           }}
         >
