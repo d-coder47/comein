@@ -60,9 +60,9 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             disableCloseOnSelect
             renderInput={(params) => (
               <TextField
+                size="small"
                 required
                 label="Cidade do Evento"
-                size="small"
                 helperText={false ? "Cidade do evento é obrigatória" : null}
                 error={
                   location?.nome?.length === 0 ? false : location?.id === 0
