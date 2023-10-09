@@ -356,9 +356,16 @@ const UserProfile = () => {
         {pageUserInfo && (
           <Box
             sx={{
-              padding: "2rem",
+              padding: {
+                xs: "0",
+                sm: "0",
+                md: "2rem",
+                lg: "2rem",
+                xl: "2rem",
+              },
               minHeight: "100vh",
               background: "#f8f8f8",
+              display: "block",
             }}
           >
             <Grid
@@ -366,9 +373,31 @@ const UserProfile = () => {
               container
               spacing={2}
               sx={{
-                // paddingRight: "220px",
                 display: "flex",
-                justifyContent: "flex-end",
+                justifyContent: {
+                  xs: "center",
+                  sm: "center",
+                  md: "flex-end",
+                  lg: "flex-end",
+                  xl: "flex-end",
+                },
+                alignItems: {
+                  xs: "center",
+                  sm: "center",
+                  md: "none",
+                  lg: "none",
+                  xl: "none",
+                },
+                flexDirection: "row",
+                minWidth: "100%",
+                maxWidth: "100%",
+                marginLeft: {
+                  xs: "0",
+                  sm: "0",
+                  md: "-16px",
+                  lg: "-16px",
+                  xl: "-16px",
+                },
               }}
             >
               <Grid
@@ -381,20 +410,83 @@ const UserProfile = () => {
                   ...(isSmallScreen
                     ? {}
                     : {
-                        position: "fixed",
-                        top: scrolled > 0 ? "0%" : "20%",
-                        left: "3%",
-                        transformOrigin: "top left",
-                        transform: "scale(0.88)",
+                        position: {
+                          xs: "unset",
+                          sm: "unset",
+                          md: "fixed",
+                          lg: "fixed",
+                          xl: "fixed",
+                        },
+                        top: {
+                          xs: "25%",
+                          sm: "25%",
+                          md: scrolled > 0 ? "0%" : "20%",
+                          lg: scrolled > 0 ? "0%" : "20%",
+                          xl: scrolled > 0 ? "0%" : "20%",
+                        },
+                        left: {
+                          md: "3%",
+                          lg: "3%",
+                          xl: "3%",
+                        },
+                        paddingLeft: {
+                          xs: "0 !important",
+                          sm: "0 !important",
+                          md: "16px",
+                          lg: "16px",
+                          xl: "16px",
+                        },
+                        transformOrigin: {
+                          md: "top left",
+                          lg: "top left",
+                          xl: "top left",
+                        },
+
+                        transform: {
+                          md: "scale(0.88)",
+                          lg: "scale(0.88)",
+                          xl: "scale(0.88)",
+                        },
                       }),
                   // Styles for small displays
                   ...(isSmallScreen
                     ? {
-                        position: "fixed",
-                        top: scrolled > 0 ? "0%" : "20%",
-                        left: "3%",
-                        transformOrigin: "top left",
-                        transform: "scale(0.74)",
+                        position: {
+                          xs: "unset",
+                          sm: "unset",
+                          md: "fixed",
+                          lg: "fixed",
+                          xl: "fixed",
+                        },
+                        top: {
+                          xs: "25%",
+                          sm: "25%",
+                          md: scrolled > 0 ? "0%" : "20%",
+                          lg: scrolled > 0 ? "0%" : "20%",
+                          xl: scrolled > 0 ? "0%" : "20%",
+                        },
+                        left: {
+                          md: "3%",
+                          lg: "3%",
+                          xl: "3%",
+                        },
+                        paddingLeft: {
+                          xs: "0 !important",
+                          sm: "0 !important",
+                          md: "16px",
+                          lg: "16px",
+                          xl: "16px",
+                        },
+                        transformOrigin: {
+                          md: "top left",
+                          lg: "top left",
+                          xl: "top left",
+                        },
+                        transform: {
+                          md: "scale(0.74)",
+                          lg: "scale(0.74)",
+                          xl: "scale(0.74)",
+                        },
                       }
                     : {}),
                 }}
@@ -409,10 +501,30 @@ const UserProfile = () => {
                     alignItems: "center",
                     minWidth: "350px !important",
                     minHeight: "600px",
-                    marginBottom: "20px",
-                    // transformOrigin:
-                    //   "top left" /* Define o ponto de origem da transformação */,
-                    // transform: "scale(0.99)",
+                    // marginBottom: "20px",
+                    background: {
+                      xs: "none",
+                      sm: "none",
+                      md: "#fff",
+                      lg: "#fff",
+                      xl: "#fff",
+                    },
+
+                    boxShadow: {
+                      xs: "none",
+                      sm: "none",
+                      md: "0px 1px 8px 0px rgba(0,0,0,0.12)",
+                      lg: "0px 1px 8px 0px rgba(0,0,0,0.12)",
+                      xl: "0px 1px 8px 0px rgba(0,0,0,0.12)",
+                    },
+
+                    marginTop: {
+                      xs: "-24%",
+                      sm: "-24%",
+                      md: "0%",
+                      lg: "0%",
+                      xl: "0%",
+                    },
                   }}
                 >
                   <Box>
@@ -649,27 +761,44 @@ const UserProfile = () => {
               </Grid>
               <Grid
                 item
-                xs={5}
+                xs={12}
                 md={8}
                 className="cards_grid_container"
                 sx={{
                   height: "100%",
-                  minWidth: "70%",
-                  paddingLeft: "0px !important",
+                  // minWidth: "70%",
+                  paddingLeft: "0",
                   marginTop: "0 !important",
                   paddingTop: "0 !important",
                   display: "flex",
                   flexDirection: "column",
-                  // justifyContent: "center",
                 }}
               >
                 <Box
                   sx={{
                     display: "flex",
-                    justifyContent: "left",
+                    flexWrap: {
+                      xs: "wrap-reverse",
+                      sm: "wrap-reverse",
+                      md: "unset",
+                      lg: "unset",
+                      xl: "unset",
+                    },
+                    justifyContent: {
+                      xs: "center",
+                      sm: "center",
+                      md: "left",
+                      lg: "left",
+                      xl: "left",
+                    },
                     alignItems: "center",
-                    width: "100%",
-                    // marginLeft: { md: "3rem", lg: "3rem" },
+                    width: {
+                      xs: "360px",
+                      sm: "400px",
+                      md: "100%",
+                      lg: "100%",
+                      xl: "100%",
+                    },
                   }}
                 >
                   <Tabs value={selectedTab} onChange={handleTabChange}>
@@ -713,7 +842,13 @@ const UserProfile = () => {
                         onChange={handleInputChange}
                         onKeyPress={handleKeyPress}
                         sx={{
-                          width: 300,
+                          width: {
+                            xs: "300px",
+                            sm: "300px",
+                            md: "100%",
+                            lg: "100%",
+                            xl: "100%",
+                          },
                           marginRight: 2,
                         }}
                         InputProps={{
@@ -744,9 +879,21 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -755,9 +902,21 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
@@ -780,9 +939,21 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -791,9 +962,21 @@ const UserProfile = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             flexDirection: "column",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
@@ -815,9 +998,21 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -825,9 +1020,21 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}
@@ -849,7 +1056,13 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
                             minHeight: "100vh",
                           }),
@@ -859,7 +1072,13 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "flex-start",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minHeight: "100vh",
                           }
@@ -884,9 +1103,21 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.88)",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }),
                       // Styles for small displays
                       ...(isSmallScreen
@@ -894,10 +1125,22 @@ const UserProfile = () => {
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            transformOrigin: "top left",
+                            transformOrigin: {
+                              xs: "top center",
+                              sm: "top center",
+                              md: "top left",
+                              lg: "top left",
+                              xl: "top left",
+                            },
                             transform: "scale(0.74)",
                             minHeight: "100vh",
-                            minWidth: "72rem",
+                            minWidth: {
+                              xs: "0",
+                              sm: "0",
+                              md: "57rem",
+                              lg: "72rem",
+                              xl: "72rem",
+                            },
                           }
                         : {}),
                     }}

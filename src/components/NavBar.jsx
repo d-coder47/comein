@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./navBar.css";
 import Typography from "@mui/material/Typography";
 import {
   Avatar,
@@ -142,7 +141,13 @@ const NavBar = () => {
         onClick={() => navigate("/")}
         sx={{
           marginLeft: "1rem",
-          width: "8rem",
+          width: {
+            xs: "5rem",
+            sm: "8rem",
+            md: "8rem",
+            lg: "8rem",
+            xl: "8rem",
+          },
           height: "auto",
           objectFit: "cover",
           cursor: "pointer",
@@ -163,7 +168,7 @@ const NavBar = () => {
           },
         }}
       >
-        <Box display="flex">
+        <Box display={authenticated ? "flex" : "none"}>
           <Tooltip title={t("homepage.notifications")}>
             <IconButton
               size="small"
@@ -197,7 +202,13 @@ const NavBar = () => {
           defaultValue={i18n.language}
           onChange={handleTranslationChange}
           sx={{
-            height: "2rem",
+            height: {
+              xs: "1.5rem",
+              sm: "2rem",
+              md: "2rem",
+              lg: "2rem",
+              xl: "2rem",
+            },
             color: (theme) => theme.palette.primary.main,
             ".MuiOutlinedInput-input": {
               display: "flex",
@@ -316,7 +327,15 @@ const NavBar = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem className="userInfo" onClick={handleProfileClick}>
+              <MenuItem
+                className="userInfo"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                }}
+                onClick={handleProfileClick}
+              >
                 <Avatar
                   src={
                     userData.login_from === "google"
@@ -394,7 +413,13 @@ const NavBar = () => {
             <Button
               sx={{
                 marginRight: "0.5rem",
-                height: "2rem",
+                height: {
+                  xs: "1.5rem",
+                  sm: "2rem",
+                  md: "2rem",
+                  lg: "2rem",
+                  xl: "2rem",
+                },
                 textTransform: "capitalize",
                 // fontWeight: "bold",
                 color: (theme) => theme.palette.primary.contrastText,
@@ -408,7 +433,13 @@ const NavBar = () => {
             <Button
               sx={{
                 marginRight: "1rem",
-                height: "2rem",
+                height: {
+                  xs: "1.5rem",
+                  sm: "2rem",
+                  md: "2rem",
+                  lg: "2rem",
+                  xl: "2rem",
+                },
                 textTransform: "capitalize",
               }}
               onClick={handleCadastrarClick}
