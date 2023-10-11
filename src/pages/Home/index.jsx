@@ -21,6 +21,7 @@ export default function Home() {
 
     if (isAuthenticated) {
       if (isFirstLogin?.vx_login == 0) {
+        // if (isFirstLogin?.vx_login == 1) {
         setShowLocationModal(true);
       }
     }
@@ -85,7 +86,10 @@ export default function Home() {
       />
       <MapButton />
       {showLocationModal ? (
-        <AddLocationModal show={true} handleClose={() => {}} />
+        <AddLocationModal
+          show={true}
+          handleClose={() => setShowLocationModal(false)}
+        />
       ) : null}
     </Box>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -13,31 +13,21 @@ import musicIcon from "../../assets/svg/musica.svg";
 import { statesData } from "./data";
 import teatroIcon from "../../assets/svg/teatro.svg";
 
-const center = [16.890455072287708, -24.98754235360934];
-const center1 = [16.87965920177269, -24.990839680879148];
-
-function LocationMarker() {
-  const [position, setPosition] = useState(null);
-  const map = useMapEvents({
-    click(location) {
-      console.log(location);
-      setPosition(location.latlng);
-      // map.locate();
-    },
-    // locationfound(e) {
-    //   setPosition(e.latlng);
-    //   map.flyTo(e.latlng, map.getZoom());
-    // },
-  });
-
-  return position === null ? null : (
-    <Marker position={position}>
-      <Popup>You are here</Popup>
-    </Marker>
-  );
-}
+// const center = [16.890455072287708, -24.98754235360934];
+// const center1 = [16.87965920177269, -24.990839680879148];
 
 export default function Leaflet() {
+  const [center, setCenter] = useState([
+    16.890455072287708, -24.98754235360934,
+  ]);
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (!userInfo) {
+      return;
+    }
+    setCenter([userInfo?.latitude, userInfo?.longitude]);
+  }, []);
+
   const customIcon = L.icon({
     iconUrl: musicIcon,
     iconSize: [40, 40],
@@ -59,8 +49,7 @@ export default function Leaflet() {
       {/* <LocationMarker /> */}
 
       <Marker position={center}>
-        {/* Optionally, you can add a Popup component to display additional information */}
-        <Popup> Test </Popup>
+        <Popup> Teste </Popup>
       </Marker>
 
       {/* 

@@ -13,14 +13,13 @@ import { useMediaQuery, useTheme } from "@mui/material";
 
 const center = [16.890455072287708, -24.98754235360934];
 
-function LocationMarker({ handlePositionChange, handleFullPositionChange }) {
+function LocationMarker({ handlePositionChange }) {
   const [position, setPosition] = useState(null);
   const map = useMapEvents({
     click(location) {
       console.log(location);
       if (location?.latlng) {
         setPosition(location?.latlng);
-        handleFullPositionChange(location?.latlng);
         handlePositionChange(location?.latlng);
       }
       // map.locate();
