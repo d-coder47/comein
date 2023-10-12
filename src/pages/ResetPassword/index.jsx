@@ -65,7 +65,7 @@ export default function ResetPassword() {
     async function fetchData() {
       const verfify_res = await verifyForgotPassEmailLink(email, key);
       if (!verfify_res.dados) {
-        navigate("/");
+        // navigate("/");
       }
     }
     fetchData();
@@ -122,7 +122,7 @@ export default function ResetPassword() {
       sx={{
         width: "100vw",
         height: "100vh",
-        background: "#f3f3f3",
+        background: "#ffffe0",
 
         display: "flex",
         justifyContent: "center",

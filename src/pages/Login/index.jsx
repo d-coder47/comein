@@ -117,7 +117,8 @@ export default function Login() {
     }
 
     if (!showForgotPassEmailError) {
-      const send_email_res = await sendForgotPassEmail(forgotPassEmail);
+      const link = window.location.origin + "/resetar-palavra-passe";
+      const send_email_res = await sendForgotPassEmail(forgotPassEmail, link);
 
       if (send_email_res === 200) {
         toast.success(t("loginPage.sucessoEnviarMail"));

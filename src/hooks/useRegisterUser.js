@@ -131,10 +131,11 @@ const useRegisterUser = () => {
     }
   };
 
-  const sendForgotPassEmail = async (email) => {
+  const sendForgotPassEmail = async (email, link) => {
     try {
       const params = new URLSearchParams({
         email,
+        link,
       }).toString();
 
       const response = await axiosInstance.post(
