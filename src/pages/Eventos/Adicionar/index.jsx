@@ -48,12 +48,11 @@ import {
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
 import { validatePost } from "../../../utils/postValidation";
-import Cropper from "react-easy-crop";
-import axios from "axios";
 import getCroppedImg from "../../../utils/cropImage";
 import { toast } from "react-toastify";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
+import LocationModal from "../../../components/LocationModal";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -71,7 +70,7 @@ const Adicionar = () => {
     imagem: null,
     imgEventoRecortada: null,
     descricao: ``,
-    local: { id: 0, nome: "" },
+    local: { id: null, nome: "", local: null, lat: null, lng: null },
     proprietarios: [],
     areasCulturais: [],
     assoc_projeto: [],
@@ -80,6 +79,7 @@ const Adicionar = () => {
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -112,7 +112,8 @@ const Adicionar = () => {
   ];
 
   const handleLocationClick = (event) => {
-    setAnchorLocationEl(event.currentTarget);
+    setShowLocationModal(true);
+    // setAnchorLocationEl(event.currentTarget);
   };
 
   const handleDateClick = (event) => {
@@ -275,7 +276,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    console.log({ fieldValues });
     setLoading(true);
     const newEvent = {
       id_utilizador: user.id,
@@ -320,6 +320,14 @@ const Adicionar = () => {
         );
       }
       if (response?.data?.dados !== "erro") {
+        const addedToMap = await addCoordinates(
+          fieldValues?.local,
+          response?.data?.dados
+        );
+
+        if (!addedToMap) {
+          toast.error("Erro ao adicionar coordenadas do evento!");
+        }
         let nome = fieldValues.nome.replaceAll("/", "_");
         nome = nome.replaceAll(" ", "_");
         navigate(`/eventos/${+response?.data?.dados}/${nome}`);
@@ -327,6 +335,42 @@ const Adicionar = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
+    }
+  };
+
+  const addCoordinates = async (location, postId) => {
+    const locationData = objectToFormData(
+      {
+        id_coordenada: 0,
+        name: location?.local,
+        latitude: location?.lat,
+        longitude: location?.lng,
+        id_publicacao: postId,
+        tipo_publicacao: "E",
+      },
+      "",
+      true
+    );
+
+    try {
+      const response = await axiosInstance.post(
+        `/localizacao/adicionarLocalizacao`,
+        locationData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      setLoading(false);
+      if (response.status === 200) return true;
+      return false;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      return false;
     }
   };
 
@@ -517,6 +561,12 @@ const Adicionar = () => {
                 />
               </Box>
             </Tooltip>
+            <LocationModal
+              show={showLocationModal}
+              handleClose={() => setShowLocationModal(false)}
+              location={fieldValues?.local}
+              setLocation={(value) => handleChangeFieldValues("local", value)}
+            />
             <Popover
               id={locationPopoverId}
               open={openLocationPopover}

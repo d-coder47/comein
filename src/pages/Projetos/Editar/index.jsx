@@ -42,6 +42,7 @@ import {
 import getCroppedImg from "../../../utils/cropImage";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
+import LocationModal from "../../../components/LocationModal";
 
 const Editar = () => {
   const { t } = useTranslation();
@@ -53,7 +54,7 @@ const Editar = () => {
     nome: "",
     imagem: null,
     descricao: ``,
-    local: { id: 0, nome: "" },
+    local: { id: null, nome: "", local: null, lat: null, lng: null },
     proprietarios: [],
     areasCulturais: [],
   });
@@ -61,6 +62,8 @@ const Editar = () => {
   const [users, setUsers] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+
   const [loading, setLoading] = React.useState(false);
 
   const params = useParams();
@@ -93,7 +96,8 @@ const Editar = () => {
   ];
 
   const handleLocationClick = (event) => {
-    setAnchorLocationEl(event.currentTarget);
+    setShowLocationModal(true);
+    // setAnchorLocationEl(event.currentTarget);
   };
 
   const handleCulturalAreaClick = (event) => {
@@ -152,6 +156,7 @@ const Editar = () => {
         if (+userInfo?.id !== +response.data.dados?.id_utilizador)
           return navigate("/");
         const data = response.data.dados;
+        const coordinates = response?.data?.coordenadas;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
         // const assoc_evento = response.data.evento_assoc;
@@ -167,13 +172,15 @@ const Editar = () => {
         setFieldValues({
           id,
           nome: data.nome,
-          // data_inicio: data.data_inicio,
-          // data_fim: data.data_fim,
           imagem: `${imgApiPath}/projetosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
             id: data?.id_geografia,
             nome: data?.localProjeto,
+            lat: coordinates ? coordinates?.latitude : null,
+            lng: coordinates ? coordinates?.longitude : null,
+            local: coordinates ? coordinates?.nome : null,
+            coordinateId: coordinates ? coordinates?.id : null,
           },
           id_utilizador: data.id_utilizador,
           proprietarios,
@@ -265,6 +272,17 @@ const Editar = () => {
       setLoading(false);
 
       if (response?.data?.dados !== "erro") {
+        if (newProject.get("id_geografia")) {
+          const addedToMap = await editCoordinates(
+            fieldValues?.local,
+            response?.data?.dados
+          );
+
+          if (!addedToMap) {
+            toast.error("Erro ao editar coordenadas do projeto!");
+          }
+        }
+
         let nome = postName.replaceAll("/", "_");
         nome = postName.replaceAll(" ", "_");
         navigate(`/projetos/${+id}/${nome}`);
@@ -272,6 +290,42 @@ const Editar = () => {
     } catch (error) {
       console.error(error);
       setLoading(false);
+    }
+  };
+
+  const editCoordinates = async (location, postId) => {
+    const locationData = objectToFormData(
+      {
+        id_coordenada: location?.coordinateId,
+        name: location?.local,
+        latitude: location?.lat,
+        longitude: location?.lng,
+        id_publicacao: "",
+        tipo_publicacao: "",
+      },
+      "",
+      true
+    );
+
+    try {
+      const response = await axiosInstance.post(
+        `/localizacao/adicionarLocalizacao`,
+        locationData,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
+      setLoading(false);
+      if (response.status === 200) return true;
+      return false;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      return false;
     }
   };
 
@@ -459,6 +513,12 @@ const Editar = () => {
                 />
               </Box>
             </Tooltip>
+            <LocationModal
+              show={showLocationModal}
+              handleClose={() => setShowLocationModal(false)}
+              location={fieldValues?.local}
+              setLocation={(value) => handleChangeFieldValues("local", value)}
+            />
             <Popover
               id={locationPopoverId}
               open={openLocationPopover}
