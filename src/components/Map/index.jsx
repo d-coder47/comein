@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Polygon,
-  Marker,
-  Popup,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
 import musicIcon from "../../assets/svg/musica.svg";
-import { statesData } from "./data";
-import teatroIcon from "../../assets/svg/teatro.svg";
+import axiosInstance from "../../api/axiosInstance";
+import { LocationOn } from "@mui/icons-material";
+import { Box } from "@mui/material";
 
 // const center = [16.890455072287708, -24.98754235360934];
 // const center1 = [16.87965920177269, -24.990839680879148];
@@ -20,11 +14,34 @@ export default function Leaflet() {
   const [center, setCenter] = useState([
     16.890455072287708, -24.98754235360934,
   ]);
+  const [coordinates, setCoordinates] = useState([]);
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) {
       return;
     }
+
+    const getAllCoordinates = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/localizacao/obterLocalizacoes`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setCoordinates(response.data.dados || []);
+      } catch (error) {
+        console.error(error);
+        getAllCoordinates([]);
+      }
+    };
+
+    getAllCoordinates();
     setCenter([userInfo?.latitude, userInfo?.longitude]);
   }, []);
 
@@ -34,6 +51,12 @@ export default function Leaflet() {
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   });
+
+  const styles = {
+    popup: {
+      textAlign: "center",
+    },
+  };
 
   return (
     <MapContainer
@@ -47,10 +70,22 @@ export default function Leaflet() {
       />
 
       {/* <LocationMarker /> */}
-
+      {/* 
       <Marker position={center}>
         <Popup> Teste </Popup>
-      </Marker>
+      </Marker> */}
+
+      {coordinates?.map((item) => (
+        <Marker position={[item?.latitude, item?.longitude]}>
+          <Popup className={styles.popup}>
+            {item?.titulo_publicacao}
+            <br />
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <LocationOn fontSize="1rem" /> {item?.nome}
+            </Box>
+          </Popup>
+        </Marker>
+      ))}
 
       {/* 
                 statesData.features.map((state)=>{
