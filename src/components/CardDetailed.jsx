@@ -30,6 +30,10 @@ import { useTranslation } from "react-i18next";
 import { imgApiPath } from "../api/apiPath";
 import { toast } from "react-toastify";
 import { redirectToProfilePage } from "../utils/generateUrl";
+import {
+  defaultDateToCVDateFormat,
+  defaultDatetimeToCVDateFormat,
+} from "../utils/dates";
 
 const CardDetailed = () => {
   const params = useParams();
@@ -760,7 +764,7 @@ const DetailedInfo = ({
   location,
   description,
   dateStart,
-  dateEnd,
+  dateEnd = "",
 }) => {
   const { t } = useTranslation();
   return (
@@ -779,14 +783,22 @@ const DetailedInfo = ({
           <Box>
             <Typography display="flex" gap=".5rem" fontWeight="bold">
               {t("cardDetailed.startDate")}{" "}
-              {<Typography fontWeight="normal">{dateStart}</Typography>}
+              {
+                <Typography fontWeight="normal">
+                  {defaultDatetimeToCVDateFormat(dateStart)}
+                </Typography>
+              }
             </Typography>
           </Box>
-          {dateEnd !== "1900-01-01 23:59:59" ? (
+          {!dateEnd.startsWith("1900") ? (
             <Box>
               <Typography display="flex" gap=".5rem" fontWeight="bold">
                 {t("cardDetailed.endDate")}{" "}
-                {<Typography fontWeight="normal">{dateEnd}</Typography>}
+                {
+                  <Typography fontWeight="normal">
+                    {defaultDatetimeToCVDateFormat(dateEnd)}
+                  </Typography>
+                }
               </Typography>
             </Box>
           ) : null}
@@ -815,7 +827,9 @@ const DetailedProgram = ({ programs = [] }) => {
               width="100%"
             >
               {program?.data !== "1900-01-01" ? (
-                <Typography mx="auto">{program?.data}</Typography>
+                <Typography mx="auto">
+                  {defaultDateToCVDateFormat(program?.data)}
+                </Typography>
               ) : null}
               <Avatar
                 src={`${imgApiPath}/programa_eventosImg/${program?.imagem}`}

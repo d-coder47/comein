@@ -281,7 +281,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    setLoading(true);
     const newEvent = {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
@@ -307,6 +306,7 @@ const Adicionar = () => {
   };
 
   const createEvent = async (newEvent) => {
+    setLoading(true);
     try {
       const response = await axiosInstance.post(`/eventos/criar`, newEvent, {
         headers: {
