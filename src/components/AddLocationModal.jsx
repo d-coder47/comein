@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import LocationMap from "./Map/LocationMap";
 import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-toastify";
+import useWindowDimensions from "../hooks/useWindowDimensions";
 
 const AddLocationModal = ({ show, handleClose }) => {
   const [location, setLocation] = useState(null);
@@ -84,6 +85,7 @@ const AddLocationModal = ({ show, handleClose }) => {
           borderRadius: ".25rem",
           boxShadow: 24,
           p: 4,
+          overflowY: "auto",
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
