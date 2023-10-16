@@ -175,14 +175,16 @@ export default function CustomizedAutoComplete({
     <Root>
       <div style={{ margin: ".25rem", minWidth: "10rem" }} {...getRootProps()}>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
-          {value.map((option, index) => (
-            <Typography fontWeight="normal" fontSize=".8rem">
-              <StyledTag
-                label={option.nome !== null ? option.nome : option.email}
-                {...getTagProps({ index })}
-              />
-            </Typography>
-          ))}
+          {value
+            .filter((item) => item.nome !== null)
+            .map((option, index) => (
+              <Typography fontWeight="normal" fontSize=".8rem">
+                <StyledTag
+                  label={option.nome !== null ? option.nome : option.email}
+                  {...getTagProps({ index })}
+                />
+              </Typography>
+            ))}
           {/* {value.length === 0 ? (
             <Typography>Proprietários Associados</Typography>
           ) : null} */}

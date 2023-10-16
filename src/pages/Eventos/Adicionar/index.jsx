@@ -71,7 +71,7 @@ const Adicionar = () => {
     imgEventoRecortada: null,
     descricao: ``,
     local: { id: null, nome: "", local: null, lat: null, lng: null },
-    proprietarios: [],
+    proprietarios: { id: 0, nome: "" },
     areasCulturais: [],
     assoc_projeto: [],
   });
@@ -151,7 +151,12 @@ const Adicionar = () => {
           }
         );
 
-        setUsers(response.data.dados || []);
+        const newUsers = response?.data?.dados.filter(
+          (user) => user.nome !== null
+        );
+        console.log(newUsers);
+
+        setUsers(newUsers);
       } catch (error) {
         console.error(error);
         setUsers([]);
@@ -466,18 +471,39 @@ const Adicionar = () => {
                     gap: ".25rem",
                     alignItems: "center",
                     flexGrow: 1,
+                    pt: ".5rem",
                   }}
                 >
                   <Typography fontWeight="bold" fontSize="0.9rem">
                     {t("eventPage.common.associatedOwners")}
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
-                  <CustomizedAutoComplete
+                  {/* <CustomizedAutoComplete
                     data={users}
                     currentValue={fieldValues.proprietarios}
                     onAutoCompleteChange={(value) =>
                       handleChangeFieldValues("proprietarios", value)
                     }
+                  /> */}
+                  <Autocomplete
+                    id="users-auto-complete"
+                    options={users}
+                    sx={{ width: 200 }}
+                    disableCloseOnSelect
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    getOptionLabel={(option) => option?.nome}
+                    value={fieldValues.proprietarios}
+                    onChange={(_, value) => {
+                      handleChangeFieldValues("proprietarios", value);
+                    }}
+                    onInputChange={async (event, value) => {
+                      // if (value.length >= 2 && value.length <= 4) {
+                      // 	const res = await getAddresses(value);
+                      // 	setAddresses(res.dados);
+                      // }
+                    }}
                   />
                 </Box>
               </Box>

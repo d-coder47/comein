@@ -7,6 +7,21 @@ import axiosInstance from "../../api/axiosInstance";
 import { LocationOn } from "@mui/icons-material";
 import { Box } from "@mui/material";
 
+import L from "leaflet";
+import musicSvg from "../../assets/svg/musica.svg";
+
+const iconPerson = new L.Icon({
+  iconUrl: musicSvg,
+  iconRetinaUrl: musicSvg,
+  iconAnchor: null,
+  popupAnchor: [0, -20],
+  shadowUrl: null,
+  shadowSize: null,
+  shadowAnchor: null,
+  iconSize: new L.Point(40, 40),
+  // className: "leaflet-div-icon",
+});
+
 // const center = [16.890455072287708, -24.98754235360934];
 // const center1 = [16.87965920177269, -24.990839680879148];
 
@@ -76,6 +91,7 @@ export default function Leaflet() {
       </Marker> */}
 
       {coordinates?.map((item) => (
+        // <Marker icon={iconPerson} position={[item?.latitude, item?.longitude]}>
         <Marker position={[item?.latitude, item?.longitude]}>
           <Popup className={styles.popup}>
             {item?.titulo_publicacao}
