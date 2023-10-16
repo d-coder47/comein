@@ -112,6 +112,7 @@ export default function ResetPassword() {
       const res = await changeForgotPass(email, formData.newPassword);
       if (res.dados) {
         toast.success(t("editProfilePage.palavraPassAtualizadoSucesso"));
+        navigate("/login");
       } else {
         toast.error(t("editProfilePage.erroAtualizarPalavraPasse"));
       }
