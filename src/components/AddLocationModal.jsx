@@ -27,7 +27,6 @@ const AddLocationModal = ({ show, handleClose }) => {
   };
 
   const handleSave = async () => {
-    console.log(location);
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     const data = new FormData();
 

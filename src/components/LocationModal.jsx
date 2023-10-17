@@ -13,10 +13,14 @@ import useRegisterUser from "../hooks/useRegisterUser";
 const LocationModal = ({ show, handleClose, location, setLocation }) => {
   const { getAddresses } = useRegisterUser();
   const [addresses, setAddresses] = useState([]);
+  const [showErrors, setShowErrors] = useState(false);
+
   const validateLocation = () => {
-    if (location?.local?.length > 0) {
-      handleClose();
+    if (location?.nome?.length > 0) {
+      setShowErrors(false);
+      return handleClose();
     }
+    setShowErrors(true);
   };
 
   return (
@@ -38,6 +42,8 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
           borderRadius: ".25rem",
           boxShadow: 24,
           p: 4,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -58,15 +64,15 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             options={addresses}
             sx={{ width: 300 }}
             disableCloseOnSelect
+            size="small"
             renderInput={(params) => (
               <TextField
-                size="small"
                 required
                 label="Cidade do Evento"
-                helperText={false ? "Cidade do evento é obrigatória" : null}
-                error={
-                  location?.nome?.length === 0 ? false : location?.id === 0
+                helperText={
+                  showErrors ? "Cidade do evento é obrigatória" : null
                 }
+                error={showErrors}
                 {...params}
               />
             )}
@@ -74,6 +80,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             value={location}
             onChange={(_, value) => {
               setLocation({ ...location, ...value });
+              setShowErrors(false);
             }}
             onInputChange={async (event, value) => {
               if (value.length >= 2 && value.length <= 4) {
