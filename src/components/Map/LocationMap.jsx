@@ -61,22 +61,22 @@ export default function LocationMap({ currentLocation, handlePositionChange }) {
 
   const { height: h } = useWindowDimensions();
 
-  const height =
-    h > 1339
-      ? "80%"
-      : h > 1079
-      ? "84%"
-      : h > 999
-      ? "83%"
-      : h > 899
-      ? "82%"
-      : h > 799
-      ? "78%"
-      : h > 699
-      ? ""
-      : h > 599
-      ? "75%"
-      : "70%";
+  // const height =
+  //   h > 1339
+  //     ? "80%"
+  //     : h > 1079
+  //     ? "84%"
+  //     : h > 999
+  //     ? "83%"
+  //     : h > 899
+  //     ? "82%"
+  //     : h > 799
+  //     ? "78%"
+  //     : h > 699
+  //     ? ""
+  //     : h > 599
+  //     ? "75%"
+  //     : "70%";
 
   return (
     <MapContainer
@@ -84,7 +84,7 @@ export default function LocationMap({ currentLocation, handlePositionChange }) {
       zoom={12}
       style={{
         width: "100%",
-        height,
+        height: "inherit",
       }}
     >
       <TileLayer

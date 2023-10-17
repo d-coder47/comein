@@ -86,6 +86,8 @@ const AddLocationModal = ({ show, handleClose }) => {
           boxShadow: 24,
           p: 4,
           overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
