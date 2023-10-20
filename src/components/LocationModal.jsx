@@ -65,6 +65,13 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             sx={{ width: 300 }}
             disableCloseOnSelect
             size="small"
+            renderOption={(props, option) => {
+              return (
+                <li {...props} key={option.id}>
+                  {option.nome}
+                </li>
+              );
+            }}
             renderInput={(params) => (
               <TextField
                 required
@@ -83,9 +90,13 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
               setShowErrors(false);
             }}
             onInputChange={async (event, value) => {
-              if (value.length >= 2 && value.length <= 4) {
+              // if (value.length >= 2 && value.length <= 4) {
+              if (value.length >= 2) {
                 const res = await getAddresses(value);
-                setAddresses(res.dados);
+                if (res?.dados) {
+                  console.log(res.dados);
+                  setAddresses(res.dados);
+                }
               }
             }}
           />
