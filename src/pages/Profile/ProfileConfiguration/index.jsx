@@ -161,7 +161,17 @@ const ProfileConfiguration = () => {
                         width: "350px",
                       }),
                   // Styles for small displays
-                  ...(isSmallScreen ? { width: "330px" } : {}),
+                  ...(isSmallScreen
+                    ? {
+                        padding: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        minWidth: "400px",
+                        transformOrigin: "top center",
+                        transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
+                      }
+                    : {}),
                 }}
               >
                 <List
@@ -225,10 +235,12 @@ const ProfileConfiguration = () => {
                     // Styles for small displays
                     ...(isSmallScreen
                       ? {
-                          width: "330px",
-                          paddingTop: "10px",
-                          paddingLeft: "10px",
-                          height: "370px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          minWidth: "400px",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}
@@ -346,12 +358,12 @@ const ProfileConfiguration = () => {
                     // Styles for small displays
                     ...(isSmallScreen
                       ? {
-                          width: "330px",
-                          height: "350px",
-                          paddingTop: "10px",
-                          paddingLeft: "10px",
+                          display: "flex",
+                          flexDirection: "column",
                           alignItems: "center",
-                          justifyContent: "center",
+                          minWidth: "430px",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}
@@ -503,10 +515,13 @@ const ProfileConfiguration = () => {
                     // Styles for small displays
                     ...(isSmallScreen
                       ? {
-                          width: "330px",
-                          height: "350px",
-                          paddingTop: "10px",
-                          paddingLeft: "10px",
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          minWidth: "400px",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}
@@ -575,10 +590,13 @@ const ProfileConfiguration = () => {
                     // Styles for small displays
                     ...(isSmallScreen
                       ? {
-                          width: "330px",
-                          height: "350px",
-                          paddingLeft: "10px",
-                          paddingTop: "10px",
+                          padding: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          minWidth: "400px",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}

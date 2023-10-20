@@ -404,7 +404,6 @@ const EditProfile = () => {
         <Box
           sx={{
             background: "#f8f8f8",
-
             padding: {
               xs: "0",
               sm: "0",
@@ -412,7 +411,7 @@ const EditProfile = () => {
               lg: "2rem",
               xl: "2rem",
             },
-            height: "100vh",
+            height: "100%",
           }}
         >
           <Grid
@@ -447,7 +446,18 @@ const EditProfile = () => {
                       }),
 
                   // Styles for small displays
-                  ...(isMobileScreen ? { width: "350px" } : {}),
+                  ...(isMobileScreen
+                    ? {
+                        paddingTop: "10px",
+                        paddingLeft: "10px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: "100vw",
+                        transformOrigin: "top center",
+                        transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
+                      }
+                    : {}),
                 }}
               >
                 <List
@@ -502,9 +512,14 @@ const EditProfile = () => {
                     // Styles for small displays
                     ...(isMobileScreen
                       ? {
-                          width: "350px",
+                          width: "100vw",
                           paddingTop: "10px",
                           paddingLeft: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}
@@ -834,9 +849,14 @@ const EditProfile = () => {
                     // Styles for small displays
                     ...(isMobileScreen
                       ? {
-                          width: "350px",
                           paddingTop: "10px",
                           paddingLeft: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "100vw",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}
@@ -1039,11 +1059,14 @@ const EditProfile = () => {
                     // Styles for small displays
                     ...(isMobileScreen
                       ? {
-                          width: "350px",
-                          height: "350px",
                           paddingTop: "10px",
                           paddingLeft: "10px",
                           display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          width: "100vw",
+                          transformOrigin: "top center",
+                          transform: isSmallScreen ? "scale(0.88)" : "scale(1)",
                         }
                       : {}),
                   }}
