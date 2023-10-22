@@ -389,7 +389,6 @@ const Adicionar = () => {
         sx={{
           width: "100%",
           height: "100%",
-          // backgroundColor: "rgba(0,0,0,.3)",
         }}
       >
         <Box onClick={onGoBack} mr=".5rem" sx={{ float: "right" }}>
@@ -509,7 +508,16 @@ const Adicionar = () => {
                   src={fieldValues.imagem || img}
                   alt={`Adicionar imagem`}
                   variant="square"
-                  sx={{ width: "45rem", height: "auto" }}
+                  sx={{
+                    width: {
+                      xs: "20rem",
+                      sm: "20rem",
+                      md: "45rem",
+                      lg: "45rem",
+                      xl: "45rem",
+                    },
+                    height: "auto",
+                  }}
                   onClick={handleChangeImgClick}
                 />
               )}

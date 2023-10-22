@@ -520,7 +520,16 @@ const Editar = () => {
                   src={fieldValues.imagem || img}
                   alt={`Adicionar imagem`}
                   variant="square"
-                  sx={{ width: "45rem", height: "auto" }}
+                  sx={{
+                    width: {
+                      xs: "20rem",
+                      sm: "20rem",
+                      md: "45rem",
+                      lg: "45rem",
+                      xl: "45rem",
+                    },
+                    height: "auto",
+                  }}
                   onClick={handleChangeImgClick}
                 />
               )}
