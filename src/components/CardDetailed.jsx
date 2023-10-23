@@ -14,6 +14,7 @@ import {
   Star,
   ThumbUp,
   Close,
+  Add,
 } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
@@ -274,6 +275,8 @@ const CardDetailed = () => {
     if (!result) return;
     return setIsFavorite(false);
   };
+
+  const handleAddProgram = () => {};
 
   const onCloseModal = () => {
     if (localStorage.getItem("previousLocation") !== null) {
@@ -591,6 +594,42 @@ const CardDetailed = () => {
               </Badge>
             )}
           </IconButton>
+
+          {isOwner ? (
+            <Tooltip
+              title={t("cardDetailed.addSchedule")}
+              placement="left"
+              arrow
+            >
+              <Box
+                id="program"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={handleAddProgram}
+              >
+                <Add
+                  color="white"
+                  sx={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    color: "white",
+                  }}
+                />
+              </Box>
+            </Tooltip>
+          ) : null}
+
           <Tooltip
             title={
               isFavorite
