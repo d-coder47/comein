@@ -65,7 +65,7 @@ export default function ResetPassword() {
     async function fetchData() {
       const verfify_res = await verifyForgotPassEmailLink(email, key);
       if (!verfify_res.dados) {
-        // navigate("/");
+        navigate("/");
       }
     }
     fetchData();
@@ -143,12 +143,20 @@ export default function ResetPassword() {
           },
           display: "flex",
           flexDirection: "column",
-          width: "500px",
+          width: {
+            xs: "90%",
+            sm: "90%",
+            md: "500px",
+            lg: "500px",
+            xl: "500px",
+          },
           height: "400px",
           alignItems: "center",
           justifyContent: "center",
           background: "#fff",
           marginTop: "10px",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
         }}
         noValidate
         autoComplete="off"
@@ -178,6 +186,16 @@ export default function ResetPassword() {
         >
           <Box
             sx={{
+              "& .MuiTextField-root": {
+                m: 1,
+                width: {
+                  xs: "90%",
+                  sm: "90%",
+                  md: "40ch",
+                  lg: "40ch",
+                  xl: "40ch",
+                },
+              },
               marginTop: "20px",
             }}
           >
