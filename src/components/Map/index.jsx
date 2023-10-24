@@ -9,6 +9,7 @@ import { Box } from "@mui/material";
 
 import L from "leaflet";
 import musicSvg from "../../assets/svg/musica.svg";
+import { getItemIconByCategory } from "../../utils/map";
 
 const iconPerson = new L.Icon({
   iconUrl: musicSvg,
@@ -49,10 +50,18 @@ export default function Leaflet() {
           }
         );
 
-        setCoordinates(response.data.dados || []);
+        if (!response?.data?.dados) {
+          return setCoordinates([]);
+        }
+
+        const filteredCoordinates = response?.data?.dados.filter(
+          (item) => item.latitude !== "null"
+        );
+
+        setCoordinates(filteredCoordinates);
       } catch (error) {
         console.error(error);
-        getAllCoordinates([]);
+        setCoordinates([]);
       }
     };
 
@@ -66,6 +75,15 @@ export default function Leaflet() {
     iconAnchor: [20, 40],
     popupAnchor: [0, -40],
   });
+
+  const getCustomIcon = (culturalArea) => {
+    return L.icon({
+      iconUrl: getItemIconByCategory(culturalArea),
+      iconSize: [40, 40],
+      iconAnchor: [20, 40],
+      popupAnchor: [0, -40],
+    });
+  };
 
   const styles = {
     popup: {
@@ -90,9 +108,13 @@ export default function Leaflet() {
         <Popup> Teste </Popup>
       </Marker> */}
 
-      {coordinates?.map((item) => (
+      {coordinates?.map((item, index) => (
         // <Marker icon={iconPerson} position={[item?.latitude, item?.longitude]}>
-        <Marker position={[item?.latitude, item?.longitude]}>
+        <Marker
+          icon={getCustomIcon(item.areas_culturais)}
+          key={index}
+          position={[item?.latitude, item?.longitude]}
+        >
           <Popup className={styles.popup}>
             {item?.titulo_publicacao}
             <br />
