@@ -24,6 +24,7 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 import {
   cleanPost,
+  cleanProgram,
   extractDateFromLocalDateTime,
   extractHourFromLocalDateTime,
   filterEndDate,
@@ -50,6 +51,7 @@ const Editar = () => {
     descricao: ``,
     local: { id: null, nome: "", local: null },
   });
+  const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
 
@@ -69,6 +71,9 @@ const Editar = () => {
 
   const handleChangeFieldValues = (key, value) => {
     setFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+    setEditedFieldValues((prev) => {
       return { ...prev, [key]: value };
     });
   };
@@ -109,7 +114,7 @@ const Editar = () => {
           descricao: data.descricao,
           local: {
             id: data?.id_geografia,
-            nome: data?.cidadePrograma,
+            nome: data?.nome_geografia,
             local: data?.local,
           },
           id_utilizador: data.id_utilizador,
@@ -151,39 +156,39 @@ const Editar = () => {
   };
 
   const handleSave = () => {
-    console.log(fieldValues);
+    console.log(editedFieldValues);
     const newEvent = {
-      idUser: user.id,
-      idEvento: id,
-      titulo: fieldValues?.nome,
-      imagemPrograma: fieldValues?.imgEvento,
-      descricaoPrograma: fieldValues?.descricao,
-      data: extractDateFromLocalDateTime(fieldValues?.data_inicio),
-      hora: extractHourFromLocalDateTime(fieldValues?.data_inicio),
-      hora_fim: filterEndDate(fieldValues?.data_fim),
-      id_geografia: fieldValues?.local?.id,
-      localPrograma: fieldValues?.local?.local,
+      // idUser: user.id,
+      // idEvento: idPrograma,
+      titulo: editedFieldValues?.nome,
+      imagemPrograma: editedFieldValues?.imgEvento,
+      descricao: editedFieldValues?.descricao,
+      data: extractDateFromLocalDateTime(editedFieldValues?.data_inicio),
+      hora: extractHourFromLocalDateTime(editedFieldValues?.data_inicio),
+      hora_fim: filterEndDate(editedFieldValues?.data_fim),
+      idGeografia: editedFieldValues?.local?.id,
+      local: editedFieldValues?.local?.local,
     };
 
     console.log(newEvent);
 
-    const values = cleanPost(newEvent, true);
-    const body = objectToFormData(values, user.id, true);
+    const values = cleanProgram(newEvent, false);
+    const body = objectToFormData(values, user.id, false);
 
-    createEvent(body);
+    editProgram(body);
 
     // const isValid = validatePost(newEvent, true);
 
     // if (isValid) {
-    //   createEvent(body);
+    //   editProgram(body);
     // }
   };
 
-  const createEvent = async (newEvent) => {
+  const editProgram = async (newEvent) => {
     setLoading(true);
     try {
       const response = await axiosInstance.post(
-        `/programaEvento/criar`,
+        `/programaEvento/atualizar/${idPrograma}`,
         newEvent,
         {
           headers: {

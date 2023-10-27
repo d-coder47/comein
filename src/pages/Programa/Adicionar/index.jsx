@@ -125,16 +125,16 @@ const Adicionar = () => {
     const values = cleanPost(newEvent, true);
     const body = objectToFormData(values, user.id, true);
 
-    createEvent(body);
+    addProgram(body);
 
     // const isValid = validatePost(newEvent, true);
 
     // if (isValid) {
-    //   createEvent(body);
+    //   addProgram(body);
     // }
   };
 
-  const createEvent = async (newEvent) => {
+  const addProgram = async (newEvent) => {
     setLoading(true);
     try {
       const response = await axiosInstance.post(

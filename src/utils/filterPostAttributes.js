@@ -94,3 +94,12 @@ export const cleanPost = (post, isAdding = true) => {
   });
   return post;
 };
+
+export const cleanProgram = (post, isAdding = true) => {
+  Object.keys(post).forEach((key) => {
+    if (!isAdding && (post[key] === null || post[key] === undefined)) {
+      delete post[key];
+    }
+  });
+  return post;
+};
