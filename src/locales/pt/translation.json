@@ -202,7 +202,9 @@
     "associatedProjects": "Projeto Associado",
     "publisherInteractionNotAllowed": "Para interagir com o promotor primeiro deve efetuar o login",
     "postInteractionNotAllowed": "Para interagir com a publicacão primeiro deve efetuar o login",
-    "addSchedule": "Adicionar Programa"
+    "addSchedule": "Adicionar Programa",
+    "editSchedule": "Editar Programa",
+    "removeSchedule": "Remover Programa"
   },
   "eventPage": {
     "common": {

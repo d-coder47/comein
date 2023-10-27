@@ -24,6 +24,7 @@ import useRegisterUser from "../../../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
 import {
   cleanPost,
+  cleanProgram,
   extractDateFromLocalDateTime,
   extractHourFromLocalDateTime,
   filterEndDate,
@@ -115,14 +116,14 @@ const Adicionar = () => {
       descricaoPrograma: fieldValues?.descricao,
       data: extractDateFromLocalDateTime(fieldValues?.data_inicio),
       hora: extractHourFromLocalDateTime(fieldValues?.data_inicio),
-      hora_fim: filterEndDate(fieldValues?.data_fim),
+      // hora_fim: filterEndDate(fieldValues?.data_fim),
       idGeografia: fieldValues?.local?.id,
       localPrograma: fieldValues?.local?.local,
     };
 
     console.log(newEvent);
 
-    const values = cleanPost(newEvent, true);
+    const values = cleanProgram(newEvent, true);
     const body = objectToFormData(values, user.id, true);
 
     addProgram(body);
@@ -149,7 +150,7 @@ const Adicionar = () => {
         }
       );
       if (response?.data?.status !== "error") {
-        // return onGoBack();
+        return onGoBack();
         // let nome = fieldValues.nome.replaceAll("/", "_");
         // nome = nome.replaceAll(" ", "_");
         // navigate(`/eventos/${+response?.data?.dados}/${nome}`);

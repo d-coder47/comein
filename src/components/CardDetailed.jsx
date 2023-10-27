@@ -15,6 +15,8 @@ import {
   ThumbUp,
   Close,
   Add,
+  Edit,
+  Delete,
 } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
@@ -276,7 +278,34 @@ const CardDetailed = () => {
     return setIsFavorite(false);
   };
 
-  const handleAddProgram = () => {};
+  const handleAddProgram = () => {
+    navigate(`/eventos/adicionar-programa/${id}`);
+  };
+
+  const handleRemoveProgram = async (programId) => {
+    const body = new FormData();
+    body.append("_method", "DELETE");
+    const response = await axiosInstance.post(
+      `/programaEvento/eliminar/${programId}`,
+      body,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          // Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response?.data?.dados !== "Dados foram excluidos com sucesso.") {
+      return toast.error("Ocorreu um erro ao remover programa.");
+    }
+    const newDetails = { ...details };
+    setDetails({
+      ...newDetails,
+      programa: newDetails.programa.filter(
+        (program) => program.id !== programId
+      ),
+    });
+  };
 
   const onCloseModal = () => {
     if (localStorage.getItem("previousLocation") !== null) {
@@ -512,7 +541,10 @@ const CardDetailed = () => {
               dateStart={details?.dados?.data_inicio}
               dateEnd={details?.dados?.data_fim}
             />
-            <DetailedProgram programs={details?.programa} />
+            <DetailedProgram
+              programs={details?.programa}
+              handleRemoveProgram={handleRemoveProgram}
+            />
             <DetailedOther others={details?.outros} />
             <DetailedImages images={details?.imagens} type={type} />
             <DetailedRelated
@@ -847,8 +879,21 @@ const DetailedInfo = ({
   );
 };
 
-const DetailedProgram = ({ programs = [] }) => {
+const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  console.log({ programs });
+  const handleEditProgram = (programId) => {
+    navigate(`/eventos/editar-programa/${programId}`);
+  };
+
+  const getEndHour = (program) => {
+    if (program?.hora_fim === "23:59:59") {
+      return "";
+    }
+    return ` - ${program?.hora_fim}`;
+  };
+
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       {programs.length > 0 ? (
@@ -857,7 +902,7 @@ const DetailedProgram = ({ programs = [] }) => {
           <Typography fontWeight="bold" textTransform="uppercase">
             {t("cardDetailed.program")}
           </Typography>
-          {programs?.map((program, index) => (
+          {programs?.map((program) => (
             <Box
               key={program?.id}
               display="flex"
@@ -877,7 +922,74 @@ const DetailedProgram = ({ programs = [] }) => {
                 sx={{ width: "100%", height: "auto" }}
               />
               <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-                <Typography fontWeight="bold">{program?.titulo}</Typography>
+                <Box display="flex" gap=".5rem">
+                  <Typography fontWeight="bold">{program?.titulo}</Typography>
+                  <Tooltip
+                    title={t("cardDetailed.editSchedule")}
+                    placement="top"
+                    arrow
+                  >
+                    <Box
+                      id="edit-program"
+                      sx={{
+                        marginLeft: "auto",
+                        borderRadius: "50%",
+                        height: "1.5rem",
+                        width: "1.5rem",
+                        backgroundColor: (theme) => theme.palette.primary.main,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        "&:hover": {
+                          opacity: 0.8,
+                        },
+                      }}
+                      onClick={() => handleEditProgram(program?.id)}
+                    >
+                      <Edit
+                        color="white"
+                        sx={{
+                          width: "1rem",
+                          height: "1rem",
+                          color: "white",
+                        }}
+                      />
+                    </Box>
+                  </Tooltip>
+                  <Tooltip
+                    title={t("cardDetailed.removeSchedule")}
+                    placement="top"
+                    arrow
+                  >
+                    <Box
+                      id="remove-program"
+                      sx={{
+                        borderRadius: "50%",
+                        height: "1.5rem",
+                        width: "1.5rem",
+                        backgroundColor: "red",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        "&:hover": {
+                          opacity: 0.8,
+                        },
+                      }}
+                      onClick={() => handleRemoveProgram(program?.id)}
+                    >
+                      <Delete
+                        color="white"
+                        sx={{
+                          width: "1rem",
+                          height: "1rem",
+                          color: "white",
+                        }}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Box>
                 {program?.local?.length > 0 ? (
                   <Box>
                     <Typography display="flex" gap=".5rem" fontWeight="bold">
@@ -896,7 +1008,7 @@ const DetailedProgram = ({ programs = [] }) => {
                       {t("cardDetailed.hour")}{" "}
                       {
                         <Typography fontWeight="normal">
-                          {program?.hora}
+                          {program?.hora} {getEndHour(program)}
                         </Typography>
                       }
                     </Typography>
@@ -908,6 +1020,12 @@ const DetailedProgram = ({ programs = [] }) => {
                   </Typography>
                 </Box>
               </Box>
+              <ReactQuill
+                style={{ margin: "0 1rem" }}
+                theme="bubble"
+                value={program?.descricao}
+                readOnly
+              />
             </Box>
           ))}{" "}
         </>
@@ -1043,3 +1161,38 @@ const DetailedRelated = ({ related, type }) => {
 };
 
 export default CardDetailed;
+
+const editorModules = {
+  toolbar: [
+    [{ size: [] }],
+    [{ align: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image", "video"],
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+};
+
+const editorFormats = [
+  "font",
+  "size",
+  "align",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];

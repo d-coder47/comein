@@ -202,7 +202,9 @@
     "associatedProjects": "Associated Project",
     "publisherInteractionNotAllowed": "To interact with the promoter you must log in",
     "postInteractionNotAllowed": "To interact with the post you must log in",
-    "addSchedule": "Add Program"
+    "addSchedule": "Add Program",
+    "editSchedule": "Edit Program",
+    "removeSchedule": "Remove Program"
   },
   "eventPage": {
     "common": {
