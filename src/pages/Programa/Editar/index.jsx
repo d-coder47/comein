@@ -27,16 +27,17 @@ import {
   extractDateFromLocalDateTime,
   extractHourFromLocalDateTime,
   filterEndDate,
+  generateLocalDateTime,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
 import { toast } from "react-toastify";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 
-const Adicionar = () => {
+const Editar = () => {
   const { t } = useTranslation();
   const params = useParams();
-  const { id } = params;
+  const { idPrograma } = params;
 
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
@@ -78,6 +79,50 @@ const Adicionar = () => {
     setUser(userInfo);
   }, []);
 
+  useEffect(() => {
+    if (!idPrograma) return navigate("/");
+    const getEventDetails = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/programaEvento/listar/${idPrograma}`,
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              // Authorization:
+              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            },
+          }
+        );
+
+        if (!response?.data?.dados) return navigate("/");
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        if (+userInfo?.id !== +response.data.dados?.id_utilizador)
+          return navigate("/");
+        const data = response.data.dados;
+
+        const newData = {
+          id: idPrograma,
+          nome: data.titulo,
+          data_inicio: generateLocalDateTime(data.data, data.hora),
+          data_fim: data.hora_fim,
+          imagem: `${imgApiPath}/programa_eventosImg/${data.imagem}`,
+          descricao: data.descricao,
+          local: {
+            id: data?.id_geografia,
+            nome: data?.cidadePrograma,
+            local: data?.local,
+          },
+          id_utilizador: data.id_utilizador,
+        };
+
+        setFieldValues(newData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getEventDetails();
+  }, [idPrograma]);
+
   const openLocationPopover = Boolean(anchorLocationEl);
   const locationPopoverId = open ? "location-popover" : undefined;
 
@@ -116,7 +161,7 @@ const Adicionar = () => {
       data: extractDateFromLocalDateTime(fieldValues?.data_inicio),
       hora: extractHourFromLocalDateTime(fieldValues?.data_inicio),
       hora_fim: filterEndDate(fieldValues?.data_fim),
-      idGeografia: fieldValues?.local?.id,
+      id_geografia: fieldValues?.local?.id,
       localPrograma: fieldValues?.local?.local,
     };
 
@@ -148,8 +193,8 @@ const Adicionar = () => {
           },
         }
       );
-      if (response?.data?.status !== "error") {
-        // return onGoBack();
+      if (response?.data?.dados !== "erro") {
+        onGoBack();
         // let nome = fieldValues.nome.replaceAll("/", "_");
         // nome = nome.replaceAll(" ", "_");
         // navigate(`/eventos/${+response?.data?.dados}/${nome}`);
@@ -505,7 +550,7 @@ const Adicionar = () => {
   );
 };
 
-export default Adicionar;
+export default Editar;
 
 const editorModules = {
   toolbar: [

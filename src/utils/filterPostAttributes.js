@@ -23,6 +23,21 @@ export const objectToFormData = (object, userId, isAdding = false) => {
   return formData;
 };
 
+export const generateLocalDateTime = (date, time) => {
+  if (!date || !time) return null;
+  return `${date} ${time}`;
+};
+
+export const extractDateFromLocalDateTime = (date) => {
+  if (!date) return null;
+  return date.split("T")[0];
+};
+
+export const extractHourFromLocalDateTime = (date) => {
+  if (!date) return null;
+  return date.split("T")[1] + ":00";
+};
+
 export const filterStartDate = (date) => {
   if (!date) return null;
   return date.length === 16 ? date + ":00" : date;
@@ -30,7 +45,7 @@ export const filterStartDate = (date) => {
 
 export const filterEndDate = (date) => {
   if (!date) return null;
-  return date.length === 16 ? date + ":00" : date;
+  return date.length === 16 || date.length === 5 ? date + ":00" : date;
 };
 
 export const filterCulturalAreas = (culturalAreas = []) => {
