@@ -160,9 +160,6 @@ export default function Login() {
     if (formData.password.trim() === "") {
       errors.password = t("registerpage.passwordObrigatorio");
       setShowPasswordError(true);
-    } else if (formData.password.length < 6) {
-      errors.password = t("registerpage.passwordTamanho");
-      setShowPasswordError(true);
     } else {
       setShowPasswordError(false);
       setFormErrors({

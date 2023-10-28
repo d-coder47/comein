@@ -106,11 +106,13 @@ const usePosts = () => {
   };
 
   const favoritePost = async (userId, postId, postType) => {
+    console.log("hello 2");
     try {
       const body = new FormData();
       body.append("id_utilizador", userId);
       body.append("id_publicacao", postId);
       body.append("type", postType);
+      const token = localStorage.getItem("token");
 
       const response = await axiosInstance.post(
         `/favoritos/addFavoritos`,
@@ -118,8 +120,7 @@ const usePosts = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
