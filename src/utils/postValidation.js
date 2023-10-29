@@ -1,89 +1,88 @@
 import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
 
-const validateName = (name) => {
-  if (!name || name === undefined || name?.length === 0) {
-    toast.error(t("postValidationsErrors.nomeObrigatorio"));
-    return false;
-  }
-  return true;
-};
+export const validatePost = (values, isEvent, translatedStrings) => {
+  const validateName = (name) => {
+    if (!name || name === undefined || name?.length === 0) {
+      toast.error(translatedStrings[0]);
+      return false;
+    }
+    return true;
+  };
 
-const validateImage = (image) => {
-  if (!image || image === undefined) {
-    toast.error(t("postValidationsErrors.imagemObrigatorio"));
-    return false;
-  }
-  return true;
-};
+  const validateImage = (image) => {
+    if (!image || image === undefined) {
+      toast.error(translatedStrings[1]);
+      return false;
+    }
+    return true;
+  };
 
-const validateLocation = (local) => {
-  if (!local || local === undefined || local?.length === 0 || local === 0) {
-    toast.error(t("postValidationsErrors.localObrigatorio"));
-    return false;
-  }
-  return true;
-};
+  const validateLocation = (local) => {
+    if (!local || local === undefined || local?.length === 0 || local === 0) {
+      toast.error(translatedStrings[2]);
+      return false;
+    }
+    return true;
+  };
 
-const validateStartDate = (startDate) => {
-  if (!startDate || startDate === undefined || startDate?.length === 0) {
-    toast.error(t("postValidationsErrors.dataInicioObrigatorio"));
-    return false;
-  }
+  const validateStartDate = (startDate) => {
+    if (!startDate || startDate === undefined || startDate?.length === 0) {
+      toast.error(translatedStrings[3]);
+      return false;
+    }
 
-  if (!startDate.includes("T")) {
-    toast.error(t("postValidationsErrors.horaInicioObrigatorio"));
-    return false;
-  }
-  return true;
-};
+    if (!startDate.includes("T")) {
+      toast.error(translatedStrings[4]);
+      return false;
+    }
+    return true;
+  };
 
-const validateCulturalArea = (culturarArea) => {
-  if (
-    !culturarArea ||
-    culturarArea === undefined ||
-    culturarArea?.length === 0
-  ) {
-    toast.error(t("postValidationsErrors.areaCulturalObrigatorio"));
-    return false;
-  }
-  return true;
-};
+  const validateCulturalArea = (culturarArea) => {
+    if (
+      !culturarArea ||
+      culturarArea === undefined ||
+      culturarArea?.length === 0
+    ) {
+      toast.error(translatedStrings[5]);
+      return false;
+    }
+    return true;
+  };
 
-const isDatesValid = (startDate, endDate, isStartDateValid) => {
-  if (!isStartDateValid) return false;
-  if (!endDate) return true;
+  const isDatesValid = (startDate, endDate, isStartDateValid) => {
+    if (!isStartDateValid) return false;
+    if (!endDate) return true;
 
-  let date1;
-  let date2;
+    let date1;
+    let date2;
 
-  if (!endDate.includes("T")) {
-    const charIndex = startDate.indexOf("T");
+    if (!endDate.includes("T")) {
+      const charIndex = startDate.indexOf("T");
 
-    if (charIndex !== -1) {
-      const modifiedStartDateString = startDate.slice(0, charIndex);
+      if (charIndex !== -1) {
+        const modifiedStartDateString = startDate.slice(0, charIndex);
 
-      date1 = new Date(modifiedStartDateString).getTime();
+        date1 = new Date(modifiedStartDateString).getTime();
+        date2 = new Date(endDate).getTime();
+      }
+    } else {
+      date1 = new Date(startDate).getTime();
       date2 = new Date(endDate).getTime();
     }
-  } else {
-    date1 = new Date(startDate).getTime();
-    date2 = new Date(endDate).getTime();
-  }
 
-  if (date1 > date2) {
-    toast.error(t("postValidationsErrors.dataFimMaiorInicio"));
-    return false;
-  }
-  if (date1 == date2 && endDate.includes("T")) {
-    toast.error(t("postValidationsErrors.datasNaoPodemSerIguais"));
-    return false;
-  }
+    if (date1 > date2) {
+      toast.error(translatedStrings[6]);
+      return false;
+    }
+    if (date1 == date2 && endDate.includes("T")) {
+      toast.error(translatedStrings[7]);
+      return false;
+    }
 
-  return true;
-};
+    return true;
+  };
 
-export const validatePost = (values, isEvent) => {
   const successOnValidateName = validateName(values?.nome);
   const successOnValidateImage = validateImage(
     isEvent ? values?.imgEvento : values?.imgProjeto

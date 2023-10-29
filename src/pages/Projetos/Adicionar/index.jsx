@@ -98,6 +98,18 @@ const Adicionar = () => {
     { id: 16, name: t("categories.carnaval") },
   ];
 
+  // Translated strings
+  const validatePostTranslatedStrings = [
+    t("postValidationsErrors.nomeObrigatorio"),
+    t("postValidationsErrors.imagemObrigatorio"),
+    t("postValidationsErrors.localObrigatorio"),
+    t("postValidationsErrors.dataInicioObrigatorio"),
+    t("postValidationsErrors.horaInicioObrigatorio"),
+    t("postValidationsErrors.areaCulturalObrigatorio"),
+    t("postValidationsErrors.dataFimMaiorInicio"),
+    t("postValidationsErrors.datasNaoPodemSerIguais"),
+  ];
+
   const handleLocationClick = (event) => {
     setShowLocationModal(true);
     // setAnchorLocationEl(event.currentTarget);
@@ -205,7 +217,11 @@ const Adicionar = () => {
     const body = objectToFormData(values, user.id, true);
     console.log(body);
 
-    const isValid = validatePost(newProject, false);
+    const isValid = validatePost(
+      newProject,
+      false,
+      validatePostTranslatedStrings
+    );
 
     if (isValid) {
       createProject(body);
