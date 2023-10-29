@@ -240,6 +240,16 @@
       "imageSizeError": "Error, image is too big to be added, the image must be less than 5mb!"
     }
   },
+  "postValidationsErrors": {
+    "nomeObrigatorio": "Name is required!",
+    "imagemObrigatorio": "Image is required!",
+    "localObrigatorio": "Location is required!",
+    "dataInicioObrigatorio": "Start date is required!",
+    "horaInicioObrigatorio": "Start time is required!",
+    "areaCulturalObrigatorio": "Cultural area is required!",
+    "dataFimMaiorInicio": "End date cannot be greater than start date!",
+    "datasNaoPodemSerIguais": "Dates cannot be equal!"
+  },
   "shareModal": {
     "partilhePostRedeSociais": "Share on social networks",
     "copiarLigacao": "Copy Link"

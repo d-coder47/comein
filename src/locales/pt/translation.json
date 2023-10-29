@@ -240,6 +240,16 @@
       "imageSizeError": "Erro, imagem é muito grande para ser adicionado, a imagem deve ser menor que 5mb!"
     }
   },
+  "postValidationsErrors": {
+    "nomeObrigatorio": "Nome é obrigatório!",
+    "imagemObrigatorio": "Imagem é obrigatório!",
+    "localObrigatorio": "Local é obrigatório!",
+    "dataInicioObrigatorio": "Data de início é obrigatória!",
+    "horaInicioObrigatorio": "Hora de início é obrigatória!",
+    "areaCulturalObrigatorio": "Área cultural é obrigatória!",
+    "dataFimMaiorInicio": "Data de fim não pode ser maior que a data de início!",
+    "datasNaoPodemSerIguais": "Datas não podem ser iguais!"
+  },
   "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
     "copiarLigacao": "Copiar Ligação"

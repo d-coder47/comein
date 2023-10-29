@@ -62,6 +62,8 @@ const Editar = () => {
     nome: "",
     data_inicio: "",
     data_fim: "",
+    hora_inicio: "",
+    hora_fim: "",
     imagem: null,
     descricao: ``,
     local: "",
@@ -297,10 +299,25 @@ const Editar = () => {
     console.log({ editedFieldValues });
     setLoading(true);
 
+    let dataInicio;
+    let dataFim;
+
+    if (fieldValues?.hora_inicio === "") {
+      dataInicio = fieldValues?.data_inicio;
+    } else {
+      dataInicio = `${fieldValues?.data_inicio}T${fieldValues?.hora_inicio}`;
+    }
+
+    if (fieldValues?.hora_fim === "") {
+      dataFim = fieldValues?.data_fim;
+    } else {
+      dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
+    }
+
     const filteredFieldValues = {
       ...editedFieldValues,
-      data_inicio: filterStartDate(editedFieldValues?.data_inicio),
-      data_fim: filterEndDate(editedFieldValues?.data_fim),
+      data_inicio: filterStartDate(dataInicio),
+      data_fim: filterEndDate(dataFim),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(
@@ -662,8 +679,13 @@ const Editar = () => {
                 horizontal: "left",
               }}
             >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
-                <TextField
+              <Box
+                display="flex"
+                gap="1rem"
+                flexDirection="column"
+                justifyContent="space-between"
+              >
+                {/*  <TextField
                   id="date-start"
                   name="startDate"
                   type="datetime-local"
@@ -700,6 +722,78 @@ const Editar = () => {
                   onChange={(e) => {
                     handleChangeFieldValues("data_fim", e.target.value);
                     setAnchorDateEl(null);
+                  }}
+                /> */}
+                <TextField
+                  id="date-start"
+                  label={t("eventPage.common.startDate")}
+                  type="date"
+                  value={fieldValues.data_inicio}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("data_inicio", e.target.value);
+                  }}
+                />
+                <TextField
+                  id="time"
+                  label="Hora Inicio"
+                  type="time"
+                  value={fieldValues.hora_inicio}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("hora_inicio", e.target.value);
+                  }}
+                />
+                <TextField
+                  id="date-end"
+                  label={t("eventPage.common.endDate")}
+                  type="date"
+                  value={fieldValues.data_fim}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("data_fim", e.target.value);
+                  }}
+                />
+                <TextField
+                  id="time"
+                  label="Hora Fim"
+                  type="time"
+                  value={fieldValues.hora_fim}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("hora_fim", e.target.value);
                   }}
                 />
               </Box>

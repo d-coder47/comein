@@ -67,6 +67,8 @@ const Adicionar = () => {
     nome: "",
     data_inicio: "",
     data_fim: "",
+    hora_inicio: "",
+    hora_fim: "",
     imagem: null,
     imgEventoRecortada: null,
     descricao: ``,
@@ -281,6 +283,21 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
+    let dataInicio;
+    let dataFim;
+
+    if (fieldValues?.hora_inicio === "") {
+      dataInicio = fieldValues?.data_inicio;
+    } else {
+      dataInicio = `${fieldValues?.data_inicio}T${fieldValues?.hora_inicio}`;
+    }
+
+    if (fieldValues?.hora_fim === "") {
+      dataFim = fieldValues?.data_fim;
+    } else {
+      dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
+    }
+
     const newEvent = {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
@@ -288,8 +305,8 @@ const Adicionar = () => {
       imgEventoRecortada: fieldValues?.imgEventoRecortada,
       descricao: fieldValues?.descricao,
       id_geografia: fieldValues?.local?.id,
-      data_inicio: filterStartDate(fieldValues?.data_inicio),
-      data_fim: filterEndDate(fieldValues?.data_fim),
+      data_inicio: filterStartDate(dataInicio),
+      data_fim: filterEndDate(dataFim),
       areasCulturais: filterCulturalAreas(fieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
@@ -674,9 +691,10 @@ const Adicionar = () => {
                 display="flex"
                 gap="1rem"
                 justifyContent="space-between"
+                flexDirection="column"
                 p=".8rem"
               >
-                <TextField
+                {/* <TextField
                   id="date-start"
                   name="startDate"
                   type="datetime-local"
@@ -713,8 +731,82 @@ const Adicionar = () => {
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ format: "YYYYYY-MM-DDTHH:mm:ss" }}
                   onChange={(e) => {
+                    console.log(e.target.value);
                     handleChangeFieldValues("data_fim", e.target.value);
-                    setAnchorDateEl(null);
+                    // setAnchorDateEl(null);
+                  }}
+                /> */}
+
+                <TextField
+                  id="date-start"
+                  label={t("eventPage.common.startDate")}
+                  type="date"
+                  value={fieldValues.data_inicio}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("data_inicio", e.target.value);
+                  }}
+                />
+                <TextField
+                  id="time"
+                  label="Hora Inicio"
+                  type="time"
+                  value={fieldValues.hora_inicio}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("hora_inicio", e.target.value);
+                  }}
+                />
+                <TextField
+                  id="date-end"
+                  label={t("eventPage.common.endDate")}
+                  type="date"
+                  value={fieldValues.data_fim}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("data_fim", e.target.value);
+                  }}
+                />
+                <TextField
+                  id="time"
+                  label="Hora Fim"
+                  type="time"
+                  value={fieldValues.hora_fim}
+                  InputLabelProps={{ shrink: true }}
+                  sx={{
+                    height: "2rem",
+                    ".MuiInputBase-root": {
+                      height: "2rem",
+                      borderRadius: ".25rem",
+                    },
+                  }}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    handleChangeFieldValues("hora_fim", e.target.value);
                   }}
                 />
               </Box>

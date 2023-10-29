@@ -240,6 +240,16 @@
       "imageSizeError": "Erreur, l'image est trop grande pour être ajoutée!"
     }
   },
+  "postValidationsErrors": {
+    "nomeObrigatorio": "Le nom est obligatoire !",
+    "imagemObrigatorio": "L'image est obligatoire !",
+    "localObrigatorio": "L'emplacement est obligatoire !",
+    "dataInicioObrigatorio": "La date de début est obligatoire !",
+    "horaInicioObrigatorio": "L'heure de début est obligatoire !",
+    "areaCulturalObrigatorio": "La zone culturelle est obligatoire !",
+    "dataFimMaiorInicio": "La date de fin ne peut pas être supérieure à la date de début !",
+    "datasNaoPodemSerIguais": "Les dates ne peuvent pas être égales !"
+  },
   "shareModal": {
     "partilhePostRedeSociais": "Partagez sur vos réseaux sociaux",
     "copiarLigacao": "Copier le lien"
