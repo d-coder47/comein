@@ -9,7 +9,13 @@ const DisplayMap = () => {
   const navigate = useNavigate();
 
   return (
-    <Box id="map-container">
+    <Box
+      id="map-container"
+      sx={{
+        display: "flex",
+        justifyContent: "flex-end",
+      }}
+    >
       <Box
         id="map-header"
         sx={{
@@ -23,7 +29,7 @@ const DisplayMap = () => {
           },
           position: "fixed",
           zIndex: 9999,
-          width: "100%",
+          width: "95%",
         }}
       >
         <Avatar
@@ -32,7 +38,6 @@ const DisplayMap = () => {
           alt="Come In"
           onClick={() => navigate("/")}
           sx={{
-            marginLeft: "4rem",
             marginTop: "1rem",
             width: "8rem",
             height: "auto",
