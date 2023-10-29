@@ -985,6 +985,7 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
                           width: "1rem",
                           height: "1rem",
                           color: "white",
+                          backgroundColor: "#743600",
                         }}
                       />
                     </Box>
