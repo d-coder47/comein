@@ -118,10 +118,10 @@ const usePosts = () => {
         `/favoritos/addFavoritos`,
         body,
         {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${token}`,
-          },
+          // headers: {
+          //   "Content-Type": "application/x-www-form-urlencoded",
+          //   Authorization: `Bearer ${token}`,
+          // },
         }
       );
       if (response?.data?.dados.toLowerCase().includes("adicionado"))
