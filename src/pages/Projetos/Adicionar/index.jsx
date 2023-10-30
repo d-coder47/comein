@@ -108,6 +108,7 @@ const Adicionar = () => {
     t("postValidationsErrors.areaCulturalObrigatorio"),
     t("postValidationsErrors.dataFimMaiorInicio"),
     t("postValidationsErrors.datasNaoPodemSerIguais"),
+    t("postValidationsErrors.imagemRecortadaObrigatorio"),
   ];
 
   const handleLocationClick = (event) => {

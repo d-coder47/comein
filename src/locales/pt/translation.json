@@ -242,13 +242,14 @@
   },
   "postValidationsErrors": {
     "nomeObrigatorio": "Nome é obrigatório!",
-    "imagemObrigatorio": "Imagem é obrigatório!",
+    "imagemObrigatorio": "Imagem é obrigatória!",
     "localObrigatorio": "Local é obrigatório!",
     "dataInicioObrigatorio": "Data de início é obrigatória!",
     "horaInicioObrigatorio": "Hora de início é obrigatória!",
     "areaCulturalObrigatorio": "Área cultural é obrigatória!",
     "dataFimMaiorInicio": "Data de fim não pode ser maior que a data de início!",
-    "datasNaoPodemSerIguais": "Datas não podem ser iguais!"
+    "datasNaoPodemSerIguais": "Datas não podem ser iguais!",
+    "imagemRecortadaObrigatorio": "Imagem recortada é obrigatória!"
   },
   "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
