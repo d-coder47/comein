@@ -77,6 +77,7 @@ const Adicionar = () => {
     areasCulturais: [],
     assoc_projeto: [],
   });
+  const [owners, setOwners] = useState([]);
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
@@ -89,7 +90,7 @@ const Adicionar = () => {
 
   const navigate = useNavigate();
 
-  const { getAddresses } = useRegisterUser();
+  const { getAddresses, searchUsers } = useRegisterUser();
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -123,6 +124,7 @@ const Adicionar = () => {
     t("postValidationsErrors.areaCulturalObrigatorio"),
     t("postValidationsErrors.dataFimMaiorInicio"),
     t("postValidationsErrors.datasNaoPodemSerIguais"),
+    t("postValidationsErrors.imagemRecortadaObrigatorio"),
   ];
 
   const handleLocationClick = (event) => {
@@ -513,22 +515,31 @@ const Adicionar = () => {
                   /> */}
                   <Autocomplete
                     id="users-auto-complete"
-                    options={users}
+                    options={owners}
                     sx={{ width: 200 }}
                     disableCloseOnSelect
                     renderInput={(params) => (
-                      <TextField {...params} size="small" />
+                      <TextField {...params} size="small" variant="standard" />
                     )}
                     getOptionLabel={(option) => option?.nome}
+                    renderOption={(props, option) => {
+                      return (
+                        <li {...props} key={option.id}>
+                          {option.nome}
+                        </li>
+                      );
+                    }}
                     value={fieldValues.proprietarios}
                     onChange={(_, value) => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
-                      // if (value.length >= 2 && value.length <= 4) {
-                      // 	const res = await getAddresses(value);
-                      // 	setAddresses(res.dados);
-                      // }
+                      if (value.length >= 2) {
+                        const res = await searchUsers(value);
+                        setOwners(res.dados);
+                      } else {
+                        setOwners([]);
+                      }
                     }}
                   />
                 </Box>

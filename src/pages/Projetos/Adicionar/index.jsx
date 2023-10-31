@@ -52,6 +52,7 @@ import LocationModal from "../../../components/LocationModal";
 const Adicionar = () => {
   const { t } = useTranslation();
 
+  const [owners, setOwners] = useState([]);
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
   const [anchorCulturalAreaEl, setAnchorCulturalAreaEl] = useState(null);
@@ -60,7 +61,7 @@ const Adicionar = () => {
     imagem: null,
     descricao: ``,
     local: { id: null, nome: "", local: null, lat: null, lng: null },
-    proprietarios: [],
+    proprietarios: { id: 0, nome: "" },
     areasCulturais: [],
   });
   const [users, setUsers] = useState([]);
@@ -74,7 +75,7 @@ const Adicionar = () => {
 
   const navigate = useNavigate();
 
-  const { getAddresses } = useRegisterUser();
+  const { getAddresses, searchUsers } = useRegisterUser();
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -108,6 +109,7 @@ const Adicionar = () => {
     t("postValidationsErrors.areaCulturalObrigatorio"),
     t("postValidationsErrors.dataFimMaiorInicio"),
     t("postValidationsErrors.datasNaoPodemSerIguais"),
+    t("postValidationsErrors.imagemRecortadaObrigatorio"),
   ];
 
   const handleLocationClick = (event) => {
@@ -402,12 +404,41 @@ const Adicionar = () => {
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
 
-                  <CustomizedAutoComplete
+                  {/* <CustomizedAutoComplete
                     data={users}
                     currentValue={fieldValues.proprietarios}
                     onAutoCompleteChange={(value) =>
                       handleChangeFieldValues("proprietarios", value)
                     }
+                  /> */}
+                  <Autocomplete
+                    id="users-auto-complete"
+                    options={owners}
+                    sx={{ width: 200 }}
+                    disableCloseOnSelect
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" variant="standard" />
+                    )}
+                    getOptionLabel={(option) => option?.nome}
+                    renderOption={(props, option) => {
+                      return (
+                        <li {...props} key={option.id}>
+                          {option.nome}
+                        </li>
+                      );
+                    }}
+                    value={fieldValues.proprietarios}
+                    onChange={(_, value) => {
+                      handleChangeFieldValues("proprietarios", value);
+                    }}
+                    onInputChange={async (event, value) => {
+                      if (value.length >= 2) {
+                        const res = await searchUsers(value);
+                        setOwners(res.dados);
+                      } else {
+                        setOwners([]);
+                      }
+                    }}
                   />
                 </Box>
               </Box>

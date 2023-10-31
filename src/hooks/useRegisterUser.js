@@ -199,6 +199,23 @@ const useRegisterUser = () => {
     }
   };
 
+  const searchUsers = async (query, token) => {
+    try {
+      const response = await axiosInstance.get(
+        `/utilizadores/searchUser/${query}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const updateUser = async (
     formType,
     sexo,
@@ -268,6 +285,7 @@ const useRegisterUser = () => {
     sendForgotPassEmail,
     verifyForgotPassEmailLink,
     changeForgotPass,
+    searchUsers,
   };
 };
 

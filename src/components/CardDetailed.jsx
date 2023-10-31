@@ -834,7 +834,7 @@ const DetailedInfo = ({
   isEvent,
   location,
   description,
-  dateStart,
+  dateStart = "",
   dateEnd = "",
 }) => {
   const { t } = useTranslation();
@@ -968,7 +968,7 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
                         borderRadius: "50%",
                         height: "1.5rem",
                         width: "1.5rem",
-                        backgroundColor: "red",
+                        backgroundColor: "#743600",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -985,7 +985,6 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
                           width: "1rem",
                           height: "1rem",
                           color: "white",
-                          backgroundColor: "#743600",
                         }}
                       />
                     </Box>
@@ -1162,38 +1161,3 @@ const DetailedRelated = ({ related, type }) => {
 };
 
 export default CardDetailed;
-
-const editorModules = {
-  toolbar: [
-    [{ size: [] }],
-    [{ align: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["link", "image", "video"],
-  ],
-  clipboard: {
-    matchVisual: false,
-  },
-};
-
-const editorFormats = [
-  "font",
-  "size",
-  "align",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-  "video",
-];

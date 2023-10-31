@@ -248,7 +248,8 @@
     "horaInicioObrigatorio": "Start time is required!",
     "areaCulturalObrigatorio": "Cultural area is required!",
     "dataFimMaiorInicio": "End date cannot be greater than start date!",
-    "datasNaoPodemSerIguais": "Dates cannot be equal!"
+    "datasNaoPodemSerIguais": "Dates cannot be equal!",
+    "imagemRecortadaObrigatorio": "Cropped image is required!"
   },
   "shareModal": {
     "partilhePostRedeSociais": "Share on social networks",

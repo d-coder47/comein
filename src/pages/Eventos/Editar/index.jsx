@@ -67,11 +67,12 @@ const Editar = () => {
     imagem: null,
     descricao: ``,
     local: "",
-    proprietarios: [],
+    proprietarios: { id: 0, nome: "" },
     areasCulturais: [],
     assoc_projeto: "",
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
+  const [owners, setOwners] = useState([]);
   const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
@@ -85,7 +86,7 @@ const Editar = () => {
 
   const navigate = useNavigate();
 
-  const { getAddresses } = useRegisterUser();
+  const { getAddresses, searchUsers } = useRegisterUser();
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -535,12 +536,41 @@ const Editar = () => {
                     {t("eventPage.common.associatedOwners")}
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
-                  <CustomizedAutoComplete
+                  {/* <CustomizedAutoComplete
                     data={users}
                     currentValue={fieldValues.proprietarios}
                     onAutoCompleteChange={(value) =>
                       handleChangeFieldValues("proprietarios", value)
                     }
+                  /> */}
+                  <Autocomplete
+                    id="users-auto-complete"
+                    options={owners}
+                    sx={{ width: 200 }}
+                    disableCloseOnSelect
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" variant="standard" />
+                    )}
+                    getOptionLabel={(option) => option?.nome}
+                    renderOption={(props, option) => {
+                      return (
+                        <li {...props} key={option.id}>
+                          {option.nome}
+                        </li>
+                      );
+                    }}
+                    value={fieldValues.proprietarios}
+                    onChange={(_, value) => {
+                      handleChangeFieldValues("proprietarios", value);
+                    }}
+                    onInputChange={async (event, value) => {
+                      if (value.length >= 2) {
+                        const res = await searchUsers(value);
+                        setOwners(res.dados);
+                      } else {
+                        setOwners([]);
+                      }
+                    }}
                   />
                 </Box>
               </Box>
