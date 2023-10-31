@@ -834,7 +834,7 @@ const DetailedInfo = ({
   isEvent,
   location,
   description,
-  dateStart,
+  dateStart = "",
   dateEnd = "",
 }) => {
   const { t } = useTranslation();
@@ -1162,38 +1162,3 @@ const DetailedRelated = ({ related, type }) => {
 };
 
 export default CardDetailed;
-
-const editorModules = {
-  toolbar: [
-    [{ size: [] }],
-    [{ align: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["link", "image", "video"],
-  ],
-  clipboard: {
-    matchVisual: false,
-  },
-};
-
-const editorFormats = [
-  "font",
-  "size",
-  "align",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-  "video",
-];
