@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import {
   Avatar,
@@ -104,9 +104,9 @@ const ProfileCustomCard = ({
   likes,
   visits,
   picture,
-  publisherId,
+  // publisherId,
   publisherName,
-  publisherPhoto,
+  // publisherPhoto,
   type,
   isVisitor,
   onRefresh,
@@ -114,17 +114,17 @@ const ProfileCustomCard = ({
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
 
   const [openRemoveEventModal, setOpenRemoveEventModal] = React.useState(false);
 
-  const { removeFavoriteFromProject, deleteProject } = useProjects();
+  const { deleteProject } = useProjects();
 
-  const { removeFavoriteFromEvent, removeEvent, removeProjet } = useEvents();
+  const { removeEvent } = useEvents();
 
-  const { likePost, favoritePost } = usePosts();
+  // const { likePost, favoritePost } = usePosts();
 
   const { t } = useTranslation();
 
@@ -158,7 +158,7 @@ const ProfileCustomCard = ({
     localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
   };
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
 
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
@@ -288,67 +288,66 @@ const ProfileCustomCard = ({
     hasFavoritePost(user.id, id);
   }, [id]);
 
-  // useEffect(() => {
-  //   if (!publisherId || publisherId === undefined) return;
-  //   const getPublisherInfo = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(
-  //         `/utilizadores/obterUtilizador/${publisherId}`,
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/x-www-form-urlencoded",
-  //             // Authorization:
-  //             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-  //           },
-  //         }
-  //       );
-  //       const publisherData = response?.data?.dados || 0;
-  //       setPublisherInfo(publisherData);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  // const handleLike = async () => {
+  //   const user = JSON.parse(localStorage.getItem("userInfo"));
+  //   if (!user)
+  //     return (window.location.href = `http://${window.location.host}/registar`);
 
-  //   getPublisherInfo();
-  // }, [publisherId]);
+  //   const userId = user?.id;
 
-  const handleLike = async () => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (!user)
-      return (window.location.href = `http://${window.location.host}/registar`);
+  //   const result = await likePost(userId, id, type);
+  //   if (result === null) return null;
 
-    const userId = user?.id;
+  //   if (result) setIsLiked(true);
+  //   else setIsLiked(false);
+  // };
 
-    const result = await likePost(userId, id, type);
-    if (result === null) return null;
+  // const handleFavorite = async (favorite) => {
+  //   const user = JSON.parse(localStorage.getItem("userInfo"));
+  //   if (!user)
+  //     return (window.location.href = `http://${window.location.host}/registar`);
 
-    if (result) setIsLiked(true);
-    else setIsLiked(false);
-  };
+  //   const userId = user?.id;
 
-  const handleFavorite = async (favorite) => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (!user)
-      return (window.location.href = `http://${window.location.host}/registar`);
+  //   if (!favorite) {
+  //     const result = await favoritePost(userId, id, type);
+  //     if (!result) return;
+  //     return setIsFavorite(true);
+  //   }
 
-    const userId = user?.id;
+  //   let result;
+  //   if (type === "eventos") {
+  //     result = await removeFavoriteFromEvent(id, userId);
+  //   } else {
+  //     result = await removeFavoriteFromProject(id, userId);
+  //   }
 
-    if (!favorite) {
-      const result = await favoritePost(userId, id, type);
-      if (!result) return;
-      return setIsFavorite(true);
-    }
+  //   if (!result) return;
+  //   return setIsFavorite(false);
+  // };
 
-    let result;
-    if (type === "eventos") {
-      result = await removeFavoriteFromEvent(id, userId);
-    } else {
-      result = await removeFavoriteFromProject(id, userId);
-    }
+  /* Aspect Ratio 16:9 Configs */
+  const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
+  const containerMinusImageHeight = 48;
+  const containerRef = useRef();
+  const divider = 1.7778;
 
-    if (!result) return;
-    return setIsFavorite(false);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      if (!containerRef?.current) return;
+      setCurrentContainerWidth(containerRef.current.offsetWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef?.current) return;
+    setCurrentContainerWidth(containerRef.current.offsetWidth);
+  }, [containerRef.current]);
 
   if (isLoading) {
     return (
@@ -374,8 +373,14 @@ const ProfileCustomCard = ({
   return (
     <>
       <Box
+        id="card-container"
+        ref={containerRef}
         sx={{
-          height: "20rem",
+          height: `${
+            currentContainerWidth
+              ? currentContainerWidth / divider + containerMinusImageHeight
+              : 0
+          }px`,
         }}
         onMouseEnter={() => setDisplayInteraction("flex")}
         onMouseLeave={() => setDisplayInteraction("none")}
@@ -442,7 +447,9 @@ const ProfileCustomCard = ({
             onClick={handleOpen}
             sx={{
               width: "100%",
-              height: "17rem",
+              height: `${
+                currentContainerWidth ? currentContainerWidth / divider : 0
+              }px`,
               objectFit: "cover",
               "&:hover": {
                 cursor: "pointer",
@@ -551,7 +558,7 @@ const ProfileCustomCard = ({
           </Box>
         </Box>
 
-        <Modal
+        {/* <Modal
           id="card-details-modal"
           open={open}
           onClose={handleClose}
@@ -577,7 +584,7 @@ const ProfileCustomCard = ({
             picture={picture}
             isVisitor={isVisitor}
           />
-        </Modal>
+        </Modal> */}
         <Modal
           id="share-modal"
           open={openShareModal}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -52,6 +52,11 @@ const CustomCard = ({
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
+  const containerMinusImageHeight = 48;
+  const containerRef = useRef();
+  const divider = 1.7778;
 
   const { t } = useTranslation();
 
@@ -110,29 +115,22 @@ const CustomCard = ({
     setTimeout(() => setIsLoading(false), 1500);
   }, []);
 
-  // useEffect(() => {
-  //   if (!publisherId || publisherId === undefined) return;
-  //   const getPublisherInfo = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(
-  //         `/utilizadores/obterUtilizador/${publisherId}`,
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/x-www-form-urlencoded",
-  //             // Authorization:
-  //             //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-  //           },
-  //         }
-  //       );
-  //       const publisherData = response?.data?.dados || 0;
-  //       setPublisherInfo(publisherData);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleResize = () => {
+      if (!containerRef?.current) return;
+      setCurrentContainerWidth(containerRef.current.offsetWidth);
+    };
 
-  //   getPublisherInfo();
-  // }, [publisherId]);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial check
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef?.current) return;
+    setCurrentContainerWidth(containerRef.current.offsetWidth);
+  }, [containerRef.current]);
 
   if (isLoading) {
     return (
@@ -158,8 +156,14 @@ const CustomCard = ({
   return (
     <>
       <Box
+        id="card-container"
+        ref={containerRef}
         sx={{
-          height: "20rem",
+          height: `${
+            currentContainerWidth
+              ? currentContainerWidth / divider + containerMinusImageHeight
+              : 0
+          }px`,
         }}
       >
         <Box
@@ -178,7 +182,9 @@ const CustomCard = ({
             onClick={handleOpen}
             sx={{
               width: "100%",
-              height: "17rem",
+              height: `${
+                currentContainerWidth ? currentContainerWidth / divider : 0
+              }px`,
               objectFit: "cover",
               borderTopLeftRadius: ".25rem",
               borderTopRightRadius: ".25rem",
