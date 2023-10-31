@@ -168,7 +168,6 @@ const Adicionar = () => {
         const newUsers = response?.data?.dados.filter(
           (user) => user.nome !== null
         );
-        console.log(newUsers);
 
         setUsers(newUsers);
       } catch (error) {
@@ -189,7 +188,7 @@ const Adicionar = () => {
             },
           }
         );
-        console.log(typeof response.data.dados);
+
         if (response.data.dados === "null") {
           setProjects([]);
         } else {
@@ -285,7 +284,6 @@ const Adicionar = () => {
       0,
       fieldValues?.imgEvento?.type
     );
-    console.log("value", value);
 
     setFieldValues((prev) => {
       return { ...prev, ["imgEventoRecortada"]: value };
@@ -721,7 +719,6 @@ const Adicionar = () => {
                       },
                     }}
                     onChange={(e) => {
-                      console.log(e.target.value);
                       handleChangeFieldValues("data_inicio", e.target.value);
                     }}
                   />
@@ -739,7 +736,6 @@ const Adicionar = () => {
                       },
                     }}
                     onChange={(e) => {
-                      console.log(e.target.value);
                       handleChangeFieldValues("hora_inicio", e.target.value);
                     }}
                   />
@@ -760,7 +756,6 @@ const Adicionar = () => {
                       },
                     }}
                     onChange={(e) => {
-                      console.log(e.target.value);
                       handleChangeFieldValues("data_fim", e.target.value);
                     }}
                   />
@@ -778,7 +773,6 @@ const Adicionar = () => {
                       },
                     }}
                     onChange={(e) => {
-                      console.log(e.target.value);
                       handleChangeFieldValues("hora_fim", e.target.value);
                     }}
                   />
@@ -846,7 +840,6 @@ const Adicionar = () => {
                   )}
                   onChange={
                     (_, value) => {
-                      console.log(value);
                       handleCulturalAreaChange(value);
                     }
                     // handleChangeFieldValues("areasCulturais", value)

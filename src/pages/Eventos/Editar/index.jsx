@@ -354,9 +354,8 @@ const Editar = () => {
       ),
     };
 
-    console.log(editedFieldValues);
     const values = cleanPost(filteredFieldValues, false);
-    console.log(values);
+
     const body = objectToFormData(values, user.id);
 
     editEvent(body);
@@ -767,7 +766,6 @@ const Editar = () => {
                       },
                     }}
                     onChange={(e) => {
-                      console.log(e.target.value);
                       handleChangeFieldValues("data_fim", e.target.value);
                     }}
                   />
