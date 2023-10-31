@@ -968,7 +968,7 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
                         borderRadius: "50%",
                         height: "1.5rem",
                         width: "1.5rem",
-                        backgroundColor: "red",
+                        backgroundColor: "#743600",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -985,7 +985,6 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
                           width: "1rem",
                           height: "1rem",
                           color: "white",
-                          backgroundColor: "#743600",
                         }}
                       />
                     </Box>
