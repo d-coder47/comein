@@ -213,8 +213,6 @@ const Editar = () => {
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
 
-        console.log(resExtractEndDateAndTime);
-
         const newData = {
           id,
           nome: data.nome,
@@ -267,9 +265,11 @@ const Editar = () => {
     setFieldValues((prev) => {
       return { ...prev, [key]: value };
     });
-    setEditedFieldValues((prev) => {
-      return { ...prev, [key]: value };
-    });
+
+    if (key !== "hora_inicio" && key !== "hora_fim")
+      setEditedFieldValues((prev) => {
+        return { ...prev, [key]: value };
+      });
   };
 
   const openLocationPopover = Boolean(anchorLocationEl);
