@@ -6,6 +6,7 @@ import SearchBar from "../../components/SearchBar";
 import MapButton from "../../components/Map/MapButton";
 import { Box, LinearProgress } from "@mui/material";
 import AddLocationModal from "../../components/AddLocationModal";
+import UpdateUserInfoModal from "../../components/UpdateUserInfoModal";
 
 export default function Home() {
   const [category, setCategory] = useState("");
@@ -14,15 +15,20 @@ export default function Home() {
   const [localDateValues, setLocalDateValues] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showUpdateUserInfoModal, setShowUpdateUserInfoModal] = useState(false);
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("authenticated");
-    const isFirstLogin = JSON.parse(localStorage.getItem("userInfo"));
+    const userInfoData = JSON.parse(localStorage.getItem("userInfo"));
 
     if (isAuthenticated) {
       // if (isFirstLogin?.vx_login == 0) {
-      if (isFirstLogin?.vx_login == 1) {
+      if (userInfoData?.vx_login == 1) {
         setShowLocationModal(true);
+      }
+
+      if (userInfoData?.nome === "" && showLocationModal === false) {
+        setShowUpdateUserInfoModal(true);
       }
     }
   });
@@ -89,6 +95,13 @@ export default function Home() {
         <AddLocationModal
           show={true}
           handleClose={() => setShowLocationModal(false)}
+        />
+      ) : null}
+
+      {showUpdateUserInfoModal ? (
+        <UpdateUserInfoModal
+          show={true}
+          handleClose={() => setShowUpdateUserInfoModal(false)}
         />
       ) : null}
     </Box>

@@ -254,5 +254,9 @@
   "shareModal": {
     "partilhePostRedeSociais": "Share on social networks",
     "copiarLigacao": "Copy Link"
+  },
+  "udpateUserInfoModal": {
+    "title": "Add Your Name",
+    "description": "It seems your name is not configured. Please add your name so that you can be identified."
   }
 }

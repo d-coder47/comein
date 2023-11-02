@@ -31,6 +31,7 @@ const AppRoutes = () => {
             path="/editar-perfil/:userId/:userName"
             element={<EditProfile />}
           />
+          <Route path="/editar-perfil/:userId" element={<EditProfile />} />
           <Route path="/:type/:id/:name" element={<CardDetailed />} />
           <Route path="/eventos/adicionar" element={<AdicionarEvento />} />
           <Route path="/eventos/editar/:id" element={<EditarEvento />} />
