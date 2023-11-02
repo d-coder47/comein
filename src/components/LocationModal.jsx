@@ -47,10 +47,10 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Adicione a localização do evento
+          Localização do evento
         </Typography>
         <Typography id="modal-modal-description" sx={{ my: 2 }}>
-          Clique na posição do mapa onde será realizado o evento.
+          Clique para mapear o seu evento, e torná-lo mais accessível.
         </Typography>
         <LocationMap
           currentLocation={location}

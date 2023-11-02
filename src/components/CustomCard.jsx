@@ -353,7 +353,7 @@ const CustomCard = ({
                 mt="1rem"
               >
                 <Typography fontWeight="bold">
-                  {t("postCard.partilhePostRedeSociais")}
+                  {t("shareModal.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
@@ -417,7 +417,7 @@ const CustomCard = ({
                   variant="contained"
                   endIcon={<Link />}
                 >
-                  {t("postCard.copiarLigacao")}
+                  {t("shareModal.copiarLigacao")}
                 </Button>
               </Box>
             </Box>
