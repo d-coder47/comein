@@ -544,6 +544,7 @@ const CardDetailed = () => {
             <DetailedProgram
               programs={details?.programa}
               handleRemoveProgram={handleRemoveProgram}
+              isOwner={isOwner}
             />
             <DetailedOther others={details?.outros} />
             <DetailedImages images={details?.imagens} type={type} />
@@ -879,7 +880,7 @@ const DetailedInfo = ({
   );
 };
 
-const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
+const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   console.log({ programs });
@@ -924,71 +925,76 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram }) => {
               <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
                 <Box display="flex" gap=".5rem">
                   <Typography fontWeight="bold">{program?.titulo}</Typography>
-                  <Tooltip
-                    title={t("cardDetailed.editSchedule")}
-                    placement="top"
-                    arrow
-                  >
-                    <Box
-                      id="edit-program"
-                      sx={{
-                        marginLeft: "auto",
-                        borderRadius: "50%",
-                        height: "1.5rem",
-                        width: "1.5rem",
-                        backgroundColor: (theme) => theme.palette.primary.main,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        "&:hover": {
-                          opacity: 0.8,
-                        },
-                      }}
-                      onClick={() => handleEditProgram(program?.id)}
-                    >
-                      <Edit
-                        color="white"
-                        sx={{
-                          width: "1rem",
-                          height: "1rem",
-                          color: "white",
-                        }}
-                      />
-                    </Box>
-                  </Tooltip>
-                  <Tooltip
-                    title={t("cardDetailed.removeSchedule")}
-                    placement="top"
-                    arrow
-                  >
-                    <Box
-                      id="remove-program"
-                      sx={{
-                        borderRadius: "50%",
-                        height: "1.5rem",
-                        width: "1.5rem",
-                        backgroundColor: "#743600",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        "&:hover": {
-                          opacity: 0.8,
-                        },
-                      }}
-                      onClick={() => handleRemoveProgram(program?.id)}
-                    >
-                      <Delete
-                        color="white"
-                        sx={{
-                          width: "1rem",
-                          height: "1rem",
-                          color: "white",
-                        }}
-                      />
-                    </Box>
-                  </Tooltip>
+                  {isOwner ? (
+                    <>
+                      <Tooltip
+                        title={t("cardDetailed.editSchedule")}
+                        placement="top"
+                        arrow
+                      >
+                        <Box
+                          id="edit-program"
+                          sx={{
+                            marginLeft: "auto",
+                            borderRadius: "50%",
+                            height: "1.5rem",
+                            width: "1.5rem",
+                            backgroundColor: (theme) =>
+                              theme.palette.primary.main,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            "&:hover": {
+                              opacity: 0.8,
+                            },
+                          }}
+                          onClick={() => handleEditProgram(program?.id)}
+                        >
+                          <Edit
+                            color="white"
+                            sx={{
+                              width: "1rem",
+                              height: "1rem",
+                              color: "white",
+                            }}
+                          />
+                        </Box>
+                      </Tooltip>
+                      <Tooltip
+                        title={t("cardDetailed.removeSchedule")}
+                        placement="top"
+                        arrow
+                      >
+                        <Box
+                          id="remove-program"
+                          sx={{
+                            borderRadius: "50%",
+                            height: "1.5rem",
+                            width: "1.5rem",
+                            backgroundColor: "#743600",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            "&:hover": {
+                              opacity: 0.8,
+                            },
+                          }}
+                          onClick={() => handleRemoveProgram(program?.id)}
+                        >
+                          <Delete
+                            color="white"
+                            sx={{
+                              width: "1rem",
+                              height: "1rem",
+                              color: "white",
+                            }}
+                          />
+                        </Box>
+                      </Tooltip>{" "}
+                    </>
+                  ) : null}
                 </Box>
                 {program?.local?.length > 0 ? (
                   <Box>
