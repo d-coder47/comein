@@ -69,6 +69,9 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
           handlePositionChange={(value) =>
             setLocation({ ...location, ...value })
           }
+          handleLocationChange={(value) =>
+            setLocation({ ...location, local: value })
+          }
         />
         <Box mt="1rem" display="flex">
           <Autocomplete

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -6,78 +6,63 @@ import {
   Marker,
   Popup,
   useMapEvents,
+  useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+
+import "leaflet-control-geocoder/dist/Control.Geocoder.css";
+import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
 const center = [16.890455072287708, -24.98754235360934];
 
 function LocationMarker({ handlePositionChange }) {
-  const [position, setPosition] = useState(null);
-  const map = useMapEvents({
+  useMapEvents({
     click(location) {
-      console.log(location);
       if (location?.latlng) {
-        setPosition(location?.latlng);
         handlePositionChange(location?.latlng);
+        // handlePositionChange({ ...location?.latlng, local: "" });
       }
-      // map.locate();
     },
-    // locationfound(e) {
-    //   setPosition(e.latlng);
-    //   map.flyTo(e.latlng, map.getZoom());
-    // },
   });
 
-  return position === null ? null : (
-    <Marker position={position}>
-      <Popup>O local do seu evento</Popup>
-    </Marker>
-  );
+  return null;
+}
+
+function LeafletControlGeocoder({ handlePositionChange }) {
+  const map = useMap();
+
+  useEffect(() => {
+    var geocoder = L.Control.Geocoder.nominatim();
+    if (typeof URLSearchParams !== "undefined" && location.search) {
+      var params = new URLSearchParams(location.search);
+      var geocoderString = params.get("geocoder");
+      if (geocoderString && L.Control.Geocoder[geocoderString]) {
+        geocoder = L.Control.Geocoder[geocoderString]();
+      } else if (geocoderString) {
+        console.warn("Unsupported geocoder", geocoderString);
+      }
+    }
+
+    L.Control.geocoder({
+      query: "",
+      placeholder: "Pesquise seu local...",
+      defaultMarkGeocode: false,
+      geocoder,
+    })
+      .on("markgeocode", function (e) {
+        var latlng = e.geocode.center;
+        handlePositionChange({ ...latlng, local: e?.geocode?.name });
+      })
+      .addTo(map);
+  }, []);
+
+  return null;
 }
 
 export default function LocationMap({ currentLocation, handlePositionChange }) {
-  const theme = useTheme();
-  // const extraSmallToSmall = useMediaQuery(
-  //   theme.breakpoints.between("xs", "sm")
-  // );
-  // const smallToMid = useMediaQuery(theme.breakpoints.between("sm", "md"));
-  // const MidToLarge = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  // const LargeToExtraLarge = useMediaQuery(
-  //   theme.breakpoints.between("lg", "xl")
-  // );
-
-  // const height = extraSmallToSmall
-  //   ? "70%"
-  //   : smallToMid
-  //   ? "75%"
-  //   : MidToLarge
-  //   ? "80%"
-  //   : LargeToExtraLarge
-  //   ? "80%"
-  //   : "80%";
-
-  const { height: h } = useWindowDimensions();
-
-  // const height =
-  //   h > 1339
-  //     ? "80%"
-  //     : h > 1079
-  //     ? "84%"
-  //     : h > 999
-  //     ? "83%"
-  //     : h > 899
-  //     ? "82%"
-  //     : h > 799
-  //     ? "78%"
-  //     : h > 699
-  //     ? ""
-  //     : h > 599
-  //     ? "75%"
-  //     : "70%";
-
   return (
     <MapContainer
       center={center}
@@ -87,17 +72,19 @@ export default function LocationMap({ currentLocation, handlePositionChange }) {
         height: "inherit",
       }}
     >
+      <LeafletControlGeocoder handlePositionChange={handlePositionChange} />
       <TileLayer
         url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=4d3lGy6vTvjGNu72qBIK"
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       />
 
       <LocationMarker handlePositionChange={handlePositionChange} />
+      {/* {markerToDisplay === "custom-marker" && currentLocation?.lat !== null ? ( */}
       {currentLocation?.lat !== null ? (
         <Marker
           position={{ lat: currentLocation?.lat, lng: currentLocation?.lng }}
         >
-          <Popup> Test </Popup>
+          <Popup> {currentLocation?.local || "Local do Evento"} </Popup>
         </Marker>
       ) : null}
     </MapContainer>
