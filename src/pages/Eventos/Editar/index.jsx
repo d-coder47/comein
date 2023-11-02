@@ -156,6 +156,30 @@ const Editar = () => {
     getProjects();
   }, []);
 
+  function extractDateAndTime(dateTimeString) {
+    // Split the string into date and time parts
+    const [datePart, timePart] = dateTimeString.split(" ");
+
+    // Create a Date object to extract components
+    const dateObject = new Date(dateTimeString);
+
+    // Format the date as YYYY-MM-DD
+    const formattedDate = dateObject.toISOString().split("T")[0];
+
+    // Format the time as HH:mm:ss
+    const formattedTime = dateObject.toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+
+    return {
+      formattedDate,
+      formattedTime,
+    };
+  }
+
   useEffect(() => {
     if (!id) return navigate("/");
     const getEventDetails = async () => {
@@ -187,11 +211,16 @@ const Editar = () => {
           areasCulturaisIds.includes(area.id)
         );
 
+        const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
+        const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
+
         const newData = {
           id,
           nome: data.nome,
-          data_inicio: data.data_inicio,
-          data_fim: data.data_fim,
+          data_inicio: resExtractStartDateAndTime.formattedDate,
+          data_fim: resExtractEndDateAndTime.formattedDate,
+          hora_inicio: resExtractStartDateAndTime.formattedTime,
+          hora_fim: resExtractEndDateAndTime.formattedTime,
           imagem: `${imgApiPath}/eventosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
@@ -237,9 +266,11 @@ const Editar = () => {
     setFieldValues((prev) => {
       return { ...prev, [key]: value };
     });
-    setEditedFieldValues((prev) => {
-      return { ...prev, [key]: value };
-    });
+
+    if (key !== "hora_inicio" && key !== "hora_fim")
+      setEditedFieldValues((prev) => {
+        return { ...prev, [key]: value };
+      });
   };
 
   const openLocationPopover = Boolean(anchorLocationEl);
@@ -313,6 +344,7 @@ const Editar = () => {
       dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
     }
 
+    console.log("testando");
     const filteredFieldValues = {
       ...editedFieldValues,
       data_inicio: filterStartDate(dataInicio),
@@ -325,6 +357,7 @@ const Editar = () => {
     };
 
     const values = cleanPost(filteredFieldValues, false);
+
     const body = objectToFormData(values, user.id);
 
     editEvent(body);
@@ -708,9 +741,10 @@ const Editar = () => {
             >
               <Box
                 display="flex"
-                gap="1rem"
-                flexDirection="column"
+                gap="2rem"
                 justifyContent="space-between"
+                flexDirection="column"
+                p=".8rem"
               >
                 <Box display="flex" gap="1rem" justifyContent="space-between">
                   <TextField
@@ -763,7 +797,6 @@ const Editar = () => {
                       },
                     }}
                     onChange={(e) => {
-                      console.log(e.target.value);
                       handleChangeFieldValues("data_fim", e.target.value);
                     }}
                   />

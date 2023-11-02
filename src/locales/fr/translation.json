@@ -269,5 +269,9 @@
       "explanation1": "En ajoutant votre lieu de résidence, nous dresserons la carte de tous les événements et projets qui se déroulent près de chez vous.",
       "explanation2": "Votre localisation est confidentielle et vous seul y avez accès."
     }
+  },
+  "udpateUserInfoModal": {
+    "title": "Ajoutez votre nom",
+    "description": "Il semble que votre nom ne soit pas configuré. Veuillez ajouter votre nom pour que vous puissiez être identifié(e)."
   }
 }

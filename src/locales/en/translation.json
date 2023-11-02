@@ -269,5 +269,9 @@
       "explanation1": "By adding your location, we'll map all the events and projects near you.",
       "explanation2": "Your location is confidential and only you have access to it."
     }
+  },
+  "udpateUserInfoModal": {
+    "title": "Add Your Name",
+    "description": "It seems your name is not configured. Please add your name so that you can be identified."
   }
 }

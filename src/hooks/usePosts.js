@@ -106,7 +106,6 @@ const usePosts = () => {
   };
 
   const favoritePost = async (userId, postId, postType) => {
-    console.log("hello 2");
     try {
       const body = new FormData();
       body.append("id_utilizador", userId);
@@ -114,14 +113,16 @@ const usePosts = () => {
       body.append("type", postType);
       const token = localStorage.getItem("token");
 
+      console.log(token);
+
       const response = await axiosInstance.post(
         `/favoritos/addFavoritos`,
         body,
         {
-          // headers: {
-          //   "Content-Type": "application/x-www-form-urlencoded",
-          //   Authorization: `Bearer ${token}`,
-          // },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       if (response?.data?.dados.toLowerCase().includes("adicionado"))
