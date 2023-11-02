@@ -116,6 +116,7 @@ const useEvents = () => {
         id_utilizador: userId,
         id_publicacao: eventId,
       }).toString();
+
       const response = await axiosInstance.post(
         `/gostosEventos/gosto`,
         params,
@@ -181,6 +182,7 @@ const useEvents = () => {
         id_publicacao: eventId,
         type: "E",
       }).toString();
+
       const response = await axiosInstance.post(
         `/favoritos/addFavoritos`,
         params,
