@@ -254,5 +254,20 @@
   "shareModal": {
     "partilhePostRedeSociais": "Share on social networks",
     "copiarLigacao": "Copy Link"
+  },
+  "locationModals": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "postModal": {
+      "title": "Event location",
+      "explanation": "Click to map your event and make it more accessible.",
+      "city": "Event City",
+      "location": "Event Venue"
+    },
+    "userModal": {
+      "title": "Add your location",
+      "explanation1": "By adding your location, we'll map all the events and projects near you.",
+      "explanation2": "Your location is confidential and only you have access to it."
+    }
   }
 }

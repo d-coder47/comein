@@ -254,5 +254,20 @@
   "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
     "copiarLigacao": "Copiar Ligação"
+  },
+  "locationModals": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "postModal": {
+      "title": "Localização do evento",
+      "explanation": "Clique para mapear o seu evento, e torná-lo mais accessível.",
+      "city": "Cidade do Evento",
+      "location": "Local do Evento"
+    },
+    "userModal": {
+      "title": "Adicione a sua localização",
+      "explanation1": "Ao adicionar a tua localização, iremos mapear todos os eventos e projetos perto de ti.",
+      "explanation2": "A tua localização é confidencial e só tu tens accesso a ela."
+    }
   }
 }

@@ -254,5 +254,20 @@
   "shareModal": {
     "partilhePostRedeSociais": "Partagez sur vos réseaux sociaux",
     "copiarLigacao": "Copier le lien"
+  },
+  "locationModals": {
+    "cancel": "Annuler",
+    "save": "Sauvegarde",
+    "postModal": {
+      "title": "Lieu de l'événement",
+      "explanation": "Cliquez pour cartographier votre événement et le rendre plus accessible.",
+      "city": "Ville de l'événement",
+      "location": "Lieu"
+    },
+    "userModal": {
+      "title": "Ajoutez votre lieu de résidence",
+      "explanation1": "En ajoutant votre lieu de résidence, nous dresserons la carte de tous les événements et projets qui se déroulent près de chez vous.",
+      "explanation2": "Votre localisation est confidentielle et vous seul y avez accès."
+    }
   }
 }

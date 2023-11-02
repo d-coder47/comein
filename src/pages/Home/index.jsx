@@ -20,7 +20,7 @@ export default function Home() {
     const isFirstLogin = JSON.parse(localStorage.getItem("userInfo"));
 
     if (isAuthenticated) {
-      // if (isFirstLogin?.vx_login == 0) {
+      // if (isFirstLogin?.vx_login == 2) {
       if (isFirstLogin?.vx_login == 1) {
         setShowLocationModal(true);
       }

@@ -11,9 +11,12 @@ import LocationMap from "./Map/LocationMap";
 import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-toastify";
 import useWindowDimensions from "../hooks/useWindowDimensions";
+import { useTranslation } from "react-i18next";
 
 const AddLocationModal = ({ show, handleClose }) => {
   const [location, setLocation] = useState(null);
+
+  const { t } = useTranslation();
 
   const updateUserInfo = (location) => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -90,12 +93,11 @@ const AddLocationModal = ({ show, handleClose }) => {
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Adicione a sua localização
+          {t("locationModals.userModal.title")}
         </Typography>
         <Typography id="modal-modal-description" sx={{ my: 2 }}>
-          Ao adicionar a tua localização, iremos mapear todos os eventos e
-          projetos perto de ti.
-          <br />A tua localização é confidencial e só tu tens accesso a ela.
+          {t("locationModals.userModal.explanation1")}
+          <br /> {t("locationModals.userModal.explanation2")}
           {/* <br />
           Podes modificar a tua localização mais tarde nas tuas definições. */}
         </Typography>
@@ -119,7 +121,7 @@ const AddLocationModal = ({ show, handleClose }) => {
               }}
               onClick={handleClose}
             >
-              Cancelar
+              {t("locationModals.cancel")}
             </Button>
             <Button
               variant="contained"
@@ -130,7 +132,7 @@ const AddLocationModal = ({ show, handleClose }) => {
               disabled={!location}
               onClick={handleSave}
             >
-              Guardar
+              {t("locationModals.save")}
             </Button>
           </Box>
         </Box>

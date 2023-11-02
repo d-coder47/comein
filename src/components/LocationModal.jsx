@@ -9,11 +9,14 @@ import {
 import React, { useState } from "react";
 import LocationMap from "./Map/LocationMap";
 import useRegisterUser from "../hooks/useRegisterUser";
+import { useTranslation } from "react-i18next";
 
 const LocationModal = ({ show, handleClose, location, setLocation }) => {
   const { getAddresses } = useRegisterUser();
   const [addresses, setAddresses] = useState([]);
   const [showErrors, setShowErrors] = useState(false);
+
+  const { t } = useTranslation();
 
   const validateLocation = () => {
     if (location?.nome?.length > 0) {
@@ -47,10 +50,10 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
         }}
       >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          Localização do evento
+          {t("locationModals.postModal.title")}
         </Typography>
         <Typography id="modal-modal-description" sx={{ my: 2 }}>
-          Clique para mapear o seu evento, e torná-lo mais accessível.
+          {t("locationModals.postModal.explanation")}
         </Typography>
         <LocationMap
           currentLocation={location}
@@ -75,7 +78,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             renderInput={(params) => (
               <TextField
                 required
-                label="Cidade do Evento"
+                label={t("locationModals.postModal.city")}
                 helperText={
                   showErrors ? "Cidade do evento é obrigatória" : null
                 }
@@ -103,7 +106,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
 
           <TextField
             id="outlined-required"
-            label="Local do Evento"
+            label={t("locationModals.postModal.location")}
             size="small"
             value={location?.local || ""}
             onChange={(e) =>
@@ -126,7 +129,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
               }}
               onClick={handleClose}
             >
-              Cancelar
+              {t("locationModals.cancel")}
             </Button>
             <Button
               variant="contained"
@@ -134,7 +137,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
               sx={{ textTransform: "capitalize" }}
               onClick={validateLocation}
             >
-              Guardar
+              {t("locationModals.save")}
             </Button>
           </Box>
         </Box>
