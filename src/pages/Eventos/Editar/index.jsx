@@ -344,6 +344,7 @@ const Editar = () => {
       dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
     }
 
+    console.log("testando");
     const filteredFieldValues = {
       ...editedFieldValues,
       data_inicio: filterStartDate(dataInicio),
