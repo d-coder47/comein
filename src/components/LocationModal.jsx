@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import LocationMap from "./Map/LocationMap";
 import useRegisterUser from "../hooks/useRegisterUser";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const LocationModal = ({ show, handleClose, location, setLocation }) => {
   const { getAddresses } = useRegisterUser();
@@ -19,11 +20,19 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
   const { t } = useTranslation();
 
   const validateLocation = () => {
-    if (location?.nome?.length > 0) {
-      setShowErrors(false);
-      return handleClose();
+    if (!location.local || !location.lat || !location.lng) {
+      !location.local ? setShowErrors(true) : setShowErrors(false);
+
+      if (!location.lat && !location.lng) {
+        toast.error(
+          "Coordenadas do mapa são obrigatórias. Para adiciona-las clique na localização do seu evento."
+        );
+      }
+      return;
     }
-    setShowErrors(true);
+
+    setShowErrors(false);
+    return handleClose();
   };
 
   return (
@@ -77,12 +86,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             }}
             renderInput={(params) => (
               <TextField
-                required
                 label={t("locationModals.postModal.city")}
-                helperText={
-                  showErrors ? "Cidade do evento é obrigatória" : null
-                }
-                error={showErrors}
                 {...params}
               />
             )}
@@ -105,13 +109,16 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
           />
 
           <TextField
+            required
+            size="small"
             id="outlined-required"
             label={t("locationModals.postModal.location")}
-            size="small"
             value={location?.local || ""}
             onChange={(e) =>
               setLocation({ ...location, local: e.target.value })
             }
+            helperText={showErrors ? "Local do evento é obrigatório" : null}
+            error={showErrors}
             sx={{ ml: "1rem" }}
           />
           <Box

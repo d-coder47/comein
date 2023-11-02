@@ -536,7 +536,8 @@ const CardDetailed = () => {
 
             <DetailedInfo
               isEvent={type === "eventos"}
-              location={details?.dados?.local}
+              city={details?.dados?.local}
+              location={details?.coordenadas?.nome}
               description={details?.dados?.descricao}
               dateStart={details?.dados?.data_inicio}
               dateEnd={details?.dados?.data_fim}
@@ -833,12 +834,22 @@ const DetailedHeader = ({
 
 const DetailedInfo = ({
   isEvent,
-  location,
+  city,
+  location = "",
   description,
   dateStart = "",
   dateEnd = "",
 }) => {
   const { t } = useTranslation();
+
+  const generateLocation = () => {
+    const cityStr = !city || !city?.length > 0 ? "" : city;
+    const locationStr =
+      !location || !location?.length > 0 || location == "null" ? "" : location;
+    const separator =
+      !city || !location?.length > 0 || location == "null" ? "" : ", ";
+    return `${locationStr}${separator}${cityStr}`;
+  };
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       {description.length > 0 ? (
@@ -849,7 +860,11 @@ const DetailedInfo = ({
           <Box mt="1rem">
             <Typography display="flex" gap=".5rem" fontWeight="bold">
               {t("cardDetailed.local")}{" "}
-              {<Typography fontWeight="normal">{location}</Typography>}
+              {
+                <Typography fontWeight="normal">
+                  {generateLocation()}
+                </Typography>
+              }
             </Typography>
           </Box>
           <Box>

@@ -98,7 +98,7 @@ export const validatePost = (values, isEvent, translatedStrings) => {
   const successOnValidateResizedImage = validateResizedImage(
     isEvent ? values?.imgEventoRecortada : values?.imgProjetoRecortada
   );
-  const successOnValidateLocation = validateLocation(values?.id_geografia);
+  // const successOnValidateLocation = validateLocation(values?.id_geografia);
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
     : true;
@@ -117,7 +117,7 @@ export const validatePost = (values, isEvent, translatedStrings) => {
     successOnValidateName &&
     successOnValidateImage &&
     successOnValidateResizedImage &&
-    successOnValidateLocation &&
+    // successOnValidateLocation &&
     successOnValidateStartDate &&
     successOnValidateCulturalArea &&
     successOnIsDatesValid
