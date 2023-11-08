@@ -1,12 +1,14 @@
 import axiosInstance from "../api/axiosInstance";
 
 const useRegisterUser = () => {
+  const token = localStorage.getItem("token");
+
   const getAddresses = async (address, token) => {
     try {
       const response = await axiosInstance.get(`/geografia/search/${address}`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -22,7 +24,7 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -54,7 +56,8 @@ const useRegisterUser = () => {
         `/utilizadores/obterUtilizadorPorEmail/${email}`,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -166,6 +169,7 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -206,7 +210,7 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -262,7 +266,7 @@ const useRegisterUser = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );

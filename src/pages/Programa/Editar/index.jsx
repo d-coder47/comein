@@ -36,6 +36,8 @@ import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 
 const Editar = () => {
+  const token = localStorage.getItem("token");
+
   const { t } = useTranslation();
   const params = useParams();
   const { idPrograma } = params;
@@ -93,8 +95,7 @@ const Editar = () => {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -193,8 +194,7 @@ const Editar = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

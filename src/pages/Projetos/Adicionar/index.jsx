@@ -52,6 +52,8 @@ import LocationModal from "../../../components/LocationModal";
 const Adicionar = () => {
   const { t } = useTranslation();
 
+  const token = localStorage.getItem("token");
+
   const [owners, setOwners] = useState([]);
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
@@ -139,7 +141,7 @@ const Adicionar = () => {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -235,8 +237,7 @@ const Adicionar = () => {
       const response = await axiosInstance.post(`/projetos/criar`, newProject, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response.status === 200) {
@@ -290,8 +291,7 @@ const Adicionar = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );

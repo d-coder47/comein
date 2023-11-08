@@ -2,13 +2,14 @@ import React from "react";
 import axiosInstance from "../api/axiosInstance";
 
 const useEvents = () => {
+  const token = localStorage.getItem("token");
+
   const createEvent = async () => {
     try {
       const response = await axiosInstance.post(`/eventos/criar`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;
@@ -30,8 +31,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -52,8 +52,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -67,8 +66,6 @@ const useEvents = () => {
       const response = await axiosInstance.get(`/eventos/listar`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
       return response.data;
@@ -82,8 +79,6 @@ const useEvents = () => {
       const response = await axiosInstance.get(`/eventos/listar/${eventId}`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
         },
       });
       return response.data;
@@ -99,8 +94,6 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );
@@ -123,8 +116,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -144,9 +136,7 @@ const useEvents = () => {
         params,
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -163,8 +153,6 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );
@@ -189,8 +177,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -211,8 +198,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -230,8 +216,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -253,8 +238,7 @@ const useEvents = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -271,8 +255,7 @@ const useEvents = () => {
       const response = await axiosInstance.post(`/eventos/addVisit`, body, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data;

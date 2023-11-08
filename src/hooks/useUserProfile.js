@@ -1,6 +1,7 @@
 import axiosInstance from "../api/axiosInstance";
 
 const useUserProfile = () => {
+  const token = localStorage.getItem("token");
   const updateUserProfileBanner = async (idUser, photoCapa) => {
     try {
       let body = new FormData();
@@ -13,7 +14,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -35,8 +36,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -58,8 +58,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -80,8 +79,7 @@ const useUserProfile = () => {
       const response = await axiosInstance.post("/utilizadores/bio", params, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -105,8 +103,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -130,8 +127,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -149,7 +145,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -167,7 +163,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -185,7 +181,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -203,7 +199,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -225,7 +221,7 @@ const useUserProfile = () => {
       const response = await axiosInstance.post(`/utilizadores/seguir`, body, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -244,7 +240,7 @@ const useUserProfile = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -263,7 +259,7 @@ const useUserProfile = () => {
       const response = await axiosInstance.post(`/utilizadores/visits`, body, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 

@@ -43,6 +43,8 @@ const CardDetailed = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const token = localStorage.getItem("token");
+
   const { type, id } = params;
 
   const [details, setDetails] = useState(null);
@@ -94,8 +96,6 @@ const CardDetailed = () => {
         const response = await axiosInstance.get(url, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         });
         const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -125,7 +125,7 @@ const CardDetailed = () => {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -145,8 +145,7 @@ const CardDetailed = () => {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -165,8 +164,7 @@ const CardDetailed = () => {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -184,8 +182,7 @@ const CardDetailed = () => {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -291,7 +288,7 @@ const CardDetailed = () => {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     );

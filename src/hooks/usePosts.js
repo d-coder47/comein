@@ -7,6 +7,8 @@ const usePosts = () => {
   const [reachedEndPage, setReachedEndPage] = useState(false);
   const pageSize = 9;
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -93,8 +95,7 @@ const usePosts = () => {
       const response = await axiosInstance.post(`/gostos`, body, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          // Authorization:
-          //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (response?.data?.dados.includes("Removeu")) return false;
@@ -111,7 +112,6 @@ const usePosts = () => {
       body.append("id_utilizador", userId);
       body.append("id_publicacao", postId);
       body.append("type", postType);
-      const token = localStorage.getItem("token");
 
       const response = await axiosInstance.post(
         `/favoritos/addFavoritos`,
@@ -119,7 +119,7 @@ const usePosts = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -138,8 +138,6 @@ const usePosts = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );
@@ -156,8 +154,6 @@ const usePosts = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );
@@ -175,8 +171,7 @@ const usePosts = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -194,8 +189,6 @@ const usePosts = () => {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
           },
         }
       );

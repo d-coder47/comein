@@ -16,6 +16,8 @@ export default function Leaflet() {
   ]);
   const [coordinates, setCoordinates] = useState([]);
 
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) {
@@ -29,7 +31,7 @@ export default function Leaflet() {
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
