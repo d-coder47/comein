@@ -113,15 +113,13 @@ const usePosts = () => {
       body.append("type", postType);
       const token = localStorage.getItem("token");
 
-      console.log(token);
-
       const response = await axiosInstance.post(
         `/favoritos/addFavoritos`,
         body,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         }
       );
