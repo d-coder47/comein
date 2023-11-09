@@ -273,5 +273,8 @@
   "udpateUserInfoModal": {
     "title": "Add Your Name",
     "description": "It seems your name is not configured. Please add your name so that you can be identified."
+  },
+  "removeProgram": {
+    "modalText": "Are you sure you want to remove this program?"
   }
 }

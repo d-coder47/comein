@@ -3,7 +3,10 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
+  Grid,
   IconButton,
+  Modal,
   Skeleton,
   Stack,
   Tooltip,
@@ -62,7 +65,8 @@ const CardDetailed = () => {
 
   const [areaMaxWidth, setAreaMaxWidth] = useState();
 
-  // const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [showRemoveProgramModal, setShowRemoveProgramModal] = useState(false);
+  const [programIdToRemove, setProgramIdToRemove] = useState(0);
 
   async function countEventVisit() {
     if (type === "eventos") {
@@ -282,11 +286,13 @@ const CardDetailed = () => {
     navigate(`/eventos/adicionar-programa/${id}`);
   };
 
-  const handleRemoveProgram = async (programId) => {
+  const handleRemoveProgram = async () => {
+    setShowRemoveProgramModal(false);
+    if (programIdToRemove === 0) return;
     const body = new FormData();
     body.append("_method", "DELETE");
     const response = await axiosInstance.post(
-      `/programaEvento/eliminar/${programId}`,
+      `/programaEvento/eliminar/${programIdToRemove}`,
       body,
       {
         headers: {
@@ -302,9 +308,18 @@ const CardDetailed = () => {
     setDetails({
       ...newDetails,
       programa: newDetails.programa.filter(
-        (program) => program.id !== programId
+        (program) => program.id !== programIdToRemove
       ),
     });
+  };
+
+  const handleShowRemoveProgramModal = (programId) => {
+    setShowRemoveProgramModal(true);
+    setProgramIdToRemove(programId);
+  };
+
+  const handleCloseRemoveProgramModal = () => {
+    setShowRemoveProgramModal(false);
   };
 
   const onCloseModal = () => {
@@ -544,7 +559,7 @@ const CardDetailed = () => {
             />
             <DetailedProgram
               programs={details?.programa}
-              handleRemoveProgram={handleRemoveProgram}
+              handleRemoveProgram={handleShowRemoveProgramModal}
               isOwner={isOwner}
             />
             <DetailedOther others={details?.outros} />
@@ -738,6 +753,85 @@ const CardDetailed = () => {
           </Tooltip>
         </Box>
       </Box>
+      <Modal
+        open={showRemoveProgramModal}
+        onClose={handleCloseRemoveProgramModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            // border: "2px solid #000",
+            borderRadius: ".5rem",
+            outline: "none",
+            boxShadow: 24,
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "center",
+          }}
+        >
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={handleCloseRemoveProgramModal}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            <Close />
+          </IconButton>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {t("removeProgram.modalText")}
+          </Typography>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Grid item xs={6} md={4}>
+              <Button
+                variant="contained"
+                className="remove-account-button"
+                sx={{
+                  marginTop: "15px",
+                  borderRadius: "20px",
+                  textTransform: "none",
+                }}
+                onClick={handleCloseRemoveProgramModal}
+              >
+                {t("userProfile.configPage.nao")}
+              </Button>
+            </Grid>
+            <Grid item xs={6} md={4}>
+              <Button
+                variant="contained"
+                className="remove-account-button"
+                sx={{
+                  marginTop: "15px",
+                  borderRadius: "20px",
+                  textTransform: "none",
+                }}
+                onClick={handleRemoveProgram}
+              >
+                {t("userProfile.configPage.sim")}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
     </Box>
   );
 };
@@ -898,7 +992,7 @@ const DetailedInfo = ({
 const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  console.log({ programs });
+
   const handleEditProgram = (programId) => {
     navigate(`/eventos/editar-programa/${programId}`);
   };
