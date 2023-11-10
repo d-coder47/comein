@@ -96,15 +96,22 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
             getOptionLabel={(option) => option?.nome}
             value={location}
             onChange={(_, value) => {
-              setLocation({ ...location, ...value });
-              setShowErrors(false);
+              if (!value) {
+                setLocation({
+                  ...location,
+                  ...{ id: null, nome: "", local: null, lat: null, lng: null },
+                });
+                setShowErrors(false);
+              } else {
+                setLocation({ ...location, ...value });
+                setShowErrors(false);
+              }
             }}
             onInputChange={async (event, value) => {
               // if (value.length >= 2 && value.length <= 4) {
               if (value.length >= 2) {
                 const res = await getAddresses(value);
                 if (res?.dados) {
-                  console.log(res.dados);
                   setAddresses(res.dados);
                 }
               }

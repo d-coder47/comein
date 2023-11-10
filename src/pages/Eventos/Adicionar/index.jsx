@@ -638,40 +638,7 @@ const Adicionar = () => {
               location={fieldValues?.local}
               setLocation={(value) => handleChangeFieldValues("local", value)}
             />
-            <Popover
-              id={locationPopoverId}
-              open={openLocationPopover}
-              anchorEl={anchorLocationEl}
-              onClose={() => setAnchorLocationEl(null)}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <Box display="flex" gap="1rem" justifyContent="space-between">
-                <Autocomplete
-                  id="location-auto-complete"
-                  options={addresses}
-                  sx={{ width: 300 }}
-                  disableCloseOnSelect
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  getOptionLabel={(option) => option?.nome}
-                  value={fieldValues.local}
-                  onChange={(_, value) => {
-                    handleChangeFieldValues("local", value);
-                    setAnchorLocationEl(null);
-                  }}
-                  onInputChange={async (event, value) => {
-                    if (value.length >= 2 && value.length <= 4) {
-                      const res = await getAddresses(value);
-                      setAddresses(res.dados);
-                    }
-                  }}
-                />
-              </Box>
-            </Popover>
+
             <Tooltip title={t("eventPage.common.date")} placement="left" arrow>
               <Box
                 id="date"

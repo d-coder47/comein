@@ -214,6 +214,8 @@ const Editar = () => {
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
 
+        console.log(data.local === null);
+
         const newData = {
           id,
           nome: data.nome,
@@ -225,7 +227,7 @@ const Editar = () => {
           descricao: data.descricao,
           local: {
             id: data?.id_geografia,
-            nome: data?.local,
+            nome: data?.local === null ? "" : data?.local,
             lat: coordinates ? coordinates?.latitude : null,
             lng: coordinates ? coordinates?.longitude : null,
             local: coordinates ? coordinates?.nome : null,
