@@ -30,7 +30,7 @@ import ReactQuill from "react-quill";
 
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
-import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
+
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../api/axiosInstance";
 import useRegisterUser from "../../../hooks/useRegisterUser";
@@ -49,6 +49,8 @@ import { toast } from "react-toastify";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 import LocationModal from "../../../components/LocationModal";
+import { validateEditedPost } from "../../../utils/editedPostValidation";
+
 const Editar = () => {
   const { t } = useTranslation();
 
@@ -87,6 +89,19 @@ const Editar = () => {
   const navigate = useNavigate();
 
   const { getAddresses, searchUsers } = useRegisterUser();
+
+  // Translated strings
+  const validatePostTranslatedStrings = [
+    t("postValidationsErrors.nomeObrigatorio"),
+    t("postValidationsErrors.imagemObrigatorio"),
+    t("postValidationsErrors.localObrigatorio"),
+    t("postValidationsErrors.dataInicioObrigatorio"),
+    t("postValidationsErrors.horaInicioObrigatorio"),
+    t("postValidationsErrors.areaCulturalObrigatorio"),
+    t("postValidationsErrors.dataFimMaiorInicio"),
+    t("postValidationsErrors.datasNaoPodemSerIguais"),
+    t("postValidationsErrors.imagemRecortadaObrigatorio"),
+  ];
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -157,9 +172,6 @@ const Editar = () => {
   }, []);
 
   function extractDateAndTime(dateTimeString) {
-    // Split the string into date and time parts
-    const [datePart, timePart] = dateTimeString.split(" ");
-
     // Create a Date object to extract components
     const dateObject = new Date(dateTimeString);
 
@@ -269,10 +281,14 @@ const Editar = () => {
       return { ...prev, [key]: value };
     });
 
-    if (key !== "hora_inicio" && key !== "hora_fim")
-      setEditedFieldValues((prev) => {
-        return { ...prev, [key]: value };
-      });
+    setEditedFieldValues((prev) => {
+      return { ...prev, [key]: value };
+    });
+
+    // if (key !== "hora_inicio" && key !== "hora_fim")
+    //   setEditedFieldValues((prev) => {
+    //     return { ...prev, [key]: value };
+    //   });
   };
 
   const openLocationPopover = Boolean(anchorLocationEl);
@@ -346,7 +362,6 @@ const Editar = () => {
       dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
     }
 
-    console.log("testando");
     const filteredFieldValues = {
       ...editedFieldValues,
       data_inicio: filterStartDate(dataInicio),
@@ -358,11 +373,23 @@ const Editar = () => {
       ),
     };
 
+    console.log(editedFieldValues);
+
     const values = cleanPost(filteredFieldValues, false);
 
     const body = objectToFormData(values, user.id);
 
-    editEvent(body);
+    const isValid = validateEditedPost(
+      editedFieldValues,
+      true,
+      validatePostTranslatedStrings
+    );
+
+    if (isValid) {
+      editEvent(body);
+    } else {
+      setLoading(false);
+    }
   };
 
   const editEvent = async (newEvent) => {

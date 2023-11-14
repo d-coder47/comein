@@ -10,7 +10,6 @@ import {
   TextField,
   Tooltip,
   Typography,
-  Button,
   LinearProgress,
 } from "@mui/material";
 import img from "../../../assets/img/upload.png";
@@ -89,7 +88,7 @@ const Adicionar = () => {
 
   const navigate = useNavigate();
 
-  const { getAddresses, searchUsers } = useRegisterUser();
+  const { searchUsers } = useRegisterUser();
 
   const categories = [
     { id: 1, name: t("categories.music") },
