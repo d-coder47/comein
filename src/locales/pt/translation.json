@@ -260,7 +260,7 @@
     "save": "Guardar",
     "postModal": {
       "title": "Localização do evento",
-      "explanation": "Clique para mapear o seu evento, e torná-lo mais accessível.",
+      "explanation": "Clique para mapear o seu evento, e torná-lo mais acessível.",
       "city": "Cidade do Evento",
       "location": "Local do Evento"
     },
