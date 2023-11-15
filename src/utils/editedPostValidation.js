@@ -1,26 +1,17 @@
 import { toast } from "react-toastify";
 
 export const validateEditedPost = (values, isEvent, translatedStrings) => {
-  // nome: "",
-  // data_inicio: "",
-  // data_fim: "",
-  // hora_inicio: "",
-  // hora_fim: "",
-  // imagem: null,
-  // descricao: ``,
-  // local: "",
-  // proprietarios: { id: 0, nome: "" },
-  // areasCulturais: [],
-  // assoc_projeto: "",
-
   const validateName = (name) => {
     if (Object.keys(values).includes("nome")) {
       if (!name || name === undefined || name?.length === 0) {
         toast.error(translatedStrings[0]);
         return false;
       }
+
       return true;
     }
+
+    return false;
   };
 
   const validateImage = (image) => {
@@ -31,6 +22,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
+    return false;
   };
 
   const validateResizedImage = (image) => {
@@ -41,6 +33,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
+    return false;
   };
 
   const validateLocation = (local) => {
@@ -51,6 +44,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
+    return false;
   };
 
   const validateStartDate = (startDate) => {
@@ -69,6 +63,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
+    return false;
   };
 
   const validateCulturalArea = (culturarArea) => {
@@ -83,6 +78,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
+    return false;
   };
 
   const isDatesValid = (startDate, endDate, isStartDateValid) => {
@@ -123,6 +119,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
 
       return true;
     }
+    return false;
   };
 
   const successOnValidateName = validateName(values?.nome);
@@ -148,12 +145,12 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     : true;
 
   return (
-    successOnValidateName &&
-    successOnValidateImage &&
-    successOnValidateResizedImage &&
-    // successOnValidateLocation &&
-    successOnValidateStartDate &&
-    successOnValidateCulturalArea &&
+    successOnValidateName ||
+    successOnValidateImage ||
+    successOnValidateResizedImage ||
+    // successOnValidateLocation ||
+    successOnValidateStartDate ||
+    successOnValidateCulturalArea ||
     successOnIsDatesValid
   );
 };

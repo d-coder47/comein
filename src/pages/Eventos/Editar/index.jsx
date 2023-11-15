@@ -226,8 +226,6 @@ const Editar = () => {
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
 
-        console.log(data.local === null);
-
         const newData = {
           id,
           nome: data.nome,
@@ -284,11 +282,6 @@ const Editar = () => {
     setEditedFieldValues((prev) => {
       return { ...prev, [key]: value };
     });
-
-    // if (key !== "hora_inicio" && key !== "hora_fim")
-    //   setEditedFieldValues((prev) => {
-    //     return { ...prev, [key]: value };
-    //   });
   };
 
   const openLocationPopover = Boolean(anchorLocationEl);
@@ -373,22 +366,49 @@ const Editar = () => {
       ),
     };
 
-    console.log(editedFieldValues);
+    if (Object.keys(values).includes("hora_inicio")) {
+      delete filteredFieldValues.hora_inicio;
+    }
+
+    console.log(filteredFieldValues);
 
     const values = cleanPost(filteredFieldValues, false);
 
     const body = objectToFormData(values, user.id);
 
-    const isValid = validateEditedPost(
-      editedFieldValues,
-      true,
-      validatePostTranslatedStrings
-    );
+    if (editedFieldValues) {
+      if (Object.keys(editedFieldValues).includes("hora_inicio")) {
+        const updatedStartDate = `${fieldValues?.data_inicio}T${editedFieldValues?.hora_inicio}`;
+        editedFieldValues.data_inicio = updatedStartDate;
+      }
 
-    if (isValid) {
-      editEvent(body);
+      if (Object.keys(editedFieldValues).includes("hora_fim")) {
+        const updatedEndDate = `${fieldValues?.data_fim}T${editedFieldValues?.hora_fim}`;
+        editedFieldValues.data_fim = updatedEndDate;
+      }
+
+      console.log(Object.keys(values).includes("hora_inicio"));
+
+      // if(Object.keys(body).includes("hora_inicio")){
+      //   delete
+      // }
+      const isValid = validateEditedPost(
+        editedFieldValues,
+        true,
+        validatePostTranslatedStrings
+      );
+
+      if (isValid) {
+        editEvent(body);
+      } else {
+        setLoading(false);
+      }
     } else {
       setLoading(false);
+      const postName = editedFieldValues?.nome || fieldValues?.nome;
+      let nome = postName.replaceAll("/", "_");
+      nome = nome.replaceAll(" ", "_");
+      navigate(`/eventos/${+id}/${nome}`);
     }
   };
 
