@@ -366,13 +366,13 @@ const Editar = () => {
       ),
     };
 
+    const values = cleanPost(filteredFieldValues, false);
+
     if (Object.keys(values).includes("hora_inicio")) {
-      delete filteredFieldValues.hora_inicio;
+      delete values.hora_inicio;
     }
 
-    console.log(filteredFieldValues);
-
-    const values = cleanPost(filteredFieldValues, false);
+    console.log(values);
 
     const body = objectToFormData(values, user.id);
 
