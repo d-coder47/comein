@@ -221,7 +221,8 @@
       "croppedImage": "Imagem Recortada. Ajustar como a imagem deve aparecer nos cartões da página inicial.",
       "save": "Guardar",
       "defaultDescription": "Adicione tudo sobre o teu evento",
-      "tutorial": "Faça duplo clique para personalizar"
+      "tutorial": "Faça duplo clique para personalizar",
+      "recorteInfo": "Para melhor destacar a sua publicação, por favor, clique em 'Imagem Recortada' antes de salvar e ajuste a sua imagem"
     }
   },
   "projectPage": {

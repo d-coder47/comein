@@ -221,7 +221,8 @@
       "croppedImage": "Cropped Image. Adjust how the image should appear on the homepage cards.",
       "save": "Save",
       "defaultDescription": "Add everything about your event",
-      "tutorial": "Double click to customize"
+      "tutorial": "Double click to customize",
+      "recorteInfo": "To enhance the visibility of your post, please click 'Crop Image' before saving and adjust accordingly."
     }
   },
   "projectPage": {

@@ -221,7 +221,8 @@
       "croppedImage": "Image rognée. Ajuster comment l'image doit apparaître sur les cartes de la page d'accueil.  ",
       "save": "Sauvegarder",
       "defaultDescription": "Description de votre événement",
-      "tutorial": "Double-cliquez pour personnaliser"
+      "tutorial": "Double-cliquez pour personnaliser",
+      "recorteInfo": "Pour mieux mettre en valeur votre publication, veuillez cliquer sur 'Image rognée' avant d'enregistrer et ajuster votre image."
     }
   },
   "projectPage": {
