@@ -944,6 +944,7 @@ const DetailedInfo = ({
       !city || !location?.length > 0 || location == "null" ? "" : ", ";
     return `${locationStr}${separator}${cityStr}`;
   };
+
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       {description.length > 0 ? (
@@ -1002,6 +1003,15 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
       return "";
     }
     return ` - ${program?.hora_fim}`;
+  };
+
+  const generateLocation = (city, location) => {
+    const cityStr = !city || !city?.length > 0 ? "" : city;
+    const locationStr =
+      !location || !location?.length > 0 || location == "null" ? "" : location;
+    const separator =
+      !city || !location?.length > 0 || location == "null" ? "" : ", ";
+    return `${locationStr}${separator}${cityStr}`;
   };
 
   return (
@@ -1105,13 +1115,17 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
                     </>
                   ) : null}
                 </Box>
-                {program?.local?.length > 0 ? (
+                {program?.local?.length > 0 ||
+                program?.cidadePrograma?.length > 0 ? (
                   <Box>
                     <Typography display="flex" gap=".5rem" fontWeight="bold">
                       {t("cardDetailed.local")}{" "}
                       {
                         <Typography fontWeight="normal">
-                          {program?.local}
+                          {generateLocation(
+                            program?.cidadePrograma,
+                            program?.local
+                          )}
                         </Typography>
                       }
                     </Typography>
