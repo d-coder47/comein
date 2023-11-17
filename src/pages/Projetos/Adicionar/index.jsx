@@ -201,7 +201,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    console.log(fieldValues);
     setLoading(true);
 
     const newProject = {
@@ -217,7 +216,6 @@ const Adicionar = () => {
 
     const values = cleanPost(newProject, true);
     const body = objectToFormData(values, user.id, true);
-    console.log(body);
 
     const isValid = validatePost(
       newProject,

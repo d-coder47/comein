@@ -44,6 +44,8 @@ import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 import LocationModal from "../../../components/LocationModal";
 
+import { validateEditedPost } from "../../../utils/editedPostValidation";
+
 const Editar = () => {
   const { t } = useTranslation();
 
@@ -73,6 +75,19 @@ const Editar = () => {
   const navigate = useNavigate();
 
   const { getAddresses, searchUsers } = useRegisterUser();
+
+  // Translated strings
+  const validatePostTranslatedStrings = [
+    t("postValidationsErrors.nomeObrigatorio"),
+    t("postValidationsErrors.imagemObrigatorio"),
+    t("postValidationsErrors.localObrigatorio"),
+    t("postValidationsErrors.dataInicioObrigatorio"),
+    t("postValidationsErrors.horaInicioObrigatorio"),
+    t("postValidationsErrors.areaCulturalObrigatorio"),
+    t("postValidationsErrors.dataFimMaiorInicio"),
+    t("postValidationsErrors.datasNaoPodemSerIguais"),
+    t("postValidationsErrors.imagemRecortadaObrigatorio"),
+  ];
 
   const categories = [
     { id: 1, name: t("categories.music") },
@@ -237,7 +252,6 @@ const Editar = () => {
   };
 
   const handleSave = () => {
-    console.log({ editedFieldValues });
     setLoading(true);
 
     const filteredFieldValues = {
@@ -251,9 +265,18 @@ const Editar = () => {
 
     const values = cleanPost(filteredFieldValues, false);
     const body = objectToFormData(values, user.id);
-    console.log(body);
 
-    editProject(body);
+    const isValid = validateEditedPost(
+      editedFieldValues,
+      false,
+      validatePostTranslatedStrings
+    );
+
+    if (isValid) {
+      editProject(body);
+    } else {
+      setLoading(false);
+    }
   };
 
   const editProject = async (newProject) => {

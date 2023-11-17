@@ -119,6 +119,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
 
       return true;
     }
+
     return false;
   };
 
@@ -132,7 +133,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   // const successOnValidateLocation = validateLocation(values?.id_geografia);
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
-    : true;
+    : false;
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
@@ -142,7 +143,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
         values?.data_fim,
         successOnValidateStartDate
       )
-    : true;
+    : false;
 
   return (
     successOnValidateName ||

@@ -372,8 +372,6 @@ const Editar = () => {
       delete values.hora_inicio;
     }
 
-    console.log(values);
-
     const body = objectToFormData(values, user.id);
 
     if (editedFieldValues) {
@@ -387,11 +385,6 @@ const Editar = () => {
         editedFieldValues.data_fim = updatedEndDate;
       }
 
-      console.log(Object.keys(values).includes("hora_inicio"));
-
-      // if(Object.keys(body).includes("hora_inicio")){
-      //   delete
-      // }
       const isValid = validateEditedPost(
         editedFieldValues,
         true,
