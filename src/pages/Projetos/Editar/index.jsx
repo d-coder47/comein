@@ -43,7 +43,7 @@ import getCroppedImg from "../../../utils/cropImage";
 import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 import LocationModal from "../../../components/LocationModal";
-
+import { toast } from "react-toastify";
 import { validateEditedPost } from "../../../utils/editedPostValidation";
 
 const Editar = () => {
@@ -228,6 +228,7 @@ const Editar = () => {
       handleChangeFieldValues("imagem", URL.createObjectURL(file));
       handleChangeFieldValues("imgProjeto", file);
       handleChangeFieldValues("imgProjetoRecortada", null);
+      toast.info(t("eventPage.common.recorteInfo"));
     };
     reader.readAsDataURL(event.target.files[0]);
   };

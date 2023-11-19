@@ -154,6 +154,12 @@ const Adicionar = () => {
     getUsers();
   }, []);
 
+  useEffect(() => {
+    if (fieldValues.imagem && !openCroppedImage) {
+      toast.info(t("eventPage.common.recorteInfo"));
+    }
+  }, [fieldValues.imagem]);
+
   const openLocationPopover = Boolean(anchorLocationEl);
   const locationPopoverId = open ? "location-popover" : undefined;
 

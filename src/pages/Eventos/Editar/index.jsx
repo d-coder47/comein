@@ -313,6 +313,7 @@ const Editar = () => {
         handleChangeFieldValues("imagem", URL.createObjectURL(file));
         handleChangeFieldValues("imgEvento", file);
         handleChangeFieldValues("imgEventoRecortada", null);
+        toast.info(t("eventPage.common.recorteInfo"));
       };
       reader.readAsDataURL(event.target.files[0]);
     }
