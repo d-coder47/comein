@@ -376,11 +376,7 @@ const ProfileCustomCard = ({
         id="card-container"
         ref={containerRef}
         sx={{
-          height: `${
-            currentContainerWidth
-              ? currentContainerWidth / divider + containerMinusImageHeight
-              : 0
-          }px`,
+          height: "100%",
         }}
         onMouseEnter={() => setDisplayInteraction("flex")}
         onMouseLeave={() => setDisplayInteraction("none")}
@@ -447,9 +443,7 @@ const ProfileCustomCard = ({
             onClick={handleOpen}
             sx={{
               width: "100%",
-              height: `${
-                currentContainerWidth ? currentContainerWidth / divider : 0
-              }px`,
+              height: "100%",
               objectFit: "cover",
               "&:hover": {
                 cursor: "pointer",

@@ -242,65 +242,74 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   } else if (type === "project") {
     if (localStorage.getItem("projectsNum") === "0") {
       return !isVisitor ? (
-        <Card
+        <Box
+          mt="1rem"
           sx={{
-            minWidth: 275,
-            minHeight: 275,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "3rem",
+            marginLeft: "0",
+            marginRigth: "2rem",
           }}
+          flexGrow={1}
         >
-          <CardContent>
-            <Box
-              sx={{
-                width: "60px",
-                height: "60px",
-                backgroundColor: "#33B3CC",
+          <Card
+            sx={{
+              minWidth: 275,
+              minHeight: 275,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "3rem",
+            }}
+          >
+            <CardContent>
+              <Box
+                sx={{
+                  width: "60px",
+                  height: "60px",
+                  backgroundColor: "#33B3CC",
 
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "50%",
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "#743600",
-                },
-              }}
-            >
-              <Tooltip title="Adicionar Projeto">
-                <Button>
-                  <Info
-                    sx={{
-                      color: "#fff",
-                      fontSize: "3.25rem",
-                    }}
-                  />
-                </Button>
-              </Tooltip>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                navigate("/projetos/adicionar");
-              }}
-              sx={{
-                m: 3,
-                color: "#ffffff",
-                borderRadius: "16px",
-                textTransform: "none",
-              }}
-            >
-              {t("userProfile.adicionePrimeiroProj")}
-            </Button>
-          </CardActions>
-        </Card>
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "#743600",
+                  },
+                }}
+              >
+                <Tooltip title="Adicionar Projeto">
+                  <Button>
+                    <Info
+                      sx={{
+                        color: "#fff",
+                        fontSize: "3.25rem",
+                      }}
+                    />
+                  </Button>
+                </Tooltip>
+              </Box>
+            </CardContent>
+            <CardActions>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  navigate("/projetos/adicionar");
+                }}
+                sx={{
+                  m: 3,
+                  color: "#ffffff",
+                  borderRadius: "16px",
+                  textTransform: "none",
+                }}
+              >
+                {t("userProfile.adicionePrimeiroProj")}
+              </Button>
+            </CardActions>
+          </Card>
+        </Box>
       ) : (
         <Typography> {displayNoPostByType()}</Typography>
       );
@@ -327,7 +336,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
           <Grid container spacing={3.8}>
             {projects.length > 0 &&
               projects?.map((card, index) => (
-                <Grid item key={index} lg={3.8} xs={12} md={3}>
+                <Grid item key={index} lg={3.8} xs={12} md={3.8}>
                   <ProfileCustomCard
                     isVisitor={isVisitor}
                     key={index}
