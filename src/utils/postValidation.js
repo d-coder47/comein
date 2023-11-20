@@ -39,10 +39,10 @@ export const validatePost = (values, isEvent, translatedStrings) => {
       return false;
     }
 
-    if (!startDate.includes("T")) {
-      toast.error(translatedStrings[4]);
-      return false;
-    }
+    // if (!startDate.includes("T")) {
+    //   toast.error(translatedStrings[4]);
+    //   return false;
+    // }
     return true;
   };
 
