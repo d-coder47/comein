@@ -49,6 +49,8 @@ import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 import LocationModal from "../../../components/LocationModal";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 const Adicionar = () => {
   const { t } = useTranslation();
 
@@ -670,32 +672,38 @@ const Adicionar = () => {
                 <Crop sx={{ color: "white", width: "1rem", height: "1rem" }} />
               </Box>
             </Tooltip>
-            <Tooltip
-              title={t("projectPage.common.save")}
-              placement="left"
-              arrow
-            >
-              <Box
-                id="save"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: () => "#3c3c3c",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={handleSave}
+            {!loading && (
+              <Tooltip
+                title={t("projectPage.common.save")}
+                placement="left"
+                arrow
               >
-                <Save sx={{ color: "white", width: "1rem", height: "1rem" }} />
-              </Box>
-            </Tooltip>
+                <Box
+                  id="save"
+                  sx={{
+                    borderRadius: "50%",
+                    height: "3rem",
+                    width: "3rem",
+                    backgroundColor: () => "#3c3c3c",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 0.8,
+                    },
+                  }}
+                  onClick={handleSave}
+                >
+                  <Save
+                    sx={{ color: "white", width: "1rem", height: "1rem" }}
+                  />
+                </Box>
+              </Tooltip>
+            )}
+
+            {loading && <CircularProgress />}
           </Box>
         </Box>
       </Box>

@@ -63,6 +63,23 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
+
+    if (
+      Object.keys(values).includes("data_fim") ||
+      Object.keys(values).includes("hora_fim")
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const validateEndDate = (endDate) => {
+    if (
+      Object.keys(values).includes("data_fim") ||
+      Object.keys(values).includes("hora_fim")
+    ) {
+      return true;
+    }
     return false;
   };
 
@@ -134,6 +151,9 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
     : false;
+  const successOnValidateEndDate = isEvent
+    ? validateEndDate(values?.data_fim)
+    : false;
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
@@ -152,6 +172,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     // successOnValidateLocation ||
     successOnValidateStartDate ||
     successOnValidateCulturalArea ||
-    successOnIsDatesValid
+    successOnIsDatesValid ||
+    successOnValidateEndDate
   );
 };
