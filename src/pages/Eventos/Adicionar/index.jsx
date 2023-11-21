@@ -140,7 +140,10 @@ const Adicionar = () => {
   };
 
   const handleAssociateProjectClick = (event) => {
-    setAnchorAssociateProjectEl(event.currentTarget);
+    if (fieldValues?.assoc_projeto.length > 0) {
+      return setAnchorAssociateProjectEl(event.currentTarget);
+    }
+    toast.warning(t("eventPage.common.noProjects"));
   };
 
   const handleChangeFieldValues = (key, value) => {

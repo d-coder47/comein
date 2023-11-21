@@ -214,7 +214,7 @@ const Editar = () => {
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
 
-        const assoc_projeto = [response.data.projeto_assoc];
+        const assoc_projeto = response.data.projeto_assoc;
 
         const areas_culturais = response.data.areas_culturais;
         const areasCulturaisIds = areas_culturais?.map(
@@ -272,7 +272,10 @@ const Editar = () => {
   };
 
   const handleAssociateProjectClick = (event) => {
-    setAnchorAssociateProjectEl(event.currentTarget);
+    if (fieldValues?.assoc_projeto.length > 0) {
+      return setAnchorAssociateProjectEl(event.currentTarget);
+    }
+    toast.warning(t("eventPage.common.noProjects"));
   };
 
   const handleChangeFieldValues = (key, value) => {
@@ -985,7 +988,7 @@ const Editar = () => {
                   id="checkboxes-tags-demo"
                   options={projects}
                   disableCloseOnSelect
-                  getOptionLabel={(option) => option.nome}
+                  getOptionLabel={(option) => option?.nome}
                   value={fieldValues.assoc_projeto}
                   renderOption={(props, option, { selected }) => (
                     <li {...props}>
@@ -994,10 +997,10 @@ const Editar = () => {
                         checkedIcon={checkedIcon}
                         style={{ marginRight: 8 }}
                         checked={fieldValues.assoc_projeto
-                          .map((proj) => +proj.id)
-                          .includes(+option.id)}
+                          .map((proj) => +proj?.id)
+                          .includes(+option?.id)}
                       />
-                      {option.nome}
+                      {option?.nome}
                     </li>
                   )}
                   onChange={(_, value) =>

@@ -222,7 +222,8 @@
       "save": "Sauvegarder",
       "defaultDescription": "Description de votre événement",
       "tutorial": "Double-cliquez pour personnaliser",
-      "recorteInfo": "Pour mieux mettre en valeur votre publication, veuillez cliquer sur 'Image rognée' avant d'enregistrer et ajuster votre image."
+      "recorteInfo": "Pour mieux mettre en valeur votre publication, veuillez cliquer sur 'Image rognée' avant d'enregistrer et ajuster votre image.",
+      "noProjects": "Vous n'avez toujours pas de projets à associer"
     }
   },
   "projectPage": {
