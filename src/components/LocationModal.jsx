@@ -99,7 +99,7 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
               if (!value) {
                 setLocation({
                   ...location,
-                  ...{ id: null, nome: "", local: null, lat: null, lng: null },
+                  ...{ id: null, nome: "" },
                 });
                 setShowErrors(false);
               } else {
