@@ -311,6 +311,8 @@ const Adicionar = () => {
 
     if (fieldValues?.hora_fim === "") {
       dataFim = fieldValues?.data_fim;
+    } else if (fieldValues?.data_fim === "" && fieldValues?.hora_fim !== "") {
+      dataFim = `${fieldValues?.data_inicio}T${fieldValues?.hora_fim}`;
     } else {
       dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
     }
