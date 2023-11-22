@@ -245,7 +245,7 @@
   "postValidationsErrors": {
     "nomeObrigatorio": "Nome é obrigatório!",
     "imagemObrigatorio": "Imagem é obrigatória!",
-    "localObrigatorio": "Local é obrigatório!",
+    "localObrigatorio": "Local é obrigatório! Verifique se adicionou o local e as suas coordenadas.",
     "dataInicioObrigatorio": "Data de início é obrigatória!",
     "horaInicioObrigatorio": "Hora de início é obrigatória!",
     "areaCulturalObrigatorio": "Área cultural é obrigatória!",

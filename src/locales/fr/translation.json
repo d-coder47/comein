@@ -245,7 +245,7 @@
   "postValidationsErrors": {
     "nomeObrigatorio": "Le nom est obligatoire !",
     "imagemObrigatorio": "L'image est obligatoire !",
-    "localObrigatorio": "L'emplacement est obligatoire !",
+    "localObrigatorio": "L'emplacement est obligatoire ! Vérifiez que vous avez bien ajouté le lieu et ses coordonnées.",
     "dataInicioObrigatorio": "La date de début est obligatoire !",
     "horaInicioObrigatorio": "L'heure de début est obligatoire !",
     "areaCulturalObrigatorio": "La zone culturelle est obligatoire !",

@@ -245,7 +245,7 @@
   "postValidationsErrors": {
     "nomeObrigatorio": "Name is required!",
     "imagemObrigatorio": "Image is required!",
-    "localObrigatorio": "Location is required!",
+    "localObrigatorio": "Location is required! Check that you have added the location and its coordinates.",
     "dataInicioObrigatorio": "Start date is required!",
     "horaInicioObrigatorio": "Start time is required!",
     "areaCulturalObrigatorio": "Cultural area is required!",
