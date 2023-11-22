@@ -36,9 +36,9 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     return false;
   };
 
-  const validateLocation = (local) => {
+  const validateLocation = (location) => {
     if (Object.keys(values).includes("local")) {
-      if (!local || local === undefined || local?.length === 0 || local === 0) {
+      if (!location.local || !location.lat || !location.lng) {
         toast.error(translatedStrings[2]);
         return false;
       }
@@ -147,7 +147,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const successOnValidateResizedImage = validateResizedImage(
     isEvent ? values?.imgEventoRecortada : values?.imgProjetoRecortada
   );
-  // const successOnValidateLocation = validateLocation(values?.id_geografia);
+  const successOnValidateLocation = validateLocation(values?.local);
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
     : false;
@@ -169,7 +169,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     successOnValidateName ||
     successOnValidateImage ||
     successOnValidateResizedImage ||
-    // successOnValidateLocation ||
+    successOnValidateLocation ||
     successOnValidateStartDate ||
     successOnValidateCulturalArea ||
     successOnIsDatesValid ||

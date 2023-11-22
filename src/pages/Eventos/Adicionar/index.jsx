@@ -128,7 +128,6 @@ const Adicionar = () => {
 
   const handleLocationClick = (event) => {
     setShowLocationModal(true);
-    // setAnchorLocationEl(event.currentTarget);
   };
 
   const handleDateClick = (event) => {
@@ -337,7 +336,11 @@ const Adicionar = () => {
     const values = cleanPost(newEvent, true);
     const body = objectToFormData(values, user.id, true);
 
-    const isValid = validatePost(newEvent, true, validatePostTranslatedStrings);
+    const isValid = validatePost(
+      { ...newEvent, location: fieldValues?.local },
+      true,
+      validatePostTranslatedStrings
+    );
 
     if (isValid) {
       createEvent(body);
