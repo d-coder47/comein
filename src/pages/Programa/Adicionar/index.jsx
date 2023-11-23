@@ -107,7 +107,6 @@ const Adicionar = () => {
   };
 
   const handleSave = () => {
-    console.log(fieldValues);
     const newEvent = {
       idUser: user.id,
       idEvento: id,
@@ -116,23 +115,14 @@ const Adicionar = () => {
       descricaoPrograma: fieldValues?.descricao,
       data: extractDateFromLocalDateTime(fieldValues?.data_inicio),
       hora: extractHourFromLocalDateTime(fieldValues?.data_inicio),
-      // hora_fim: filterEndDate(fieldValues?.data_fim),
-      idGeografia: fieldValues?.local?.id,
+      cidadePrograma: fieldValues?.local?.nome,
       localPrograma: fieldValues?.local?.local,
     };
 
-    console.log(newEvent);
-
-    const values = cleanProgram(newEvent, true);
+    const values = cleanProgram(newEvent, false);
     const body = objectToFormData(values, user.id, true);
 
     addProgram(body);
-
-    // const isValid = validatePost(newEvent, true);
-
-    // if (isValid) {
-    //   addProgram(body);
-    // }
   };
 
   const addProgram = async (newEvent) => {
@@ -176,7 +166,6 @@ const Adicionar = () => {
         sx={{
           width: "100%",
           height: "100%",
-          // backgroundColor: "rgba(0,0,0,.3)",
         }}
       >
         <Box onClick={onGoBack} mr=".5rem" sx={{ float: "right" }}>
@@ -237,7 +226,7 @@ const Adicionar = () => {
                   required
                   id="event-name"
                   name="name"
-                  placeholder={t("eventPage.common.namePlaceholder")}
+                  placeholder={t("eventPage.common.programPlaceholder")}
                   variant="standard"
                   value={fieldValues?.nome}
                   onChange={(e) =>
@@ -284,7 +273,7 @@ const Adicionar = () => {
               formats={editorFormats}
               value={fieldValues.descricao}
               onChange={(value) => handleChangeFieldValues("descricao", value)}
-              placeholder={t("eventPage.common.defaultDescription")}
+              placeholder={t("eventPage.common.programDescription")}
             />
           </Box>
           <Box

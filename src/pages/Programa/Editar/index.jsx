@@ -166,7 +166,7 @@ const Editar = () => {
       data: extractDateFromLocalDateTime(editedFieldValues?.data_inicio),
       hora: extractHourFromLocalDateTime(editedFieldValues?.data_inicio),
       hora_fim: filterEndDate(editedFieldValues?.data_fim),
-      idGeografia: editedFieldValues?.local?.id,
+      cidadePrograma: editedFieldValues?.local?.id,
       local: editedFieldValues?.local?.local,
     };
 

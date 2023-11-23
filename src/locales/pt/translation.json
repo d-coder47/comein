@@ -223,7 +223,9 @@
       "defaultDescription": "Adicione tudo sobre o teu evento",
       "tutorial": "Faça duplo clique para personalizar",
       "recorteInfo": "Para melhor destacar a sua publicação, por favor, clique em 'Imagem Recortada' antes de salvar e ajuste a sua imagem",
-      "noProjects": "Ainda não tens projetos para associar"
+      "noProjects": "Ainda não tens projetos para associar",
+      "programPlaceholder": "Inserir nome do programa",
+      "programDescription": "Adicione tudo sobre o teu programa"
     }
   },
   "projectPage": {

@@ -223,7 +223,9 @@
       "defaultDescription": "Add everything about your event",
       "tutorial": "Double click to customize",
       "recorteInfo": "To enhance the visibility of your post, please click 'Crop Image' before saving and adjust accordingly.",
-      "noProjects": "You don't have any projects to associate"
+      "noProjects": "You don't have any projects to associate",
+      "programPlaceholder": "Enter program name",
+      "programDescription": "Add everything about your program"
     }
   },
   "projectPage": {
