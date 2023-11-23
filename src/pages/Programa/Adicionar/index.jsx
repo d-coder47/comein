@@ -115,7 +115,7 @@ const Adicionar = () => {
       descricaoPrograma: fieldValues?.descricao,
       data: extractDateFromLocalDateTime(fieldValues?.data_inicio),
       hora: extractHourFromLocalDateTime(fieldValues?.data_inicio),
-      cidadePrograma: fieldValues?.local?.nome,
+      idGeografia: fieldValues?.local?.id,
       localPrograma: fieldValues?.local?.local,
     };
 

@@ -158,8 +158,6 @@ const Editar = () => {
   const handleSave = () => {
     console.log(editedFieldValues);
     const newEvent = {
-      // idUser: user.id,
-      // idEvento: idPrograma,
       titulo: editedFieldValues?.nome,
       imagemPrograma: editedFieldValues?.imgEvento,
       descricao: editedFieldValues?.descricao,
@@ -176,12 +174,6 @@ const Editar = () => {
     const body = objectToFormData(values, user.id, false);
 
     editProgram(body);
-
-    // const isValid = validatePost(newEvent, true);
-
-    // if (isValid) {
-    //   editProgram(body);
-    // }
   };
 
   const editProgram = async (newEvent) => {
