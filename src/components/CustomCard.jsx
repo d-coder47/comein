@@ -30,6 +30,7 @@ import {
   EmailShareButton,
   EmailIcon,
 } from "react-share";
+import HelmetMetaData from "./HelmetMetaData";
 
 import { Visibility } from "@mui/icons-material";
 
@@ -155,6 +156,11 @@ const CustomCard = ({
 
   return (
     <>
+      {/* <HelmetMetaData
+        title={name}
+        description="Post it with your friends"
+        image={picture}
+      ></HelmetMetaData> */}
       <Box
         id="card-container"
         ref={containerRef}
@@ -356,41 +362,44 @@ const CustomCard = ({
                   {t("shareModal.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
-                  <FacebookShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
-                    quote={"Post it with your friends"}
-                    hashtag="comeincv"
-                    media="https://img.freepik.com/vetores-gratis/paisagem-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
-                  >
-                    <FacebookIcon size={40} round />
-                  </FacebookShareButton>
+                  <>
+                    <FacebookShareButton
+                      url={"https://comein.cv/" + getPostPath()}
+                      quote={"Post it with your friends"}
+                      hashtag="comeincv"
+                      media={picture}
+                    >
+                      <FacebookIcon size={40} round />
+                    </FacebookShareButton>
+                  </>
+
                   <FacebookMessengerShareButton
                     appId="976472220466365"
-                    url={"https://comein-cv.vercel.app/"}
+                    url={"https://comein.cv/"}
                   >
                     <FacebookMessengerIcon size={40} round />
                   </FacebookMessengerShareButton>
                   <WhatsappShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     title={name}
                   >
                     <WhatsappIcon size={40} round />
                   </WhatsappShareButton>
                   <ViberShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     title={name}
                   >
                     <ViberIcon size={40} round />
                   </ViberShareButton>
                   <PinterestShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     description={"Testing description"}
                     media={picture}
                   >
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
@@ -398,14 +407,14 @@ const CustomCard = ({
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
                   <TwitterShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     title={name}
                     via="Comein-CV"
                   >
                     <TwitterIcon size={40} round />
                   </TwitterShareButton>
                   <EmailShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     subject={`${name}: de Comein CV`}
                     body={`Venha ver o post de ${publisherName}`}
                   >
