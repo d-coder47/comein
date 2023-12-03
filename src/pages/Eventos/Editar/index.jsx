@@ -75,8 +75,7 @@ const Editar = () => {
     assoc_projeto: "",
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
-  const [owners, setOwners] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [owners, setOwners] = useState([{ id: 0, nome: "" }]);
   const [projects, setProjects] = useState([]);
   const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
@@ -131,25 +130,6 @@ const Editar = () => {
     if (!userInfo) return navigate("/");
     setUser(userInfo);
 
-    const getUsers = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/utilizadores/obterUtilizadores`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setUsers(response.data.dados || []);
-      } catch (error) {
-        console.error(error);
-        setUsers([]);
-      }
-    };
-
     const getProjects = async () => {
       try {
         const response = await axiosInstance.get(
@@ -168,7 +148,6 @@ const Editar = () => {
       }
     };
 
-    getUsers();
     getProjects();
   }, []);
 
@@ -226,14 +205,20 @@ const Editar = () => {
 
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
-
+        console.log(resExtractEndDateAndTime);
         const newData = {
           id,
           nome: data.nome,
           data_inicio: resExtractStartDateAndTime.formattedDate,
-          data_fim: resExtractEndDateAndTime.formattedDate,
+          data_fim:
+            resExtractEndDateAndTime.formattedDate === "1900-01-02"
+              ? ""
+              : resExtractEndDateAndTime.formattedDate,
           hora_inicio: resExtractStartDateAndTime.formattedTime,
-          hora_fim: resExtractEndDateAndTime.formattedTime,
+          hora_fim:
+            resExtractEndDateAndTime.formattedTime === "23:59:59"
+              ? ""
+              : resExtractEndDateAndTime.formattedTime,
           imagem: `${imgApiPath}/eventosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
@@ -245,7 +230,8 @@ const Editar = () => {
             coordinateId: coordinates ? coordinates?.id : null,
           },
           id_utilizador: data.id_utilizador,
-          proprietarios,
+          proprietarios:
+            proprietarios.length === 0 ? { id: 0, nome: "" } : proprietarios,
           areasCulturais,
           assoc_projeto,
         };
@@ -371,7 +357,7 @@ const Editar = () => {
       ),
     };
 
-    const values = cleanPost(filteredFieldValues, false);
+    const values = cleanPost({ ...filteredFieldValues }, false);
 
     if (Object.keys(values).includes("hora_inicio")) {
       delete values.hora_inicio;
@@ -395,13 +381,23 @@ const Editar = () => {
       }
 
       const isValid = validateEditedPost(
-        editedFieldValues,
+        {
+          ...editedFieldValues,
+          data_inicio:
+            editedFieldValues?.data_inicio !== undefined
+              ? editedFieldValues.data_inicio
+              : `${fieldValues.data_inicio} ${
+                  editedFieldValues?.hora_inicio !== undefined
+                    ? "T" + editedFieldValues.hora_inicio
+                    : "T" + fieldValues.hora_inicio
+                }`,
+        },
         true,
         validatePostTranslatedStrings
       );
 
       if (isValid) {
-        editEvent(body);
+        editEvent(body, editedFieldValues?.local);
       } else {
         setLoading(false);
       }
@@ -414,7 +410,7 @@ const Editar = () => {
     }
   };
 
-  const editEvent = async (newEvent) => {
+  const editEvent = async (newEvent, local) => {
     try {
       const response = await axiosInstance.post(
         `/eventos/atualizar/${id}`,
@@ -430,7 +426,7 @@ const Editar = () => {
 
       setLoading(false);
       if (response?.data?.dados !== "erro") {
-        if (newEvent.get("id_geografia")) {
+        if (local !== undefined && local !== null) {
           const addedToMap = await editCoordinates(
             fieldValues?.local,
             response?.data?.dados
@@ -588,13 +584,6 @@ const Editar = () => {
                     {t("eventPage.common.associatedOwners")}
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
-                  {/* <CustomizedAutoComplete
-                    data={users}
-                    currentValue={fieldValues.proprietarios}
-                    onAutoCompleteChange={(value) =>
-                      handleChangeFieldValues("proprietarios", value)
-                    }
-                  /> */}
                   <Autocomplete
                     id="users-auto-complete"
                     options={owners}

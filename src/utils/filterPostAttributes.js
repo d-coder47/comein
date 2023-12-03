@@ -76,7 +76,7 @@ export const filterAssociatedOwners = (associatedOwners) => {
 
 export const cleanPost = (post, isAdding = true) => {
   Object.keys(post).forEach((key) => {
-    if (key === "local") {
+    if (key === "local" && post[key].nome.length > 0) {
       post["id_geografia"] = post[key].id;
     }
 

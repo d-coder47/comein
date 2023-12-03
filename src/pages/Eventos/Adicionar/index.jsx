@@ -77,9 +77,7 @@ const Adicionar = () => {
     assoc_projeto: [],
   });
   const [owners, setOwners] = useState([]);
-  const [users, setUsers] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [addresses, setAddresses] = useState([]);
   const [openCroppedImage, setOpenCroppedImage] = useState(false);
   const [showLocationModal, setShowLocationModal] = useState(false);
 
@@ -156,29 +154,6 @@ const Adicionar = () => {
     if (!userInfo) return navigate("/");
     setUser(userInfo);
 
-    const getUsers = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/utilizadores/obterUtilizadores`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const newUsers = response?.data?.dados.filter(
-          (user) => user.nome !== null
-        );
-
-        setUsers(newUsers);
-      } catch (error) {
-        console.error(error);
-        setUsers([]);
-      }
-    };
-
     const getProjects = async () => {
       try {
         const response = await axiosInstance.get(
@@ -202,7 +177,6 @@ const Adicionar = () => {
       }
     };
 
-    getUsers();
     getProjects();
   }, []);
 
