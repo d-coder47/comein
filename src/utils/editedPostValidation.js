@@ -73,7 +73,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     return false;
   };
 
-  const validateEndDate = (endDate) => {
+  const validateEndDate = () => {
     if (
       Object.keys(values).includes("data_fim") ||
       Object.keys(values).includes("hora_fim")
@@ -93,6 +93,13 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
         toast.error(translatedStrings[5]);
         return false;
       }
+      return true;
+    }
+    return false;
+  };
+
+  const validateOwners = () => {
+    if (Object.keys(values).includes("proprietarios")) {
       return true;
     }
     return false;
@@ -157,6 +164,9 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
+  const successOnValidateOwners = isEvent
+    ? validateOwners(values?.proprietarios)
+    : false;
   const successOnIsDatesValid = isEvent
     ? isDatesValid(
         values?.data_inicio,
@@ -172,6 +182,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     successOnValidateLocation ||
     successOnValidateStartDate ||
     successOnValidateCulturalArea ||
+    successOnValidateOwners ||
     successOnIsDatesValid ||
     successOnValidateEndDate
   );

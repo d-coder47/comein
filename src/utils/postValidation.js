@@ -26,7 +26,7 @@ export const validatePost = (values, isEvent, translatedStrings) => {
   };
 
   const validateLocation = (location) => {
-    if (!location.local || !location.lat || !location.lng) {
+    if (!location?.local || !location?.lat || !location?.lng) {
       toast.error(translatedStrings[2]);
       return false;
     }
