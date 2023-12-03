@@ -31,6 +31,8 @@ import {
   EmailIcon,
 } from "react-share";
 
+import HelmetMetaData from "./HelmetMetaData";
+
 import { Visibility } from "@mui/icons-material";
 
 import axiosInstance from "../api/axiosInstance";
@@ -155,6 +157,7 @@ const CustomCard = ({
 
   return (
     <>
+      <HelmetMetaData />
       <Box
         id="card-container"
         ref={containerRef}

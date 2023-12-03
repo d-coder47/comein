@@ -2,8 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
 export default function HelmetMetaData(props) {
-  let location = useLocation();
-  let currentUrl = "http://www.camperstribe.com" + location.pathname;
+  let currentUrl = "https://comein-cv.vercel.app/";
   let quote = props.quote !== undefined ? props.quote : "";
   let title =
     props.title !== undefined
@@ -12,7 +11,7 @@ export default function HelmetMetaData(props) {
   let image =
     props.image !== undefined
       ? props.image
-      : "https://storage.googleapis.com/cmperstribe_storage_usha/Banner/IMG_3640.JPG";
+      : "https://comein.cv/comeincv/server/src/capaImg/Logo%20final%20COME%20IN%20-04-652890db961c8.png";
   let description =
     props.description !== undefined
       ? props.description
