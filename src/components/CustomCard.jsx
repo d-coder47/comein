@@ -401,7 +401,7 @@ const CustomCard = ({
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
                   <TwitterShareButton
-                    url={"https://comein.cv/" + getPostPath()}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                     via="Comein-CV"
                   >
