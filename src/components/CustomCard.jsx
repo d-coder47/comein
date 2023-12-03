@@ -30,7 +30,6 @@ import {
   EmailShareButton,
   EmailIcon,
 } from "react-share";
-import HelmetMetaData from "./HelmetMetaData";
 
 import { Visibility } from "@mui/icons-material";
 
@@ -156,11 +155,6 @@ const CustomCard = ({
 
   return (
     <>
-      {/* <HelmetMetaData
-        title={name}
-        description="Post it with your friends"
-        image={picture}
-      ></HelmetMetaData> */}
       <Box
         id="card-container"
         ref={containerRef}
