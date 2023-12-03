@@ -399,7 +399,7 @@ const CustomCard = ({
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={"https://comein.cv/" + getPostPath()}
+                    url={"https://comein-cv.vercel.app/" + getPostPath()}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
