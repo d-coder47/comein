@@ -364,7 +364,7 @@ const CustomCard = ({
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <>
                     <FacebookShareButton
-                      url={"https://comein.cv/" + getPostPath()}
+                      url={"https://comein-cv.vercel.app/" + getPostPath()}
                       quote={"Post it with your friends"}
                       hashtag="comeincv"
                       media={picture}
