@@ -28,7 +28,7 @@ import useUserProfile from "../hooks/useUserProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import useEvents from "../hooks/useEvents";
 import useProjects from "../hooks/useProjects";
-import { Helmet } from "react-helmet";
+
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
@@ -501,13 +501,6 @@ const CardDetailed = () => {
 
   return (
     <Box sx={{ width: "100%", height: "100%", backgroundColor: "#f8f8f8" }}>
-      <Helmet>
-        <meta property="og:title" content={details?.dados?.nome} />
-        <meta
-          property="og:image"
-          content={`${imgApiPath}/${type}Img/${details?.dados?.imagem}`}
-        />
-      </Helmet>
       <Box
         sx={{
           margin: "0 0 0 4rem",
