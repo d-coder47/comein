@@ -132,13 +132,6 @@ const CustomCard = ({
     setCurrentContainerWidth(containerRef.current.offsetWidth);
   }, [containerRef.current]);
 
-  useEffect(() => {
-    const isFacebook = navigator.userAgent.includes("facebook");
-    if (isFacebook) {
-      console.log("Facebook is fetching my index.html file");
-    }
-  }, []);
-
   if (isLoading) {
     return (
       <Stack spacing={1}>
