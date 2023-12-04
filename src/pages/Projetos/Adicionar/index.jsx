@@ -226,7 +226,7 @@ const Adicionar = () => {
     const body = objectToFormData(values, user.id, true);
 
     const isValid = validatePost(
-      newProject,
+      { ...newProject, location: fieldValues?.local },
       false,
       validatePostTranslatedStrings
     );

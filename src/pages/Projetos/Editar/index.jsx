@@ -176,7 +176,7 @@ const Editar = () => {
         const coordinates = response?.data?.coordenadas;
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
-        // const assoc_evento = response.data.evento_assoc;
+
         const areas_culturais = response.data.areas_culturais;
         const areasCulturaisIds = areas_culturais?.map(
           (area) => +area.id_acultural
@@ -193,16 +193,16 @@ const Editar = () => {
           descricao: data.descricao,
           local: {
             id: data?.id_geografia,
-            nome: data?.localProjeto,
+            nome: data?.localProjeto === null ? "" : data?.localProjeto,
             lat: coordinates ? coordinates?.latitude : null,
             lng: coordinates ? coordinates?.longitude : null,
             local: coordinates ? coordinates?.nome : null,
             coordinateId: coordinates ? coordinates?.id : null,
           },
           id_utilizador: data.id_utilizador,
-          proprietarios,
+          proprietarios:
+            proprietarios.length === 0 ? { id: 0, nome: "" } : proprietarios[0],
           areasCulturais,
-          // assoc_evento,
         });
       } catch (error) {
         console.log(error);
@@ -273,15 +273,15 @@ const Editar = () => {
       false,
       validatePostTranslatedStrings
     );
-
+    console.log({ filteredFieldValues, values, body, isValid });
     if (isValid) {
-      editProject(body);
+      editProject(body, editedFieldValues?.local);
     } else {
       setLoading(false);
     }
   };
 
-  const editProject = async (newProject) => {
+  const editProject = async (newProject, local) => {
     try {
       const response = await axiosInstance.post(
         `/projetos/atualizar/${id}`,
@@ -294,11 +294,11 @@ const Editar = () => {
           },
         }
       );
-      const postName = editedFieldValues?.nome || fieldValues?.nome;
       setLoading(false);
+      const postName = editedFieldValues?.nome || fieldValues?.nome;
 
       if (response?.data?.dados !== "erro") {
-        if (newProject.get("id_geografia")) {
+        if (local !== undefined && local !== null) {
           const addedToMap = await editCoordinates(
             fieldValues?.local,
             response?.data?.dados
@@ -486,7 +486,7 @@ const Editar = () => {
                     onInputChange={async (event, value) => {
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
-                        setOwners(res.dados);
+                        setOwners(res?.dados === undefined ? [] : res?.dados);
                       } else {
                         setOwners([]);
                       }

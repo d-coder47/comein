@@ -164,9 +164,8 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
-  const successOnValidateOwners = isEvent
-    ? validateOwners(values?.proprietarios)
-    : false;
+  const successOnValidateOwners = validateOwners(values?.proprietarios);
+
   const successOnIsDatesValid = isEvent
     ? isDatesValid(
         values?.data_inicio,

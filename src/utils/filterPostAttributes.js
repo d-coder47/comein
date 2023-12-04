@@ -67,6 +67,10 @@ export const filterAssociatedProjects = (associatedProject) => {
 
 export const filterAssociatedOwners = (associatedOwners) => {
   if (!associatedOwners) return null;
+  if (typeof associatedOwners === "object") {
+    return associatedOwners?.id;
+  }
+
   return associatedOwners.length > 0
     ? associatedOwners.length > 1
       ? arrayToString(associatedOwners.map((item) => item.id)).slice(0, -1)

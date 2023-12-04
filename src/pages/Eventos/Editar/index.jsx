@@ -205,7 +205,7 @@ const Editar = () => {
 
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
-        console.log(resExtractEndDateAndTime);
+        console.log(proprietarios);
         const newData = {
           id,
           nome: data.nome,
@@ -231,7 +231,7 @@ const Editar = () => {
           },
           id_utilizador: data.id_utilizador,
           proprietarios:
-            proprietarios.length === 0 ? { id: 0, nome: "" } : proprietarios,
+            proprietarios.length === 0 ? { id: 0, nome: "" } : proprietarios[0],
           areasCulturais,
           assoc_projeto,
         };
