@@ -88,7 +88,7 @@ export const cleanPost = (post, isAdding = true) => {
       delete post[key];
     }
 
-    if (!isAdding && post[key] === null) {
+    if (!isAdding && post[key] === null && key !== "idsProprietarios") {
       delete post[key];
     }
 

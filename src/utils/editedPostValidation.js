@@ -11,7 +11,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       return true;
     }
 
-    return false;
+    return true;
   };
 
   const validateImage = (image) => {
@@ -22,7 +22,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
-    return false;
+    return true;
   };
 
   const validateResizedImage = (image) => {
@@ -33,7 +33,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
-    return false;
+    return true;
   };
 
   const validateLocation = (location) => {
@@ -44,7 +44,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
-    return false;
+    return true;
   };
 
   const validateStartDate = (startDate) => {
@@ -70,7 +70,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     ) {
       return true;
     }
-    return false;
+    return true;
   };
 
   const validateEndDate = () => {
@@ -80,7 +80,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     ) {
       return true;
     }
-    return false;
+    return true;
   };
 
   const validateCulturalArea = (culturarArea) => {
@@ -95,14 +95,14 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
       return true;
     }
-    return false;
+    return true;
   };
 
   const validateOwners = () => {
     if (Object.keys(values).includes("proprietarios")) {
       return true;
     }
-    return false;
+    return true;
   };
 
   const isDatesValid = (startDate, endDate, isStartDateValid) => {
@@ -144,7 +144,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       return true;
     }
 
-    return false;
+    return true;
   };
 
   const successOnValidateName = validateName(values?.nome);
@@ -157,10 +157,10 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const successOnValidateLocation = validateLocation(values?.local);
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
-    : false;
+    : true;
   const successOnValidateEndDate = isEvent
     ? validateEndDate(values?.data_fim)
-    : false;
+    : true;
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
@@ -172,17 +172,17 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
         values?.data_fim,
         successOnValidateStartDate
       )
-    : false;
+    : true;
 
   return (
-    successOnValidateName ||
-    successOnValidateImage ||
-    successOnValidateResizedImage ||
-    successOnValidateLocation ||
-    successOnValidateStartDate ||
-    successOnValidateCulturalArea ||
-    successOnValidateOwners ||
-    successOnIsDatesValid ||
+    successOnValidateName &&
+    successOnValidateImage &&
+    successOnValidateResizedImage &&
+    successOnValidateLocation &&
+    successOnValidateStartDate &&
+    successOnValidateCulturalArea &&
+    successOnValidateOwners &&
+    successOnIsDatesValid &&
     successOnValidateEndDate
   );
 };
