@@ -31,6 +31,7 @@ import { MuiTelInput } from "mui-tel-input";
 import useRegisterUser from "../../../hooks/useRegisterUser";
 import useUserProfile from "../../../hooks/useUserProfile";
 
+import { redirectToProfilePage } from "../../../utils/generateUrl";
 import { toast } from "react-toastify";
 
 const editorModules = {
@@ -188,6 +189,8 @@ const EditProfile = () => {
     if (userInfo.sexo) {
       setFormData({
         ...formData,
+        name: userInfo.nome,
+        email: userInfo.email,
         date: userInfo.data_nasc,
         nationality: userInfo.nacionalidade,
         contact: userInfo.contatos,
@@ -394,6 +397,7 @@ const EditProfile = () => {
         const user = await getUser(userId);
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
         toast.success(t("editProfilePage.perfilAtualizadoSucesso"));
+        navigate(redirectToProfilePage(userId, nome));
       }
     }
   };
