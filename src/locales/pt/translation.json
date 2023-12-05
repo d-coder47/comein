@@ -257,7 +257,8 @@
   },
   "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
-    "copiarLigacao": "Copiar Ligação"
+    "copiarLigacao": "Copiar Ligação",
+    "ligacaoCopiada": "Ligação copiada!"
   },
   "locationModals": {
     "cancel": "Cancelar",

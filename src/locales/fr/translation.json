@@ -257,7 +257,8 @@
   },
   "shareModal": {
     "partilhePostRedeSociais": "Partagez sur vos réseaux sociaux",
-    "copiarLigacao": "Copier le lien"
+    "copiarLigacao": "Copier le lien",
+    "ligacaoCopiada": "Lien copié dans le presse-papiers !"
   },
   "locationModals": {
     "cancel": "Annuler",
