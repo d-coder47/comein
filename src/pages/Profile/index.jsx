@@ -1178,7 +1178,7 @@ const UserProfile = () => {
               },
             }}
           >
-            <Tooltip title="Adicionar">
+            <Tooltip title={t("userProfile.adicionar")}>
               <Button onClick={handleClick}>
                 <Add
                   sx={{
