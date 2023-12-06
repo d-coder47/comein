@@ -301,40 +301,40 @@ const EditProfile = () => {
       setShowNameError(false);
     }
 
-    if (formData.date.trim() === "") {
-      errors.date = t("registerpage.dataNascObrigatorio");
-      setShowDateError(true);
-    } else {
-      setShowDateError(false);
-    }
+    // if (formData.date.trim() === "") {
+    //   errors.date = t("registerpage.dataNascObrigatorio");
+    //   setShowDateError(true);
+    // } else {
+    //   setShowDateError(false);
+    // }
 
-    if (formData.nationality.trim() === "") {
-      errors.nationality = t("registerpage.nacionalidadeObrigatorio");
-      setShowNationalityError(true);
-    } else {
-      setShowNationalityError(false);
-    }
+    // if (formData.nationality.trim() === "") {
+    //   errors.nationality = t("registerpage.nacionalidadeObrigatorio");
+    //   setShowNationalityError(true);
+    // } else {
+    //   setShowNationalityError(false);
+    // }
 
-    if (formData.residence.trim() === "") {
-      errors.residence = t("registerpage.residenciaObrigatorio");
-      setShowResidenceError(true);
-    } else {
-      setShowResidenceError(false);
-    }
+    // if (formData.residence.trim() === "") {
+    //   errors.residence = t("registerpage.residenciaObrigatorio");
+    //   setShowResidenceError(true);
+    // } else {
+    //   setShowResidenceError(false);
+    // }
 
-    if (formData.contact.trim() === "") {
-      errors.contact = t("registerpage.contatoObrigatorio");
-      setShowContactError(true);
-    } else {
-      setShowContactError(false);
-    }
+    // if (formData.contact.trim() === "") {
+    //   errors.contact = t("registerpage.contatoObrigatorio");
+    //   setShowContactError(true);
+    // } else {
+    //   setShowContactError(false);
+    // }
 
-    if (formData.gender.trim() === "") {
-      errors.gender = t("registerpage.generoObrigatorio");
-      setShowGenderError(true);
-    } else {
-      setShowGenderError(false);
-    }
+    // if (formData.gender.trim() === "") {
+    //   errors.gender = t("registerpage.generoObrigatorio");
+    //   setShowGenderError(true);
+    // } else {
+    //   setShowGenderError(false);
+    // }
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
@@ -415,7 +415,7 @@ const EditProfile = () => {
               lg: "2rem",
               xl: "2rem",
             },
-            height: "100%",
+            height: "100vh",
           }}
         >
           <Grid
