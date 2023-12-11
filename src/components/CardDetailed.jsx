@@ -999,11 +999,11 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
   };
 
   const generateLocation = (city, location) => {
-    const cityStr = !city || !city?.length > 0 ? "" : city;
+    const cityStr = !city || !city?.length > 0 || city === "MUNDO" ? "" : city;
     const locationStr =
       !location || !location?.length > 0 || location == "null" ? "" : location;
     const separator =
-      !city || !location?.length > 0 || location == "null" ? "" : ", ";
+      cityStr.length === 0 || !location?.length > 0 || location == "null" ? "" : ", ";
     return `${locationStr}${separator}${cityStr}`;
   };
 
