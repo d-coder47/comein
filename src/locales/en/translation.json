@@ -82,6 +82,7 @@
     "removerProjetoModal": "Are you sure you want to remove this project?",
     "adicionarEvento": "Add Event",
     "adicionarProjeto": "Add Project",
+    "adicionar": "Add",
     "configPage": {
       "ajudaSuporte": "Help & Support",
       "reportarErro": "Report problem",
@@ -96,7 +97,7 @@
       "comoReportarError": "How to report an error?",
       "comoReportarErrorDetails": "Click on the icon with your profile picture that appears in the upper right corner of the site, click the <strong>Settings icon</strong> that appears on the left side of the page under the Edit Profile button, click on the <strong>Report Error item</strong> that appears in the menu on the left side of the page.",
       "comoRemoverConta": "How to remove my account?",
-      "comoRemoverContaDetails": "Click on the icon with your profile picture that appears in the upper right corner of the site, click on the Settings icon that appears on the left side of the page under  the <strong>Edit Profile</strong> button, click on the <strong>Remove Account</strong> item that appears in the menu on the left side of the page.",
+      "comoRemoverContaDetails": "Click on the icon with your profile picture that appears in the upper right corner of the site, click on the <strong>Settings</strong> icon that appears on the left side of the page under  the <strong>Edit Profile</strong> button, click on the <strong>Remove Account</strong> item that appears in the menu on the left side of the page.",
       "termosUso": "Terms of Use",
       "politicasPrivacidade": "Privacy Policy",
       "removerContaDetails": "Deleting the account will remove all content and data associated with the account and you will lose access to the account immediately.",
@@ -257,7 +258,8 @@
   },
   "shareModal": {
     "partilhePostRedeSociais": "Share on social networks",
-    "copiarLigacao": "Copy Link"
+    "copiarLigacao": "Copy Link",
+    "ligacaoCopiada": "Link copied to clipboard!"
   },
   "locationModals": {
     "cancel": "Cancel",

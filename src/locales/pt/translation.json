@@ -82,6 +82,7 @@
     "removerProjetoModal": "Tem certeza de que deseja remover este projeto?",
     "adicionarEvento": "Adicionar Evento",
     "adicionarProjeto": " Adicionar Projeto",
+    "adicionar": "Adicionar",
     "configPage": {
       "ajudaSuporte": "Ajuda e suporte",
       "reportarErro": "Comunicar erro",
@@ -257,7 +258,8 @@
   },
   "shareModal": {
     "partilhePostRedeSociais": "Partilhar nas redes sociais",
-    "copiarLigacao": "Copiar Ligação"
+    "copiarLigacao": "Copiar Ligação",
+    "ligacaoCopiada": "Ligação copiada!"
   },
   "locationModals": {
     "cancel": "Cancelar",

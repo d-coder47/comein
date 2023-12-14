@@ -233,7 +233,6 @@ const useRegisterUser = () => {
     try {
       let params;
       if (formType === "editProfileForm") {
-        console.log("hello");
         params = new URLSearchParams({
           _method,
           sexo,

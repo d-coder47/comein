@@ -37,6 +37,7 @@ import axiosInstance from "../api/axiosInstance";
 import UserCard from "./UserCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import copy from "clipboard-copy";
 
 const CustomCard = ({
   id = null,
@@ -52,6 +53,8 @@ const CustomCard = ({
   const [openShareModal, setOpenShareModal] = useState(false);
   const [publisherInfo, setPublisherInfo] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
   const containerMinusImageHeight = 48;
@@ -92,6 +95,17 @@ const CustomCard = ({
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleCopyLink = () => {
+    const linkToCopy = "https://comein.cv/" + getPostPath();
+    copy(linkToCopy)
+      .then(() => {
+        setLinkCopied(!linkCopied);
+      })
+      .catch((err) => {
+        console.error("Failed to copy link to clipboard", err);
+      });
   };
 
   const handleMenuClose = (shouldClose) => {
@@ -358,7 +372,7 @@ const CustomCard = ({
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <>
                     <FacebookShareButton
-                      url={"https://comein-cv.vercel.app/" + getPostPath()}
+                      url={"https://comein.cv/" + getPostPath()}
                       quote={"Post it with your friends"}
                       hashtag="comeincv"
                       media={picture}
@@ -393,7 +407,7 @@ const CustomCard = ({
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
@@ -401,7 +415,7 @@ const CustomCard = ({
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
                   <TwitterShareButton
-                    url={"https://comein-cv.vercel.app/" + getPostPath()}
+                    url={"https://comein.cv/" + getPostPath()}
                     title={name}
                     via="Comein-CV"
                   >
@@ -419,8 +433,11 @@ const CustomCard = ({
                   sx={{ marginTop: "1rem" }}
                   variant="contained"
                   endIcon={<Link />}
+                  onClick={handleCopyLink}
                 >
-                  {t("shareModal.copiarLigacao")}
+                  {linkCopied
+                    ? t("shareModal.ligacaoCopiada")
+                    : t("shareModal.copiarLigacao")}
                 </Button>
               </Box>
             </Box>

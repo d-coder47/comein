@@ -88,7 +88,9 @@ const EditProfile = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
 
   const [countrie, setCountrie] = React.useState(userInfo.nacionalidade);
-  const [address, setAddress] = React.useState(userInfo.residencia);
+  const [address, setAddress] = React.useState(
+    userInfo.residencia === "MUNDO" ? "" : userInfo.residencia
+  );
 
   const [formData, setFormData] = React.useState({
     email: "",
@@ -191,11 +193,11 @@ const EditProfile = () => {
         ...formData,
         name: userInfo.nome,
         email: userInfo.email,
-        date: userInfo.data_nasc,
+        date: userInfo.data_nasc === "1900-01-01" ? "" : userInfo.data_nasc,
         nationality: userInfo.nacionalidade,
         contact: userInfo.contatos,
         gender: userInfo.sexo,
-        residence: userInfo.residencia,
+        // residence: userInfo.residencia === "MUNDO" ? "" : userInfo.residencia,
       });
     }
   }, []);
@@ -301,51 +303,51 @@ const EditProfile = () => {
       setShowNameError(false);
     }
 
-    if (formData.date.trim() === "") {
-      errors.date = t("registerpage.dataNascObrigatorio");
-      setShowDateError(true);
-    } else {
-      setShowDateError(false);
-    }
+    // if (formData.date.trim() === "") {
+    //   errors.date = t("registerpage.dataNascObrigatorio");
+    //   setShowDateError(true);
+    // } else {
+    //   setShowDateError(false);
+    // }
 
-    if (formData.nationality.trim() === "") {
-      errors.nationality = t("registerpage.nacionalidadeObrigatorio");
-      setShowNationalityError(true);
-    } else {
-      setShowNationalityError(false);
-    }
+    // if (formData.nationality.trim() === "") {
+    //   errors.nationality = t("registerpage.nacionalidadeObrigatorio");
+    //   setShowNationalityError(true);
+    // } else {
+    //   setShowNationalityError(false);
+    // }
 
-    if (formData.residence.trim() === "") {
-      errors.residence = t("registerpage.residenciaObrigatorio");
-      setShowResidenceError(true);
-    } else {
-      setShowResidenceError(false);
-    }
+    // if (formData.residence.trim() === "") {
+    //   errors.residence = t("registerpage.residenciaObrigatorio");
+    //   setShowResidenceError(true);
+    // } else {
+    //   setShowResidenceError(false);
+    // }
 
-    if (formData.contact.trim() === "") {
-      errors.contact = t("registerpage.contatoObrigatorio");
-      setShowContactError(true);
-    } else {
-      setShowContactError(false);
-    }
+    // if (formData.contact.trim() === "") {
+    //   errors.contact = t("registerpage.contatoObrigatorio");
+    //   setShowContactError(true);
+    // } else {
+    //   setShowContactError(false);
+    // }
 
-    if (formData.gender.trim() === "") {
-      errors.gender = t("registerpage.generoObrigatorio");
-      setShowGenderError(true);
-    } else {
-      setShowGenderError(false);
-    }
+    // if (formData.gender.trim() === "") {
+    //   errors.gender = t("registerpage.generoObrigatorio");
+    //   setShowGenderError(true);
+    // } else {
+    //   setShowGenderError(false);
+    // }
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
       let token = localStorage.getItem("token");
 
       const nacionalidades = await getCountries(
-        formData.nationality.slice(0, 4),
+        formData.nationality?.slice(0, 4),
         token
       );
       const residencias = await getAddresses(
-        formData.residence.slice(0, 4),
+        formData.residence?.slice(0, 4),
         token
       );
 
@@ -378,16 +380,18 @@ const EditProfile = () => {
 
       let nome = formData.name;
       let _method = "PUT";
+      console.log(data_nasc ?? "1900-01-01");
+
       const res = await updateUser(
         "editProfileForm",
         sexo,
-        data_nasc,
-        contatos,
-        residencia,
-        nacionalidade,
+        data_nasc === "" ? "1900-01-01" : data_nasc,
+        contatos ?? "",
+        residencia ?? 0,
+        nacionalidade ?? 0,
         userId,
         token,
-        nome,
+        nome ?? "",
         _method
       );
 
@@ -415,7 +419,7 @@ const EditProfile = () => {
               lg: "2rem",
               xl: "2rem",
             },
-            height: "100%",
+            height: "100vh",
           }}
         >
           <Grid

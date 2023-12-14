@@ -591,7 +591,9 @@ const UserProfile = () => {
                       sx={{ marginRight: "0.5rem" }}
                     />
                     <Typography variant="body2">
-                      {pageUserInfo.residencia}
+                      {pageUserInfo.residencia === "MUNDO"
+                        ? ""
+                        : pageUserInfo.residencia}
                     </Typography>
                   </Box>
                   <Box
@@ -1178,7 +1180,7 @@ const UserProfile = () => {
               },
             }}
           >
-            <Tooltip title="Adicionar">
+            <Tooltip title={t("userProfile.adicionar")}>
               <Button onClick={handleClick}>
                 <Add
                   sx={{
