@@ -315,9 +315,9 @@ const Adicionar = () => {
       true,
       validatePostTranslatedStrings
     );
-    return console.log({ isValid, newEvent, values, body });
+    // return console.log({ isValid, newEvent, values, body });
     if (isValid) {
-      // createEvent(body);
+      createEvent(body);
     }
   };
 

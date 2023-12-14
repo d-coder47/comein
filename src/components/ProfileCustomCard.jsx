@@ -219,112 +219,7 @@ const ProfileCustomCard = ({
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) return;
-
-    const hasLikedEvent = async (userId, eventId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/gostosEventos/gostos/${userId},${eventId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const liked = response?.data?.dados || 0;
-        setIsLiked(liked);
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
-    };
-
-    const hasLikedProject = async (userId, projectId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/gostosProjetos/gostos/${userId},${projectId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const liked = response?.data?.dados || 0;
-        setIsLiked(liked);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const hasFavoritePost = async (userId, postId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/favoritos/getFavoritos/${userId},${postId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const ids = response?.data?.dados?.map((post) => post.id);
-        setIsFavorite(ids.includes(postId));
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
-    };
-
-    if (type === "E") {
-      hasLikedEvent(user.id, id);
-    } else {
-      hasLikedProject(user.id, id);
-    }
-
-    hasFavoritePost(user.id, id);
   }, [id]);
-
-  // const handleLike = async () => {
-  //   const user = JSON.parse(localStorage.getItem("userInfo"));
-  //   if (!user)
-  //     return (window.location.href = `http://${window.location.host}/registar`);
-
-  //   const userId = user?.id;
-
-  //   const result = await likePost(userId, id, type);
-  //   if (result === null) return null;
-
-  //   if (result) setIsLiked(true);
-  //   else setIsLiked(false);
-  // };
-
-  // const handleFavorite = async (favorite) => {
-  //   const user = JSON.parse(localStorage.getItem("userInfo"));
-  //   if (!user)
-  //     return (window.location.href = `http://${window.location.host}/registar`);
-
-  //   const userId = user?.id;
-
-  //   if (!favorite) {
-  //     const result = await favoritePost(userId, id, type);
-  //     if (!result) return;
-  //     return setIsFavorite(true);
-  //   }
-
-  //   let result;
-  //   if (type === "eventos") {
-  //     result = await removeFavoriteFromEvent(id, userId);
-  //   } else {
-  //     result = await removeFavoriteFromProject(id, userId);
-  //   }
-
-  //   if (!result) return;
-  //   return setIsFavorite(false);
-  // };
 
   /* Aspect Ratio 16:9 Configs */
   const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
@@ -335,6 +230,7 @@ const ProfileCustomCard = ({
   useEffect(() => {
     const handleResize = () => {
       if (!containerRef?.current) return;
+      // console.log("Resizing container", containerRef.current.offsetWidth);
       setCurrentContainerWidth(containerRef.current.offsetWidth);
     };
 
@@ -346,9 +242,10 @@ const ProfileCustomCard = ({
 
   useEffect(() => {
     if (!containerRef?.current) return;
-    setCurrentContainerWidth(containerRef.current.offsetWidth);
+    console.log(containerRef.current.offsetWidth);
+    setCurrentContainerWidth(containerRef?.current?.offsetWidth || 0);
   }, [containerRef.current]);
-
+  console.log(currentContainerWidth);
   if (isLoading) {
     return (
       <Stack spacing={1}>
@@ -375,8 +272,15 @@ const ProfileCustomCard = ({
       <Box
         id="card-container"
         ref={containerRef}
+        // sx={{
+        //   height: "100%",
+        // }}
         sx={{
-          height: "100%",
+          height: `${
+            currentContainerWidth
+              ? currentContainerWidth / divider + containerMinusImageHeight
+              : 0
+          }px`,
         }}
         onMouseEnter={() => setDisplayInteraction("flex")}
         onMouseLeave={() => setDisplayInteraction("none")}
