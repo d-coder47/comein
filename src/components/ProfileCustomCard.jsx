@@ -54,6 +54,8 @@ import useProjects from "../hooks/useProjects";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { AspectRatio } from "react-aspect-ratio";
+import "react-aspect-ratio/aspect-ratio.css";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -104,9 +106,7 @@ const ProfileCustomCard = ({
   likes,
   visits,
   picture,
-  // publisherId,
   publisherName,
-  // publisherPhoto,
   type,
   isVisitor,
   onRefresh,
@@ -114,7 +114,6 @@ const ProfileCustomCard = ({
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  // const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
 
@@ -123,8 +122,6 @@ const ProfileCustomCard = ({
   const { deleteProject } = useProjects();
 
   const { removeEvent } = useEvents();
-
-  // const { likePost, favoritePost } = usePosts();
 
   const { t } = useTranslation();
 
@@ -158,7 +155,6 @@ const ProfileCustomCard = ({
     localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
   };
-  // const handleClose = () => setOpen(false);
 
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
@@ -221,31 +217,6 @@ const ProfileCustomCard = ({
     if (!user) return;
   }, [id]);
 
-  /* Aspect Ratio 16:9 Configs */
-  const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
-  const containerMinusImageHeight = 48;
-  const containerRef = useRef();
-  const divider = 1.7778;
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (!containerRef?.current) return;
-      // console.log("Resizing container", containerRef.current.offsetWidth);
-      setCurrentContainerWidth(containerRef.current.offsetWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Initial check
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (!containerRef?.current) return;
-    console.log(containerRef.current.offsetWidth);
-    setCurrentContainerWidth(containerRef?.current?.offsetWidth || 0);
-  }, [containerRef.current]);
-  console.log(currentContainerWidth);
   if (isLoading) {
     return (
       <Stack spacing={1}>
@@ -271,16 +242,8 @@ const ProfileCustomCard = ({
     <>
       <Box
         id="card-container"
-        ref={containerRef}
-        // sx={{
-        //   height: "100%",
-        // }}
         sx={{
-          height: `${
-            currentContainerWidth
-              ? currentContainerWidth / divider + containerMinusImageHeight
-              : 0
-          }px`,
+          height: "100%",
         }}
         onMouseEnter={() => setDisplayInteraction("flex")}
         onMouseLeave={() => setDisplayInteraction("none")}
@@ -293,7 +256,7 @@ const ProfileCustomCard = ({
               marginTop: "0.5rem",
               marginLeft: "0.5rem",
               zIndex: "99999999",
-              background: "#808080", //(theme) => theme.palette.secondary.main,
+              background: "#808080",
               borderRadius: "30px",
               width: "60px",
               justifyContent: "center",
@@ -339,31 +302,26 @@ const ProfileCustomCard = ({
             position: "relative",
           }}
         >
-          {/* <Tooltip title={name}> */}
-          <Avatar
-            variant="square"
-            src={picture || null}
-            alt={`Foto de ${name}`}
-            onClick={handleOpen}
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              "&:hover": {
-                cursor: "pointer",
-                borderRadius: "0.25rem",
-              },
-            }}
-          />
+          <AspectRatio ratio="16/9">
+            <Avatar
+              variant="square"
+              src={picture || null}
+              alt={`Foto de ${name}`}
+              onClick={handleOpen}
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                "&:hover": {
+                  cursor: "pointer",
+                  borderRadius: "0.25rem",
+                },
+              }}
+            />
+          </AspectRatio>
         </Box>
 
-        <Box
-          sx={
-            {
-              // display: `${displayInteractions}`,
-            }
-          }
-        >
+        <Box>
           <Box
             sx={{
               display: "flex",
@@ -396,10 +354,7 @@ const ProfileCustomCard = ({
               <Box
                 sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}
               >
-                <ThumbUp
-                  // onClick={() => handleLike(false)}
-                  sx={{ width: 15, height: 15, color: "black" }}
-                />
+                <ThumbUp sx={{ width: 15, height: 15, color: "black" }} />
                 <Typography
                   sx={{
                     fontWeight: "bold",
@@ -414,10 +369,7 @@ const ProfileCustomCard = ({
               <Box
                 sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}
               >
-                <Visibility
-                  // onClick={() => handleFavorite(false)}
-                  sx={{ width: 15, height: 15, color: "black" }}
-                />
+                <Visibility sx={{ width: 15, height: 15, color: "black" }} />
                 <Typography
                   sx={{
                     fontWeight: "bold",
@@ -456,33 +408,6 @@ const ProfileCustomCard = ({
           </Box>
         </Box>
 
-        {/* <Modal
-          id="card-details-modal"
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          sx={{
-            ".MuiModal-backdrop": {
-              backgroundColor: "rgba(0,0,0,.9)",
-            },
-          }}
-        >
-          <CardDetailed
-            id={id}
-            publisherPhoto={publisherPhoto}
-            publishers={[publisherName]}
-            title={name}
-            type={type}
-            isLiked={isLiked}
-            isFavorite={isFavorite}
-            onLikePost={handleLike}
-            onFavoritePost={handleFavorite}
-            onCloseModal={handleClose}
-            picture={picture}
-            isVisitor={isVisitor}
-          />
-        </Modal> */}
         <Modal
           id="share-modal"
           open={openShareModal}

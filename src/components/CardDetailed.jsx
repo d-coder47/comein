@@ -637,7 +637,7 @@ const CardDetailed = () => {
             )}
           </IconButton>
 
-          {isOwner ? (
+          {isOwner && type === "eventos" ? (
             <Tooltip
               title={t("cardDetailed.addSchedule")}
               placement="left"

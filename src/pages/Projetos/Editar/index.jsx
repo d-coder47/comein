@@ -192,8 +192,11 @@ const Editar = () => {
           imagem: `${imgApiPath}/projetosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
-            id: data?.id_geografia,
-            nome: data?.localProjeto === null ? "" : data?.localProjeto,
+            id: data?.id_geografia === 0 ? null : data.id_geografia,
+            nome:
+              data?.localProjeto === null || data?.localProjeto === "MUNDO"
+                ? ""
+                : data?.localProjeto,
             lat: coordinates ? coordinates?.latitude : null,
             lng: coordinates ? coordinates?.longitude : null,
             local: coordinates ? coordinates?.nome : null,
@@ -255,7 +258,7 @@ const Editar = () => {
 
   const handleSave = () => {
     setLoading(true);
-
+    console.log(editedFieldValues);
     const filteredFieldValues = {
       ...editedFieldValues,
       imagem: fieldValues?.imgProjeto,
