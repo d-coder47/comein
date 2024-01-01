@@ -205,7 +205,7 @@ const Editar = () => {
 
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
-        console.log(proprietarios);
+
         const newData = {
           id,
           nome: data.nome,
@@ -384,8 +384,8 @@ const Editar = () => {
         {
           ...editedFieldValues,
           data_inicio:
-            editedFieldValues?.data_inicio !== undefined
-              ? editedFieldValues.data_inicio
+            values?.data_inicio !== undefined
+              ? values.data_inicio
               : `${fieldValues.data_inicio} ${
                   editedFieldValues?.hora_inicio !== undefined
                     ? "T" + editedFieldValues.hora_inicio

@@ -1,4 +1,5 @@
 const arrayToString = (array) => {
+  return array.join(",");
   return array.reduce((total, current, index, arr) => {
     if (index === 1) return `${total},${current},`;
     if (index === arr.length - 1) return total + current;
@@ -50,9 +51,8 @@ export const filterEndDate = (date) => {
 
 export const filterCulturalAreas = (culturalAreas = []) => {
   if (!culturalAreas || culturalAreas.length === 0) return null;
-
   return culturalAreas.length > 1
-    ? arrayToString(culturalAreas.map((item) => item.id)).slice(0, -1)
+    ? arrayToString(culturalAreas.map((item) => item.id))
     : culturalAreas[0].id;
 };
 
@@ -66,7 +66,7 @@ export const filterAssociatedProjects = (associatedProject) => {
 };
 
 export const filterAssociatedOwners = (associatedOwners) => {
-  if (!associatedOwners) return null;
+  if (!associatedOwners || associatedOwners?.id === 0) return null;
   if (typeof associatedOwners === "object") {
     return associatedOwners?.id;
   }
@@ -80,8 +80,8 @@ export const filterAssociatedOwners = (associatedOwners) => {
 
 export const cleanPost = (post, isAdding = true) => {
   Object.keys(post).forEach((key) => {
-    if (key === "local" && post[key].nome.length > 0) {
-      post["id_geografia"] = post[key].id;
+    if (key === "local" && !isAdding) {
+      post["id_geografia"] = !post[key].id ? null : post[key].id;
     }
 
     if (isAdding && key === "data_fim" && post[key] === null) {

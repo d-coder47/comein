@@ -54,6 +54,8 @@ import useProjects from "../hooks/useProjects";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { AspectRatio } from "react-aspect-ratio";
+import "react-aspect-ratio/aspect-ratio.css";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -104,9 +106,7 @@ const ProfileCustomCard = ({
   likes,
   visits,
   picture,
-  // publisherId,
   publisherName,
-  // publisherPhoto,
   type,
   isVisitor,
   onRefresh,
@@ -114,7 +114,6 @@ const ProfileCustomCard = ({
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  // const [open, setOpen] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [displayInteractions, setDisplayInteraction] = useState("none");
 
@@ -123,8 +122,6 @@ const ProfileCustomCard = ({
   const { deleteProject } = useProjects();
 
   const { removeEvent } = useEvents();
-
-  // const { likePost, favoritePost } = usePosts();
 
   const { t } = useTranslation();
 
@@ -158,7 +155,6 @@ const ProfileCustomCard = ({
     localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
   };
-  // const handleClose = () => setOpen(false);
 
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
@@ -219,135 +215,7 @@ const ProfileCustomCard = ({
     const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (!user) return;
-
-    const hasLikedEvent = async (userId, eventId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/gostosEventos/gostos/${userId},${eventId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const liked = response?.data?.dados || 0;
-        setIsLiked(liked);
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
-    };
-
-    const hasLikedProject = async (userId, projectId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/gostosProjetos/gostos/${userId},${projectId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const liked = response?.data?.dados || 0;
-        setIsLiked(liked);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const hasFavoritePost = async (userId, postId) => {
-      try {
-        const response = await axiosInstance.get(
-          `/favoritos/getFavoritos/${userId},${postId}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-        const ids = response?.data?.dados?.map((post) => post.id);
-        setIsFavorite(ids.includes(postId));
-      } catch (error) {
-        console.error(error);
-        return 0;
-      }
-    };
-
-    if (type === "E") {
-      hasLikedEvent(user.id, id);
-    } else {
-      hasLikedProject(user.id, id);
-    }
-
-    hasFavoritePost(user.id, id);
   }, [id]);
-
-  // const handleLike = async () => {
-  //   const user = JSON.parse(localStorage.getItem("userInfo"));
-  //   if (!user)
-  //     return (window.location.href = `http://${window.location.host}/registar`);
-
-  //   const userId = user?.id;
-
-  //   const result = await likePost(userId, id, type);
-  //   if (result === null) return null;
-
-  //   if (result) setIsLiked(true);
-  //   else setIsLiked(false);
-  // };
-
-  // const handleFavorite = async (favorite) => {
-  //   const user = JSON.parse(localStorage.getItem("userInfo"));
-  //   if (!user)
-  //     return (window.location.href = `http://${window.location.host}/registar`);
-
-  //   const userId = user?.id;
-
-  //   if (!favorite) {
-  //     const result = await favoritePost(userId, id, type);
-  //     if (!result) return;
-  //     return setIsFavorite(true);
-  //   }
-
-  //   let result;
-  //   if (type === "eventos") {
-  //     result = await removeFavoriteFromEvent(id, userId);
-  //   } else {
-  //     result = await removeFavoriteFromProject(id, userId);
-  //   }
-
-  //   if (!result) return;
-  //   return setIsFavorite(false);
-  // };
-
-  /* Aspect Ratio 16:9 Configs */
-  const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
-  const containerMinusImageHeight = 48;
-  const containerRef = useRef();
-  const divider = 1.7778;
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (!containerRef?.current) return;
-      setCurrentContainerWidth(containerRef.current.offsetWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Initial check
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (!containerRef?.current) return;
-    setCurrentContainerWidth(containerRef.current.offsetWidth);
-  }, [containerRef.current]);
 
   if (isLoading) {
     return (
@@ -374,7 +242,6 @@ const ProfileCustomCard = ({
     <>
       <Box
         id="card-container"
-        ref={containerRef}
         sx={{
           height: "100%",
         }}
@@ -389,7 +256,7 @@ const ProfileCustomCard = ({
               marginTop: "0.5rem",
               marginLeft: "0.5rem",
               zIndex: "99999999",
-              background: "#808080", //(theme) => theme.palette.secondary.main,
+              background: "#808080",
               borderRadius: "30px",
               width: "60px",
               justifyContent: "center",
@@ -435,31 +302,26 @@ const ProfileCustomCard = ({
             position: "relative",
           }}
         >
-          {/* <Tooltip title={name}> */}
-          <Avatar
-            variant="square"
-            src={picture || null}
-            alt={`Foto de ${name}`}
-            onClick={handleOpen}
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              "&:hover": {
-                cursor: "pointer",
-                borderRadius: "0.25rem",
-              },
-            }}
-          />
+          <AspectRatio ratio="16/9">
+            <Avatar
+              variant="square"
+              src={picture || null}
+              alt={`Foto de ${name}`}
+              onClick={handleOpen}
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                "&:hover": {
+                  cursor: "pointer",
+                  borderRadius: "0.25rem",
+                },
+              }}
+            />
+          </AspectRatio>
         </Box>
 
-        <Box
-          sx={
-            {
-              // display: `${displayInteractions}`,
-            }
-          }
-        >
+        <Box>
           <Box
             sx={{
               display: "flex",
@@ -492,10 +354,7 @@ const ProfileCustomCard = ({
               <Box
                 sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}
               >
-                <ThumbUp
-                  // onClick={() => handleLike(false)}
-                  sx={{ width: 15, height: 15, color: "black" }}
-                />
+                <ThumbUp sx={{ width: 15, height: 15, color: "black" }} />
                 <Typography
                   sx={{
                     fontWeight: "bold",
@@ -510,10 +369,7 @@ const ProfileCustomCard = ({
               <Box
                 sx={{ display: "flex", alignItems: "center", gap: ".125rem" }}
               >
-                <Visibility
-                  // onClick={() => handleFavorite(false)}
-                  sx={{ width: 15, height: 15, color: "black" }}
-                />
+                <Visibility sx={{ width: 15, height: 15, color: "black" }} />
                 <Typography
                   sx={{
                     fontWeight: "bold",
@@ -552,33 +408,6 @@ const ProfileCustomCard = ({
           </Box>
         </Box>
 
-        {/* <Modal
-          id="card-details-modal"
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          sx={{
-            ".MuiModal-backdrop": {
-              backgroundColor: "rgba(0,0,0,.9)",
-            },
-          }}
-        >
-          <CardDetailed
-            id={id}
-            publisherPhoto={publisherPhoto}
-            publishers={[publisherName]}
-            title={name}
-            type={type}
-            isLiked={isLiked}
-            isFavorite={isFavorite}
-            onLikePost={handleLike}
-            onFavoritePost={handleFavorite}
-            onCloseModal={handleClose}
-            picture={picture}
-            isVisitor={isVisitor}
-          />
-        </Modal> */}
         <Modal
           id="share-modal"
           open={openShareModal}
