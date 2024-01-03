@@ -334,6 +334,9 @@ const Editar = () => {
     let dataInicio;
     let dataFim;
 
+    if (fieldValues.data_fim === "") {
+      fieldValues.data_fim = fieldValues.data_inicio;
+    }
     if (fieldValues?.hora_inicio === "") {
       dataInicio = fieldValues?.data_inicio;
     } else {

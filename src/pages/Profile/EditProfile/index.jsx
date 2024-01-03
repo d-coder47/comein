@@ -380,7 +380,6 @@ const EditProfile = () => {
 
       let nome = formData.name;
       let _method = "PUT";
-      console.log(data_nasc ?? "1900-01-01");
 
       const res = await updateUser(
         "editProfileForm",
@@ -1110,7 +1109,6 @@ const EditProfile = () => {
                       placeholder={t("editProfilePage.defaultDescription")}
                       onChange={
                         (value) => {
-                          console.log(value);
                           handleAboutMeChange(value);
                         }
                         // handleChangeFieldValues("descricao", value)

@@ -360,7 +360,6 @@ const Adicionar = () => {
                     if (value.length > 2) {
                       const res = await getAddresses(value);
                       if (res?.dados) {
-                        console.log(res.dados);
                         setAddresses(res.dados);
                       }
                     }
