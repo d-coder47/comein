@@ -72,7 +72,7 @@ const Editar = () => {
     local: "",
     proprietarios: { id: 0, nome: "" },
     areasCulturais: [],
-    assoc_projeto: "",
+    assoc_projeto: [],
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [owners, setOwners] = useState([{ id: 0, nome: "" }]);
@@ -125,29 +125,33 @@ const Editar = () => {
     { id: 16, name: t("categories.carnaval") },
   ];
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (!userInfo) return navigate("/");
-    setUser(userInfo);
+  const getProjects = async () => {
+    try {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (!userInfo) return navigate("/");
+      setUser(userInfo);
+      const response = await axiosInstance.get(
+        `/projetos/listarPorUtilizador/${+userInfo.id}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
 
-    const getProjects = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/projetos/listarPorUtilizador/${+userInfo.id}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
+      if (response.data.dados === "null") {
+        setProjects([]);
+      } else {
         setProjects(response.data.dados);
-      } catch (error) {
-        console.error(error);
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     getProjects();
   }, []);
 
@@ -258,7 +262,7 @@ const Editar = () => {
   };
 
   const handleAssociateProjectClick = (event) => {
-    if (fieldValues?.assoc_projeto.length > 0) {
+    if (projects.length > 0) {
       return setAnchorAssociateProjectEl(event.currentTarget);
     }
     toast.warning(t("eventPage.common.noProjects"));
