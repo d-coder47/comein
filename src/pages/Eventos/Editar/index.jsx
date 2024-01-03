@@ -72,7 +72,7 @@ const Editar = () => {
     local: "",
     proprietarios: { id: 0, nome: "" },
     areasCulturais: [],
-    assoc_projeto: [],
+    assoc_projeto: "",
   });
   const [editedFieldValues, setEditedFieldValues] = useState(null);
   const [owners, setOwners] = useState([{ id: 0, nome: "" }]);
@@ -197,7 +197,13 @@ const Editar = () => {
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
 
-        const assoc_projeto = response.data.projeto_assoc;
+        let assoc_projeto;
+
+        if (Array.isArray(response.data.projeto_assoc)) {
+          assoc_projeto = response.data.projeto_assoc;
+        } else {
+          assoc_projeto = [response.data.projeto_assoc];
+        }
 
         const areas_culturais = response.data.areas_culturais;
         const areasCulturaisIds = areas_culturais?.map(
@@ -262,7 +268,7 @@ const Editar = () => {
   };
 
   const handleAssociateProjectClick = (event) => {
-    if (projects.length > 0) {
+    if (fieldValues?.assoc_projeto) {
       return setAnchorAssociateProjectEl(event.currentTarget);
     }
     toast.warning(t("eventPage.common.noProjects"));
