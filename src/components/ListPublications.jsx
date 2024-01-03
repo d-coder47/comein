@@ -190,8 +190,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         <Box
           mt="1rem"
           sx={{
-            // marginLeft: "0",
-            // marginRigth: "2rem",
+            width: '100%',
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -318,6 +317,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         <Box
           mt="1rem"
           style={{
+            width: '100%',
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -395,6 +395,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
+          width: '100%',
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -446,6 +447,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
+          width: '100%',
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
