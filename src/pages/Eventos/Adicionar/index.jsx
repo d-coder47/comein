@@ -52,6 +52,7 @@ import { imgApiPath } from "../../../api/apiPath";
 import ImageCropper from "../../../components/ImageCropper";
 import LocationModal from "../../../components/LocationModal";
 import CircularProgress from "@mui/material/CircularProgress";
+import CustomizedAutoComplete from "../../../components/CustomizedAutoComplete";
 
 const Adicionar = () => {
   const { t } = useTranslation();
@@ -493,14 +494,23 @@ const Adicionar = () => {
                     {t("eventPage.common.associatedOwners")}
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
-                  {/* <CustomizedAutoComplete
-                    data={users}
+                  <CustomizedAutoComplete
+                    data={owners}
                     currentValue={fieldValues.proprietarios}
-                    onAutoCompleteChange={(value) =>
-                      handleChangeFieldValues("proprietarios", value)
-                    }
-                  /> */}
-                  <Autocomplete
+                    onChange={(_, value) => {
+                      handleChangeFieldValues("proprietarios", value);
+                    }}
+                    onInputChange={async (event, value) => {
+                      console.log(value)
+                      if (value.length >= 2) {
+                        const res = await searchUsers(value);
+                        setOwners(res.dados);
+                      } else {
+                        setOwners([]);
+                      }
+                    }}
+                  />
+                  {/* <Autocomplete
                     id="users-auto-complete"
                     options={owners}
                     sx={{ width: 200 }}
@@ -528,7 +538,7 @@ const Adicionar = () => {
                         setOwners([]);
                       }
                     }}
-                  />
+                  /> */}
                 </Box>
               </Box>
             </Box>
