@@ -125,29 +125,33 @@ const Editar = () => {
     { id: 16, name: t("categories.carnaval") },
   ];
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (!userInfo) return navigate("/");
-    setUser(userInfo);
+  const getProjects = async () => {
+    try {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (!userInfo) return navigate("/");
+      setUser(userInfo);
+      const response = await axiosInstance.get(
+        `/projetos/listarPorUtilizador/${+userInfo.id}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
+        }
+      );
 
-    const getProjects = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/projetos/listarPorUtilizador/${+userInfo.id}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
+      if (response.data.dados === "null") {
+        setProjects([]);
+      } else {
         setProjects(response.data.dados);
-      } catch (error) {
-        console.error(error);
       }
-    };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     getProjects();
   }, []);
 
@@ -193,7 +197,13 @@ const Editar = () => {
         const proprietarios = response.data.utilizador;
         proprietarios.shift();
 
-        const assoc_projeto = response.data.projeto_assoc;
+        let assoc_projeto;
+
+        if (Array.isArray(response.data.projeto_assoc)) {
+          assoc_projeto = response.data.projeto_assoc;
+        } else {
+          assoc_projeto = [response.data.projeto_assoc];
+        }
 
         const areas_culturais = response.data.areas_culturais;
         const areasCulturaisIds = areas_culturais?.map(
@@ -258,7 +268,7 @@ const Editar = () => {
   };
 
   const handleAssociateProjectClick = (event) => {
-    if (fieldValues?.assoc_projeto.length > 0) {
+    if (fieldValues?.assoc_projeto) {
       return setAnchorAssociateProjectEl(event.currentTarget);
     }
     toast.warning(t("eventPage.common.noProjects"));
@@ -334,6 +344,9 @@ const Editar = () => {
     let dataInicio;
     let dataFim;
 
+    if (fieldValues.data_fim === "") {
+      fieldValues.data_fim = fieldValues.data_inicio;
+    }
     if (fieldValues?.hora_inicio === "") {
       dataInicio = fieldValues?.data_inicio;
     } else {

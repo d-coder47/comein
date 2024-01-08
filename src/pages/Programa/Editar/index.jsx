@@ -157,7 +157,6 @@ const Editar = () => {
   };
 
   const handleSave = () => {
-    console.log(editedFieldValues);
     const newEvent = {
       titulo: editedFieldValues?.nome,
       imagemPrograma: editedFieldValues?.imgEvento,
@@ -168,8 +167,6 @@ const Editar = () => {
       cidadePrograma: editedFieldValues?.local?.id,
       local: editedFieldValues?.local?.local,
     };
-
-    console.log(newEvent);
 
     const values = cleanProgram(newEvent, false);
     const body = objectToFormData(values, user.id, false);
@@ -403,7 +400,6 @@ const Editar = () => {
                   getOptionLabel={(option) => option?.nome}
                   value={fieldValues?.local}
                   onChange={(_, value) => {
-                    console.log(value);
                     handleChangeFieldValues("local", {
                       ...fieldValues?.local,
                       ...{ id: null, nome: "" },
@@ -413,7 +409,6 @@ const Editar = () => {
                     if (value.length > 2) {
                       const res = await getAddresses(value);
                       if (res?.dados) {
-                        console.log(res.dados);
                         setAddresses(res.dados);
                       }
                     }

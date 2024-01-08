@@ -60,10 +60,8 @@ const Publisher = ({
 
       if (isInsideUserCard || isInsideUserCardParent) {
         setShowUserCard(true);
-        console.log("mouse over", true);
       } else {
         setShowUserCard(false);
-        console.log("mouse over", false);
       }
     };
 

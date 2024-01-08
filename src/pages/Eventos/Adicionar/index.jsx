@@ -138,7 +138,7 @@ const Adicionar = () => {
   };
 
   const handleAssociateProjectClick = (event) => {
-    if (fieldValues?.assoc_projeto.length > 0) {
+    if (projects.length > 0) {
       return setAnchorAssociateProjectEl(event.currentTarget);
     }
     toast.warning(t("eventPage.common.noProjects"));
@@ -150,34 +150,32 @@ const Adicionar = () => {
     });
   };
 
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    if (!userInfo) return navigate("/");
-    setUser(userInfo);
-
-    const getProjects = async () => {
-      try {
-        const response = await axiosInstance.get(
-          `/projetos/listarPorUtilizador/${+userInfo.id}`,
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              // Authorization:
-              //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-            },
-          }
-        );
-
-        if (response.data.dados === "null") {
-          setProjects([]);
-        } else {
-          setProjects(response.data.dados);
+  const getProjects = async () => {
+    try {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      if (!userInfo) return navigate("/");
+      setUser(userInfo);
+      const response = await axiosInstance.get(
+        `/projetos/listarPorUtilizador/${+userInfo.id}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            // Authorization:
+            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
+          },
         }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      );
 
+      if (response.data.dados === "null") {
+        setProjects([]);
+      } else {
+        setProjects(response.data.dados);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
     getProjects();
   }, []);
 

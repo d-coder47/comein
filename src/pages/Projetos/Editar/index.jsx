@@ -228,7 +228,6 @@ const Editar = () => {
 
     var reader = new FileReader();
     reader.onload = async function () {
-      console.log("Uploaded");
       handleChangeFieldValues("imagem", URL.createObjectURL(file));
       handleChangeFieldValues("imgProjeto", file);
       handleChangeFieldValues("imgProjetoRecortada", null);
@@ -258,7 +257,6 @@ const Editar = () => {
 
   const handleSave = () => {
     setLoading(true);
-    console.log(editedFieldValues);
     const filteredFieldValues = {
       ...editedFieldValues,
       imagem: fieldValues?.imgProjeto,
@@ -276,7 +274,7 @@ const Editar = () => {
       false,
       validatePostTranslatedStrings
     );
-    console.log({ filteredFieldValues, values, body, isValid });
+
     if (isValid) {
       editProject(body, editedFieldValues?.local);
     } else {

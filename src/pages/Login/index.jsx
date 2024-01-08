@@ -467,7 +467,6 @@ export default function Login() {
               googleAccountLogin(credentialResponse.credential, decoded);
             }}
             onError={() => {
-              console.log("Login Failed");
               toast.error(t("loginPage.erroLogin"));
             }}
           />
