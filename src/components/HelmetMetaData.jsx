@@ -6,15 +6,13 @@ export default function HelmetMetaData() {
   );
 
   let currentUrl = "https://comein.cv/";
-  let quote = metadata.quote !== undefined ? metadata.quote : "";
-  let title = metadata.title !== undefined ? metadata.title : "Come In CV";
+  let quote = metadata?.quote ?? "";
+  let title = metadata?.title || "Come In CV";
   let image =
-    metadata.image !== undefined
-      ? metadata.image
-      : "https://comein.cv/comeincv/server/src/capaImg/Logo%20final%20COME%20IN%20-04-652890db961c8.png";
-  let description =
-    metadata.description !== undefined ? metadata.description : "";
-  let hashtag = metadata.hashtag !== undefined ? metadata.hashtag : "#comeincv";
+    metadata?.image ||
+    "https://comein.cv/comeincv/server/src/capaImg/Logo%20final%20COME%20IN%20-04-652890db961c8.png";
+  let description = metadata?.description || "";
+  let hashtag = metadata?.hashtag || "#comeincv";
 
   useEffect(() => {
     function storageEventHandler() {
