@@ -11,6 +11,7 @@ const Root = styled('div')(
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
   };
   font-size: 14px;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
 `,
 );
 
@@ -158,7 +159,7 @@ export default function CustomizedHook({data, currentValue, onChange, onInputCha
     setAnchorEl,
   } = useAutocomplete({
     id: 'post-owners',
-    defaultValue: [currentValue],
+    defaultValue: currentValue?.id !== 0 ? [currentValue] : [],
     multiple: true,
     options: data,
     getOptionLabel: (option) => option.nome,
