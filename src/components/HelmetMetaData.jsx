@@ -5,7 +5,7 @@ export default function HelmetMetaData() {
     JSON.parse(localStorage.getItem("metaData"))
   );
 
-  let currentUrl = "https://comein.cv/";
+  let currentUrl = "https://comein-dev.vercel.app/";
   let quote = metadata?.quote ?? "";
   let title = metadata?.title || "Come In CV";
   let image =

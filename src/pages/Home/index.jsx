@@ -8,6 +8,8 @@ import { Box, LinearProgress } from "@mui/material";
 import AddLocationModal from "../../components/AddLocationModal";
 import UpdateUserInfoModal from "../../components/UpdateUserInfoModal";
 
+import Highlights from "../../components/Highlights";
+
 export default function Home() {
   const [category, setCategory] = useState("");
   const [displayHighlights, setDisplayHighlights] = useState(false);
@@ -82,6 +84,8 @@ export default function Home() {
         onLocalDateChange={handleLocalDateChange}
         onHighlightsClick={handleHighlightsClick}
       />
+
+      <Highlights />
 
       <Cards
         searchQuery={searchTerm}
