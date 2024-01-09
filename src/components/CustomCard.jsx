@@ -73,7 +73,8 @@ const CustomCard = ({
       .toLowerCase()
       .trim()
       .replaceAll(" ", "_")
-      .replaceAll("/", "_");
+      .replaceAll("/", "_")
+      .replaceAll(".", "");
     return `${postType}/${id}/${postName}`;
   };
 

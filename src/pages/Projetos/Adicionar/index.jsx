@@ -403,6 +403,7 @@ const Adicionar = () => {
                     gap: ".25rem",
                     alignItems: "center",
                     flexGrow: 1,
+                    marginTop: ".25rem"
                   }}
                 >
                   <Typography fontWeight="bold" fontSize="0.9rem">
@@ -410,34 +411,14 @@ const Adicionar = () => {
                   </Typography>
                   <Dot sx={{ fontSize: ".5rem" }} />
 
-                  {/* <CustomizedAutoComplete
-                    data={users}
+                  <CustomizedAutoComplete
+                    data={owners}
                     currentValue={fieldValues.proprietarios}
-                    onAutoCompleteChange={(value) =>
-                      handleChangeFieldValues("proprietarios", value)
-                    }
-                  /> */}
-                  <Autocomplete
-                    id="users-auto-complete"
-                    options={owners}
-                    sx={{ width: 200 }}
-                    disableCloseOnSelect
-                    renderInput={(params) => (
-                      <TextField {...params} size="small" variant="standard" />
-                    )}
-                    getOptionLabel={(option) => option?.nome}
-                    renderOption={(props, option) => {
-                      return (
-                        <li {...props} key={option.id}>
-                          {option.nome}
-                        </li>
-                      );
-                    }}
-                    value={fieldValues.proprietarios}
                     onChange={(_, value) => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
+                      console.log(value)
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
                         setOwners(res.dados);

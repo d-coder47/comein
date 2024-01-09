@@ -3,7 +3,8 @@ export const redirectToProfilePage = (userId, userName) => {
     .toLowerCase()
     .trim()
     .replaceAll(" ", "_")
-    .replaceAll("/", "_");
+    .replaceAll("/", "_")
+    .replaceAll(".", "");
 
   return `/perfil/${userId}/${validName}`;
 };
@@ -13,7 +14,8 @@ export const redirectToProfileConfigPage = (userId, userName) => {
     .toLowerCase()
     .trim()
     .replaceAll(" ", "_")
-    .replaceAll("/", "_");
+    .replaceAll("/", "_")
+    .replaceAll(".", "");
 
   return `/perfil-utilizador-configuracao/${userId}/${validName}`;
 };

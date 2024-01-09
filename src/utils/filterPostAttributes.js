@@ -1,10 +1,5 @@
 const arrayToString = (array) => {
   return array.join(",");
-  return array.reduce((total, current, index, arr) => {
-    if (index === 1) return `${total},${current},`;
-    if (index === arr.length - 1) return total + current;
-    return total + current + ",";
-  });
 };
 
 export const objectToFormData = (object, userId, isAdding = false) => {
@@ -66,16 +61,9 @@ export const filterAssociatedProjects = (associatedProject) => {
 };
 
 export const filterAssociatedOwners = (associatedOwners) => {
-  if (!associatedOwners || associatedOwners?.id === 0) return null;
-  if (typeof associatedOwners === "object") {
-    return associatedOwners?.id;
-  }
+  if (!associatedOwners || associatedOwners?.length === 0) return null;
 
-  return associatedOwners.length > 0
-    ? associatedOwners.length > 1
-      ? arrayToString(associatedOwners.map((item) => item.id)).slice(0, -1)
-      : arrayToString(associatedOwners.map((item) => item.id))
-    : null;
+  return arrayToString(associatedOwners.map((item) => item.id))
 };
 
 export const cleanPost = (post, isAdding = true) => {
