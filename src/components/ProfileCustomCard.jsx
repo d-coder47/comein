@@ -156,7 +156,18 @@ const ProfileCustomCard = ({
     navigate(getPostPath());
   };
 
-  const handleOpenShareModal = () => setOpenShareModal(true);
+  const handleOpenShareModal = () => {
+    localStorage.setItem(
+      "metaData",
+      JSON.stringify({
+        title: name,
+        description: "New Description",
+        image: picture,
+      })
+    );
+    window.dispatchEvent(new Event("storage"));
+    setOpenShareModal(true);
+  };
   const handleCloseShareModal = () => setOpenShareModal(false);
 
   const handlePostActionsMenuClick = (event) => {

@@ -5,6 +5,7 @@ import AppRoutes from "./routes";
 import { theme } from "./utils/muiTheme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HelmetMetaData from "./components/HelmetMetaData";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           flexDirection: "column",
         }}
       >
+        <HelmetMetaData />
         <AppRoutes />
         <ToastContainer />
       </Box>
