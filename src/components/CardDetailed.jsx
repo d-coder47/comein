@@ -40,6 +40,7 @@ import {
   defaultDateToCVDateFormat,
   defaultDatetimeToCVDateFormat,
 } from "../utils/dates";
+import parse from 'html-react-parser';
 
 const CardDetailed = () => {
   const params = useParams();
@@ -1157,6 +1158,7 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
 };
 
 const DetailedOther = ({ others }) => {
+  
   return (
     <Box>
       {others?.map((program) => (
@@ -1171,8 +1173,8 @@ const DetailedOther = ({ others }) => {
             {program?.titulo}
           </Typography>
           <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-            <Typography>{program?.descricao1}</Typography>
-            <Typography>{program?.descricao2}</Typography>
+            <Typography>{parse(program?.descricao1)}</Typography>
+            <Typography>{parse(program?.descricao2)}</Typography>
           </Box>
         </Box>
       ))}
