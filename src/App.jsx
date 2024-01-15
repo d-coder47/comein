@@ -5,6 +5,7 @@ import AppRoutes from "./routes";
 import { theme } from "./utils/muiTheme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 function App() {
   return (

@@ -20,6 +20,8 @@
     "axios": "^1.4.0",
     "clipboard-copy": "^4.0.1",
     "file-saver": "^2.0.5",
+    "google-translate-api": "^2.3.0",
+    "google-translate-api-x": "^10.6.8",
     "html-react-parser": "^4.0.0",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.4",

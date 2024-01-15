@@ -41,6 +41,8 @@ import {
   defaultDatetimeToCVDateFormat,
 } from "../utils/dates";
 import parse from 'html-react-parser';
+import translate from 'google-translate-api-x';
+
 
 const CardDetailed = () => {
   const params = useParams();
@@ -939,8 +941,28 @@ const DetailedInfo = ({
     return `${locationStr}${separator}${cityStr}`;
   };
 
+  useEffect(() => {
+    // googleTranslateElementInit(() => {
+    //   new google.translate.TranslateElement({pageLanguage: 'pt'}, 'google_translate_element');
+    // });
+  
+    // const script = document.createElement("script");
+    // script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    // script.async = true;
+    // document.body.appendChild(script);
+    translate('Ik spreek Engels', {to: 'en', client: 'gtx'}).then(res => {
+      console.log(res.text);
+      //=> I speak English
+      console.log(res.from.language.iso);
+      //=> nl
+  }).catch(err => {
+      console.error(err);
+  });
+  }, [])
+
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
+      {/* <div id="google_translate_element"></div> */}
       {description.length > 0 ? (
         <ReactQuill theme="bubble" value={description} readOnly />
       ) : null}
