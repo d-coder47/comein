@@ -341,6 +341,7 @@ const ProfileCustomCard = ({
                   cursor: "pointer",
                 },
               }}
+              onClick={handleOpen}
             >
               {name}
             </Typography>

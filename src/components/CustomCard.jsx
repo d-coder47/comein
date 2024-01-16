@@ -219,6 +219,7 @@ const CustomCard = ({
                 cursor: "pointer",
               },
             }}
+            onClick={handleOpen}
           >
             {name}
           </Typography>
