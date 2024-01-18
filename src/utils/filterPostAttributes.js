@@ -61,9 +61,11 @@ export const filterAssociatedProjects = (associatedProject) => {
 };
 
 export const filterAssociatedOwners = (associatedOwners) => {
-  if (!associatedOwners || associatedOwners?.length === 0) return null;
+  let isArray = Array.isArray(associatedOwners);
+  if (!associatedOwners || associatedOwners?.length === 0 || !isArray)
+    return null;
 
-  return arrayToString(associatedOwners.map((item) => item.id))
+  return arrayToString(associatedOwners.map((item) => item.id));
 };
 
 export const cleanPost = (post, isAdding = true) => {
