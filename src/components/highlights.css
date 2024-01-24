@@ -1,0 +1,11 @@
+.swipper-container > .swiper-button-next,
+.swipper-container > .swiper-button-prev {
+  background-color: white;
+  background-position: center;
+  background-size: 40px;
+
+  width: 25px;
+  background-repeat: no-repeat;
+  padding: 8px;
+  border-radius: 100%;
+}

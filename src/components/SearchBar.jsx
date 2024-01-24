@@ -154,7 +154,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
         }}
         gap={filtersGap}
       >
-        <Grid md={1.25} lg={1.125} xl={0.75}>
+        {/* <Grid md={1.25} lg={1.125} xl={0.75}>
           <Button
             variant="outlined"
             sx={{
@@ -170,7 +170,7 @@ const SearchBar = ({ onSearch, onLocalDateChange, onHighlightsClick }) => {
           >
             {t("homepage.highlights")}
           </Button>
-        </Grid>
+        </Grid> */}
         <Grid md={1.25} lg={1.125} xl={0.75}>
           <Button
             variant="outlined"

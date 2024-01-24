@@ -17,7 +17,7 @@ const Cards = ({
   displayHighlights,
   setIsLoading,
 }) => {
-  const { posts: allPosts, getPostsByPage } = usePosts();
+  const { posts: allPosts, getPostsByPage, getHighlightPosts } = usePosts();
   const [posts, setPosts] = useState([]);
 
   const { t } = useTranslation();
@@ -68,24 +68,19 @@ const Cards = ({
     )
       return setPosts(allPosts);
 
-    const getHighlightPosts = async () => {
+    const getHighlighs = async () => {
       setIsLoading(true);
       try {
-        const response = await axiosInstance.get(`/publicacoes/destaques`, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            // Authorization:
-            //   "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwibmFtZSI6Imh1bWJlcnRvIG5hc2NpbWVudG8iLCJleHBpcmVzX2luIjoxNjc3OTMxODIzfQ.vJnAshie-1hUo_VVKK0QInFI4NpBmx5obuWzOauK4B8",
-          },
-        });
-        setPosts(response.data.dados);
+        const res = await getHighlightPosts();
+
+        setPosts(res.dados);
         setIsLoading(false);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
-    getHighlightPosts();
+    getHighlighs();
   }, [displayHighlights]);
 
   useEffect(() => {

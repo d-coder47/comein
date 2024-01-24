@@ -13,7 +13,9 @@
       "location": "Local",
       "cancel": "Cancelar",
       "apply": "Aplicar"
-    }
+    },
+    "highlightsPosts": "Publicações em destaque",
+    "highlightsAreaDescription": " Explore uma riqueza de criatividade e expressão cultural nesta seção. De eventos empolgantes a projetos inspiradores, e histórias cativantes, mergulhe na vibrante cena cultural que nossos utilizadores têm a oferecer."
   },
   "registerpage": {
     "etapa1": "Etapa 1 de 2",

@@ -13,7 +13,9 @@
       "location": "Location",
       "cancel": "Cancel",
       "apply": "Apply"
-    }
+    },
+    "highlightsPosts": "Featured Posts",
+    "highlightsAreaDescription": "Explore a wealth of creativity and cultural expression in this section. From exciting events to inspiring projects and captivating stories, immerse yourself in the vibrant cultural scene that our users have to offer."
   },
   "registerpage": {
     "etapa1": "Stage 1 of 2",

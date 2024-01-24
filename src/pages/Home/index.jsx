@@ -7,6 +7,7 @@ import MapButton from "../../components/Map/MapButton";
 import { Box, LinearProgress } from "@mui/material";
 import AddLocationModal from "../../components/AddLocationModal";
 import UpdateUserInfoModal from "../../components/UpdateUserInfoModal";
+import Highlights from "../../components/Highlights";
 
 export default function Home() {
   const [category, setCategory] = useState("");
@@ -83,6 +84,7 @@ export default function Home() {
         onHighlightsClick={handleHighlightsClick}
       />
 
+      <Highlights />
       <Cards
         searchQuery={searchTerm}
         culturalAreaId={category}

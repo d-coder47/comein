@@ -13,7 +13,9 @@
       "location": "Adresse",
       "cancel": "Annuler",
       "apply": "Postuler"
-    }
+    },
+    "highlightsPosts": "Articles en vedette",
+    "highlightsAreaDescription": "Explorez une richesse de créativité et d'expression culturelle dans cette section. Des événements passionnants aux projets inspirants et aux histoires captivantes, plongez dans la scène culturelle dynamique que nos utilisateurs ont à offrir."
   },
   "registerpage": {
     "etapa1": "Étape 1 sur 2",
