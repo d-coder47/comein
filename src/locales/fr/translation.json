@@ -205,7 +205,8 @@
     "postInteractionNotAllowed": "Pour interagir avec le publication, vous devez d'abord vous connecter",
     "addSchedule": "Ajouter un programme",
     "editSchedule": "Modifier le programme",
-    "removeSchedule": "Supprimer le programme"
+    "removeSchedule": "Supprimer le programme",
+    "translateTo": "Traduire en"
   },
   "eventPage": {
     "common": {

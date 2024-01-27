@@ -205,7 +205,8 @@
     "postInteractionNotAllowed": "To interact with the post you must log in",
     "addSchedule": "Add Program",
     "editSchedule": "Edit Program",
-    "removeSchedule": "Remove Program"
+    "removeSchedule": "Remove Program",
+    "translateTo": "Translate to"
   },
   "eventPage": {
     "common": {
