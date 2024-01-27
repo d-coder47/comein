@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  Autocomplete,
   Avatar,
   Badge,
   Box,
@@ -9,6 +10,7 @@ import {
   Modal,
   Skeleton,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -41,6 +43,7 @@ import {
   defaultDatetimeToCVDateFormat,
 } from "../utils/dates";
 import parse from "html-react-parser";
+import useTranslationAPI from "../hooks/useTranslationAPI";
 
 const CardDetailed = () => {
   const params = useParams();
@@ -930,6 +933,8 @@ const DetailedInfo = ({
 }) => {
   const { t } = useTranslation();
 
+  const {languages, translatedText, getSupportedLanguages, translateText, resetToOriginal} = useTranslationAPI(description)
+
   const generateLocation = () => {
     const cityStr = !city || !city?.length > 0 ? "" : city;
     const locationStr =
@@ -939,10 +944,36 @@ const DetailedInfo = ({
     return `${locationStr}${separator}${cityStr}`;
   };
 
+  useEffect(() => {
+    const getLanguages = async () => {
+      await getSupportedLanguages()
+    }
+
+    getLanguages()
+  }, [])
+
+  const onLanguageChange = (e, value) => {
+    console.log({value})
+    if(!value) return resetToOriginal();
+
+    translateText(value.id, description)
+
+  }
+
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       {description.length > 0 ? (
-        <ReactQuill theme="bubble" value={description} readOnly />
+        <Box display="flex" flexDirection="column" justifyContent="flex-start" >
+        <Autocomplete
+          disablePortal
+          id="translation-autocomplete"
+          options={languages}
+          sx={{ width: 250, margin: "12px 15px" }}
+          onChange={onLanguageChange}
+          renderInput={(params) => <TextField {...params} size="small" label={t("cardDetailed.translateTo")} />}
+        />
+        <ReactQuill theme="bubble" value={translatedText} readOnly />
+        </Box>
       ) : null}
       {isEvent ? (
         <>
