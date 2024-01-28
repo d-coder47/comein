@@ -20,6 +20,7 @@ import {
   Add,
   Edit,
   Delete,
+  Bookmark,
 } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
@@ -54,11 +55,13 @@ const CardDetailed = () => {
   const [likes, setLikes] = useState(details?.dados?.gostos || 0);
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
+  const [isHighlighted, setIsHighlighted] = useState(null);
 
   const userCardParentRef = useRef(null);
 
   const { followUser } = useUserProfile();
-  const { likePost, favoritePost } = usePosts();
+  const { likePost, favoritePost, getHighlightPosts, HighlightPost } =
+    usePosts();
   const { removeFavoriteFromEvent, addEventVisit } = useEvents();
   const { removeFavoriteFromProject, addProjetVisit } = useProjects();
 
@@ -68,6 +71,8 @@ const CardDetailed = () => {
 
   const [showRemoveProgramModal, setShowRemoveProgramModal] = useState(false);
   const [programIdToRemove, setProgramIdToRemove] = useState(0);
+
+  const [isAdmin, setIsAdmin] = useState();
 
   async function countEventVisit() {
     if (type === "eventos") {
@@ -107,6 +112,12 @@ const CardDetailed = () => {
         if (!response.data) return navigate("/");
         setDetails(response.data);
         setLikes(response?.data?.dados?.gostos);
+
+        if (user.perfil === "2") {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
         if (user.id === response.data.dados.id_utilizador) {
           setIsOwner(true);
         } else {
@@ -203,6 +214,21 @@ const CardDetailed = () => {
       }
     };
 
+    const hasHighlightedPost = async (userId, postId) => {
+      try {
+        const response = await getHighlightPosts();
+
+        const exist = response.dados.find((post) => post.id === postId);
+
+        if (exist) {
+          setIsHighlighted(exist);
+        }
+      } catch (error) {
+        console.error(error);
+        return 0;
+      }
+    };
+
     if (!details) return;
 
     const publisherId = details?.utilizador[0]?.id;
@@ -219,6 +245,8 @@ const CardDetailed = () => {
     }
 
     hasFavoritePost(user.id, id);
+
+    hasHighlightedPost(user.id, id);
 
     isFollowingUser(publisherId, parseInt(user.id));
   }, [details]);
@@ -281,6 +309,25 @@ const CardDetailed = () => {
 
     if (!result) return;
     return setIsFavorite(false);
+  };
+
+  const handleHighlight = async (highlighted) => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    const postType = type === "eventos" ? "E" : "P";
+    if (!user) {
+      return toast.info(t("cardDetailed.postInteractionNotAllowed"));
+    }
+
+    if (!highlighted) {
+      const addedToHighlight = await HighlightPost(id, postType, "S");
+      if (!addedToHighlight) return;
+      return setIsHighlighted(true);
+    }
+
+    const removedFromHighlight = await HighlightPost(id, postType, "N");
+
+    if (!removedFromHighlight) return;
+    return setIsHighlighted(false);
   };
 
   const handleAddProgram = () => {
@@ -745,6 +792,46 @@ const CardDetailed = () => {
               ) : null}
             </Box>
           </Tooltip>
+
+          {isAdmin && (
+            <Tooltip
+              title={
+                isHighlighted
+                  ? t("cardDetailed.removeFromHighlights")
+                  : t("cardDetailed.addToHighlights")
+              }
+              placement="left"
+              arrow
+            >
+              <Box
+                id="highlight"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: (theme) =>
+                    isHighlighted ? "#3c3c3c" : theme.palette.primary.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={() => handleHighlight(isHighlighted)}
+              >
+                <Bookmark
+                  color="white"
+                  sx={{
+                    width: "1.25rem",
+                    height: "1.25rem",
+                    color: "white",
+                  }}
+                />
+              </Box>
+            </Tooltip>
+          )}
         </Box>
       </Box>
       <Modal

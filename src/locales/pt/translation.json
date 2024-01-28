@@ -193,6 +193,8 @@
     },
     "addToFavorites": "Adicionar aos favoritos",
     "removeFromFavorites": "Remover dos favoritos",
+    "addToHighlights": "Adicionar aos Destaques",
+    "removeFromHighlights": "Remover dos Destaques",
     "addLike": "Gosto",
     "removeLike": "Não gosto",
     "local": "Local:",

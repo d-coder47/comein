@@ -193,6 +193,8 @@
     },
     "addToFavorites": "Ajouter aux Favoris",
     "removeFromFavorites": "Retirer des favoris",
+    "addToHighlights": "Ajouter aux points forts",
+    "removeFromHighlights": "Retirer des points forts",
     "addLike": "J'aime",
     "removeLike": "Je n’aime plus",
     "local": "Adresse:",
