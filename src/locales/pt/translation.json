@@ -209,7 +209,8 @@
     "postInteractionNotAllowed": "Para interagir com a publicacão primeiro deve efetuar o login",
     "addSchedule": "Adicionar Programa",
     "editSchedule": "Editar Programa",
-    "removeSchedule": "Remover Programa"
+    "removeSchedule": "Remover Programa",
+    "translateTo": "Traduzir para"
   },
   "eventPage": {
     "common": {
