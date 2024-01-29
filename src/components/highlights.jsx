@@ -23,6 +23,16 @@ const Highlights = () => {
 
   const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
+  const getNumberOfSlidesPerView = () => {
+    if (isMobileScreen) {
+      return 1;
+    } else if (highlights.length < 5) {
+      return highlights.length;
+    } else {
+      return 5;
+    }
+  };
+
   const [highlights, setHighlights] = useState();
 
   useEffect(() => {
@@ -93,14 +103,19 @@ const Highlights = () => {
               className="swipper-container"
               modules={[Navigation, A11y]}
               spaceBetween={26}
-              slidesPerView={isMobileScreen ? 1 : 5}
+              slidesPerView={getNumberOfSlidesPerView()}
               navigation
               loop
               scrollbar={{ draggable: false }}
             >
               {highlights.map((post, index) => {
                 return (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide
+                    key={index}
+                    style={{
+                      maxWidth: "20rem",
+                    }}
+                  >
                     <HighlightsCustomCard
                       key={index}
                       id={post.id}

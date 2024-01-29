@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { styled, alpha } from "@mui/material/styles";
 import {
   Avatar,
   Box,
@@ -71,11 +70,6 @@ const HighlightsCustomCard = ({
 
   const location = useLocation();
 
-  const [postActionsMenuAnchorEl, setPostActionsMenuAnchorEl] =
-    React.useState(null);
-  const postActionsMenuOpen = Boolean(postActionsMenuAnchorEl);
-
-  const handleOpenRemoveEventModal = () => setOpenRemoveEventModal(true);
   const handleCloseRemoveEventModal = () => setOpenRemoveEventModal(false);
 
   const getPostPath = () => {
@@ -90,11 +84,6 @@ const HighlightsCustomCard = ({
     return `/${postType}/${id}/${postName}`;
   };
 
-  const getEditPostPath = () => {
-    const postType = type === "E" ? "eventos" : "projetos";
-    return `/${postType}/editar/${id}`;
-  };
-
   const handleOpen = () => {
     localStorage.setItem("previousLocation", location.pathname);
     navigate(getPostPath());
@@ -102,28 +91,6 @@ const HighlightsCustomCard = ({
 
   const handleOpenShareModal = () => setOpenShareModal(true);
   const handleCloseShareModal = () => setOpenShareModal(false);
-
-  const handlePostActionsMenuClick = (event) => {
-    setPostActionsMenuAnchorEl(event.currentTarget);
-  };
-  const handlePostActionsMenuClose = () => {
-    setPostActionsMenuAnchorEl(null);
-  };
-
-  const handleEditEventClick = () => {
-    handlePostActionsMenuClose();
-    navigate(getEditPostPath());
-  };
-
-  const handleRemoveEventClick = () => {
-    if (type === "E") {
-      handlePostActionsMenuClose();
-      handleOpenRemoveEventModal();
-    } else {
-      handlePostActionsMenuClose();
-      handleOpenRemoveEventModal();
-    }
-  };
 
   const handleRemoveEvent = async () => {
     if (type === "E") {
@@ -164,7 +131,7 @@ const HighlightsCustomCard = ({
   if (isLoading) {
     return (
       <Stack spacing={1}>
-        <Skeleton variant="rectangular" width="23rem" height="17rem" />
+        <Skeleton variant="rectangular" width="15rem" height="12rem" />
         <Box display="flex">
           <Skeleton variant="circular" width={25} height={25} />
           <Box

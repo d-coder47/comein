@@ -7,7 +7,7 @@ import MapButton from "../../components/Map/MapButton";
 import { Box, LinearProgress } from "@mui/material";
 import AddLocationModal from "../../components/AddLocationModal";
 import UpdateUserInfoModal from "../../components/UpdateUserInfoModal";
-import Highlights from "../../components/Highlights";
+import Highlights from "../../components/highlights";
 
 export default function Home() {
   const [category, setCategory] = useState("");
