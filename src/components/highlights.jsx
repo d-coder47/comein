@@ -21,15 +21,23 @@ const Highlights = () => {
 
   const { getHighlightPosts } = usePosts();
 
-  const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isMobileScreen = useMediaQuery((theme) =>
+    theme.breakpoints.between("xs", "md")
+  );
+
+  const isSmallScreen = useMediaQuery((theme) =>
+    theme.breakpoints.between("md", "custom")
+  );
 
   const getNumberOfSlidesPerView = () => {
     if (isMobileScreen) {
       return 1;
-    } else if (highlights.length < 5) {
+    } else if (highlights.length < 5 && !isSmallScreen) {
       return highlights.length;
+    } else if (isSmallScreen) {
+      return 3;
     } else {
-      return 5;
+      return 4;
     }
   };
 
@@ -82,9 +90,11 @@ const Highlights = () => {
         >
           <Box
             sx={{
-              maxWidth: isMobileScreen ? "100%" : "15%",
-              minWidth: isMobileScreen ? "100%" : "15%",
+              maxWidth: isMobileScreen ? "100%" : "25%",
               marginRight: "2.5rem",
+              display: "flex",
+              alignItems: isMobileScreen ? "center" : "left",
+              flexDirection: "column",
             }}
           >
             <Typography
