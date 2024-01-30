@@ -52,7 +52,7 @@ const Highlights = () => {
     setRefreshCount((prevCount) => prevCount + 1);
   };
 
-  if (highlights.length > 0) {
+  if (highlights && highlights.length > 0) {
     return (
       <Box
         sx={{
