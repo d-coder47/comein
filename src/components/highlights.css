@@ -7,4 +7,6 @@
   background-repeat: no-repeat;
   padding: 8px;
   border-radius: 100%;
+
+  top: var(--swiper-navigation-top-offset, 34%);
 }

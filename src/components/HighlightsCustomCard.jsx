@@ -154,7 +154,6 @@ const HighlightsCustomCard = ({
       <Box
         id="card-container"
         sx={{
-          // height: "100%",
           maxHeight: "15rem",
           maxWidth: "20rem",
         }}

@@ -11,13 +11,14 @@ import L from "leaflet";
 import { getItemIconByCategory } from "../../utils/map";
 
 export default function Leaflet() {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
   const [center, setCenter] = useState([
     16.890455072287708, -24.98754235360934,
   ]);
   const [coordinates, setCoordinates] = useState([]);
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (!userInfo) {
       return;
     }
