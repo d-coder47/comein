@@ -41,6 +41,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { AspectRatio } from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
+import copy from "clipboard-copy";
 
 const HighlightsCustomCard = ({
   id = null,
@@ -59,6 +60,8 @@ const HighlightsCustomCard = ({
   const [displayInteractions, setDisplayInteraction] = useState("none");
 
   const [openRemoveEventModal, setOpenRemoveEventModal] = React.useState(false);
+
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const { deleteProject } = useProjects();
 
@@ -127,6 +130,17 @@ const HighlightsCustomCard = ({
 
     if (!user) return;
   }, [id]);
+
+  const handleCopyLink = () => {
+    const linkToCopy = "https://comein.cv/" + getPostPath();
+    copy(linkToCopy)
+      .then(() => {
+        setLinkCopied(!linkCopied);
+      })
+      .catch((err) => {
+        console.error("Failed to copy link to clipboard", err);
+      });
+  };
 
   if (isLoading) {
     return (
@@ -390,8 +404,9 @@ const HighlightsCustomCard = ({
                   sx={{ marginTop: "1rem" }}
                   variant="contained"
                   endIcon={<Link />}
+                  onClick={handleCopyLink}
                 >
-                  {"postCard.copiarLigacao"}
+                  {t("shareModal.copiarLigacao")}
                 </Button>
               </Box>
             </Box>

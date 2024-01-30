@@ -56,6 +56,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { AspectRatio } from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
+import copy from "clipboard-copy";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -118,6 +119,8 @@ const ProfileCustomCard = ({
   const [displayInteractions, setDisplayInteraction] = useState("none");
 
   const [openRemoveEventModal, setOpenRemoveEventModal] = React.useState(false);
+
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const { deleteProject } = useProjects();
 
@@ -218,6 +221,17 @@ const ProfileCustomCard = ({
 
     if (!user) return;
   }, [id]);
+
+  const handleCopyLink = () => {
+    const linkToCopy = "https://comein.cv/" + getPostPath();
+    copy(linkToCopy)
+      .then(() => {
+        setLinkCopied(!linkCopied);
+      })
+      .catch((err) => {
+        console.error("Failed to copy link to clipboard", err);
+      });
+  };
 
   if (isLoading) {
     return (
@@ -463,7 +477,7 @@ const ProfileCustomCard = ({
                 mt="1rem"
               >
                 <Typography fontWeight="bold">
-                  {t("postCard.partilhePostRedeSociais")}
+                  {t("shareModal.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
@@ -526,8 +540,9 @@ const ProfileCustomCard = ({
                   sx={{ marginTop: "1rem" }}
                   variant="contained"
                   endIcon={<Link />}
+                  onClick={handleCopyLink}
                 >
-                  {"postCard.copiarLigacao"}
+                  {t("shareModal.copiarLigacao")}
                 </Button>
               </Box>
             </Box>
