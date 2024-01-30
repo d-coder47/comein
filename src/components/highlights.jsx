@@ -52,6 +52,15 @@ const Highlights = () => {
     setRefreshCount((prevCount) => prevCount + 1);
   };
 
+  const displayImage = (fullImage, minimizedImage, postType) => {
+    const type = postType === "E" ? "eventos" : "projetos";
+    return minimizedImage?.length > 0
+      ? `${imgApiPath}/${type}Img/${type}ImgRecortada/${minimizedImage}`
+      : fullImage?.length > 0
+      ? `${imgApiPath}/${type}Img/${fullImage}`
+      : defaultImg;
+  };
+
   if (highlights && highlights.length > 0) {
     return (
       <Box
@@ -125,9 +134,11 @@ const Highlights = () => {
                       name={post.nome}
                       likes={post.gostos}
                       visits={post.visitasPost}
-                      picture={`${imgApiPath}/${
-                        post.distincao === "E" ? "eventos" : "projetos"
-                      }Img/${post.imagem}`}
+                      picture={displayImage(
+                        post?.imagem,
+                        post?.imagem_recortada,
+                        post.distincao
+                      )}
                       publisherId={post.id_utilizador}
                       publisherName={post.nome_user}
                       publisherPhoto={

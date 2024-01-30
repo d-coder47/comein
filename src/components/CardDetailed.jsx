@@ -1020,7 +1020,13 @@ const DetailedInfo = ({
 }) => {
   const { t } = useTranslation();
 
-  const {languages, translatedText, getSupportedLanguages, translateText, resetToOriginal} = useTranslationAPI(description)
+  const {
+    languages,
+    translatedText,
+    getSupportedLanguages,
+    translateText,
+    resetToOriginal,
+  } = useTranslationAPI(description);
 
   const generateLocation = () => {
     const cityStr = !city || !city?.length > 0 ? "" : city;
@@ -1033,33 +1039,37 @@ const DetailedInfo = ({
 
   useEffect(() => {
     const getLanguages = async () => {
-      await getSupportedLanguages()
-    }
+      await getSupportedLanguages();
+    };
 
-    getLanguages()
-  }, [])
+    getLanguages();
+  }, []);
 
   const onLanguageChange = (e, value) => {
-    console.log({value})
-    if(!value) return resetToOriginal();
+    if (!value) return resetToOriginal();
 
-    translateText(value.id, description)
-
-  }
+    translateText(value.id, description);
+  };
 
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       {description.length > 0 ? (
-        <Box display="flex" flexDirection="column" justifyContent="flex-start" >
-        <Autocomplete
-          disablePortal
-          id="translation-autocomplete"
-          options={languages}
-          sx={{ width: 250, margin: "12px 15px" }}
-          onChange={onLanguageChange}
-          renderInput={(params) => <TextField {...params} size="small" label={t("cardDetailed.translateTo")} />}
-        />
-        <ReactQuill theme="bubble" value={translatedText} readOnly />
+        <Box display="flex" flexDirection="column" justifyContent="flex-start">
+          <Autocomplete
+            disablePortal
+            id="translation-autocomplete"
+            options={languages}
+            sx={{ width: 250, margin: "12px 15px" }}
+            onChange={onLanguageChange}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                size="small"
+                label={t("cardDetailed.translateTo")}
+              />
+            )}
+          />
+          <ReactQuill theme="bubble" value={translatedText} readOnly />
         </Box>
       ) : null}
       {isEvent ? (
