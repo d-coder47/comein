@@ -39,6 +39,9 @@ const Highlights = () => {
     const fechData = async () => {
       const res = await getHighlightPosts();
 
+      if (res.dados.includes("Não existem dados para retornar")) {
+        return setHighlights([]);
+      }
       setHighlights(res.dados);
     };
 
@@ -49,7 +52,7 @@ const Highlights = () => {
     setRefreshCount((prevCount) => prevCount + 1);
   };
 
-  if (highlights) {
+  if (highlights.length > 0) {
     return (
       <Box
         sx={{
@@ -108,7 +111,7 @@ const Highlights = () => {
               loop
               scrollbar={{ draggable: false }}
             >
-              {highlights.map((post, index) => {
+              {highlights?.map((post, index) => {
                 return (
                   <SwiperSlide
                     key={index}
