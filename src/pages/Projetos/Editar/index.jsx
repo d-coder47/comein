@@ -408,6 +408,7 @@ const Editar = () => {
             flexDirection="column"
             gap="0.5rem"
             mb="2rem"
+            maxWidth="736px"
           >
             <Box
               id="detailed-header"
@@ -450,7 +451,7 @@ const Editar = () => {
                     gap: ".25rem",
                     alignItems: "center",
                     flexGrow: 1,
-                    marginTop: ".25rem"
+                    marginTop: ".25rem",
                   }}
                 >
                   <Typography fontWeight="bold" fontSize="0.9rem">
@@ -465,7 +466,7 @@ const Editar = () => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
-                      console.log(value)
+                      console.log(value);
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
                         setOwners(res.dados);
@@ -477,7 +478,7 @@ const Editar = () => {
                 </Box>
               </Box>
             </Box>
-            <Box sx={{ backgroundColor: "white" }}>
+            <Box sx={{ backgroundColor: "white", margin: "0" }}>
               <Input
                 style={{ display: "none" }}
                 id="upload-photo"
@@ -499,13 +500,14 @@ const Editar = () => {
                   alt={`Adicionar imagem`}
                   variant="square"
                   sx={{
-                    width: {
-                      xs: "20rem",
-                      sm: "20rem",
-                      md: "45rem",
-                      lg: "45rem",
-                      xl: "45rem",
-                    },
+                    // width: {
+                    //   xs: "20rem",
+                    //   sm: "20rem",
+                    //   md: "45rem",
+                    //   lg: "45rem",
+                    //   xl: "45rem",
+                    // },
+                    width: "100%",
                     height: "auto",
                   }}
                   onClick={handleChangeImgClick}

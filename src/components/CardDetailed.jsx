@@ -1151,10 +1151,6 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
     <Box display="flex" flexDirection="column" alignItems="center">
       {programs.length > 0 ? (
         <>
-          {" "}
-          <Typography fontWeight="bold" textTransform="uppercase">
-            {t("cardDetailed.program")}
-          </Typography>
           {programs?.map((program) => (
             <Box
               key={program?.id}
@@ -1168,12 +1164,14 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
                   {defaultDateToCVDateFormat(program?.data)}
                 </Typography>
               ) : null}
-              <Avatar
-                src={`${imgApiPath}/programa_eventosImg/${program?.imagem}`}
-                alt={`Foto de ${program?.titulo}`}
-                variant="square"
-                sx={{ width: "100%", height: "auto" }}
-              />
+              {program?.imagem?.length > 0 ? (
+                <Avatar
+                  src={`${imgApiPath}/programa_eventosImg/${program?.imagem}`}
+                  alt={`Foto de ${program?.titulo}`}
+                  variant="square"
+                  sx={{ width: "100%", height: "auto" }}
+                />
+              ) : null}
               <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
                 <Box display="flex" gap=".5rem">
                   <Typography fontWeight="bold">{program?.titulo}</Typography>
@@ -1249,7 +1247,8 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
                   ) : null}
                 </Box>
                 {program?.local?.length > 0 ||
-                program?.cidadePrograma?.length > 0 ? (
+                (program?.cidadePrograma?.length > 0 &&
+                  program?.cidadePrograma !== "MUNDO") ? (
                   <Box>
                     <Typography display="flex" gap=".5rem" fontWeight="bold">
                       {t("cardDetailed.local")}{" "}

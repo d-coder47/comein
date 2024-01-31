@@ -442,6 +442,7 @@ const Adicionar = () => {
             flexDirection="column"
             gap="0.5rem"
             mb="2rem"
+            maxWidth="736px"
           >
             <Box
               id="detailed-header"
@@ -484,7 +485,7 @@ const Adicionar = () => {
                     gap: ".25rem",
                     alignItems: "center",
                     flexGrow: 1,
-                    marginTop: ".25rem"
+                    marginTop: ".25rem",
                   }}
                 >
                   <Typography fontWeight="bold" fontSize="0.9rem">
@@ -498,7 +499,7 @@ const Adicionar = () => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
-                      console.log(value)
+                      console.log(value);
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
                         setOwners(res.dados);
@@ -514,7 +515,7 @@ const Adicionar = () => {
               id="image-container"
               sx={{
                 backgroundColor: "white",
-                margin: "0 0 0 1rem",
+                margin: "0",
               }}
             >
               <Input
@@ -538,13 +539,14 @@ const Adicionar = () => {
                   alt={`Adicionar imagem`}
                   variant="square"
                   sx={{
-                    width: {
-                      xs: "20rem",
-                      sm: "20rem",
-                      md: "45rem",
-                      lg: "45rem",
-                      xl: "45rem",
-                    },
+                    // width: {
+                    //   xs: "20rem",
+                    //   sm: "20rem",
+                    //   md: "45rem",
+                    //   lg: "45rem",
+                    //   xl: "45rem",
+                    // },
+                    width: "100%",
                     height: "auto",
                   }}
                   onClick={handleChangeImgClick}

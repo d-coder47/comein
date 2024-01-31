@@ -207,9 +207,9 @@
     "associatedProjects": "Associated Project",
     "publisherInteractionNotAllowed": "To interact with the promoter you must log in",
     "postInteractionNotAllowed": "To interact with the post you must log in",
-    "addSchedule": "Add Program",
-    "editSchedule": "Edit Program",
-    "removeSchedule": "Remove Program",
+    "addSchedule": "Add Content",
+    "editSchedule": "Edit Content",
+    "removeSchedule": "Remove Content",
     "translateTo": "Translate to"
   },
   "eventPage": {
@@ -230,8 +230,8 @@
       "tutorial": "Double click to customize",
       "recorteInfo": "To enhance the visibility of your post, please click 'Crop Image' before saving and adjust accordingly.",
       "noProjects": "You don't have any projects to associate",
-      "programPlaceholder": "Enter program name",
-      "programDescription": "Add everything about your program"
+      "programPlaceholder": "Enter content name",
+      "programDescription": "Add everything about your content"
     }
   },
   "projectPage": {
@@ -272,8 +272,8 @@
     "postModal": {
       "title": "Event location",
       "explanation": "Click to map your event and make it more accessible.",
-      "city": "Event City",
-      "location": "Event Venue"
+      "city": "City",
+      "location": "Venue"
     },
     "userModal": {
       "title": "Add your location",
@@ -286,6 +286,6 @@
     "description": "It seems your name is not configured. Please add your name so that you can be identified."
   },
   "removeProgram": {
-    "modalText": "Are you sure you want to remove this program?"
+    "modalText": "Are you sure you want to remove this content?"
   }
 }

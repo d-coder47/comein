@@ -207,9 +207,9 @@
     "associatedProjects": "Projeto Associado",
     "publisherInteractionNotAllowed": "Para interagir com o promotor primeiro deve efetuar o login",
     "postInteractionNotAllowed": "Para interagir com a publicacão primeiro deve efetuar o login",
-    "addSchedule": "Adicionar Programa",
-    "editSchedule": "Editar Programa",
-    "removeSchedule": "Remover Programa",
+    "addSchedule": "Adicionar Conteúdo",
+    "editSchedule": "Editar Conteúdo",
+    "removeSchedule": "Remover Conteúdo",
     "translateTo": "Traduzir para"
   },
   "eventPage": {
@@ -230,8 +230,8 @@
       "tutorial": "Faça duplo clique para personalizar",
       "recorteInfo": "Para melhor destacar a sua publicação, por favor, clique em 'Imagem Recortada' antes de salvar e ajuste a sua imagem",
       "noProjects": "Ainda não tens projetos para associar",
-      "programPlaceholder": "Inserir nome do programa",
-      "programDescription": "Adicione tudo sobre o teu programa"
+      "programPlaceholder": "Inserir nome do conteúdo",
+      "programDescription": "Adicione tudo sobre o teu conteúdo"
     }
   },
   "projectPage": {
@@ -272,8 +272,8 @@
     "postModal": {
       "title": "Localização do evento",
       "explanation": "Clique para mapear o seu evento, e torná-lo mais acessível.",
-      "city": "Cidade do Evento",
-      "location": "Local do Evento"
+      "city": "Cidade",
+      "location": "Local"
     },
     "userModal": {
       "title": "Adicione a sua localização",
@@ -286,6 +286,6 @@
     "descricao": "Parece que o teu nome não está configurado. Por favor, adiciona o teu nome para que seja possível identificá-lo."
   },
   "removeProgram": {
-    "modalText": "Tem certeza de que deseja remover este programa?"
+    "modalText": "Tem certeza de que deseja remover este conteúdo?"
   }
 }

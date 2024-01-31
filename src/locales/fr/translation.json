@@ -207,9 +207,9 @@
     "associatedProjects": "Projet associé",
     "publisherInteractionNotAllowed": "Pour interagir avec le promoteur, vous devez d'abord vous connecter",
     "postInteractionNotAllowed": "Pour interagir avec le publication, vous devez d'abord vous connecter",
-    "addSchedule": "Ajouter un programme",
-    "editSchedule": "Modifier le programme",
-    "removeSchedule": "Supprimer le programme",
+    "addSchedule": "Ajouter du contenu",
+    "editSchedule": "Modifier le contenu",
+    "removeSchedule": "Supprimer le contenu",
     "translateTo": "Traduire en"
   },
   "eventPage": {
@@ -230,8 +230,8 @@
       "tutorial": "Double-cliquez pour personnaliser",
       "recorteInfo": "Pour mieux mettre en valeur votre publication, veuillez cliquer sur 'Image rognée' avant d'enregistrer et ajuster votre image.",
       "noProjects": "Vous n'avez toujours pas de projets à associer",
-      "programPlaceholder": "Entrez le nom du programme",
-      "programDescription": "Ajoutez tout ce qui concerne votre programme"
+      "programPlaceholder": "Entrez le nom du contenu",
+      "programDescription": "Ajoutez tout ce qui concerne votre contenu"
     }
   },
   "projectPage": {
@@ -272,7 +272,7 @@
     "postModal": {
       "title": "Lieu de l'événement",
       "explanation": "Cliquez pour cartographier votre événement et le rendre plus accessible.",
-      "city": "Ville de l'événement",
+      "city": "Ville",
       "location": "Lieu"
     },
     "userModal": {
@@ -286,6 +286,6 @@
     "description": "Il semble que votre nom ne soit pas configuré. Veuillez ajouter votre nom pour que vous puissiez être identifié(e)."
   },
   "removeProgram": {
-    "modalText": "Êtes-vous sûr de vouloir supprimer ce programme ?"
+    "modalText": "Êtes-vous sûr de vouloir supprimer ce contenu?"
   }
 }

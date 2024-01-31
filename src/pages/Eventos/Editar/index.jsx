@@ -557,6 +557,7 @@ const Editar = () => {
             flexDirection="column"
             gap="0.5rem"
             mb="2rem"
+            maxWidth="736px"
           >
             <Box
               id="detailed-header"
@@ -625,7 +626,7 @@ const Editar = () => {
                 </Box>
               </Box>
             </Box>
-            <Box sx={{ backgroundColor: "white" }}>
+            <Box sx={{ backgroundColor: "white", margin: "0" }}>
               <Input
                 style={{ display: "none" }}
                 id="upload-photo"
@@ -647,13 +648,14 @@ const Editar = () => {
                   alt={`Adicionar imagem`}
                   variant="square"
                   sx={{
-                    width: {
-                      xs: "20rem",
-                      sm: "20rem",
-                      md: "45rem",
-                      lg: "45rem",
-                      xl: "45rem",
-                    },
+                    // width: {
+                    //   xs: "20rem",
+                    //   sm: "20rem",
+                    //   md: "45rem",
+                    //   lg: "45rem",
+                    //   xl: "45rem",
+                    // },
+                    width: "100%",
                     height: "auto",
                   }}
                   onClick={handleChangeImgClick}
@@ -740,14 +742,6 @@ const Editar = () => {
                   onInputChange={async (event, value) => {
                     if (value.length >= 2 && value.length <= 4) {
                       const res = await getAddresses(value);
-
-                      // const newAddresses = [];
-                      // for (let key in res.dados) {
-                      //   if (res.dados.hasOwnProperty(key)) {
-                      //     const value = res.dados[key];
-                      //     newAddresses.push(value.nome);
-                      //   }
-                      // }
                       setAddresses(res.dados);
                     }
                   }}

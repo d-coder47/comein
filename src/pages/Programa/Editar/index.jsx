@@ -247,6 +247,7 @@ const Editar = () => {
             flexDirection="column"
             gap="0.5rem"
             mb="2rem"
+            maxWidth="736px"
           >
             <Box
               id="detailed-header"
@@ -289,7 +290,7 @@ const Editar = () => {
               id="image-container"
               sx={{
                 backgroundColor: "white",
-                margin: "0 0 0 1rem",
+                margin: "0",
               }}
             >
               <Input
@@ -312,7 +313,7 @@ const Editar = () => {
                   src={fieldValues.imagem || img}
                   alt={`Adicionar imagem`}
                   variant="square"
-                  sx={{ width: "45rem", height: "auto" }}
+                  sx={{ width: "100%", height: "auto" }}
                   onClick={handleChangeImgClick}
                 />
               )}

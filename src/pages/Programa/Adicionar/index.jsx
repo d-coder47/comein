@@ -143,9 +143,6 @@ const Adicionar = () => {
       );
       if (response?.data?.status !== "error") {
         return onGoBack();
-        // let nome = fieldValues.nome.replaceAll("/", "_");
-        // nome = nome.replaceAll(" ", "_");
-        // navigate(`/eventos/${+response?.data?.dados}/${nome}`);
       }
     } catch (error) {
       console.log(error);
@@ -199,6 +196,7 @@ const Adicionar = () => {
             flexDirection="column"
             gap="0.5rem"
             mb="2rem"
+            maxWidth="736px"
           >
             <Box
               id="detailed-header"
@@ -241,7 +239,7 @@ const Adicionar = () => {
               id="image-container"
               sx={{
                 backgroundColor: "white",
-                margin: "0 0 0 1rem",
+                margin: "0",
               }}
             >
               <Input
@@ -264,7 +262,7 @@ const Adicionar = () => {
                   src={fieldValues.imagem || img}
                   alt={`Adicionar imagem`}
                   variant="square"
-                  sx={{ width: "45rem", height: "auto" }}
+                  sx={{ width: "100%", height: "auto" }}
                   onClick={handleChangeImgClick}
                 />
               )}
@@ -347,7 +345,10 @@ const Adicionar = () => {
                     );
                   }}
                   renderInput={(params) => (
-                    <TextField label="Cidade do Evento" {...params} />
+                    <TextField
+                      label={t("locationModals.postModal.city")}
+                      {...params}
+                    />
                   )}
                   getOptionLabel={(option) => option?.nome}
                   value={fieldValues?.local}
@@ -369,7 +370,7 @@ const Adicionar = () => {
 
                 <TextField
                   id="outlined-required"
-                  label="Local do Evento"
+                  label={t("locationModals.postModal.location")}
                   size="small"
                   value={fieldValues?.local?.local || ""}
                   onChange={(e) =>
