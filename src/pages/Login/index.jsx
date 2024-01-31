@@ -87,7 +87,6 @@ export default function Login() {
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
         localStorage.setItem("authenticated", true);
         localStorage.setItem("userId", user.dados.id);
-        localStorage.setItem("token", loginGoogleRes.token);
         navigate("/");
       } else {
         toast.error(t("loginPage.erroLogin"));
@@ -182,7 +181,6 @@ export default function Login() {
 
       if (loginRes.token) {
         localStorage.setItem("userId", loginRes.data.id);
-        localStorage.setItem("token", loginRes.token);
         const user = await getUser(loginRes.data.id);
         if (user.dados === "Não existem dados para retornar") {
           toast.error(t("loginPage.erroLogin"));
