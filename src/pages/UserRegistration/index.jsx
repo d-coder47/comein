@@ -34,15 +34,11 @@ const UserRegistration = () => {
 
   const { t, i18n } = useTranslation();
 
-  const token = localStorage.getItem("token");
-  const userID = localStorage.getItem("userID");
-
   const [showPassword, setShowPassword] = React.useState(false);
 
   const [showEmailError, setShowEmailError] = React.useState(false);
   const [showPasswordError, setShowPasswordError] = React.useState(false);
   const [showNameError, setShowNameError] = React.useState(false);
-  const [showSurnameError, setShowSurnameError] = React.useState(false);
 
   const { addUser, updateUser, getUser, getTermsPolicy, login, getUserByMail } =
     useRegisterUser();
@@ -106,7 +102,6 @@ const UserRegistration = () => {
         localStorage.setItem("userInfo", JSON.stringify(user.dados));
         localStorage.setItem("authenticated", true);
         localStorage.setItem("userId", user.dados.id);
-        localStorage.setItem("token", loginGoogleRes.token);
         navigate("/");
       } else {
         toast.error(t("registerpage.erroCadastro"));
@@ -220,7 +215,6 @@ const UserRegistration = () => {
         toast.error(t("registerpage.erroUserExiste"));
       } else {
         localStorage.setItem("userID", addUserRes.data.id);
-        localStorage.setItem("token", addUserRes.token);
 
         let nome = formData.name;
         let _method = "PUT";

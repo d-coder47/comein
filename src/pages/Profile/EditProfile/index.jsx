@@ -33,6 +33,7 @@ import useUserProfile from "../../../hooks/useUserProfile";
 
 import { redirectToProfilePage } from "../../../utils/generateUrl";
 import { toast } from "react-toastify";
+import useAuthentication from "../../../hooks/useAuthentication";
 
 const editorModules = {
   toolbar: [
@@ -72,6 +73,8 @@ const editorFormats = [
 const EditProfile = () => {
   const params = useParams();
   const { userId } = params;
+
+  const { getToken, setToken } = useAuthentication();
   const isMobileScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const [isSmallScreen, setIsSmallScreen] = React.useState(false);
@@ -270,7 +273,7 @@ const EditProfile = () => {
       if (res.token) {
         toast.success(t("editProfilePage.palavraPassAtualizadoSucesso"));
 
-        localStorage.setItem("token", res.token);
+        setToken(res.token);
       } else {
         toast.error(t("editProfilePage.erroAtualizarPalavraPasse"));
       }
@@ -340,7 +343,7 @@ const EditProfile = () => {
     if (Object.keys(errors).length) {
       setFormErrors(errors);
     } else {
-      let token = localStorage.getItem("token");
+      let token = getToken();
 
       const nacionalidades = await getCountries(
         formData.nationality?.slice(0, 4),

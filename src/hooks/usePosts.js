@@ -132,7 +132,6 @@ const usePosts = () => {
       body.append("id_utilizador", userId);
       body.append("id_publicacao", postId);
       body.append("type", postType);
-      const token = localStorage.getItem("token");
 
       const response = await axiosInstance.post(
         `/favoritos/addFavoritos`,

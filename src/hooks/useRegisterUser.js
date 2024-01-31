@@ -1,6 +1,9 @@
 import axiosInstance from "../api/axiosInstance";
 
+import useAuthentication from "./useAuthentication";
+
 const useRegisterUser = () => {
+  const { setToken } = useAuthentication();
   const getAddresses = async (address, token) => {
     try {
       const response = await axiosInstance.get(`/geografia/search/${address}`, {
@@ -89,6 +92,8 @@ const useRegisterUser = () => {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
+
+      setToken(response?.data?.token);
       return response.data;
     } catch (error) {
       console.error(error);
