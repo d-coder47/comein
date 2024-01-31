@@ -1059,11 +1059,20 @@ const DetailedInfo = ({
             disablePortal
             id="translation-autocomplete"
             options={languages}
-            sx={{ width: 250, margin: "12px 15px" }}
+            sx={{
+              width: 150,
+              margin: "12px 15px",
+              "& .MuiAutocomplete-input, & .MuiInputLabel-root": {
+                fontSize: 14,
+              },
+            }}
             onChange={onLanguageChange}
             renderInput={(params) => (
               <TextField
                 {...params}
+                inputProps={{
+                  ...params.inputProps,
+                }}
                 size="small"
                 label={t("cardDetailed.translateTo")}
               />
