@@ -23,6 +23,7 @@ import {
   Edit,
   Delete,
   Bookmark,
+  Remove,
 } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
@@ -65,8 +66,9 @@ const CardDetailed = () => {
   const { followUser } = useUserProfile();
   const { likePost, favoritePost, getHighlightPosts, HighlightPost } =
     usePosts();
-  const { removeFavoriteFromEvent, addEventVisit } = useEvents();
-  const { removeFavoriteFromProject, addProjetVisit } = useProjects();
+  const { removeFavoriteFromEvent, addEventVisit, removeEvent } = useEvents();
+  const { removeFavoriteFromProject, addProjetVisit, deleteProject } =
+    useProjects();
 
   const [isOwner, setIsOwner] = useState();
 
@@ -74,6 +76,8 @@ const CardDetailed = () => {
 
   const [showRemoveProgramModal, setShowRemoveProgramModal] = useState(false);
   const [programIdToRemove, setProgramIdToRemove] = useState(0);
+
+  const [showRemovePostModal, setShowRemovePostModal] = useState(false);
 
   const [isAdmin, setIsAdmin] = useState();
 
@@ -373,6 +377,49 @@ const CardDetailed = () => {
     setShowRemoveProgramModal(false);
   };
 
+  const handleGoToEditPost = () => {
+    return navigate(`/${type}/editar/${id}`);
+  };
+
+  const getRemovePostText = () => {
+    return type === "eventos"
+      ? t("userProfile.removerEventoModal")
+      : t("userProfile.removerProjetoModal");
+  };
+
+  const handleShowRemovePostModal = () => {
+    setShowRemovePostModal(true);
+  };
+
+  const handleCloseRemovePostModal = () => {
+    setShowRemovePostModal(false);
+  };
+
+  const handleRemovePost = async () => {
+    if (type === "eventos") {
+      const res = await removeEvent(id);
+      if (!res) {
+        handleCloseRemovePostModal();
+        toast.error(t("userProfile.removerEventoErro"));
+      } else {
+        handleCloseRemovePostModal();
+        toast.success(t("userProfile.removerEventoSucesso"));
+        navigate(-1);
+      }
+    } else {
+      const res = await deleteProject(id);
+
+      if (!res) {
+        handleCloseRemovePostModal();
+        toast.error(t("userProfile.removerProjetoErro"));
+      } else {
+        handleCloseRemovePostModal();
+        toast.success(t("userProfile.removerProjetoSucesso"));
+        navigate(-1);
+      }
+    }
+  };
+
   const onCloseModal = () => {
     if (localStorage.getItem("previousLocation") !== null) {
       return navigate(localStorage.getItem("previousLocation"));
@@ -629,6 +676,7 @@ const CardDetailed = () => {
           gap="1.5rem"
           marginTop="14%"
           mr={".5rem"}
+          height="fit-content"
         >
           <IconButton
             id="follow"
@@ -835,6 +883,68 @@ const CardDetailed = () => {
               </Box>
             </Tooltip>
           )}
+
+          {isOwner && (
+            <Tooltip title={t("userProfile.editar")} placement="left" arrow>
+              <Box
+                id="edit-post"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={() => handleGoToEditPost()}
+              >
+                <Edit
+                  color="white"
+                  sx={{
+                    width: "1.25rem",
+                    height: "1.25rem",
+                    color: "white",
+                  }}
+                />
+              </Box>
+            </Tooltip>
+          )}
+
+          {isOwner && (
+            <Tooltip title={t("userProfile.remover")} placement="left" arrow>
+              <Box
+                id="remove-post"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: "#743600",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={() => handleShowRemovePostModal()}
+              >
+                <Delete
+                  color="white"
+                  sx={{
+                    width: "1.25rem",
+                    height: "1.25rem",
+                    color: "white",
+                  }}
+                />
+              </Box>
+            </Tooltip>
+          )}
         </Box>
       </Box>
       <Modal
@@ -909,6 +1019,85 @@ const CardDetailed = () => {
                   textTransform: "none",
                 }}
                 onClick={handleRemoveProgram}
+              >
+                {t("userProfile.configPage.sim")}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
+      <Modal
+        open={showRemovePostModal}
+        onClose={handleCloseRemovePostModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            // border: "2px solid #000",
+            borderRadius: ".5rem",
+            outline: "none",
+            boxShadow: 24,
+            p: 4,
+            display: "flex",
+            flexDirection: "column",
+            justifyItems: "center",
+          }}
+        >
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={handleCloseRemovePostModal}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+            }}
+          >
+            <Close />
+          </IconButton>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {getRemovePostText()}
+          </Typography>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Grid item xs={6} md={4}>
+              <Button
+                variant="contained"
+                className="remove-account-button"
+                sx={{
+                  marginTop: "15px",
+                  borderRadius: "20px",
+                  textTransform: "none",
+                }}
+                onClick={handleCloseRemovePostModal}
+              >
+                {t("userProfile.configPage.nao")}
+              </Button>
+            </Grid>
+            <Grid item xs={6} md={4}>
+              <Button
+                variant="contained"
+                className="remove-account-button"
+                sx={{
+                  marginTop: "15px",
+                  borderRadius: "20px",
+                  textTransform: "none",
+                }}
+                onClick={handleRemovePost}
               >
                 {t("userProfile.configPage.sim")}
               </Button>
