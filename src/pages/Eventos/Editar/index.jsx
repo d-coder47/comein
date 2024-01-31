@@ -381,12 +381,19 @@ const Editar = () => {
       delete values.hora_fim;
     }
 
+    if (!values?.id_geografia) delete values?.id_geografia;
+
     const body = objectToFormData(values, user.id);
 
     if (editedFieldValues) {
       if (Object.keys(editedFieldValues).includes("hora_inicio")) {
         const updatedStartDate = `${fieldValues?.data_inicio}T${editedFieldValues?.hora_inicio}`;
         editedFieldValues.data_inicio = updatedStartDate;
+      }
+
+      if (Object.keys(editedFieldValues).includes("hora_fim")) {
+        const updatedEndDate = `${fieldValues?.data_fim}T${editedFieldValues?.hora_fim}`;
+        editedFieldValues.data_fim = updatedEndDate;
       }
 
       if (Object.keys(editedFieldValues).includes("hora_fim")) {
@@ -469,8 +476,8 @@ const Editar = () => {
         name: location?.local,
         latitude: location?.lat,
         longitude: location?.lng,
-        id_publicacao: "",
-        tipo_publicacao: "",
+        id_publicacao: id,
+        tipo_publicacao: "E",
       },
       "",
       true
@@ -592,7 +599,7 @@ const Editar = () => {
                     gap: ".25rem",
                     alignItems: "center",
                     flexGrow: 1,
-                    marginTop: ".25rem"
+                    marginTop: ".25rem",
                   }}
                 >
                   <Typography fontWeight="bold" fontSize="0.9rem">
@@ -606,7 +613,7 @@ const Editar = () => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
-                      console.log(value)
+                      console.log(value);
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
                         setOwners(res.dados);
