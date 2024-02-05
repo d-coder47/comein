@@ -81,6 +81,14 @@ const CardDetailed = () => {
 
   const [isAdmin, setIsAdmin] = useState();
 
+  const {
+    languages,
+    translatedText,
+    getSupportedLanguages,
+    translateText,
+    resetToOriginal,
+  } = useTranslationAPI(details);
+
   async function countEventVisit() {
     if (type === "eventos") {
       const add_event_visit_res = await addEventVisit(id);
@@ -101,6 +109,14 @@ const CardDetailed = () => {
     handleResize(); // Initial check
 
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const getLanguages = async () => {
+      await getSupportedLanguages();
+    };
+
+    getLanguages();
   }, []);
 
   useEffect(() => {
@@ -257,6 +273,18 @@ const CardDetailed = () => {
 
     isFollowingUser(publisherId, parseInt(user.id));
   }, [details]);
+
+  const texts = {
+    mainDescription: details?.dados?.descricao,
+    contentDescriptions: details?.programa?.map((p) => {
+      return p?.descricao.length > 0 ? p?.descricao : " ";
+    }),
+  };
+  const onLanguageChange = (e, value) => {
+    if (!value) return resetToOriginal();
+
+    translateText(value.id, texts);
+  };
 
   const handleFollowUser = async () => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -640,16 +668,41 @@ const CardDetailed = () => {
               sx={{ width: "100%", height: "auto" }}
             />
 
+            <Autocomplete
+              disablePortal
+              id="translation-autocomplete"
+              options={languages}
+              sx={{
+                width: 150,
+                margin: "12px 15px",
+                "& .MuiAutocomplete-input, & .MuiInputLabel-root": {
+                  fontSize: 14,
+                },
+              }}
+              onChange={onLanguageChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  inputProps={{
+                    ...params.inputProps,
+                  }}
+                  size="small"
+                  label={t("cardDetailed.translateTo")}
+                />
+              )}
+            />
+
             <DetailedInfo
               isEvent={type === "eventos"}
               city={details?.dados?.local}
               location={details?.coordenadas?.nome}
-              description={details?.dados?.descricao}
+              description={translatedText?.mainDescription}
               dateStart={details?.dados?.data_inicio}
               dateEnd={details?.dados?.data_fim}
             />
             <DetailedProgram
               programs={details?.programa}
+              translations={translatedText?.contentDescriptions}
               handleRemoveProgram={handleShowRemoveProgramModal}
               isOwner={isOwner}
             />
@@ -1209,13 +1262,13 @@ const DetailedInfo = ({
 }) => {
   const { t } = useTranslation();
 
-  const {
-    languages,
-    translatedText,
-    getSupportedLanguages,
-    translateText,
-    resetToOriginal,
-  } = useTranslationAPI(description);
+  // const {
+  //   languages,
+  //   translatedText,
+  //   getSupportedLanguages,
+  //   translateText,
+  //   resetToOriginal,
+  // } = useTranslationAPI(description);
 
   const generateLocation = () => {
     const cityStr = !city || !city?.length > 0 ? "" : city;
@@ -1226,25 +1279,25 @@ const DetailedInfo = ({
     return `${locationStr}${separator}${cityStr}`;
   };
 
-  useEffect(() => {
-    const getLanguages = async () => {
-      await getSupportedLanguages();
-    };
+  // useEffect(() => {
+  //   const getLanguages = async () => {
+  //     await getSupportedLanguages();
+  //   };
 
-    getLanguages();
-  }, []);
+  //   getLanguages();
+  // }, []);
 
-  const onLanguageChange = (e, value) => {
-    if (!value) return resetToOriginal();
+  // const onLanguageChange = (e, value) => {
+  //   if (!value) return resetToOriginal();
 
-    translateText(value.id, description);
-  };
+  //   translateText(value.id, description);
+  // };
 
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-      {description.length > 0 ? (
+      {description?.length > 0 ? (
         <Box display="flex" flexDirection="column" justifyContent="flex-start">
-          <Autocomplete
+          {/* <Autocomplete
             disablePortal
             id="translation-autocomplete"
             options={languages}
@@ -1266,8 +1319,8 @@ const DetailedInfo = ({
                 label={t("cardDetailed.translateTo")}
               />
             )}
-          />
-          <ReactQuill theme="bubble" value={translatedText} readOnly />
+          /> */}
+          <ReactQuill theme="bubble" value={description} readOnly />
         </Box>
       ) : null}
       {isEvent ? (
@@ -1310,7 +1363,12 @@ const DetailedInfo = ({
   );
 };
 
-const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
+const DetailedProgram = ({
+  programs = [],
+  handleRemoveProgram,
+  isOwner,
+  translations,
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -1335,12 +1393,14 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
         : ", ";
     return `${locationStr}${separator}${cityStr}`;
   };
+  console.log({ translations });
+  if (!translations) return <div></div>;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
       {programs.length > 0 ? (
         <>
-          {programs?.map((program) => (
+          {programs?.map((program, index) => (
             <Box
               key={program?.id}
               display="flex"
@@ -1473,7 +1533,11 @@ const DetailedProgram = ({ programs = [], handleRemoveProgram, isOwner }) => {
               <ReactQuill
                 style={{ margin: "0 1rem" }}
                 theme="bubble"
-                value={program?.descricao}
+                value={
+                  program?.descricao.length > 0
+                    ? translations[index]
+                    : program?.descricao
+                }
                 readOnly
               />
             </Box>

@@ -1,72 +1,121 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const useTranslationAPI = (description) => {
-    const [translatedText, setTranslatedText] = useState(description);
-    const [languages, setLanguages] = useState([]);
+const useTranslationAPI = (originalData) => {
+  const originalTexts = !originalData
+    ? ""
+    : {
+        mainDescription: originalData?.dados?.descricao,
+        contentDescriptions: originalData?.programa?.map((p) => {
+          return p.descricao;
+        }),
+      };
 
-    const getSupportedLanguagesOptions = {
-        method: 'GET',
-        url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/support-languages',
-        headers: {
-          'X-RapidAPI-Key': 'c477ec1f68mshf95d9ba6676dbccp1f92e1jsne83d07257363',
-          'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
-        }
-    }
+  const [translatedText, setTranslatedText] = useState(originalTexts);
+  const [languages, setLanguages] = useState([]);
+
+  useEffect(() => {
+    if (!originalData) return;
+    setTranslatedText({
+      mainDescription: originalData?.dados?.descricao,
+      contentDescriptions: originalData?.programa?.map((p) => {
+        return p.descricao;
+      }),
+    });
+  }, [originalData]);
+
+  const contentToString = (array) => {
+    const separatedElements = array.join("/cp/");
+
+    return separatedElements.length === 0 ? " " : separatedElements;
+  };
+
+  const generateText = (texts) => {
+    console.log(
+      `${texts?.mainDescription}/m/${contentToString(
+        texts?.contentDescriptions
+      )}`
+    );
+
+    return (
+      texts?.mainDescription +
+      "/m/" +
+      contentToString(texts?.contentDescriptions)
+    );
+  };
+
+  const getSupportedLanguagesOptions = {
+    method: "GET",
+    url: "https://google-translate113.p.rapidapi.com/api/v1/translator/support-languages",
+    headers: {
+      "X-RapidAPI-Key": "c477ec1f68mshf95d9ba6676dbccp1f92e1jsne83d07257363",
+      "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
+    },
+  };
+
   const getSupportedLanguages = async () => {
     try {
-        const response = await axios.request(getSupportedLanguagesOptions);
-        const languages = response?.data.map(lang => {
-            return {
-                id: lang.code,
-                label: lang.language
-            }
-        })
-        setLanguages(languages)
+      const response = await axios.request(getSupportedLanguagesOptions);
+      const languages = response?.data.map((lang) => {
+        return {
+          id: lang.code,
+          label: lang.language,
+        };
+      });
+      setLanguages(languages);
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-  }
+  };
 
+  const translateText = async (to, texts) => {
+    const text = generateText(texts);
 
-  const translateText = async (to, text) => {
     const encodedParams = new URLSearchParams();
-    encodedParams.set('from', 'auto');
-    encodedParams.set('to', to);
-    encodedParams.set('html', text);
-    
+    encodedParams.set("from", "auto");
+    encodedParams.set("to", to);
+    encodedParams.set("html", text);
+
     const translateTextOptions = {
-      method: 'POST',
-      url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/html',      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'X-RapidAPI-Key': 'c477ec1f68mshf95d9ba6676dbccp1f92e1jsne83d07257363',
-        'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
+      method: "POST",
+      url: "https://google-translate113.p.rapidapi.com/api/v1/translator/html",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        "X-RapidAPI-Key": "c477ec1f68mshf95d9ba6676dbccp1f92e1jsne83d07257363",
+        "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
       },
       data: encodedParams,
     };
 
     try {
-        const response = await axios.request(translateTextOptions);
-        console.log(response.data);
-        if(!response.data) return;
-        if(response.data.trust_level < 0.5) return;
-        setTranslatedText(response.data.trans)
+      const response = await axios.request(translateTextOptions);
+      console.log(response.data);
+      if (!response.data) return;
+      if (response.data.trust_level < 0.5) return;
+      const parts = response.data.trans.split("/m/");
+      console.log({
+        mainDescription: parts[0],
+        contentDescriptions: parts[1].split("/cp/"),
+      });
+      setTranslatedText({
+        mainDescription: parts[0],
+        contentDescriptions: parts[1].split("/cp/"),
+      });
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-    
-  }
+  };
 
   const resetToOriginal = () => {
-    setTranslatedText(description)
-  }
+    setTranslatedText(originalTexts);
+  };
 
   return {
     languages,
     translatedText,
     getSupportedLanguages,
     translateText,
-    resetToOriginal
+    resetToOriginal,
   };
 };
 
