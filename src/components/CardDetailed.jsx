@@ -279,6 +279,12 @@ const CardDetailed = () => {
     contentDescriptions: details?.programa?.map((p) => {
       return p?.descricao.length > 0 ? p?.descricao : " ";
     }),
+    anotherDescriptions1: details?.outros?.map((p) => {
+      return p?.descricao1.length > 0 ? p?.descricao1 : " ";
+    }),
+    anotherDescriptions2: details?.outros?.map((p) => {
+      return p?.descricao2.length > 0 ? p?.descricao2 : " ";
+    }),
   };
   const onLanguageChange = (e, value) => {
     if (!value) return resetToOriginal();
@@ -674,7 +680,7 @@ const CardDetailed = () => {
               options={languages}
               sx={{
                 width: 150,
-                margin: "12px 15px",
+                margin: "2rem 2rem 0 2rem",
                 "& .MuiAutocomplete-input, & .MuiInputLabel-root": {
                   fontSize: 14,
                 },
@@ -702,11 +708,15 @@ const CardDetailed = () => {
             />
             <DetailedProgram
               programs={details?.programa}
-              translations={translatedText?.contentDescriptions}
+              translations={translatedText?.contentDescriptions || []}
               handleRemoveProgram={handleShowRemoveProgramModal}
               isOwner={isOwner}
             />
-            <DetailedOther others={details?.outros} />
+            <DetailedOther
+              others={details?.outros}
+              translations1={translatedText?.anotherDescriptions1 || []}
+              translations2={translatedText?.anotherDescriptions2 || []}
+            />
             <DetailedImages images={details?.imagens} type={type} />
             <DetailedRelated
               related={
@@ -1262,14 +1272,6 @@ const DetailedInfo = ({
 }) => {
   const { t } = useTranslation();
 
-  // const {
-  //   languages,
-  //   translatedText,
-  //   getSupportedLanguages,
-  //   translateText,
-  //   resetToOriginal,
-  // } = useTranslationAPI(description);
-
   const generateLocation = () => {
     const cityStr = !city || !city?.length > 0 ? "" : city;
     const locationStr =
@@ -1279,47 +1281,10 @@ const DetailedInfo = ({
     return `${locationStr}${separator}${cityStr}`;
   };
 
-  // useEffect(() => {
-  //   const getLanguages = async () => {
-  //     await getSupportedLanguages();
-  //   };
-
-  //   getLanguages();
-  // }, []);
-
-  // const onLanguageChange = (e, value) => {
-  //   if (!value) return resetToOriginal();
-
-  //   translateText(value.id, description);
-  // };
-
   return (
     <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
       {description?.length > 0 ? (
         <Box display="flex" flexDirection="column" justifyContent="flex-start">
-          {/* <Autocomplete
-            disablePortal
-            id="translation-autocomplete"
-            options={languages}
-            sx={{
-              width: 150,
-              margin: "12px 15px",
-              "& .MuiAutocomplete-input, & .MuiInputLabel-root": {
-                fontSize: 14,
-              },
-            }}
-            onChange={onLanguageChange}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                inputProps={{
-                  ...params.inputProps,
-                }}
-                size="small"
-                label={t("cardDetailed.translateTo")}
-              />
-            )}
-          /> */}
           <ReactQuill theme="bubble" value={description} readOnly />
         </Box>
       ) : null}
@@ -1393,8 +1358,6 @@ const DetailedProgram = ({
         : ", ";
     return `${locationStr}${separator}${cityStr}`;
   };
-  console.log({ translations });
-  if (!translations) return <div></div>;
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
@@ -1548,10 +1511,10 @@ const DetailedProgram = ({
   );
 };
 
-const DetailedOther = ({ others }) => {
+const DetailedOther = ({ others, translations1, translations2 }) => {
   return (
     <Box>
-      {others?.map((program) => (
+      {others?.map((program, index) => (
         <Box display="flex" flexDirection="column" gap=".5rem" width="100%">
           <Avatar
             src={`${imgApiPath}/carnavalImg/${program?.imagem}`}
@@ -1563,8 +1526,16 @@ const DetailedOther = ({ others }) => {
             {program?.titulo}
           </Typography>
           <Box display="flex" flexDirection="column" gap=".5rem" m="2rem">
-            <Typography>{parse(program?.descricao1)}</Typography>
-            <Typography>{parse(program?.descricao2)}</Typography>
+            <Typography>
+              {program?.descricao1.length > 0
+                ? parse(translations1[index] || "")
+                : parse(program?.descricao)}
+            </Typography>
+            <Typography>
+              {program?.descricao2.length > 0
+                ? parse(translations2[index] || "")
+                : parse(program?.descricao)}
+            </Typography>
           </Box>
         </Box>
       ))}

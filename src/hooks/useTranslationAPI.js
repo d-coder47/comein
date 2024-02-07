@@ -9,6 +9,12 @@ const useTranslationAPI = (originalData) => {
         contentDescriptions: originalData?.programa?.map((p) => {
           return p.descricao;
         }),
+        anotherDescriptions1: originalData?.outros?.map((p) => {
+          return p.descricao1;
+        }),
+        anotherDescriptions2: originalData?.outros?.map((p) => {
+          return p.descricao2;
+        }),
       };
 
   const [translatedText, setTranslatedText] = useState(originalTexts);
@@ -21,6 +27,12 @@ const useTranslationAPI = (originalData) => {
       contentDescriptions: originalData?.programa?.map((p) => {
         return p.descricao;
       }),
+      anotherDescriptions1: originalData?.outros?.map((p) => {
+        return p.descricao1;
+      }),
+      anotherDescriptions2: originalData?.outros?.map((p) => {
+        return p.descricao2;
+      }),
     });
   }, [originalData]);
 
@@ -31,16 +43,14 @@ const useTranslationAPI = (originalData) => {
   };
 
   const generateText = (texts) => {
-    console.log(
-      `${texts?.mainDescription}/m/${contentToString(
-        texts?.contentDescriptions
-      )}`
-    );
-
     return (
       texts?.mainDescription +
       "/m/" +
-      contentToString(texts?.contentDescriptions)
+      contentToString(texts?.contentDescriptions) +
+      "/m/" +
+      contentToString(texts?.anotherDescriptions1) +
+      "/m/" +
+      contentToString(texts?.anotherDescriptions2)
     );
   };
 
@@ -89,17 +99,16 @@ const useTranslationAPI = (originalData) => {
 
     try {
       const response = await axios.request(translateTextOptions);
-      console.log(response.data);
       if (!response.data) return;
+
       if (response.data.trust_level < 0.5) return;
       const parts = response.data.trans.split("/m/");
-      console.log({
-        mainDescription: parts[0],
-        contentDescriptions: parts[1].split("/cp/"),
-      });
+
       setTranslatedText({
         mainDescription: parts[0],
         contentDescriptions: parts[1].split("/cp/"),
+        anotherDescriptions1: parts[2].split("/cp/"),
+        anotherDescriptions2: parts[3].split("/cp/"),
       });
     } catch (error) {
       console.error(error);
