@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
-  Polygon,
   Marker,
   Popup,
   useMapEvents,
@@ -10,11 +9,11 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
-import { useTheme } from "@mui/material";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+
+import MarkerIcon from "../../assets/marker-icon.png";
 
 const center = [16.890455072287708, -24.98754235360934];
 
@@ -62,6 +61,16 @@ function LeafletControlGeocoder({ handlePositionChange }) {
   return null;
 }
 
+const markerIcon = L.icon({
+  iconUrl: MarkerIcon,
+  iconSize: [20, 30],
+  iconAnchor: [32, 64],
+  popupAnchor: null,
+  shadowUrl: null,
+  shadowSize: null,
+  shadowAnchor: null,
+});
+
 export default function LocationMap({ currentLocation, handlePositionChange }) {
   return (
     <MapContainer
@@ -83,6 +92,7 @@ export default function LocationMap({ currentLocation, handlePositionChange }) {
       {currentLocation?.lat !== null ? (
         <Marker
           position={{ lat: currentLocation?.lat, lng: currentLocation?.lng }}
+          icon={markerIcon}
         >
           <Popup> {currentLocation?.local || "Local do Evento"} </Popup>
         </Marker>
