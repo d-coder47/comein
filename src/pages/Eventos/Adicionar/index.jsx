@@ -688,7 +688,7 @@ const Adicionar = () => {
                   />
                   <TextField
                     id="time-start"
-                    label="Hora Inicio"
+                    label={t("eventPage.common.startHour")}
                     type="time"
                     value={fieldValues.hora_inicio}
                     InputLabelProps={{ shrink: true }}
@@ -725,7 +725,7 @@ const Adicionar = () => {
                   />
                   <TextField
                     id="time-end"
-                    label="Hora Fim"
+                    label={t("eventPage.common.endHour")}
                     type="time"
                     value={fieldValues.hora_fim}
                     InputLabelProps={{ shrink: true }}
@@ -789,7 +789,7 @@ const Adicionar = () => {
                 <Box display="flex" gap="1rem" justifyContent="space-between">
                   <TextField
                     id="schedule-date"
-                    label="Data"
+                    label={t("eventPage.common.data")}
                     type="date"
                     value={fieldValues.data_agendar}
                     InputLabelProps={{ shrink: true }}
@@ -806,7 +806,7 @@ const Adicionar = () => {
                   />
                   <TextField
                     id="schedule-time"
-                    label="Hora"
+                    label={t("eventPage.common.hora")}
                     type="time"
                     value={fieldValues.hora_agendar}
                     InputLabelProps={{ shrink: true }}

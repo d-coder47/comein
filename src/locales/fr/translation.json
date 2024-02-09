@@ -210,7 +210,9 @@
     "addSchedule": "Ajouter du contenu",
     "editSchedule": "Modifier le contenu",
     "removeSchedule": "Supprimer le contenu",
-    "translateTo": "Traduire en"
+    "translateTo": "Traduire en",
+    "scheduleInfo1": "Cet événement est prévu pour être publié le",
+    "scheduleInfo2": "à"
   },
   "eventPage": {
     "common": {
@@ -221,7 +223,10 @@
       "startDateHour": "Date et heure de début",
       "startDate": "Date de début",
       "endDate": "Date de fin",
+      "startHour": "Heure de début",
       "endHour": "Heure de fin",
+      "hora": "Heure",
+      "data": "Date",
       "culturalArea": "Espaces culturels",
       "associatedProject": "Projet associé",
       "croppedImage": "Image rognée. Ajuster comment l'image doit apparaître sur les cartes de la page d'accueil.  ",
@@ -258,6 +263,7 @@
     "horaInicioObrigatorio": "L'heure de début est obligatoire!",
     "dataAgendamentoObrigatorio": "La date du rendez-vous est obligatoire!",
     "horaAgendarObrigatorio": "L'heure de rendez-vous est obligatoire!",
+    "dataAgendamentoInvalido": "La date de rendez-vous est antérieure à la date actuelle",
     "areaCulturalObrigatorio": "La zone culturelle est obligatoire !",
     "dataFimMaiorInicio": "La date de fin ne peut pas être supérieure à la date de début !",
     "datasNaoPodemSerIguais": "Les dates ne peuvent pas être égales !",

@@ -210,7 +210,9 @@
     "addSchedule": "Adicionar Conteúdo",
     "editSchedule": "Editar Conteúdo",
     "removeSchedule": "Remover Conteúdo",
-    "translateTo": "Traduzir para"
+    "translateTo": "Traduzir para",
+    "scheduleInfo1": "Este evento está agendado para ser publicado em",
+    "scheduleInfo2": "às"
   },
   "eventPage": {
     "common": {
@@ -221,7 +223,10 @@
       "startDateHour": "Data e Hora Início",
       "startDate": "Data Início",
       "endDate": "Data Fim",
+      "startHour": "Hora Inicio",
       "endHour": "Hora Fim",
+      "hora": "Hora",
+      "data": "Data",
       "culturalArea": "Áreas Culturais",
       "associatedProject": "Associar Projeto",
       "croppedImage": "Imagem Recortada. Ajustar como a imagem deve aparecer nos cartões da página inicial.",
@@ -257,6 +262,7 @@
     "dataInicioObrigatorio": "Data de início é obrigatória!",
     "horaInicioObrigatorio": "Hora de início é obrigatória!",
     "dataAgendamentoObrigatorio": "Data de agendamento é obrigatória!",
+    "dataAgendamentoInvalido": "Data de agendamento é menor que a data atual",
     "horaAgendarObrigatorio": "Hora de agendamento é obrigatória!",
     "areaCulturalObrigatorio": "Área cultural é obrigatória!",
     "dataFimMaiorInicio": "Data de fim não pode ser maior que a data de início!",

@@ -210,7 +210,9 @@
     "addSchedule": "Add Content",
     "editSchedule": "Edit Content",
     "removeSchedule": "Remove Content",
-    "translateTo": "Translate to"
+    "translateTo": "Translate to",
+    "scheduleInfo1": "This event is scheduled to be published on",
+    "scheduleInfo2": "at"
   },
   "eventPage": {
     "common": {
@@ -221,7 +223,10 @@
       "startDateHour": "Start Date & Hour",
       "startDate": "Start Date",
       "endDate": "End Date",
+      "startHour": "Start Hour",
       "endHour": "End Hour",
+      "hora": "Hour",
+      "data": "Date",
       "culturalArea": "Cultural Areas",
       "associatedProject": "Associate Project",
       "croppedImage": "Cropped Image. Adjust how the image should appear on the homepage cards.",
@@ -258,6 +263,7 @@
     "horaInicioObrigatorio": "Start time is required!",
     "dataAgendamentoObrigatorio": "Appointment date is required!",
     "horaAgendarObrigatorio": "Appointment time is required!",
+    "dataAgendamentoInvalido": "Scheduling date is earlier than the current date",
     "areaCulturalObrigatorio": "Cultural area is required!",
     "dataFimMaiorInicio": "End date cannot be greater than start date!",
     "datasNaoPodemSerIguais": "Dates cannot be equal!",

@@ -108,6 +108,7 @@ const Editar = () => {
     t("postValidationsErrors.dataFimMaiorInicio"),
     t("postValidationsErrors.datasNaoPodemSerIguais"),
     t("postValidationsErrors.imagemRecortadaObrigatorio"),
+    t("postValidationsErrors.dataAgendamentoInvalido"),
   ];
 
   const categories = [
@@ -435,8 +436,19 @@ const Editar = () => {
       }
 
       if (Object.keys(editedFieldValues).includes("hora_agendar")) {
-        const updatedScheduleDate = `${fieldValues?.data_agendar}T${editedFieldValues?.hora_agendar}`;
-        editedFieldValues.data_agendar = updatedScheduleDate;
+        editedFieldValues.data_agendar = `${fieldValues?.data_agendar}T${editedFieldValues?.hora_agendar}`;
+
+        if (editedFieldValues?.hora_agendar === "") {
+          editedFieldValues.data_agendar = fieldValues?.data_agendar;
+        }
+      }
+
+      if (Object.keys(editedFieldValues).includes("data_agendar")) {
+        editedFieldValues.data_agendar = `${fieldValues?.data_agendar}T${editedFieldValues?.hora_agendar}`;
+
+        if (editedFieldValues?.hora_agendar === "") {
+          editedFieldValues.data_agendar = fieldValues?.data_agendar;
+        }
       }
 
       const isValid = validateEditedPost(
@@ -847,7 +859,7 @@ const Editar = () => {
                   />
                   <TextField
                     id="time-start"
-                    label="Hora Inicio"
+                    label={t("eventPage.common.startHour")}
                     type="time"
                     value={fieldValues.hora_inicio}
                     InputLabelProps={{ shrink: true }}
@@ -882,7 +894,7 @@ const Editar = () => {
                     }}
                   />
                   <TextField
-                    id="time-end"
+                    id={t("eventPage.common.endHour")}
                     label="Hora Fim"
                     type="time"
                     value={fieldValues.hora_fim}
@@ -947,7 +959,7 @@ const Editar = () => {
                 <Box display="flex" gap="1rem" justifyContent="space-between">
                   <TextField
                     id="schedule-date"
-                    label="Data"
+                    label={t("eventPage.common.data")}
                     type="date"
                     value={fieldValues.data_agendar}
                     InputLabelProps={{ shrink: true }}
@@ -964,7 +976,7 @@ const Editar = () => {
                   />
                   <TextField
                     id="schedule-time"
-                    label="Hora"
+                    label={t("eventPage.common.hora")}
                     type="time"
                     value={fieldValues.hora_agendar}
                     InputLabelProps={{ shrink: true }}

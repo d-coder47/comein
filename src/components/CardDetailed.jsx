@@ -23,7 +23,6 @@ import {
   Edit,
   Delete,
   Bookmark,
-  Remove,
 } from "@mui/icons-material";
 import axiosInstance from "../api/axiosInstance";
 import Publisher from "./Publisher";
@@ -705,6 +704,8 @@ const CardDetailed = () => {
               description={translatedText?.mainDescription}
               dateStart={details?.dados?.data_inicio}
               dateEnd={details?.dados?.data_fim}
+              isOwner={isOwner}
+              scheduleDate={details?.dados?.agendar}
             />
             <DetailedProgram
               programs={details?.programa}
@@ -1269,8 +1270,27 @@ const DetailedInfo = ({
   description,
   dateStart = "",
   dateEnd = "",
+  isOwner,
+  scheduleDate,
 }) => {
   const { t } = useTranslation();
+
+  // Create a Date object to extract components
+  const dateObject = new Date(scheduleDate);
+
+  const currentDate = new Date();
+  const scheduleIsValid = dateObject >= currentDate;
+
+  // Format the date as YYYY-MM-DD
+  const formattedDate = dateObject.toISOString().split("T")[0];
+
+  // Format the time as HH:mm:ss
+  const formattedTime = dateObject.toLocaleTimeString("en-US", {
+    hour12: false,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
   const generateLocation = () => {
     const cityStr = !city || !city?.length > 0 ? "" : city;
@@ -1319,6 +1339,23 @@ const DetailedInfo = ({
                     {defaultDatetimeToCVDateFormat(dateEnd)}
                   </Typography>
                 }
+              </Typography>
+            </Box>
+          ) : null}
+          {isOwner && !scheduleIsValid ? (
+            <Box
+              sx={{
+                marginTop: "2rem",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography display="flex" gap=".5rem" fontWeight="bold">
+                {`${t("cardDetailed.scheduleInfo1")} ${formattedDate} ${t(
+                  "cardDetailed.scheduleInfo2"
+                )} ${formattedTime}.`}
               </Typography>
             </Box>
           ) : null}

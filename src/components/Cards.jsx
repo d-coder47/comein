@@ -25,7 +25,7 @@ const Cards = ({
 
   const { t } = useTranslation();
 
-  const { postScheduledEvents } = useEvents();
+  const { postScheduledEvents, getScheduledEvents } = useEvents();
 
   useEffect(() => {
     setPosts(posts);
@@ -34,8 +34,8 @@ const Cards = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axiosInstance.get("/eventos/agendados");
-        const scheduleds = res.data.dados;
+        const res = await getScheduledEvents();
+        const scheduleds = res.dados;
         const currentDate = new Date();
         const ids = [];
 
