@@ -24,6 +24,7 @@ import {
   MoreHoriz,
   Crop,
   Close,
+  Schedule,
 } from "@mui/icons-material";
 
 import ReactQuill from "react-quill";
@@ -59,6 +60,7 @@ const Editar = () => {
   const [user, setUser] = useState(null);
   const [anchorLocationEl, setAnchorLocationEl] = useState(null);
   const [anchorDateEl, setAnchorDateEl] = useState(null);
+  const [anchorScheduleDateEl, setAnchorScheduleDateEl] = useState(null);
   const [anchorCulturalAreaEl, setAnchorCulturalAreaEl] = useState(null);
   const [anchorAssociateProjectEl, setAnchorAssociateProjectEl] =
     useState(null);
@@ -68,6 +70,8 @@ const Editar = () => {
     data_fim: "",
     hora_inicio: "",
     hora_fim: "",
+    data_agendar: "",
+    hora_agendar: "",
     imagem: null,
     descricao: ``,
     local: "",
@@ -98,6 +102,8 @@ const Editar = () => {
     t("postValidationsErrors.localObrigatorio"),
     t("postValidationsErrors.dataInicioObrigatorio"),
     t("postValidationsErrors.horaInicioObrigatorio"),
+    t("postValidationsErrors.dataAgendamentoObrigatorio"),
+    t("postValidationsErrors.horaAgendarObrigatorio"),
     t("postValidationsErrors.areaCulturalObrigatorio"),
     t("postValidationsErrors.dataFimMaiorInicio"),
     t("postValidationsErrors.datasNaoPodemSerIguais"),
@@ -216,6 +222,7 @@ const Editar = () => {
 
         const resExtractStartDateAndTime = extractDateAndTime(data.data_inicio);
         const resExtractEndDateAndTime = extractDateAndTime(data.data_fim);
+        const resExtractScheduleDateAndTime = extractDateAndTime(data.agendar);
 
         const newData = {
           id,
@@ -230,6 +237,8 @@ const Editar = () => {
             resExtractEndDateAndTime.formattedTime === "23:59:59"
               ? ""
               : resExtractEndDateAndTime.formattedTime,
+          data_agendar: resExtractScheduleDateAndTime.formattedDate,
+          hora_agendar: resExtractScheduleDateAndTime.formattedTime,
           imagem: `${imgApiPath}/eventosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
@@ -264,6 +273,10 @@ const Editar = () => {
     setAnchorDateEl(event.currentTarget);
   };
 
+  const handleScheduleClick = (event) => {
+    setAnchorScheduleDateEl(event.currentTarget);
+  };
+
   const handleCulturalAreaClick = (event) => {
     setAnchorCulturalAreaEl(event.currentTarget);
   };
@@ -290,6 +303,9 @@ const Editar = () => {
 
   const openDatePopover = Boolean(anchorDateEl);
   const datePopoverId = open ? "date-popover" : undefined;
+
+  const schedulePopoverId = open ? "schedule-date-popover" : undefined;
+  const openScheduleDatePopover = Boolean(anchorScheduleDateEl);
 
   const openCulturalAreaPopover = Boolean(anchorCulturalAreaEl);
   const culturalAreaPopoverId = open ? "culturalArea-popover" : undefined;
@@ -345,6 +361,8 @@ const Editar = () => {
     let dataInicio;
     let dataFim;
 
+    let dataAgendar;
+
     if (fieldValues.data_fim === "") {
       fieldValues.data_fim = fieldValues.data_inicio;
     }
@@ -360,10 +378,22 @@ const Editar = () => {
       dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
     }
 
+    if (fieldValues?.hora_agendar === "") {
+      dataAgendar = fieldValues?.data_agendar;
+    } else {
+      dataAgendar = `${fieldValues?.data_agendar}T${fieldValues?.hora_agendar}`;
+    }
+
+    const currentDate = new Date();
+
+    const scheduleIsValid = new Date(dataAgendar) >= currentDate;
+
     const filteredFieldValues = {
       ...editedFieldValues,
       data_inicio: filterStartDate(dataInicio),
       data_fim: filterEndDate(dataFim),
+      estado: scheduleIsValid ? "A" : "P",
+      agendar: filterStartDate(dataAgendar),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(
@@ -381,6 +411,14 @@ const Editar = () => {
       delete values.hora_fim;
     }
 
+    if (Object.keys(values).includes("data_agendar")) {
+      delete values.data_agendar;
+    }
+
+    if (Object.keys(values).includes("hora_agendar")) {
+      delete values.hora_agendar;
+    }
+
     if (!values?.id_geografia) delete values?.id_geografia;
 
     const body = objectToFormData(values, user.id);
@@ -396,9 +434,9 @@ const Editar = () => {
         editedFieldValues.data_fim = updatedEndDate;
       }
 
-      if (Object.keys(editedFieldValues).includes("hora_fim")) {
-        const updatedEndDate = `${fieldValues?.data_fim}T${editedFieldValues?.hora_fim}`;
-        editedFieldValues.data_fim = updatedEndDate;
+      if (Object.keys(editedFieldValues).includes("hora_agendar")) {
+        const updatedScheduleDate = `${fieldValues?.data_agendar}T${editedFieldValues?.hora_agendar}`;
+        editedFieldValues.data_agendar = updatedScheduleDate;
       }
 
       const isValid = validateEditedPost(
@@ -858,6 +896,87 @@ const Editar = () => {
                     }}
                     onChange={(e) => {
                       handleChangeFieldValues("hora_fim", e.target.value);
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Popover>
+
+            <Tooltip title="Agendar Evento" placement="left" arrow>
+              <Box
+                id="schedule"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={handleScheduleClick}
+              >
+                <Schedule
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
+                />
+              </Box>
+            </Tooltip>
+            <Popover
+              id={schedulePopoverId}
+              open={openScheduleDatePopover}
+              anchorEl={anchorScheduleDateEl}
+              onClose={() => setAnchorScheduleDateEl(null)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              style={{ padding: ".8rem" }}
+            >
+              <Box
+                display="flex"
+                gap="2rem"
+                justifyContent="space-between"
+                flexDirection="column"
+                p=".8rem"
+              >
+                <Box display="flex" gap="1rem" justifyContent="space-between">
+                  <TextField
+                    id="schedule-date"
+                    label="Data"
+                    type="date"
+                    value={fieldValues.data_agendar}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{
+                      height: "2rem",
+                      ".MuiInputBase-root": {
+                        height: "2rem",
+                        borderRadius: ".25rem",
+                      },
+                    }}
+                    onChange={(e) => {
+                      handleChangeFieldValues("data_agendar", e.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="schedule-time"
+                    label="Hora"
+                    type="time"
+                    value={fieldValues.hora_agendar}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{
+                      height: "2rem",
+                      ".MuiInputBase-root": {
+                        height: "2rem",
+                        borderRadius: ".25rem",
+                      },
+                    }}
+                    onChange={(e) => {
+                      handleChangeFieldValues("hora_agendar", e.target.value);
                     }}
                   />
                 </Box>

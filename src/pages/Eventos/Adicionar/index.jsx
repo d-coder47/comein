@@ -24,6 +24,7 @@ import {
   MoreHoriz,
   Crop,
   Close,
+  Schedule,
 } from "@mui/icons-material";
 
 import ReactQuill from "react-quill";
@@ -58,8 +59,8 @@ const Adicionar = () => {
   const { t } = useTranslation();
 
   const [user, setUser] = useState(null);
-  const [anchorLocationEl, setAnchorLocationEl] = useState(null);
   const [anchorDateEl, setAnchorDateEl] = useState(null);
+  const [anchorScheduleDateEl, setAnchorScheduleDateEl] = useState(null);
   const [anchorCulturalAreaEl, setAnchorCulturalAreaEl] = useState(null);
   const [anchorAssociateProjectEl, setAnchorAssociateProjectEl] =
     useState(null);
@@ -69,6 +70,8 @@ const Adicionar = () => {
     data_fim: "",
     hora_inicio: "",
     hora_fim: "",
+    data_agendar: "",
+    hora_agendar: "",
     imagem: null,
     imgEventoRecortada: null,
     descricao: ``,
@@ -119,6 +122,7 @@ const Adicionar = () => {
     t("postValidationsErrors.localObrigatorio"),
     t("postValidationsErrors.dataInicioObrigatorio"),
     t("postValidationsErrors.horaInicioObrigatorio"),
+    t("postValidationsErrors.horaAgendarObrigatorio"),
     t("postValidationsErrors.areaCulturalObrigatorio"),
     t("postValidationsErrors.dataFimMaiorInicio"),
     t("postValidationsErrors.datasNaoPodemSerIguais"),
@@ -131,6 +135,10 @@ const Adicionar = () => {
 
   const handleDateClick = (event) => {
     setAnchorDateEl(event.currentTarget);
+  };
+
+  const handleScheduleClick = (event) => {
+    setAnchorScheduleDateEl(event.currentTarget);
   };
 
   const handleCulturalAreaClick = (event) => {
@@ -185,11 +193,13 @@ const Adicionar = () => {
     }
   }, [fieldValues.imagem]);
 
-  const openLocationPopover = Boolean(anchorLocationEl);
   const locationPopoverId = open ? "location-popover" : undefined;
 
   const openDatePopover = Boolean(anchorDateEl);
   const datePopoverId = open ? "date-popover" : undefined;
+
+  const schedulePopoverId = open ? "schedule-date-popover" : undefined;
+  const openScheduleDatePopover = Boolean(anchorScheduleDateEl);
 
   const openCulturalAreaPopover = Boolean(anchorCulturalAreaEl);
   const culturalAreaPopoverId = open ? "culturalArea-popover" : undefined;
@@ -278,6 +288,8 @@ const Adicionar = () => {
     let dataInicio;
     let dataFim;
 
+    let dataAgendar;
+
     if (fieldValues?.hora_inicio === "") {
       dataInicio = fieldValues?.data_inicio;
     } else {
@@ -292,6 +304,12 @@ const Adicionar = () => {
       dataFim = `${fieldValues?.data_fim}T${fieldValues?.hora_fim}`;
     }
 
+    if (fieldValues?.hora_agendar === "") {
+      dataAgendar = fieldValues?.data_agendar;
+    } else {
+      dataAgendar = `${fieldValues?.data_agendar}T${fieldValues?.hora_agendar}`;
+    }
+
     const newEvent = {
       id_utilizador: user.id,
       nome: fieldValues?.nome,
@@ -304,6 +322,7 @@ const Adicionar = () => {
       areasCulturais: filterCulturalAreas(fieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
+      agendar: filterStartDate(dataAgendar),
     };
 
     const values = cleanPost(newEvent, true);
@@ -719,6 +738,87 @@ const Adicionar = () => {
                     }}
                     onChange={(e) => {
                       handleChangeFieldValues("hora_fim", e.target.value);
+                    }}
+                  />
+                </Box>
+              </Box>
+            </Popover>
+
+            <Tooltip title="Agendar Evento" placement="left" arrow>
+              <Box
+                id="schedule"
+                sx={{
+                  borderRadius: "50%",
+                  height: "3rem",
+                  width: "3rem",
+                  backgroundColor: () => "#3c3c3c",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    opacity: 0.8,
+                  },
+                }}
+                onClick={handleScheduleClick}
+              >
+                <Schedule
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
+                />
+              </Box>
+            </Tooltip>
+            <Popover
+              id={schedulePopoverId}
+              open={openScheduleDatePopover}
+              anchorEl={anchorScheduleDateEl}
+              onClose={() => setAnchorScheduleDateEl(null)}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              style={{ padding: ".8rem" }}
+            >
+              <Box
+                display="flex"
+                gap="2rem"
+                justifyContent="space-between"
+                flexDirection="column"
+                p=".8rem"
+              >
+                <Box display="flex" gap="1rem" justifyContent="space-between">
+                  <TextField
+                    id="schedule-date"
+                    label="Data"
+                    type="date"
+                    value={fieldValues.data_agendar}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{
+                      height: "2rem",
+                      ".MuiInputBase-root": {
+                        height: "2rem",
+                        borderRadius: ".25rem",
+                      },
+                    }}
+                    onChange={(e) => {
+                      handleChangeFieldValues("data_agendar", e.target.value);
+                    }}
+                  />
+                  <TextField
+                    id="schedule-time"
+                    label="Hora"
+                    type="time"
+                    value={fieldValues.hora_agendar}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{
+                      height: "2rem",
+                      ".MuiInputBase-root": {
+                        height: "2rem",
+                        borderRadius: ".25rem",
+                      },
+                    }}
+                    onChange={(e) => {
+                      handleChangeFieldValues("hora_agendar", e.target.value);
                     }}
                   />
                 </Box>

@@ -1,16 +1,8 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { useState } from "react";
 import LocationMap from "./Map/LocationMap";
 import axiosInstance from "../api/axiosInstance";
 import { toast } from "react-toastify";
-import useWindowDimensions from "../hooks/useWindowDimensions";
 import { useTranslation } from "react-i18next";
 
 const AddLocationModal = ({ show, handleClose }) => {

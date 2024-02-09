@@ -256,6 +256,8 @@
     "localObrigatorio": "Local é obrigatório! Verifique se adicionou o local e as suas coordenadas.",
     "dataInicioObrigatorio": "Data de início é obrigatória!",
     "horaInicioObrigatorio": "Hora de início é obrigatória!",
+    "dataAgendamentoObrigatorio": "Data de agendamento é obrigatória!",
+    "horaAgendarObrigatorio": "Hora de agendamento é obrigatória!",
     "areaCulturalObrigatorio": "Área cultural é obrigatória!",
     "dataFimMaiorInicio": "Data de fim não pode ser maior que a data de início!",
     "datasNaoPodemSerIguais": "Datas não podem ser iguais!",

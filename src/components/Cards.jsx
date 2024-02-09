@@ -1,5 +1,5 @@
 import { Box, Grid } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CustomCard from "./CustomCard";
 import usePosts from "../hooks/usePosts";
 import axiosInstance from "../api/axiosInstance";
@@ -10,6 +10,7 @@ import { useIntersection } from "@mantine/hooks";
 import { toast } from "react-toastify";
 import { imgApiPath } from "../api/apiPath";
 
+import useEvents from "../hooks/useEvents";
 const Cards = ({
   searchQuery,
   culturalAreaId,
@@ -20,11 +21,48 @@ const Cards = ({
   const { posts: allPosts, getPostsByPage, getHighlightPosts } = usePosts();
   const [posts, setPosts] = useState([]);
 
+  const [refreshCount, setRefreshCount] = useState(0);
+
   const { t } = useTranslation();
+
+  const { postScheduledEvents } = useEvents();
 
   useEffect(() => {
     setPosts(posts);
   }, [allPosts]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosInstance.get("/eventos/agendados");
+        const scheduleds = res.data.dados;
+        const currentDate = new Date();
+        const ids = [];
+
+        if (scheduleds && scheduleds.length > 0) {
+          scheduleds.forEach((schedule) => {
+            if (new Date(schedule.agendar) <= currentDate) {
+              ids.push(schedule.id);
+            }
+          });
+
+          if (ids.length > 0) {
+            await postScheduledEvents(ids.join(","));
+            setRefreshCount((prevCount) => prevCount + 1);
+            getPostsByPage();
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    const intervalId = setInterval(fetchData, 10000);
+
+    fetchData();
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     if (

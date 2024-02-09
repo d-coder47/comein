@@ -19,7 +19,7 @@ export const validatePost = (values, isEvent, translatedStrings) => {
 
   const validateResizedImage = (image) => {
     if (!image || image === undefined) {
-      toast.error(translatedStrings[8]);
+      toast.error(translatedStrings[9]);
       return false;
     }
     return true;
@@ -52,6 +52,18 @@ export const validatePost = (values, isEvent, translatedStrings) => {
       culturarArea === undefined ||
       culturarArea?.length === 0
     ) {
+      toast.error(translatedStrings[6]);
+      return false;
+    }
+    return true;
+  };
+
+  const validateScheduleDate = (scheduleDate) => {
+    if (
+      scheduleDate &&
+      scheduleDate?.length > 0 &&
+      !scheduleDate.includes("T")
+    ) {
       toast.error(translatedStrings[5]);
       return false;
     }
@@ -80,11 +92,11 @@ export const validatePost = (values, isEvent, translatedStrings) => {
     }
 
     if (date1 > date2) {
-      toast.error(translatedStrings[6]);
+      toast.error(translatedStrings[7]);
       return false;
     }
     if (date1 == date2 && endDate.includes("T")) {
-      toast.error(translatedStrings[7]);
+      toast.error(translatedStrings[8]);
       return false;
     }
 
@@ -102,6 +114,10 @@ export const validatePost = (values, isEvent, translatedStrings) => {
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
     : true;
+
+  const successOnValidateScheduleDate = isEvent
+    ? validateScheduleDate(values?.agendar)
+    : true;
   const successOnValidateCulturalArea = validateCulturalArea(
     values?.areasCulturais
   );
@@ -116,6 +132,7 @@ export const validatePost = (values, isEvent, translatedStrings) => {
   return (
     successOnValidateName &&
     successOnValidateImage &&
+    successOnValidateScheduleDate &&
     successOnValidateResizedImage &&
     successOnValidateLocation &&
     successOnValidateStartDate &&

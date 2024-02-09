@@ -28,7 +28,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const validateResizedImage = (image) => {
     if (Object.keys(values).includes("imagem")) {
       if (!image || image === undefined) {
-        toast.error(translatedStrings[8]);
+        toast.error(translatedStrings[10]);
         return false;
       }
       return true;
@@ -73,6 +73,30 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     return true;
   };
 
+  const validateScheduledDate = (scheduleDate) => {
+    if (
+      Object.keys(values).includes("data_agendar") ||
+      Object.keys(values).includes("hora_agendar")
+    ) {
+      if (
+        !scheduleDate ||
+        scheduleDate === undefined ||
+        scheduleDate?.length === 0
+      ) {
+        toast.error(translatedStrings[5]);
+        return false;
+      }
+
+      if (!scheduleDate.includes("T")) {
+        toast.error(translatedStrings[6]);
+        return false;
+      }
+      return true;
+    }
+
+    return true;
+  };
+
   const validateEndDate = () => {
     if (
       Object.keys(values).includes("data_fim") ||
@@ -90,7 +114,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
         culturarArea === undefined ||
         culturarArea?.length === 0
       ) {
-        toast.error(translatedStrings[5]);
+        toast.error(translatedStrings[7]);
         return false;
       }
       return true;
@@ -133,11 +157,11 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       }
 
       if (date1 > date2) {
-        toast.error(translatedStrings[6]);
+        toast.error(translatedStrings[8]);
         return false;
       }
       if (date1 == date2 && endDate.includes("T")) {
-        toast.error(translatedStrings[7]);
+        toast.error(translatedStrings[9]);
         return false;
       }
 
@@ -158,6 +182,11 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
   const successOnValidateStartDate = isEvent
     ? validateStartDate(values?.data_inicio)
     : true;
+
+  const successOnValidateScheduleDate = isEvent
+    ? validateScheduledDate(values?.data_agendar)
+    : true;
+
   const successOnValidateEndDate = isEvent
     ? validateEndDate(values?.data_fim)
     : true;
@@ -180,6 +209,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
     successOnValidateResizedImage &&
     successOnValidateLocation &&
     successOnValidateStartDate &&
+    successOnValidateScheduleDate &&
     successOnValidateCulturalArea &&
     successOnValidateOwners &&
     successOnIsDatesValid &&
