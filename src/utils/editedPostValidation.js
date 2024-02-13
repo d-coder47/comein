@@ -94,6 +94,7 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
 
       const currentDate = new Date();
       const scheduleIsValid = new Date(scheduleDate) >= currentDate;
+
       if (!scheduleIsValid && scheduleDate.length > 12) {
         toast.error(translatedStrings[11]);
         return false;

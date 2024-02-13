@@ -435,25 +435,10 @@ const Editar = () => {
         editedFieldValues.data_fim = updatedEndDate;
       }
 
-      if (Object.keys(editedFieldValues).includes("hora_agendar")) {
-        editedFieldValues.data_agendar = `${fieldValues?.data_agendar}T${editedFieldValues?.hora_agendar}`;
-
-        if (editedFieldValues?.hora_agendar === "") {
-          editedFieldValues.data_agendar = fieldValues?.data_agendar;
-        }
-      }
-
-      if (Object.keys(editedFieldValues).includes("data_agendar")) {
-        editedFieldValues.data_agendar = `${fieldValues?.data_agendar}T${editedFieldValues?.hora_agendar}`;
-
-        if (editedFieldValues?.hora_agendar === "") {
-          editedFieldValues.data_agendar = fieldValues?.data_agendar;
-        }
-      }
-
       const isValid = validateEditedPost(
         {
           ...editedFieldValues,
+          data_agendar: filterStartDate(dataAgendar),
           data_inicio:
             values?.data_inicio !== undefined
               ? values.data_inicio
