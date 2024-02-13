@@ -209,7 +209,7 @@ const UserProfile = () => {
     const visits_res = await getUserProfileVisits(userId);
     const following_res = await getUserProfileFollowing(userId);
 
-    const allEvents = await getEventPostByUser(userId);
+    const allEvents = await getEventPostByUser(userId, loggedUserInfo?.id);
     const allProjects = await getProjectPostByUser(userId);
 
     if (allEvents.dados !== "null" && allProjects.dados !== "null") {

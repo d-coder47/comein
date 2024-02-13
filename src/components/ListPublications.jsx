@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { imgApiPath } from "../api/apiPath";
 
 const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
+  const loggedUserInfo = JSON.parse(localStorage.getItem("userInfo"));
   const { getEventPostByUser, getProjectPostByUser, getFavoritsPostByUser } =
     usePosts();
   const [events, setEvents] = useState([]);
@@ -39,7 +40,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
   };
 
   async function fetchEventsData() {
-    const res = await getEventPostByUser(userID);
+    const res = await getEventPostByUser(userID, loggedUserInfo?.id);
 
     if (res?.dados !== "null") {
       setEvents(res?.dados);
@@ -190,7 +191,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         <Box
           mt="1rem"
           sx={{
-            width: '100%',
+            width: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -317,7 +318,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
         <Box
           mt="1rem"
           style={{
-            width: '100%',
+            width: "100%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -395,7 +396,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
-          width: '100%',
+          width: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -447,7 +448,7 @@ const ListPublications = ({ userID, type, isVisitor, query = "" }) => {
       <Box
         mt="1rem"
         tyle={{
-          width: '100%',
+          width: "100%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",

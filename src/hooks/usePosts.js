@@ -151,10 +151,12 @@ const usePosts = () => {
     }
   };
 
-  const getEventPostByUser = async (userId) => {
+  const getEventPostByUser = async (userId, guestId) => {
+    if (!userId || !guestId) return;
     try {
       const response = await axiosInstance.get(
-        `/eventos/obterEventosPorUtilizador/${userId}`,
+        `/eventos/obterEventosPorUtilizador/${userId},${guestId}`,
+        // `/eventos/obterEventosPorUtilizador/${userId}`,
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",

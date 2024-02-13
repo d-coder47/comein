@@ -1342,7 +1342,7 @@ const DetailedInfo = ({
               </Typography>
             </Box>
           ) : null}
-          {isOwner && !scheduleIsValid ? (
+          {isOwner && scheduleIsValid ? (
             <Box
               sx={{
                 marginTop: "2rem",

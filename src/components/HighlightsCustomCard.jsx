@@ -42,6 +42,7 @@ import { toast } from "react-toastify";
 import { AspectRatio } from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
 import copy from "clipboard-copy";
+import { redirectToProfilePage } from "../utils/generateUrl";
 
 const HighlightsCustomCard = ({
   id = null,
@@ -52,6 +53,7 @@ const HighlightsCustomCard = ({
   publisherName,
   type,
   onRefresh,
+  publisherId,
 }) => {
   const [isLiked, setIsLiked] = useState(null);
   const [isFavorite, setIsFavorite] = useState(null);
@@ -85,6 +87,10 @@ const HighlightsCustomCard = ({
       .replaceAll(".", "");
 
     return `/${postType}/${id}/${postName}`;
+  };
+
+  const handleOpenUserProfile = () => {
+    navigate(redirectToProfilePage(publisherId, publisherName));
   };
 
   const handleOpen = () => {
@@ -283,6 +289,7 @@ const HighlightsCustomCard = ({
                   cursor: "pointer",
                 },
               }}
+              onClick={handleOpenUserProfile}
             >
               {publisherName}
             </Typography>
