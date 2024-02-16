@@ -39,6 +39,11 @@ export const filterStartDate = (date) => {
   return date.length === 16 ? date + ":00" : date;
 };
 
+export const filterScheduleDate = (date) => {
+  if (!date) return "1900-01-01T23:59:59";
+  return date.length === 16 ? date + ":00" : date;
+};
+
 export const filterEndDate = (date) => {
   if (!date) return null;
   return date.length === 16 || date.length === 5 ? date + ":00" : date;

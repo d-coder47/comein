@@ -43,6 +43,7 @@ import {
   filterCulturalAreas,
   filterEndDate,
   filterStartDate,
+  filterScheduleDate,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
 import getCroppedImg from "../../../utils/cropImage";
@@ -238,8 +239,16 @@ const Editar = () => {
             resExtractEndDateAndTime.formattedTime === "23:59:59"
               ? ""
               : resExtractEndDateAndTime.formattedTime,
-          data_agendar: resExtractScheduleDateAndTime.formattedDate,
-          hora_agendar: resExtractScheduleDateAndTime.formattedTime,
+          // data_agendar: resExtractScheduleDateAndTime.formattedDate,
+          // hora_agendar: resExtractScheduleDateAndTime.formattedTime,
+          data_agendar:
+            data.agendar !== "1900-01-01 23:59:59"
+              ? resExtractScheduleDateAndTime.formattedDate
+              : "",
+          hora_agendar:
+            data.agendar !== "1900-01-01 23:59:59"
+              ? resExtractScheduleDateAndTime.formattedTime
+              : "",
           imagem: `${imgApiPath}/eventosImg/${data.imagem}`,
           descricao: data.descricao,
           local: {
@@ -394,7 +403,7 @@ const Editar = () => {
       data_inicio: filterStartDate(dataInicio),
       data_fim: filterEndDate(dataFim),
       estado: scheduleIsValid ? "A" : "P",
-      agendar: filterStartDate(dataAgendar),
+      agendar: filterScheduleDate(dataAgendar),
       areasCulturais: filterCulturalAreas(editedFieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(editedFieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(
@@ -434,12 +443,11 @@ const Editar = () => {
         const updatedEndDate = `${fieldValues?.data_fim}T${editedFieldValues?.hora_fim}`;
         editedFieldValues.data_fim = updatedEndDate;
       }
-      //testing validate post
 
       const isValid = validateEditedPost(
         {
           ...editedFieldValues,
-          data_agendar: filterStartDate(dataAgendar),
+          data_agendar: filterScheduleDate(dataAgendar),
           data_inicio:
             values?.data_inicio !== undefined
               ? values.data_inicio

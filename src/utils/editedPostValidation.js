@@ -78,26 +78,27 @@ export const validateEditedPost = (values, isEvent, translatedStrings) => {
       Object.keys(values).includes("data_agendar") ||
       Object.keys(values).includes("hora_agendar")
     ) {
-      if (
-        !scheduleDate ||
-        scheduleDate === undefined ||
-        scheduleDate?.length === 0
-      ) {
-        toast.error(translatedStrings[5]);
-        return false;
-      }
+      if (scheduleDate) {
+        if (scheduleDate[0] === "T") {
+          toast.error(translatedStrings[5]);
+          return false;
+        }
+        if (!scheduleDate.includes("T")) {
+          toast.error(translatedStrings[6]);
+          return false;
+        }
 
-      if (!scheduleDate.includes("T")) {
-        toast.error(translatedStrings[6]);
-        return false;
-      }
+        const currentDate = new Date();
+        const scheduleIsValid = new Date(scheduleDate) >= currentDate;
 
-      const currentDate = new Date();
-      const scheduleIsValid = new Date(scheduleDate) >= currentDate;
-
-      if (!scheduleIsValid && scheduleDate.length > 12) {
-        toast.error(translatedStrings[11]);
-        return false;
+        if (
+          !scheduleIsValid &&
+          scheduleDate.length > 12 &&
+          scheduleDate !== "1900-01-01T23:59:59"
+        ) {
+          toast.error(translatedStrings[11]);
+          return false;
+        }
       }
 
       return true;
