@@ -434,6 +434,7 @@ const Editar = () => {
         const updatedEndDate = `${fieldValues?.data_fim}T${editedFieldValues?.hora_fim}`;
         editedFieldValues.data_fim = updatedEndDate;
       }
+      //testing validate post
 
       const isValid = validateEditedPost(
         {
