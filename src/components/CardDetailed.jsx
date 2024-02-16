@@ -45,6 +45,7 @@ import {
 } from "../utils/dates";
 import parse from "html-react-parser";
 import useTranslationAPI from "../hooks/useTranslationAPI";
+import MetaDecorator from "./MetaDecorator";
 
 const CardDetailed = () => {
   const params = useParams();
@@ -631,162 +632,131 @@ const CardDetailed = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100%", backgroundColor: "#f8f8f8" }}>
-      <Box
-        sx={{
-          margin: "0 0 0 4rem",
-          backgroundColor: "transparent",
-          outline: "none",
-          height: "100vh",
-          overflowY: "auto",
-          display: "flex",
-          justifyContent: "center",
-          gap: "1.5rem",
-        }}
-      >
-        <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
-          <DetailedHeader
-            onFollowUser={handleFollowUser}
-            isFollowingUser={isFollowing}
-            publisherPhoto={
-              details?.utilizador[0].login_from === "google"
-                ? details?.utilizador[0].img_perfil
-                : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
-            }
-            publishers={details?.utilizador}
-            title={details?.dados?.nome}
-            onCloseModal={onCloseModal}
-            type={type}
-            isOwner={isOwner}
-          />
-          <Box
-            sx={{
-              backgroundColor: "white",
-              maxWidth: areaMaxWidth,
-              boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            <Avatar
-              src={`${imgApiPath}/${type}Img/${details?.dados?.imagem}`}
-              alt={`Foto de ${details?.dados?.nome}`}
-              variant="square"
-              sx={{ width: "100%", height: "auto" }}
-            />
-
-            <Autocomplete
-              disablePortal
-              id="translation-autocomplete"
-              options={languages}
-              sx={{
-                width: 150,
-                margin: "2rem 2rem 0 2rem",
-                "& .MuiAutocomplete-input, & .MuiInputLabel-root": {
-                  fontSize: 14,
-                },
-              }}
-              onChange={onLanguageChange}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  inputProps={{
-                    ...params.inputProps,
-                  }}
-                  size="small"
-                  label={t("cardDetailed.translateTo")}
-                />
-              )}
-            />
-
-            <DetailedInfo
-              isEvent={type === "eventos"}
-              city={details?.dados?.local}
-              location={details?.coordenadas?.nome}
-              description={translatedText?.mainDescription}
-              dateStart={details?.dados?.data_inicio}
-              dateEnd={details?.dados?.data_fim}
-              isOwner={isOwner}
-              scheduleDate={details?.dados?.agendar}
-            />
-            <DetailedProgram
-              programs={details?.programa}
-              translations={translatedText?.contentDescriptions || []}
-              handleRemoveProgram={handleShowRemoveProgramModal}
-              isOwner={isOwner}
-            />
-            <DetailedOther
-              others={details?.outros}
-              translations1={translatedText?.anotherDescriptions1 || []}
-              translations2={translatedText?.anotherDescriptions2 || []}
-            />
-            <DetailedImages images={details?.imagens} type={type} />
-            <DetailedRelated
-              related={
-                type === "projetos"
-                  ? details?.eventos_assoc
-                    ? details?.eventos_assoc
-                    : null
-                  : details?.projeto_assoc
-                  ? details?.projeto_assoc
-                  : null
-              }
-              type={type}
-            />
-          </Box>
-        </Box>
+    <>
+      <MetaDecorator
+        title={details?.dados?.nome}
+        description={details?.dados?.descricao}
+        imageUrl={`${imgApiPath}/${type}Img/${details?.dados?.imagem}`}
+        imageAlt={`Foto de ${details?.dados?.nome}`}
+      />
+      <Box sx={{ width: "100%", height: "100%", backgroundColor: "#f8f8f8" }}>
         <Box
-          id="interactions"
-          display="flex"
-          flexDirection="column"
-          gap="1.5rem"
-          marginTop="14%"
-          mr={".5rem"}
-          height="fit-content"
+          sx={{
+            margin: "0 0 0 4rem",
+            backgroundColor: "transparent",
+            outline: "none",
+            height: "100vh",
+            overflowY: "auto",
+            display: "flex",
+            justifyContent: "center",
+            gap: "1.5rem",
+          }}
         >
-          <IconButton
-            id="follow"
-            sx={{ padding: "0" }}
-            ref={userCardParentRef}
-            onClick={() => handleFollowUser()}
-          >
-            {isOwner ? (
+          <Box id="content" display="flex" flexDirection="column" gap="0.5rem">
+            <DetailedHeader
+              onFollowUser={handleFollowUser}
+              isFollowingUser={isFollowing}
+              publisherPhoto={
+                details?.utilizador[0].login_from === "google"
+                  ? details?.utilizador[0].img_perfil
+                  : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
+              }
+              publishers={details?.utilizador}
+              title={details?.dados?.nome}
+              onCloseModal={onCloseModal}
+              type={type}
+              isOwner={isOwner}
+            />
+            <Box
+              sx={{
+                backgroundColor: "white",
+                maxWidth: areaMaxWidth,
+                boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.2)",
+              }}
+            >
               <Avatar
-                src={
-                  details?.utilizador[0].login_from === "google"
-                    ? details?.utilizador[0].img_perfil
-                    : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
-                }
-                alt="Foto do Publicador"
-                sx={{
-                  width: "3rem",
-                  height: "3rem",
-                  "&:hover": {
-                    opacity: 0.8,
-                    cursor: "pointer",
-                  },
-                }}
-                onClick={() =>
-                  navigate(
-                    redirectToProfilePage(
-                      details?.utilizador[0]?.id,
-                      details?.utilizador[0]?.nome
-                    )
-                  )
-                }
+                src={`${imgApiPath}/${type}Img/${details?.dados?.imagem}`}
+                alt={`Foto de ${details?.dados?.nome}`}
+                variant="square"
+                sx={{ width: "100%", height: "auto" }}
               />
-            ) : (
-              <Badge
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                badgeContent={isFollowing ? "✓" : "+"}
-                overlap="circular"
+
+              <Autocomplete
+                disablePortal
+                id="translation-autocomplete"
+                options={languages}
                 sx={{
-                  "& .MuiBadge-badge": {
-                    color: isFollowing ? "black" : "white",
-                    backgroundColor: (theme) =>
-                      isFollowing ? "white" : theme.palette.primary.main,
-                    fontWeight: "bold",
+                  width: 150,
+                  margin: "2rem 2rem 0 2rem",
+                  "& .MuiAutocomplete-input, & .MuiInputLabel-root": {
+                    fontSize: 14,
                   },
                 }}
-              >
+                onChange={onLanguageChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    inputProps={{
+                      ...params.inputProps,
+                    }}
+                    size="small"
+                    label={t("cardDetailed.translateTo")}
+                  />
+                )}
+              />
+
+              <DetailedInfo
+                isEvent={type === "eventos"}
+                city={details?.dados?.local}
+                location={details?.coordenadas?.nome}
+                description={translatedText?.mainDescription}
+                dateStart={details?.dados?.data_inicio}
+                dateEnd={details?.dados?.data_fim}
+                isOwner={isOwner}
+                scheduleDate={details?.dados?.agendar}
+              />
+              <DetailedProgram
+                programs={details?.programa}
+                translations={translatedText?.contentDescriptions || []}
+                handleRemoveProgram={handleShowRemoveProgramModal}
+                isOwner={isOwner}
+              />
+              <DetailedOther
+                others={details?.outros}
+                translations1={translatedText?.anotherDescriptions1 || []}
+                translations2={translatedText?.anotherDescriptions2 || []}
+              />
+              <DetailedImages images={details?.imagens} type={type} />
+              <DetailedRelated
+                related={
+                  type === "projetos"
+                    ? details?.eventos_assoc
+                      ? details?.eventos_assoc
+                      : null
+                    : details?.projeto_assoc
+                    ? details?.projeto_assoc
+                    : null
+                }
+                type={type}
+              />
+            </Box>
+          </Box>
+          <Box
+            id="interactions"
+            display="flex"
+            flexDirection="column"
+            gap="1.5rem"
+            marginTop="14%"
+            mr={".5rem"}
+            height="fit-content"
+          >
+            <IconButton
+              id="follow"
+              sx={{ padding: "0" }}
+              ref={userCardParentRef}
+              onClick={() => handleFollowUser()}
+            >
+              {isOwner ? (
                 <Avatar
                   src={
                     details?.utilizador[0].login_from === "google"
@@ -794,138 +764,102 @@ const CardDetailed = () => {
                       : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
                   }
                   alt="Foto do Publicador"
-                  sx={{ width: "3rem", height: "3rem" }}
-                />
-              </Badge>
-            )}
-          </IconButton>
-
-          {isOwner && type === "eventos" ? (
-            <Tooltip
-              title={t("cardDetailed.addSchedule")}
-              placement="left"
-              arrow
-            >
-              <Box
-                id="program"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={handleAddProgram}
-              >
-                <Add
-                  color="white"
                   sx={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    color: "white",
+                    width: "3rem",
+                    height: "3rem",
+                    "&:hover": {
+                      opacity: 0.8,
+                      cursor: "pointer",
+                    },
                   }}
+                  onClick={() =>
+                    navigate(
+                      redirectToProfilePage(
+                        details?.utilizador[0]?.id,
+                        details?.utilizador[0]?.nome
+                      )
+                    )
+                  }
                 />
-              </Box>
-            </Tooltip>
-          ) : null}
+              ) : (
+                <Badge
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  badgeContent={isFollowing ? "✓" : "+"}
+                  overlap="circular"
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      color: isFollowing ? "black" : "white",
+                      backgroundColor: (theme) =>
+                        isFollowing ? "white" : theme.palette.primary.main,
+                      fontWeight: "bold",
+                    },
+                  }}
+                >
+                  <Avatar
+                    src={
+                      details?.utilizador[0].login_from === "google"
+                        ? details?.utilizador[0].img_perfil
+                        : `${imgApiPath}/perfilImg/${details?.utilizador[0].img_perfil}`
+                    }
+                    alt="Foto do Publicador"
+                    sx={{ width: "3rem", height: "3rem" }}
+                  />
+                </Badge>
+              )}
+            </IconButton>
 
-          <Tooltip
-            title={
-              isFavorite
-                ? t("cardDetailed.removeFromFavorites")
-                : t("cardDetailed.addToFavorites")
-            }
-            placement="left"
-            arrow
-          >
-            <Box
-              id="favorite"
-              sx={{
-                borderRadius: "50%",
-                height: "3rem",
-                width: "3rem",
-                backgroundColor: (theme) =>
-                  isFavorite ? "#3c3c3c" : theme.palette.primary.main,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                "&:hover": {
-                  opacity: 0.8,
-                },
-              }}
-              onClick={() => handleFavorite(isFavorite)}
-            >
-              <Star
-                color="white"
-                sx={{
-                  width: "1.25rem",
-                  height: "1.25rem",
-                  color: "white",
-                }}
-              />
-            </Box>
-          </Tooltip>
+            {isOwner && type === "eventos" ? (
+              <Tooltip
+                title={t("cardDetailed.addSchedule")}
+                placement="left"
+                arrow
+              >
+                <Box
+                  id="program"
+                  sx={{
+                    borderRadius: "50%",
+                    height: "3rem",
+                    width: "3rem",
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 0.8,
+                    },
+                  }}
+                  onClick={handleAddProgram}
+                >
+                  <Add
+                    color="white"
+                    sx={{
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      color: "white",
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+            ) : null}
 
-          <Tooltip
-            title={
-              isLiked ? t("cardDetailed.removeLike") : t("cardDetailed.addLike")
-            }
-            placement="left"
-            arrow
-          >
-            <Box
-              id="like"
-              sx={{
-                borderRadius: "50%",
-                height: "3rem",
-                width: "3rem",
-                backgroundColor: (theme) =>
-                  isLiked ? "#3c3c3c" : theme.palette.primary.main,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                "&:hover": {
-                  opacity: 0.8,
-                },
-              }}
-              onClick={handleLike}
-            >
-              <ThumbUp sx={{ color: "white", width: "1rem", height: "1rem" }} />
-              {isLiked ? (
-                <Typography color="white" fontSize=".8rem">
-                  {parseInt(likes)}
-                </Typography>
-              ) : null}
-            </Box>
-          </Tooltip>
-
-          {isAdmin && (
             <Tooltip
               title={
-                isHighlighted
-                  ? t("cardDetailed.removeFromHighlights")
-                  : t("cardDetailed.addToHighlights")
+                isFavorite
+                  ? t("cardDetailed.removeFromFavorites")
+                  : t("cardDetailed.addToFavorites")
               }
               placement="left"
               arrow
             >
               <Box
-                id="highlight"
+                id="favorite"
                 sx={{
                   borderRadius: "50%",
                   height: "3rem",
                   width: "3rem",
                   backgroundColor: (theme) =>
-                    isHighlighted ? "#3c3c3c" : theme.palette.primary.main,
+                    isFavorite ? "#3c3c3c" : theme.palette.primary.main,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -934,9 +868,9 @@ const CardDetailed = () => {
                     opacity: 0.8,
                   },
                 }}
-                onClick={() => handleHighlight(isHighlighted)}
+                onClick={() => handleFavorite(isFavorite)}
               >
-                <Bookmark
+                <Star
                   color="white"
                   sx={{
                     width: "1.25rem",
@@ -946,18 +880,26 @@ const CardDetailed = () => {
                 />
               </Box>
             </Tooltip>
-          )}
 
-          {isOwner && (
-            <Tooltip title={t("userProfile.editar")} placement="left" arrow>
+            <Tooltip
+              title={
+                isLiked
+                  ? t("cardDetailed.removeLike")
+                  : t("cardDetailed.addLike")
+              }
+              placement="left"
+              arrow
+            >
               <Box
-                id="edit-post"
+                id="like"
                 sx={{
                   borderRadius: "50%",
                   height: "3rem",
                   width: "3rem",
-                  backgroundColor: (theme) => theme.palette.primary.main,
+                  backgroundColor: (theme) =>
+                    isLiked ? "#3c3c3c" : theme.palette.primary.main,
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: "pointer",
@@ -965,211 +907,282 @@ const CardDetailed = () => {
                     opacity: 0.8,
                   },
                 }}
-                onClick={() => handleGoToEditPost()}
+                onClick={handleLike}
               >
-                <Edit
-                  color="white"
-                  sx={{
-                    width: "1.25rem",
-                    height: "1.25rem",
-                    color: "white",
-                  }}
+                <ThumbUp
+                  sx={{ color: "white", width: "1rem", height: "1rem" }}
                 />
+                {isLiked ? (
+                  <Typography color="white" fontSize=".8rem">
+                    {parseInt(likes)}
+                  </Typography>
+                ) : null}
               </Box>
             </Tooltip>
-          )}
 
-          {isOwner && (
-            <Tooltip title={t("userProfile.remover")} placement="left" arrow>
-              <Box
-                id="remove-post"
-                sx={{
-                  borderRadius: "50%",
-                  height: "3rem",
-                  width: "3rem",
-                  backgroundColor: "#743600",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  "&:hover": {
-                    opacity: 0.8,
-                  },
-                }}
-                onClick={() => handleShowRemovePostModal()}
+            {isAdmin && (
+              <Tooltip
+                title={
+                  isHighlighted
+                    ? t("cardDetailed.removeFromHighlights")
+                    : t("cardDetailed.addToHighlights")
+                }
+                placement="left"
+                arrow
               >
-                <Delete
-                  color="white"
+                <Box
+                  id="highlight"
                   sx={{
-                    width: "1.25rem",
-                    height: "1.25rem",
-                    color: "white",
+                    borderRadius: "50%",
+                    height: "3rem",
+                    width: "3rem",
+                    backgroundColor: (theme) =>
+                      isHighlighted ? "#3c3c3c" : theme.palette.primary.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 0.8,
+                    },
                   }}
-                />
-              </Box>
-            </Tooltip>
-          )}
+                  onClick={() => handleHighlight(isHighlighted)}
+                >
+                  <Bookmark
+                    color="white"
+                    sx={{
+                      width: "1.25rem",
+                      height: "1.25rem",
+                      color: "white",
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+            )}
+
+            {isOwner && (
+              <Tooltip title={t("userProfile.editar")} placement="left" arrow>
+                <Box
+                  id="edit-post"
+                  sx={{
+                    borderRadius: "50%",
+                    height: "3rem",
+                    width: "3rem",
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 0.8,
+                    },
+                  }}
+                  onClick={() => handleGoToEditPost()}
+                >
+                  <Edit
+                    color="white"
+                    sx={{
+                      width: "1.25rem",
+                      height: "1.25rem",
+                      color: "white",
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+            )}
+
+            {isOwner && (
+              <Tooltip title={t("userProfile.remover")} placement="left" arrow>
+                <Box
+                  id="remove-post"
+                  sx={{
+                    borderRadius: "50%",
+                    height: "3rem",
+                    width: "3rem",
+                    backgroundColor: "#743600",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    "&:hover": {
+                      opacity: 0.8,
+                    },
+                  }}
+                  onClick={() => handleShowRemovePostModal()}
+                >
+                  <Delete
+                    color="white"
+                    sx={{
+                      width: "1.25rem",
+                      height: "1.25rem",
+                      color: "white",
+                    }}
+                  />
+                </Box>
+              </Tooltip>
+            )}
+          </Box>
         </Box>
+        <Modal
+          open={showRemoveProgramModal}
+          onClose={handleCloseRemoveProgramModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              // border: "2px solid #000",
+              borderRadius: ".5rem",
+              outline: "none",
+              boxShadow: 24,
+              p: 4,
+              display: "flex",
+              flexDirection: "column",
+              justifyItems: "center",
+            }}
+          >
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={handleCloseRemoveProgramModal}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+              }}
+            >
+              <Close />
+            </IconButton>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {t("removeProgram.modalText")}
+            </Typography>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  className="remove-account-button"
+                  sx={{
+                    marginTop: "15px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleCloseRemoveProgramModal}
+                >
+                  {t("userProfile.configPage.nao")}
+                </Button>
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  className="remove-account-button"
+                  sx={{
+                    marginTop: "15px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleRemoveProgram}
+                >
+                  {t("userProfile.configPage.sim")}
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
+        <Modal
+          open={showRemovePostModal}
+          onClose={handleCloseRemovePostModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              bgcolor: "background.paper",
+              // border: "2px solid #000",
+              borderRadius: ".5rem",
+              outline: "none",
+              boxShadow: 24,
+              p: 4,
+              display: "flex",
+              flexDirection: "column",
+              justifyItems: "center",
+            }}
+          >
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={handleCloseRemovePostModal}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+              }}
+            >
+              <Close />
+            </IconButton>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              {getRemovePostText()}
+            </Typography>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  className="remove-account-button"
+                  sx={{
+                    marginTop: "15px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleCloseRemovePostModal}
+                >
+                  {t("userProfile.configPage.nao")}
+                </Button>
+              </Grid>
+              <Grid item xs={6} md={4}>
+                <Button
+                  variant="contained"
+                  className="remove-account-button"
+                  sx={{
+                    marginTop: "15px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                  }}
+                  onClick={handleRemovePost}
+                >
+                  {t("userProfile.configPage.sim")}
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+        </Modal>
       </Box>
-      <Modal
-        open={showRemoveProgramModal}
-        onClose={handleCloseRemoveProgramModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            // border: "2px solid #000",
-            borderRadius: ".5rem",
-            outline: "none",
-            boxShadow: 24,
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            justifyItems: "center",
-          }}
-        >
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            size="small"
-            onClick={handleCloseRemoveProgramModal}
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-            }}
-          >
-            <Close />
-          </IconButton>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {t("removeProgram.modalText")}
-          </Typography>
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Grid item xs={6} md={4}>
-              <Button
-                variant="contained"
-                className="remove-account-button"
-                sx={{
-                  marginTop: "15px",
-                  borderRadius: "20px",
-                  textTransform: "none",
-                }}
-                onClick={handleCloseRemoveProgramModal}
-              >
-                {t("userProfile.configPage.nao")}
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={4}>
-              <Button
-                variant="contained"
-                className="remove-account-button"
-                sx={{
-                  marginTop: "15px",
-                  borderRadius: "20px",
-                  textTransform: "none",
-                }}
-                onClick={handleRemoveProgram}
-              >
-                {t("userProfile.configPage.sim")}
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
-      <Modal
-        open={showRemovePostModal}
-        onClose={handleCloseRemovePostModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 400,
-            bgcolor: "background.paper",
-            // border: "2px solid #000",
-            borderRadius: ".5rem",
-            outline: "none",
-            boxShadow: 24,
-            p: 4,
-            display: "flex",
-            flexDirection: "column",
-            justifyItems: "center",
-          }}
-        >
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            size="small"
-            onClick={handleCloseRemovePostModal}
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-            }}
-          >
-            <Close />
-          </IconButton>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {getRemovePostText()}
-          </Typography>
-          <Grid
-            container
-            spacing={2}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Grid item xs={6} md={4}>
-              <Button
-                variant="contained"
-                className="remove-account-button"
-                sx={{
-                  marginTop: "15px",
-                  borderRadius: "20px",
-                  textTransform: "none",
-                }}
-                onClick={handleCloseRemovePostModal}
-              >
-                {t("userProfile.configPage.nao")}
-              </Button>
-            </Grid>
-            <Grid item xs={6} md={4}>
-              <Button
-                variant="contained"
-                className="remove-account-button"
-                sx={{
-                  marginTop: "15px",
-                  borderRadius: "20px",
-                  textTransform: "none",
-                }}
-                onClick={handleRemovePost}
-              >
-                {t("userProfile.configPage.sim")}
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
-      </Modal>
-    </Box>
+    </>
   );
 };
 
