@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
-
+import axios from "axios";
 const usePosts = () => {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
@@ -234,6 +234,16 @@ const usePosts = () => {
     }
   };
 
+  const getChangedIndex = async (postId, baseUrl) => {
+    try {
+      const response = await axios.get(`${baseUrl}/post?id=${postId}`);
+
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     getPostsByArea,
     getHighlightPosts,
@@ -246,6 +256,7 @@ const usePosts = () => {
     getFavoritsPostByUser,
     getPostsByPage,
     HighlightPost,
+    getChangedIndex,
   };
 };
 

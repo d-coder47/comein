@@ -130,6 +130,7 @@ const ProfileCustomCard = ({
 
   const navigate = useNavigate();
 
+  const { getChangedIndex } = usePosts();
   const location = useLocation();
 
   const [postActionsMenuAnchorEl, setPostActionsMenuAnchorEl] =
@@ -161,7 +162,10 @@ const ProfileCustomCard = ({
     navigate(getPostPath());
   };
 
-  const handleOpenShareModal = () => setOpenShareModal(true);
+  const handleOpenShareModal = async () => {
+    await getChangedIndex(id, location);
+    setOpenShareModal(true);
+  };
   const handleCloseShareModal = () => setOpenShareModal(false);
 
   const handlePostActionsMenuClick = (event) => {

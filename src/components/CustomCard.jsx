@@ -35,7 +35,8 @@ import { Visibility } from "@mui/icons-material";
 
 import axiosInstance from "../api/axiosInstance";
 import UserCard from "./UserCard";
-import { useNavigate } from "react-router-dom";
+import usePosts from "../hooks/usePosts";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import copy from "clipboard-copy";
 
@@ -55,6 +56,10 @@ const CustomCard = ({
   const [anchorEl, setAnchorEl] = useState(null);
 
   const [linkCopied, setLinkCopied] = useState(false);
+
+  const { getChangedIndex } = usePosts();
+
+  const location = useLocation();
 
   const [currentContainerWidth, setCurrentContainerWidth] = useState(0);
   const containerMinusImageHeight = 48;
@@ -123,7 +128,10 @@ const CustomCard = ({
     navigate(getPostPath());
   };
 
-  const handleOpenShareModal = () => setOpenShareModal(true);
+  const handleOpenShareModal = async () => {
+    await getChangedIndex(id, location);
+    setOpenShareModal(true);
+  };
   const handleCloseShareModal = () => setOpenShareModal(false);
 
   useEffect(() => {

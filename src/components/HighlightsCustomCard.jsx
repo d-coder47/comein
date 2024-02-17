@@ -43,6 +43,7 @@ import { AspectRatio } from "react-aspect-ratio";
 import "react-aspect-ratio/aspect-ratio.css";
 import copy from "clipboard-copy";
 import { redirectToProfilePage } from "../utils/generateUrl";
+import usePosts from "../hooks/usePosts";
 
 const HighlightsCustomCard = ({
   id = null,
@@ -75,6 +76,8 @@ const HighlightsCustomCard = ({
 
   const location = useLocation();
 
+  const { getChangedIndex } = usePosts();
+
   const handleCloseRemoveEventModal = () => setOpenRemoveEventModal(false);
 
   const getPostPath = () => {
@@ -98,7 +101,10 @@ const HighlightsCustomCard = ({
     navigate(getPostPath());
   };
 
-  const handleOpenShareModal = () => setOpenShareModal(true);
+  const handleOpenShareModal = async () => {
+    await getChangedIndex(id, location);
+    setOpenShareModal(true);
+  };
   const handleCloseShareModal = () => setOpenShareModal(false);
 
   const handleRemoveEvent = async () => {
@@ -348,14 +354,14 @@ const HighlightsCustomCard = ({
                 mt="1rem"
               >
                 <Typography fontWeight="bold">
-                  {t("postCard.partilhePostRedeSociais")}
+                  {t("shareModal.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <FacebookShareButton
                     url={"https://comein.cv/" + getPostPath()}
                     quote={"Post it with your friends"}
                     hashtag="comeincv"
-                    media="https://img.freepik.com/vetores-gratis/paisagem-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
+                    media="https://img.freepik.com/vetores-gratis/-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
                   >
                     <FacebookIcon size={40} round />
                   </FacebookShareButton>
