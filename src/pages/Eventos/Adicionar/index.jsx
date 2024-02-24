@@ -43,6 +43,7 @@ import {
   filterAssociatedProjects,
   filterCulturalAreas,
   filterEndDate,
+  filterScheduleDate,
   filterStartDate,
   objectToFormData,
 } from "../../../utils/filterPostAttributes";
@@ -322,7 +323,7 @@ const Adicionar = () => {
       areasCulturais: filterCulturalAreas(fieldValues?.areasCulturais),
       assoc_projeto: filterAssociatedProjects(fieldValues?.assoc_projeto),
       idsProprietarios: filterAssociatedOwners(fieldValues?.proprietarios),
-      agendar: filterStartDate(dataAgendar),
+      agendar: filterScheduleDate(dataAgendar),
     };
 
     const values = cleanPost(newEvent, true);
