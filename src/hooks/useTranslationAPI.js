@@ -58,7 +58,7 @@ const useTranslationAPI = (originalData) => {
     method: "GET",
     url: "https://google-translate113.p.rapidapi.com/api/v1/translator/support-languages",
     headers: {
-      "X-RapidAPI-Key": "c477ec1f68mshf95d9ba6676dbccp1f92e1jsne83d07257363",
+      "X-RapidAPI-Key": "80c693399dmshd7de3a29d9168c2p1494edjsnce2dd9d6511a",
       "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
     },
   };
@@ -91,7 +91,7 @@ const useTranslationAPI = (originalData) => {
       url: "https://google-translate113.p.rapidapi.com/api/v1/translator/html",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "X-RapidAPI-Key": "c477ec1f68mshf95d9ba6676dbccp1f92e1jsne83d07257363",
+        "X-RapidAPI-Key": "80c693399dmshd7de3a29d9168c2p1494edjsnce2dd9d6511a",
         "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
       },
       data: encodedParams,
