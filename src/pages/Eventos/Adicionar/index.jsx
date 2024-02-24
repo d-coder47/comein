@@ -116,7 +116,7 @@ const Adicionar = () => {
     { id: 16, name: t("categories.carnaval") },
   ];
 
-  // Translated stringss
+  // Translated strings
   const validatePostTranslatedStrings = [
     t("postValidationsErrors.nomeObrigatorio"),
     t("postValidationsErrors.imagemObrigatorio"),
