@@ -276,19 +276,21 @@ const CardDetailed = () => {
 
   const texts = {
     mainDescription: details?.dados?.descricao,
-    contentDescriptions: details?.programa?.map((p) => {
-      return p?.descricao.length > 0 ? p?.descricao : " ";
-    }),
-    anotherDescriptions1: details?.outros?.map((p) => {
-      return p?.descricao1.length > 0 ? p?.descricao1 : " ";
-    }),
-    anotherDescriptions2: details?.outros?.map((p) => {
-      return p?.descricao2.length > 0 ? p?.descricao2 : " ";
-    }),
+    contentDescriptions:
+      details?.programa?.map((p) => {
+        return p?.descricao.length > 0 ? p?.descricao : " ";
+      }) || [],
+    anotherDescriptions1:
+      details?.outros?.map((p) => {
+        return p?.descricao1.length > 0 ? p?.descricao1 : " ";
+      }) || [],
+    anotherDescriptions2:
+      details?.outros?.map((p) => {
+        return p?.descricao2.length > 0 ? p?.descricao2 : " ";
+      }) || [],
   };
   const onLanguageChange = (e, value) => {
     if (!value) return resetToOriginal();
-
     translateText(value.id, texts);
   };
 
@@ -1284,7 +1286,7 @@ const DetailedInfo = ({
   dateStart = "",
   dateEnd = "",
   isOwner,
-  scheduleDate,
+  scheduleDate = "1900-01-01",
 }) => {
   const { t } = useTranslation();
 
