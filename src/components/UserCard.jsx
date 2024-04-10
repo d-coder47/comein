@@ -77,7 +77,7 @@ const UserCard = ({
     >
       <Avatar
         variant="square"
-        src={`${imgApiPath}/capaImg/${publisher?.img_capa}` || wallpaper}
+        src={`${imgApiPath}/capaImg/${publisher?.img_capa}`}
         alt={`Foto de capa de ${publisher?.nome}`}
         sx={{
           width: "100%",

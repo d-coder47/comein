@@ -21,6 +21,8 @@ const Publisher = ({
   const userCardRef = useRef(null);
   const userCardParentRef = useRef(null);
 
+  const [associatedOwners, setAssociatedOwners] = useState();
+
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -33,6 +35,12 @@ const Publisher = ({
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  useEffect(() => {
+    if (publishers[1]) {
+      setAssociatedOwners(publishers[1]);
+    }
+  }, [publishers]);
 
   useEffect(() => {
     if (!userCardRef.current) return;
@@ -74,7 +82,7 @@ const Publisher = ({
 
   return (
     <Box>
-      {publishers?.length > 1 ? (
+      {associatedOwners?.length > 1 ? (
         <Box>
           <Box
             display="flex"
@@ -115,7 +123,7 @@ const Publisher = ({
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            {publishers.map((publisher, index) => (
+            {associatedOwners.map((publisher, index) => (
               <MenuItem
                 key={publisher.nome + index}
                 onClick={handleCloseUserMenu}
