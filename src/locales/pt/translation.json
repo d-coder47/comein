@@ -297,5 +297,9 @@
   },
   "removeProgram": {
     "modalText": "Tem certeza de que deseja remover este conteúdo?"
+  },
+  "mapa": {
+    "homeButton": "Home",
+    "localizacaoAtual": "Localização atual"
   }
 }
