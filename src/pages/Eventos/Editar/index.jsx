@@ -203,8 +203,7 @@ const Editar = () => {
           return navigate("/");
         const data = response.data.dados;
         const coordinates = response?.data?.coordenadas;
-        const proprietarios = response.data.utilizador;
-        proprietarios.shift();
+        const proprietarios = response.data.utilizador[1];
 
         let assoc_projeto;
 
@@ -260,8 +259,7 @@ const Editar = () => {
             coordinateId: coordinates ? coordinates?.id : null,
           },
           id_utilizador: data.id_utilizador,
-          proprietarios:
-            proprietarios.length === 0 ? { id: 0, nome: "" } : proprietarios[0],
+          proprietarios: proprietarios.length === 0 ? [] : proprietarios,
           areasCulturais,
           assoc_projeto,
         };
@@ -658,7 +656,6 @@ const Editar = () => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
-                      console.log(value);
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
                         setOwners(res.dados);

@@ -4,9 +4,12 @@ import { Box, Button, Avatar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import siteLogo from "../../assets/img/logo_cicv3.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useTranslation } from "react-i18next";
 
 const DisplayMap = () => {
   const navigate = useNavigate();
+
+  const { t } = useTranslation();
 
   return (
     <Box
@@ -70,7 +73,7 @@ const DisplayMap = () => {
               fontSize: "1rem",
             }}
           />
-          Home
+          {t("mapa.homeButton")}
         </Button>
       </Box>
       <Leaflet />

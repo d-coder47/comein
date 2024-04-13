@@ -1,14 +1,90 @@
-import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./index.css";
-import musicIcon from "../../assets/svg/musica.svg";
 import axiosInstance from "../../api/axiosInstance";
 import { LocationOn } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import L from "leaflet";
 import { getItemIconByCategory } from "../../utils/map";
+import { useTranslation } from "react-i18next";
+
+const CurrentLocation = () => {
+  const map = useMap();
+  const { t } = useTranslation();
+
+  const [currentLocation, setCurrentLocation] = useState();
+
+  const styles = {
+    popup: {
+      textAlign: "center",
+    },
+  };
+
+  const getGeo = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setCurrentLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+
+        map.setView([position.coords.latitude, position.coords.longitude], 20);
+      },
+      (error) => {
+        console.log(
+          "--------- ERROR WHILE FETCHING LOCATION ----------- ",
+          error
+        );
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+  return (
+    <>
+      {currentLocation && (
+        <Marker position={[currentLocation.lat, currentLocation.lng]}>
+          <Popup className={styles.popup}>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <LocationOn fontSize="1rem" /> {t("mapa.localizacaoAtual")}
+            </Box>
+          </Popup>
+        </Marker>
+      )}
+
+      <Button
+        onClick={() => {
+          getGeo();
+        }}
+        sx={{
+          position: "absolute",
+          top: "15px",
+          right: "135px",
+          zIndex: "10000",
+          marginRight: "20px",
+          height: "auto",
+          backgroundColor: "#33B3CC",
+          color: "white",
+          cursor: "pointer",
+          "&:hover": {
+            backgroundColor: "#743600", // Adjust the opacity or add more styles as desired
+          },
+        }}
+      >
+        <Box
+          display="flex"
+          justifyContent="center"
+          flexDirection="row"
+          alignItems="center"
+        >
+          <LocationOn fontSize="10rem" /> {t("mapa.localizacaoAtual")}
+        </Box>
+      </Button>
+    </>
+  );
+};
 
 export default function Leaflet() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -85,14 +161,7 @@ export default function Leaflet() {
         attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
       />
 
-      {/* <LocationMarker /> */}
-      {/* 
-      <Marker position={center}>
-        <Popup> Teste </Popup>
-      </Marker> */}
-
       {coordinates?.map((item, index) => (
-        // <Marker icon={iconPerson} position={[item?.latitude, item?.longitude]}>
         <Marker
           icon={getCustomIcon(item.areas_culturais)}
           key={index}
@@ -107,57 +176,7 @@ export default function Leaflet() {
           </Popup>
         </Marker>
       ))}
-
-      {/* 
-                statesData.features.map((state)=>{
-                    const coordinates = state.geometry.coordinates[0].map((item)=>[item[1], item[0]]);
-
-                    return(<Polygon 
-                        pathOptions={{
-                            fillColor: '#FD8D3C',
-                            fillOpacity: 0.7,
-                            weight: 2,
-                            opacity: 1,
-                            dashArray: 3,
-                            color: 'white'
-                        }}
-
-                        positions={coordinates}
-                        eventHandlers={{
-                           mouseover: (e) => {
-                            const layer = e.target;
-                            layer.setStyle({
-                                fiilOpacity: 1,
-                                weight: 5,
-                                dashArray: "",
-                                color: '#666',
-                                fillColor: '#D45962'
-                            });
-                           },
-                           mouseout: (e) => {
-                            const layer = e.target;
-                            layer.setStyle({
-                                fiilOpacity: 0.7,
-                                weight: 2,
-                                dashArray: "3",
-                                color: 'white',
-                                fillColor: '#FD8D3C'
-                            });
-                           },
-                           click: (e) => {
-                           
-                           }
-                        }}
-                    />)
-                }) 
-            
-            */}
-      {/*
-            <Marker position={center1} icon={customIcon}>
-                <Popup>  Event test 2 - theatre </Popup>
-            </Marker>
-
-            */}
+      <CurrentLocation />
     </MapContainer>
   );
 }

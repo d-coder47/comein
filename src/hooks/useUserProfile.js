@@ -47,13 +47,14 @@ const useUserProfile = () => {
     }
   };
 
-  const deleteUserProfile = async (idUser) => {
+  const deleteUserProfile = async (userInfo, password) => {
     try {
       const params = new URLSearchParams({
-        _method: "PUT",
+        email: userInfo.email,
+        palavra_passe: password,
       }).toString();
       const response = await axiosInstance.post(
-        `/utilizadores/remover/${idUser}`,
+        "/utilizadores/removerContaUtilizador",
         params,
         {
           headers: {

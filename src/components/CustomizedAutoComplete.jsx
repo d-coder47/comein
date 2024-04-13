@@ -3,7 +3,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
-import { useAutocomplete } from "@mui/base/useAutocomplete";
+import { useAutocomplete } from "@mui/base";
 
 const Root = styled("div")(
   ({ theme }) => `
@@ -148,7 +148,7 @@ const Listbox = styled("ul")(
 );
 
 export default function CustomizedHook({
-  data,
+  data = [],
   currentValue,
   onChange,
   onInputChange,
@@ -166,7 +166,7 @@ export default function CustomizedHook({
     setAnchorEl,
   } = useAutocomplete({
     id: "post-owners",
-    defaultValue: currentValue?.id !== 0 ? [currentValue] : [],
+    defaultValue: Array.isArray(currentValue) ? currentValue : [currentValue],
     multiple: true,
     options: data,
     getOptionLabel: (option) => option.nome,

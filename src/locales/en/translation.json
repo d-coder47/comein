@@ -29,6 +29,7 @@
     "continuar": "Continue",
     "emailObrigatorio": "Email",
     "emailInvalido": "Invalid email",
+    "passwordInvalido": "Invalid password",
     "passwordObrigatorio": "Password",
     "passwordTamanho": "Password must contain at least one uppercase letter and one special character and be at least 7 characters long.",
     "nomeObrigatorio": "Name",
@@ -103,6 +104,7 @@
       "termosUso": "Terms of Use",
       "politicasPrivacidade": "Privacy Policy",
       "removerContaDetails": "Deleting the account will remove all content and data associated with the account and you will lose access to the account immediately.",
+      "removerContaInstrucoes": "Enter your password and click on the \"Remove account\" button to proceed with deleting your account.",
       "inserirEmail": "Enter your email address for your account",
       "confirmarRemoverConta": "Are you sure you want to remove your account?",
       "sim": "Yes",
@@ -295,5 +297,9 @@
   },
   "removeProgram": {
     "modalText": "Are you sure you want to remove this content?"
+  },
+  "map": {
+    "homeButton": "Home",
+    "currentLocation": "Current Location"
   }
 }

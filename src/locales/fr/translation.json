@@ -29,6 +29,7 @@
     "continuar": "Continuer",
     "emailObrigatorio": "email",
     "emailInvalido": "Adresse email invalide",
+    "passwordInvalido": "Mot de passe invalide",
     "passwordObrigatorio": "mot de passe",
     "passwordTamanho": "Le mot de passe doit contenir au moins une lettre majuscule et un caractère spécial, et comporter au moins 7 caractères.",
     "nomeObrigatorio": "Prénom",
@@ -103,6 +104,7 @@
       "termosUso": "Conditions d’utilisation",
       "politicasPrivacidade": "Politique de confidentialité",
       "removerContaDetails": "La suppression du compte supprimera tout le contenu et les données associées au compte et vous perdrez immédiatement l’accès au compte.",
+      "removerContaInstrucoes": "Entrez votre mot de passe et cliquez sur le bouton \"Supprimer le compte\" pour procéder à la suppression de votre compte.",
       "inserirEmail": "Entrez votre adresse email",
       "confirmarRemoverConta": "Voulez-vous vraiment supprimer votre compte ?",
       "sim": "Oui",
@@ -295,5 +297,9 @@
   },
   "removeProgram": {
     "modalText": "Êtes-vous sûr de vouloir supprimer ce contenu?"
+  },
+  "map": {
+    "homeButton": "Accueil",
+    "currentLocation": "Localisation actuelle"
   }
 }

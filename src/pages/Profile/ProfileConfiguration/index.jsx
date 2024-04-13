@@ -17,12 +17,12 @@ import {
   AccordionSummary,
   Tabs,
   Tab,
-  Tooltip,
   IconButton,
+  InputAdornment,
   useMediaQuery,
 } from "@mui/material";
 
-import { Close } from "@mui/icons-material";
+import { Close, Visibility, VisibilityOff } from "@mui/icons-material";
 
 import useRegisterUser from "../../../hooks/useRegisterUser";
 
@@ -41,17 +41,14 @@ const ProfileConfiguration = () => {
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
-  const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
-  const handleOpenRemoveModal = () => setOpenRemoveModal(true);
-  const handleCloseRemoveModal = () => setOpenRemoveModal(false);
+  const { t } = useTranslation();
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const authenticated = localStorage.getItem("authenticated");
 
-  const { t } = useTranslation();
   const { deleteUserProfile, reportProblem } = useUserProfile();
 
-  const { getTermsPolicy } = useRegisterUser();
+  const { getTermsPolicy, login } = useRegisterUser();
 
   const [terms, setTerms] = React.useState();
   const [policy, setPolicy] = React.useState();
@@ -62,6 +59,37 @@ const ProfileConfiguration = () => {
   const [sugestionMessage, setSugestionMessage] = React.useState("");
 
   const [reportTabvalue, setReportTabValue] = React.useState(0);
+
+  const [password, setPassword] = React.useState("");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const [openRemoveModal, setOpenRemoveModal] = React.useState(false);
+  const [passwordInputError, setPasswordInputError] = React.useState();
+
+  const handleOpenRemoveModal = async () => {
+    if (password.length === 0) {
+      setOpenRemoveModal(false);
+      setPasswordInputError(t("registerpage.password"));
+    } else {
+      const loginRes = await login(
+        userInfo.email,
+        password,
+        null,
+        null,
+        null,
+        "form"
+      );
+
+      if (loginRes && loginRes[0] === "ERROR") {
+        setOpenRemoveModal(false);
+        setPasswordInputError(t("registerpage.passwordInvalido"));
+      } else {
+        setOpenRemoveModal(true);
+      }
+    }
+  };
+  const handleCloseRemoveModal = () => setOpenRemoveModal(false);
 
   const handleReportTabChange = (event, newValue) => {
     setReportTabValue(newValue);
@@ -95,8 +123,13 @@ const ProfileConfiguration = () => {
     setSugestionMessage(event.target.value);
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleRemoveAccount = async () => {
-    const res = await deleteUserProfile(userInfo.id);
+    console.log(userInfo);
+    const res = await deleteUserProfile(userInfo, password);
     setOpenRemoveModal(false);
     localStorage.clear();
     navigate("/");
@@ -624,6 +657,42 @@ const ProfileConfiguration = () => {
                       width: "60%",
                     }}
                   >
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      sx={{
+                        marginTop: "1rem",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      {t("userProfile.configPage.removerContaInstrucoes")}
+                    </Typography>
+                    <TextField
+                      size="small"
+                      error={passwordInputError ? true : false}
+                      helperText={passwordInputError ? passwordInputError : ""}
+                      type={showPassword ? "password" : "text"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required={true}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() => handleClickShowPassword()}
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                     <Button
                       variant="contained"
                       className="remove-account-button"
