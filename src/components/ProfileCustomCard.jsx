@@ -484,56 +484,57 @@ const ProfileCustomCard = ({
                   {t("shareModal.partilhePostRedeSociais")}
                 </Typography>
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
-                  <FacebookShareButton
-                    url={"https://comein.cv/" + getPostPath()}
-                    quote={"Post it with your friends"}
-                    hashtag="comeincv"
-                    media="https://img.freepik.com/vetores-gratis/paisagem-noturna-do-oceano-lua-cheia-e-estrelas-brilham_107791-7397.jpg?size=626&ext=jpg"
-                  >
-                    <FacebookIcon size={40} round />
-                  </FacebookShareButton>
+                  <>
+                    <FacebookShareButton
+                      url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                      hashtag={"https://comein.cv/" + getPostPath()}
+                    >
+                      <FacebookIcon size={40} round />
+                    </FacebookShareButton>
+                  </>
+
                   <FacebookMessengerShareButton
                     appId="976472220466365"
-                    url={"https://comein.cv/"}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
                   >
                     <FacebookMessengerIcon size={40} round />
                   </FacebookMessengerShareButton>
+                  <WhatsappShareButton
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    title={name}
+                  >
+                    <WhatsappIcon size={40} round />
+                  </WhatsappShareButton>
+                  <ViberShareButton
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    title={name}
+                  >
+                    <ViberIcon size={40} round />
+                  </ViberShareButton>
                   <PinterestShareButton
-                    url={"https://comein.cv/" + getPostPath()}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
                     description={"Testing description"}
                     media={picture}
                   >
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={"https://comein.cv/" + getPostPath()}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
                   >
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
-                  <WhatsappShareButton
-                    url={"https://comein.cv/" + getPostPath()}
-                    title={name}
-                  >
-                    <WhatsappIcon size={40} round />
-                  </WhatsappShareButton>
-                  <ViberShareButton
-                    url={"https://comein.cv/" + getPostPath()}
-                    title={name}
-                  >
-                    <ViberIcon size={40} round />
-                  </ViberShareButton>
                   <TwitterShareButton
-                    url={"https://comein.cv/" + getPostPath()}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
                     title={name}
                     via="Comein-CV"
                   >
                     <TwitterIcon size={40} round />
                   </TwitterShareButton>
                   <EmailShareButton
-                    url={"https://comein.cv/" + getPostPath()}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
                     subject={`${name}: de Comein CV`}
                     body={`Venha ver o post de ${publisherName}`}
                   >
@@ -546,7 +547,9 @@ const ProfileCustomCard = ({
                   endIcon={<Link />}
                   onClick={handleCopyLink}
                 >
-                  {t("shareModal.copiarLigacao")}
+                  {linkCopied
+                    ? t("shareModal.ligacaoCopiada")
+                    : t("shareModal.copiarLigacao")}
                 </Button>
               </Box>
             </Box>
