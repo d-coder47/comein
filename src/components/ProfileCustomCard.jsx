@@ -408,7 +408,7 @@ const ProfileCustomCard = ({
                   height: 14,
                   cursor: "pointer",
                 }}
-                onClick={handleOpenShareModal}
+                onClick={() => handleOpenShareModal()}
               />
             </Box>
           </Box>
@@ -486,7 +486,9 @@ const ProfileCustomCard = ({
                 <Box id="media-shares" mt="1rem" display="flex" gap=".25rem">
                   <>
                     <FacebookShareButton
-                      url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                      url={`https://share-social-events-kappa.vercel.app/posts/${
+                        type === "E" ? "eventos" : "projetos"
+                      }/${id}`}
                       hashtag={"https://comein.cv/" + getPostPath()}
                     >
                       <FacebookIcon size={40} round />
@@ -495,31 +497,41 @@ const ProfileCustomCard = ({
 
                   <FacebookMessengerShareButton
                     appId="976472220466365"
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                   >
                     <FacebookMessengerIcon size={40} round />
                   </FacebookMessengerShareButton>
                   <WhatsappShareButton
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                     title={name}
                   >
                     <WhatsappIcon size={40} round />
                   </WhatsappShareButton>
                   <ViberShareButton
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                     title={name}
                   >
                     <ViberIcon size={40} round />
                   </ViberShareButton>
                   <PinterestShareButton
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                     description={"Testing description"}
                     media={picture}
                   >
                     <PinterestIcon size={40} round />
                   </PinterestShareButton>
                   <LinkedinShareButton
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                     title={name}
                     summary={"minha descricao"}
                     source={"Comein CV"}
@@ -527,14 +539,18 @@ const ProfileCustomCard = ({
                     <LinkedinIcon size={40} round />
                   </LinkedinShareButton>
                   <TwitterShareButton
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                     title={name}
                     via="Comein-CV"
                   >
                     <TwitterIcon size={40} round />
                   </TwitterShareButton>
                   <EmailShareButton
-                    url={`https://share-social-events-kappa.vercel.app/posts/${id}`}
+                    url={`https://share-social-events-kappa.vercel.app/posts/${
+                      type === "E" ? "eventos" : "projetos"
+                    }/${id}`}
                     subject={`${name}: de Comein CV`}
                     body={`Venha ver o post de ${publisherName}`}
                   >
