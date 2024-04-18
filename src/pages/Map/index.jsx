@@ -57,11 +57,11 @@ const DisplayMap = () => {
           onClick={() => navigate("/")}
           sx={{
             marginRight: "20px",
-            width: "8rem",
             height: "auto",
             backgroundColor: "#33B3CC",
             color: "white",
             cursor: "pointer",
+            padding: "6px 24px",
             "&:hover": {
               backgroundColor: "#743600", // Adjust the opacity or add more styles as desired
             },
@@ -71,6 +71,7 @@ const DisplayMap = () => {
             sx={{
               color: "#fff",
               fontSize: "1rem",
+              marginRight: ".125rem",
             }}
           />
           {t("mapa.homeButton")}

@@ -68,6 +68,7 @@ const CurrentLocation = () => {
           backgroundColor: "#33B3CC",
           color: "white",
           cursor: "pointer",
+          padding: "6px 24px",
           "&:hover": {
             backgroundColor: "#743600", // Adjust the opacity or add more styles as desired
           },
@@ -79,7 +80,8 @@ const CurrentLocation = () => {
           flexDirection="row"
           alignItems="center"
         >
-          <LocationOn fontSize="10rem" /> {t("mapa.localizacaoAtual")}
+          <LocationOn fontSize="10rem" sx={{ marginRight: ".125rem" }} />{" "}
+          {t("mapa.localizacaoAtual")}
         </Box>
       </Button>
     </>
