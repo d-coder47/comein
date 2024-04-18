@@ -64,7 +64,7 @@ function LeafletControlGeocoder({ handlePositionChange }) {
 const markerIcon = L.icon({
   iconUrl: MarkerIcon,
   iconSize: [20, 30],
-  iconAnchor: [32, 64],
+  iconAnchor: [10, 44],
   popupAnchor: null,
   shadowUrl: null,
   shadowSize: null,

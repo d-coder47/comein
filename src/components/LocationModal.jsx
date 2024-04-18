@@ -108,7 +108,6 @@ const LocationModal = ({ show, handleClose, location, setLocation }) => {
               }
             }}
             onInputChange={async (event, value) => {
-              // if (value.length >= 2 && value.length <= 4) {
               if (value.length >= 2) {
                 const res = await getAddresses(value);
                 if (res?.dados) {
