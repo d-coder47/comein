@@ -26,8 +26,6 @@ const Publisher = ({
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { followUser } = useUserProfile();
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -37,9 +35,15 @@ const Publisher = ({
   };
 
   useEffect(() => {
+    let allPublishers = publishers[0].nome !== "" ? [publishers[0]] : [];
+
     if (publishers[1]) {
-      setAssociatedOwners(publishers[1]);
+      publishers[1].forEach((publisher) => {
+        allPublishers.push(publisher);
+      });
     }
+
+    setAssociatedOwners(allPublishers);
   }, [publishers]);
 
   useEffect(() => {
