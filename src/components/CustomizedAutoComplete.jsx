@@ -166,7 +166,7 @@ export default function CustomizedHook({
     setAnchorEl,
   } = useAutocomplete({
     id: "post-owners",
-    defaultValue: Array.isArray(currentValue) ? currentValue : [currentValue],
+    defaultValue: Array.isArray(currentValue) ? currentValue : [],
     multiple: true,
     options: data,
     getOptionLabel: (option) => option.nome,
@@ -179,7 +179,7 @@ export default function CustomizedHook({
       <div {...getRootProps()}>
         <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {value.map((option, index) => (
-            <StyledTag label={option.nome} {...getTagProps({ index })} />
+            <StyledTag label={option?.nome} {...getTagProps({ index })} />
           ))}
           <input {...getInputProps()} />
         </InputWrapper>

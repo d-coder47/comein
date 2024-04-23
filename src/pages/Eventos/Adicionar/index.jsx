@@ -77,7 +77,7 @@ const Adicionar = () => {
     imgEventoRecortada: null,
     descricao: ``,
     local: { id: null, nome: "", local: null, lat: null, lng: null },
-    proprietarios: { id: 0, nome: "" },
+    proprietarios: {},
     areasCulturais: [],
     assoc_projeto: [],
   });
@@ -519,7 +519,6 @@ const Adicionar = () => {
                       handleChangeFieldValues("proprietarios", value);
                     }}
                     onInputChange={async (event, value) => {
-                      console.log(value);
                       if (value.length >= 2) {
                         const res = await searchUsers(value);
                         setOwners(res.dados);
